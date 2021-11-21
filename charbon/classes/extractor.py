@@ -15,6 +15,8 @@ class Extractor:
     def __init__(self, source : Response):
         self.source  = source
         self._soup  = BeautifulSoup(self.source, "html.parser")
+        self._headers = self.extractTitles()
+        self._datas = self.extractDatas() 
     
     @property
     def source(self):
@@ -31,8 +33,14 @@ class Extractor:
         return headers
     
     def extractDatas(self):
+        """Retrieve all information from tables, group them by rows and return them by indexes (Position of the table from 0)
+
+        Returns:
+            list: A list of object with keys corresponding to the table order
+        """
         tables = self._soup.select(PHARMA_TABLE)
-        tableData = []
+        # tableData = []
+        tableDatas = {}
         for i in range(len(tables)):
             rows = tables[i].select(TABLE_ROW)
             datas = []
@@ -42,14 +50,26 @@ class Extractor:
                 "name" : rowDatas[0].text,
                 "owner" : rowDatas[1].text,
                 "contact" : rowDatas[2].text.replace(" ","").split("/"),
-                "position" : rowDatas[4].text,
-                "begin" : rowDatas[5].text,
-                "end" : rowDatas[6].text  
+                # "position" : "",
+                "from" : rowDatas[5].text,
+                "to" : rowDatas[6].text  
                 }
                 
                 datas.append(data)
-                # print(datas)
-            tableData.append({i : datas})
-        return tableData
+            # tableData.append({i : datas})
+            tableDatas[i] = datas
+        return tableDatas
+    
+    def labelMapping(self):
+        """Map phamarcy title to data collected
+        """
+        datasObject = {}
+        for idx, _ in enumerate(self._headers):
+            # returnObject.append({self._headers[idx] : self._datas[idx]})
+            # returnObject[self._headers[idx]] = self._datas[idx]
+            datasObject = {**datasObject, self._headers[idx] : self._datas[idx]}
+        
+        return datasObject
+        
                 
             
