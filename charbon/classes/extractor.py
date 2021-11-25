@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from requests import Response
+from charbon.classes.pharmacy import Pharmacy
 from constants.selectors import ROW_DATA, TABLE_ROW
 from methods.replaceMany import replaceMany
 
@@ -46,16 +47,17 @@ class Extractor:
             datas = []
             for y in range(len(rows)):
                 rowDatas = rows[y].select(ROW_DATA)
-                data = {
-                "name" : rowDatas[0].text,
-                "owner" : rowDatas[1].text,
-                "contact" : rowDatas[2].text.replace(" ","").split("/"),
-                # "position" : "",
-                "from" : rowDatas[5].text,
-                "to" : rowDatas[6].text  
-                }
+                # data = {
+                # "name" : rowDatas[0].text,
+                # "owner" : rowDatas[1].text,
+                # "contact" : rowDatas[2].text.replace(" ","").split("/"),
+                # # "position" : "",
+                # "from" : rowDatas[5].text,
+                # "to" : rowDatas[6].text  
+                # }
                 
-                datas.append(data)
+                # datas.append(data)
+                datas.append(Pharmacy(name=rowDatas[0], owner=rowDatas[1].text, contact=rowDatas[2].text.replace(" ", "").split("/"), status="Open"))
             # tableData.append({i : datas})
             tableDatas[i] = datas
         return tableDatas
