@@ -145,7 +145,6 @@ class Scrapper:
             if not item["Position"] != item["Position"]:
                 self.parsedFile.at[index, "Position"] = item["Position"] 
                 continue
-        # for index, item in sample.iterrows():
         
 
             #Resetting values 
