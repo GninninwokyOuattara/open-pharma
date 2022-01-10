@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#Project
+*.ipynb
+*.xlsx
+.DS_Store
+chromedriver
+datas/*.json
