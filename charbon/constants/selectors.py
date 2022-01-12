@@ -8,3 +8,4 @@ UBIFARM_NUMPAGE = ".annuaire-numpage"
 UBIFARM_PHARMACY = "[data-country='COTE D\'IVOIRE']"
 PHARMACY_TITLE = "h3"
 PHARMACY_DIRECTOR = "div"
+
