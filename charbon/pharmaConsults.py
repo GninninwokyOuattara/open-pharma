@@ -4,7 +4,6 @@ import requests
 import re
 
 
-import pyperclip
 
 
 from constants.selectors import UBIFARM_NUMPAGE, PHARMA_TABLE, PHARMA_LOCATION
@@ -42,7 +41,6 @@ class PharmaConsults:
         rowsData = []
         for row in rows:
             pharmacy = OpenPharmacy(row)
-            # pharmacy = pharmacy.getObject()
             rowsData.append(pharmacy)
         return rowsData
         
@@ -91,9 +89,6 @@ class PharmaConsults:
             i+=1
         return updatedTableDatas
                  
-        
-        
-        
     
     @classmethod
     def getOpenPharmacies(self):
@@ -102,7 +97,7 @@ class PharmaConsults:
         tables = page.select(PHARMA_TABLE)
         tableDatas = PharmaConsults.extractRowsDataFromTables(tables)
         datas = PharmaConsults.addLocationToPharmacy(headers,tableDatas)
-        return tableDatas
+        return datas
     
     
 class OpenPharmacy:
@@ -134,6 +129,9 @@ class OpenPharmacy:
         return { "Nom" : self.Nom, "Dirigeant" : self.Dirigeant, "Numero" : self.Numero, "Localisation" : self.Localisation, "Position" : self.Position, "Start" : self.Start, "End" : self.End}
             
         
-    def __repr__(self) -> str:
-       string = "{" + f"Nom : {self.Nom}, Dirigeant : {self.Dirigeant}, Numero : {self.Numero}, Localisation : {self.Localisation}, Ville : {self.Ville}, Position : {self.Position}, start : {self.Start}, End : {self.End}" + "}" 
-       return string
+    # def __repr__(self) -> str:
+    #    string = "{" + f"Nom : {self.Nom}, Dirigeant : {self.Dirigeant}, Numero : {self.Numero}, Localisation : {self.Localisation}, Ville : {self.Ville}, Position : {self.Position}, Start : {self.Start}, End : {self.End}" + "}" 
+    #    return string
+    
+    def __repr__(self) -> dict:
+        return str(self.__dict__)
