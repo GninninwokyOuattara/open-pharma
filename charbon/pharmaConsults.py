@@ -1,3 +1,4 @@
+import json
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 import requests
@@ -84,6 +85,7 @@ class PharmaConsults:
             for pharmacy  in table:
                 pharmacy : OpenPharmacy
                 pharmacy.Ville = header.title()
+                pharmacy = pharmacy.__dict__
                 pharmacies.append(pharmacy)
             updatedTableDatas = [*updatedTableDatas, *pharmacies]
             i+=1
@@ -127,6 +129,9 @@ class OpenPharmacy:
     
     def getObject(self):
         return { "Nom" : self.Nom, "Dirigeant" : self.Dirigeant, "Numero" : self.Numero, "Localisation" : self.Localisation, "Position" : self.Position, "Start" : self.Start, "End" : self.End}
+    
+    def toJson(self):
+        return json.dumps(self.__dict__)
             
         
     # def __repr__(self) -> str:
