@@ -1,30 +1,33 @@
+
+import json
 import requests
 import os
-import json
 
 
+import pyperclip
 
-class FirebaseQuery():
+class FirebaseREST():
     
-    def __init__(self):
-        self.PROJECT_URL = os.environ.get("PROJECT_URL")    
-        
-        if not self.PROJECT_URL:
-            raise ValueError("PROJECT_URL is missing in environnement variables")
+    def __init__(self, projectUrl):
+        self.project_url = projectUrl
+
     
-    def post(self, endpoint : str, data : dict):
-        try:
-            res = requests.post(f"{self.PROJECT_URL}/{endpoint}.json", data = json.dumps(data))
-            return res
-        except Exception as err:
-            raise err
+    def sanitizeData(self, data):
+        return json.dumps(data)
             
-    def get(self, endpoint : str):
-        try:
-            res = requests.get(f"{self.PROJECT_URL}/{endpoint}.json")
-            return res
-        except Exception as err:
-            raise err
-
-        
     
+    def post(self, data):
+        data = self.sanitizeData(data)
+        res = requests.post(self.project_url, data)
+        return res
+        pass
+    
+    def get(self):
+        res = requests.get(self.project_url)
+        return res
+    
+    def put(self, data):
+        data = self.sanitizeData(data)
+        pyperclip.copy(data)
+        res = requests.put(self.project_url, data)
+        return res
