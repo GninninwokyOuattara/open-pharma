@@ -7,9 +7,11 @@ import re
 
 
 
-from constants.selectors import UBIFARM_NUMPAGE, PHARMA_TABLE, PHARMA_LOCATION
+# from ..constants.selectors import UBIFARM_NUMPAGE, PHARMA_TABLE, PHARMA_LOCATION
 from constants.links import  PHARMA_CONSULT_URL
-from pharmacy import OpenPharmacy
+# from .pharmacy import OpenPharmacy
+
+
 
 
 
