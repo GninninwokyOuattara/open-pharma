@@ -62,7 +62,7 @@ class FirebaseREST():
             e: [description]
 
         Returns:
-            [type]: [description]
+            [type]: Response
         """
         data = self.sanitizeData(data)
         pyperclip.copy(data)
