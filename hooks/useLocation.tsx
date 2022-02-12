@@ -9,7 +9,7 @@ const useLocation = () => {
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
     useEffect(() => {
-        (async () => {
+        const intervalId = setInterval(async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== "granted") {
                 setErrorMsg("Permission to access location was denied");
@@ -20,7 +20,11 @@ const useLocation = () => {
             setLocation(location);
             console.log(location);
             return { location, errorMsg };
-        })();
+        }, 5000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
     }, []);
 };
 
