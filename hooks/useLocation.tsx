@@ -1,49 +1,27 @@
 import { View, Text } from "react-native";
 import { useState, useEffect, useRef } from "react";
-import RNLocation from "react-native-location";
-
-interface LocationSubscription {
-    speed: number;
-    longitude: number;
-    latitude: number;
-    accuracy: number;
-    heading: number;
-    altitude: number;
-    altitudeAccuracy: number;
-    floor: number;
-    timestamp: number;
-    fromMockProvider: boolean;
-}
+import * as Location from "expo-location";
 
 const useLocation = () => {
-    const [isGranted, setIsGranted] = useState(false);
-    const [locationSubscription, setLocationSubscription] = useState<any>(null);
-    const unsubscribe = useRef<any>();
+    const [location, setLocation] = useState<Location.LocationObject | null>(
+        null
+    );
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-    RNLocation.configure({
-        distanceFilter: 5.0,
-    });
-
-    RNLocation.requestPermission({
-        ios: "whenInUse",
-        android: {
-            detail: "coarse",
-        },
-    }).then((granted) => {
-        setIsGranted(true);
-    });
-
-    if (isGranted) {
-        unsubscribe.current = RNLocation.subscribeToLocationUpdates(
-            (locations) => {
-                setLocationSubscription(locations);
+    useEffect(() => {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                setErrorMsg("Permission to access location was denied");
+                return;
             }
-        );
-    }
-    console.log(unsubscribe);
-    console.log(locationSubscription);
 
-    return [unsubscribe, locationSubscription];
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+            console.log(location);
+            return { location, errorMsg };
+        })();
+    }, []);
 };
 
 export default useLocation;
