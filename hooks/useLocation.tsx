@@ -19,6 +19,7 @@ const useLocation = () => {
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location);
         })();
+        return () => {};
     }, []);
     return { location, errorMsg };
 };
