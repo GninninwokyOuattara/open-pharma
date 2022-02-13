@@ -6,12 +6,23 @@ import useLocation from "../hooks/useLocation";
 
 import LoadingSpinner from "./LoadingSpinner";
 import UserPositionMarker from "./UserPositionMarker";
+import { Pharmacy } from "../types/dataTypes";
 
-const Map = () => {
+interface props {
+    pharmaciesData?: Pharmacy[];
+}
+
+const Map: React.FC<props> = ({ pharmaciesData }) => {
     const { location, errorMsg } = useLocation();
 
     if (!location) {
         return <LoadingSpinner />;
+    }
+
+    if (pharmaciesData) {
+        console.log(pharmaciesData.length);
+    } else {
+        console.log("Notheng");
     }
 
     return (
@@ -27,13 +38,31 @@ const Map = () => {
                 provider={PROVIDER_GOOGLE}
             >
                 <Marker
-                    key={1}
+                    key={1000}
                     coordinate={{
                         latitude: location.coords.latitude,
                         longitude: location.coords.longitude,
                     }}
                     title={"My marker"}
                 />
+                {pharmaciesData &&
+                    pharmaciesData.map((pharmacyData, index) => {
+                        const [latitude, longitude] =
+                            pharmacyData.Position.split(",").map(
+                                (coord) => +coord
+                            );
+                        return (
+                            <Marker
+                                key={index}
+                                coordinate={{
+                                    latitude: latitude,
+                                    longitude: -longitude,
+                                }}
+                                pinColor={"black"}
+                                onPress={() => console.log(pharmacyData.Nom)}
+                            />
+                        );
+                    })}
             </MapView>
         </View>
     );
