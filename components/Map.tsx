@@ -14,10 +14,6 @@ const Map = () => {
         return <LoadingSpinner />;
     }
 
-    if (errorMsg) {
-        console.log(errorMsg);
-    }
-
     return (
         <View style={styles.container}>
             <MapView
@@ -30,19 +26,13 @@ const Map = () => {
                 }}
                 provider={PROVIDER_GOOGLE}
             >
-                {/* <Marker
+                <Marker
                     key={1}
                     coordinate={{
                         latitude: location.coords.latitude,
                         longitude: location.coords.longitude,
                     }}
                     title={"My marker"}
-                /> */}
-                <UserPositionMarker
-                    {...{
-                        latitude: location.coords.latitude,
-                        longitude: location.coords.longitude,
-                    }}
                 />
             </MapView>
         </View>
