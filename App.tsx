@@ -12,6 +12,7 @@ import ReduxThunk from "redux-thunk";
 
 import { Provider } from "react-redux";
 import pharmaciesReducer from "./stores/pharmaciesReducer";
+import MapScreen from "./screens/MapScreen";
 
 export default function App() {
     const rootReducers = combineReducers({
@@ -24,7 +25,8 @@ export default function App() {
         <View style={styles.container}>
             <StatusBar style="auto" />
             <Provider store={store}>
-                <Map></Map>
+                {/* <Map></Map> */}
+                <MapScreen />
             </Provider>
         </View>
     );
