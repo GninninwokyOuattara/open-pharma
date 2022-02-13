@@ -7,7 +7,9 @@ import useAxios from "axios-hooks";
 import { PROJECT_ENDPOINT, ALL_PHARMACIES } from "@env";
 
 import Map from "./components/Map";
-import { combineReducers, createStore } from "redux";
+import { combineReducers, createStore, applyMiddleware } from "redux";
+import ReduxThunk from "redux-thunk";
+
 import { Provider } from "react-redux";
 import pharmaciesReducer from "./stores/pharmaciesReducer";
 
@@ -16,12 +18,12 @@ export default function App() {
         pharmacies: pharmaciesReducer,
     });
 
-    const store = createStore(rootReducers);
+    const store = createStore(rootReducers, applyMiddleware(ReduxThunk));
 
     return (
         <View style={styles.container}>
+            <StatusBar style="auto" />
             <Provider store={store}>
-                <StatusBar style="auto" />
                 <Map></Map>
             </Provider>
         </View>
