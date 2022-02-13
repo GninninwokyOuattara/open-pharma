@@ -18,10 +18,9 @@ const useLocation = () => {
 
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location);
-            console.log(location);
-            return { location, errorMsg };
         })();
     }, []);
+    return { location, errorMsg };
 };
 
 export default useLocation;
