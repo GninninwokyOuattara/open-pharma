@@ -6,28 +6,24 @@ import useAxios from "axios-hooks";
 
 import { PROJECT_ENDPOINT, ALL_PHARMACIES } from "@env";
 
+import Map from "./components/Map";
+import { combineReducers, createStore } from "redux";
+import { Provider } from "react-redux";
+import pharmaciesReducer from "./stores/pharmaciesReducer";
+
 export default function App() {
-    console.log(PROJECT_ENDPOINT, ALL_PHARMACIES);
-    const [{ data, loading, error }, refetch] = useAxios(
-        { url: `${PROJECT_ENDPOINT}${ALL_PHARMACIES}.json`, method: "GET" },
-        {
-            manual: true,
-        }
-    );
-    React.useEffect(() => {
-        refetch();
-    }, []);
+    const rootReducers = combineReducers({
+        pharmacies: pharmaciesReducer,
+    });
+
+    const store = createStore(rootReducers);
 
     return (
         <View style={styles.container}>
-            <StatusBar style="auto" />
-            <Text>Open up App.tsx to start working on your app!!</Text>
-            <Button
-                onPress={() => refetch()}
-                title="Click Me"
-                color="#841584"
-                accessibilityLabel="Learn more about this purple button"
-            />
+            <Provider store={store}>
+                <StatusBar style="auto" />
+                <Map></Map>
+            </Provider>
         </View>
     );
 }
