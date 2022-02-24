@@ -14,7 +14,7 @@ interface shadowStyle {
 
 interface props {
     children: React.ReactNode;
-    shadowStyles: shadowStyle;
+    shadowStyles?: shadowStyle;
 }
 
 const ShadowAround: React.FC<props> = ({ children, shadowStyles }) => {
