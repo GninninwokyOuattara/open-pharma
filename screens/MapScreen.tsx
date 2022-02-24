@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import React, { useEffect } from "react";
 import Map from "../components/Map";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,11 +14,7 @@ const MapScreen = () => {
         dispatch(fetchAllPharmacies());
     }, [dispatch]);
 
-    return (
-        <View style={styles.container}>
-            <Map pharmaciesData={pharmacies} />
-        </View>
-    );
+    return <Map pharmaciesData={pharmacies} />;
 };
 
 const styles = StyleSheet.create({

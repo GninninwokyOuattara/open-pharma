@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import React from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { StyleSheet, Dimensions } from "react-native";
@@ -26,45 +26,42 @@ const Map: React.FC<props> = ({ pharmaciesData }) => {
     }
 
     return (
-        <View style={styles.container}>
-            <MapView
-                style={styles.map}
-                initialRegion={{
+        <MapView
+            style={styles.map}
+            initialRegion={{
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            }}
+            provider={PROVIDER_GOOGLE}
+        >
+            <Marker
+                key={1000}
+                coordinate={{
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
                 }}
-                provider={PROVIDER_GOOGLE}
-            >
-                <Marker
-                    key={1000}
-                    coordinate={{
-                        latitude: location.coords.latitude,
-                        longitude: location.coords.longitude,
-                    }}
-                    title={"My marker"}
-                />
-                {pharmaciesData &&
-                    pharmaciesData.map((pharmacyData, index) => {
-                        const [latitude, longitude] =
-                            pharmacyData.Position.split(",").map(
-                                (coord) => +coord
-                            );
-                        return (
-                            <Marker
-                                key={index}
-                                coordinate={{
-                                    latitude: latitude,
-                                    longitude: -longitude,
-                                }}
-                                pinColor={"black"}
-                                onPress={() => console.log(pharmacyData.Nom)}
-                            />
-                        );
-                    })}
-            </MapView>
-        </View>
+                title={"My marker"}
+            />
+            {pharmaciesData &&
+                pharmaciesData.map((pharmacyData, index) => {
+                    const [latitude, longitude] = pharmacyData.Position.split(
+                        ","
+                    ).map((coord) => +coord);
+                    return (
+                        <Marker
+                            key={index}
+                            coordinate={{
+                                latitude: latitude,
+                                longitude: -longitude,
+                            }}
+                            pinColor={"black"}
+                            onPress={() => console.log(pharmacyData.Nom)}
+                        />
+                    );
+                })}
+        </MapView>
     );
 };
 
