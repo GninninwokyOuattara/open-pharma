@@ -10,6 +10,8 @@ interface Props {
     size?: number;
     color?: string;
     iconPosition?: "left" | "right";
+    marginLeft?: number;
+    marginRight?: number;
 }
 
 const TextWithIcons: React.FC<Props> = ({
@@ -20,11 +22,17 @@ const TextWithIcons: React.FC<Props> = ({
     text,
     textStyle,
     iconPosition,
+    marginLeft,
+    marginRight,
 }) => {
     const iconPos: { flexDirection?: any } = {};
     iconPosition == "right" ? (iconPos.flexDirection = "row-reverse") : null;
+    const margin = {
+        marginLeft: marginLeft ? marginLeft : 0,
+        marginRight: marginRight ? marginRight : 0,
+    };
     return (
-        <View style={[styles.container, iconPos]}>
+        <View style={[styles.container, iconPos, margin]}>
             <Icon
                 name={name}
                 type={type}
