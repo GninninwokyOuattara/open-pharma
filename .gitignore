@@ -134,3 +134,21 @@ dmypy.json
 .DS_Store
 chromedriver
 datas/*.json
+node_modules/
+.expo/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+*.log
+
+# macOS
+.DS_Store
+.env
+local_data.json
+_temp/
