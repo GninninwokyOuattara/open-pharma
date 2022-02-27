@@ -7,13 +7,16 @@ import useLocation from "../hooks/useLocation";
 import LoadingSpinner from "./LoadingSpinner";
 import UserPositionMarker from "./UserPositionMarker";
 import { Pharmacy } from "../types/dataTypes";
+import { LocationObject } from "expo-location";
 
 interface props {
     pharmaciesData?: Pharmacy[];
+    location: LocationObject | null;
+    setIsMapReady: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Map: React.FC<props> = ({ pharmaciesData }) => {
-    const { location, errorMsg } = useLocation();
+const Map: React.FC<props> = ({ pharmaciesData, location, setIsMapReady }) => {
+    // const { location, errorMsg } = useLocation();
 
     if (!location) {
         return <LoadingSpinner />;
@@ -27,6 +30,7 @@ const Map: React.FC<props> = ({ pharmaciesData }) => {
 
     return (
         <MapView
+            onMapReady={() => setIsMapReady(true)}
             style={styles.map}
             initialRegion={{
                 latitude: location.coords.latitude,
@@ -57,7 +61,7 @@ const Map: React.FC<props> = ({ pharmaciesData }) => {
                                 longitude: -longitude,
                             }}
                             pinColor={"black"}
-                            onPress={() => console.log(pharmacyData.Nom)}
+                            onPress={() => console.log(pharmacyData.Position)}
                         />
                     );
                 })}
