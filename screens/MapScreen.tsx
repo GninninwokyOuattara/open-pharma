@@ -37,22 +37,6 @@ const MapScreen = () => {
         dispatch(fetchAllPharmacies());
     }, [dispatch]);
 
-    // if (userPosition && pharmacies) {
-    //     pharmacies.map((pharmacie) => {
-    //         // THIS WILL NEED TO BE REFACTORED AS IT IS ONLY USED BECAUSE CURRETLY FROM FIREBASE THE LOCATION DATA ARE INCORRECT, SO I GO THROUGH ALL THIS JUST TO HAVE SOMETHING TO WORK WITH
-    //         let positionArray = pharmacie.Position.split(",").map((e) =>
-    //             e.trim()
-    //         );
-    //         positionArray[1] = "-" + positionArray[1];
-    //         let pharmaciePosition = positionArray.join(",");
-    //         console.log(calculateDistance(userPosition, pharmaciePosition));
-    //         return {
-    //             ...pharmacie,
-    //             Distance: calculateDistance(userPosition, pharmaciePosition),
-    //         };
-    //     });
-    // }
-
     useEffect(() => {
         if (userPosition && pharmacies) {
             console.log(
@@ -69,7 +53,6 @@ const MapScreen = () => {
                 location={location}
                 {...{ setIsMapReady }}
             />
-            {/* {pharmacies && <Text>Hello World</Text>} */}
             {pharmacies.length !== 0 && isMapReady ? (
                 <BottomSheet
                     ref={bottomSheetRef}
@@ -98,52 +81,6 @@ const MapScreen = () => {
                                 />
                             );
                         })}
-
-                        {/* {[1].map(() => {
-                            const userPosition = `${location?.coords.latitude}, ${location?.coords.longitude}`;
-                            const pharmaciePosition =
-                                pharmacies[1].Position.split(",").map((e) =>
-                                    e.trim()
-                                );
-                            pharmaciePosition[1] = "-" + pharmaciePosition[1];
-                            const pharmaciePos = pharmaciePosition.join(",");
-                            const distance = calculateDistance(
-                                userPosition,
-                                pharmaciePos
-                            );
-                            console.log("User Position ; ", userPosition);
-                            console.log("Pharmaci Position : ", pharmaciePos);
-                            // console.log(pharmacies[0].Position);
-                            // console.log(userPosition);
-                            // console.log(distance);
-                            // const distance = 111;
-                            return (
-                                <PharmaItem
-                                    key={1}
-                                    imageUrl={
-                                        "https://img.freepik.com/free-vector/pharmacy-building-isolated-white_180264-152.jpg?w=740"
-                                    }
-                                    data={{
-                                        pharmacyName: "Test",
-                                        pharmacyLocation: "Non loin de test",
-                                    }}
-                                    distance={distance}
-                                />
-                            );
-                        })} */}
-                        {/* <PharmaItem
-                            data={{
-                                pharmacyName: " TEst",
-                                pharmacyLocation: " Non loin de tst",
-                                distance: pharmacies[1].Distance,
-                            }}
-                            imageUrl="https://img.freepik.com/free-vector/pharmacy-building-isolated-white_180264-152.jpg?w=740"
-                        /> */}
-                        {/* <PharmaItem />
-                        <PharmaItem />
-                        <PharmaItem />
-                        <PharmaItem />
-                        <PharmaItem /> */}
                     </ScrollView>
                 </BottomSheet>
             ) : null}
