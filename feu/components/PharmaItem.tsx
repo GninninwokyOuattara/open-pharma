@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import {
+    View,
+    Text,
+    StyleSheet,
+    Image,
+    ScrollView,
+    TouchableOpacity,
+} from "react-native";
 import React from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Icon } from "react-native-elements";
@@ -24,86 +31,93 @@ interface Props {
 }
 
 const PharmaItem: React.FC<Props> = ({ imageUrl, data }) => {
-    console.log(data.distance);
+    // console.log(data.distance);
     // const pharmaciePosition = `${location?.coords.latitude}, ${location?.coords.longitude}`;
 
     // pharmaciePosition && console.log(pharmaciePosition);
     // console.log(distance);
     return (
         <ShadowAround>
-            <View style={styles.container}>
-                <Image
-                    style={styles.innerImageContainer}
-                    source={{
-                        uri: imageUrl,
-                    }}
-                ></Image>
-                <View style={styles.innerInfoContainer}>
-                    <View>
-                        <ScrollView
-                            horizontal={true}
-                            showsHorizontalScrollIndicator={false}
+            <TouchableOpacity>
+                <View style={styles.container}>
+                    <Image
+                        style={styles.innerImageContainer}
+                        source={{
+                            uri: imageUrl,
+                        }}
+                    ></Image>
+                    <View style={styles.innerInfoContainer}>
+                        <View>
+                            <ScrollView
+                                horizontal={true}
+                                showsHorizontalScrollIndicator={false}
+                            >
+                                <Text style={styles.headerText}>
+                                    {data.pharmacyName}
+                                </Text>
+                            </ScrollView>
+                            <ScrollView horizontal={true}>
+                                <Text style={styles.infoText}>
+                                    {data.pharmacyLocation}
+                                </Text>
+                            </ScrollView>
+                        </View>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                            }}
                         >
-                            <Text style={styles.headerText}>
-                                {data.pharmacyName}
-                            </Text>
-                        </ScrollView>
-                        <ScrollView horizontal={true}>
-                            <Text style={styles.infoText}>
-                                {data.pharmacyLocation}
-                            </Text>
-                        </ScrollView>
-                    </View>
-                    <View
-                        style={{ flexDirection: "row", alignItems: "center" }}
-                    >
-                        <TextWithIcons
-                            name="map-marker-distance"
-                            type="material-community"
-                            marginRight={10}
-                            color="#C6C6C6"
-                            text={`${
-                                data.distance
-                                    ? convertToReadableDistance(data.distance)
-                                    : 0
-                            }`}
-                            size={25}
-                            textStyle={{
-                                fontSize: 20,
-                                fontWeight: "500",
-                                color: "#C6C6C6",
-                                marginLeft: 5,
-                            }}
-                        />
-                        <TextWithIcons
-                            name="map-marker-distance"
-                            type="material-community"
-                            color="#cecece"
-                            text="30"
-                            size={25}
-                            textStyle={{
-                                fontSize: 20,
-                                fontWeight: "500",
-                                color: "#cecece",
-                                marginLeft: 5,
-                            }}
-                        />
+                            <TextWithIcons
+                                name="map-marker-distance"
+                                type="material-community"
+                                marginRight={10}
+                                color="#C6C6C6"
+                                text={`${
+                                    data.distance
+                                        ? convertToReadableDistance(
+                                              data.distance
+                                          )
+                                        : 0
+                                }`}
+                                size={25}
+                                textStyle={{
+                                    fontSize: 20,
+                                    fontWeight: "500",
+                                    color: "#C6C6C6",
+                                    marginLeft: 5,
+                                }}
+                            />
+                            <TextWithIcons
+                                name="map-marker-distance"
+                                type="material-community"
+                                color="#cecece"
+                                text="30"
+                                size={25}
+                                textStyle={{
+                                    fontSize: 20,
+                                    fontWeight: "500",
+                                    color: "#cecece",
+                                    marginLeft: 5,
+                                }}
+                            />
+                        </View>
                     </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         </ShadowAround>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        width: 350,
+        width: "100%",
         height: 110,
         backgroundColor: "#fff",
         borderRadius: 15,
         padding: 7,
         marginVertical: 10,
-        marginHorizontal: 10,
+        // marginHorizontal: 10,
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "flex-start",
