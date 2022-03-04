@@ -16,11 +16,10 @@ const extractFirebaseData = (
     return data;
 };
 
-export const fetchLocalPharmaciesData = (a: string) => {
+export const fetchLocalPharmaciesData = () => {
     return async (dispatch: any) => {
         let datas =
             await require("./../dummy_data/pharmacies_with_coordinates_save.json");
-        console.log(datas);
 
         dispatch({
             type: FETCH_ALL_PHARMACIES,
