@@ -1,38 +1,37 @@
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import usePharmaciesData from "../hooks/usePharmaciesData";
 import PharmaItem from "../components/PharmaItem";
+import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
+import { Pharmacy } from "../types/dataTypes";
 
 const BottomSheetContent = () => {
     const pharmaciesDatas = usePharmaciesData();
 
+    const renderPharmaciesItems = ({ item }: { item: Pharmacy }) => {
+        console.log("Rendered using renderer :)");
+        return (
+            <PharmaItem
+                key={item.Id}
+                imageUrl={
+                    "https://img.freepik.com/free-vector/pharmacy-building-isolated-white_180264-152.jpg?w=740"
+                }
+                data={{
+                    pharmacyName: item.Nom,
+                    pharmacyLocation: item.Localisation,
+                    distance: item.Distance,
+                }}
+            />
+        );
+    };
+
     return (
-        <ScrollView style={styles.bottomSheetContainer}>
-            {pharmaciesDatas.length !== 0 ? (
-                pharmaciesDatas.map((pharmacie, index) => {
-                    // const pharmaciePosition = `${location?.coords.latitude}, ${location?.coords.longitude}`;
-                    // const distance = calculateDistance(
-                    //     pharmaciePosition,
-                    //     pharmacie.Localisation
-                    // );
-                    return (
-                        <PharmaItem
-                            key={index}
-                            imageUrl={
-                                "https://img.freepik.com/free-vector/pharmacy-building-isolated-white_180264-152.jpg?w=740"
-                            }
-                            data={{
-                                pharmacyName: pharmacie.Nom,
-                                pharmacyLocation: pharmacie.Localisation,
-                                distance: pharmacie.Distance,
-                            }}
-                        />
-                    );
-                })
-            ) : (
-                <Text>Fetching...</Text>
-            )}
-        </ScrollView>
+        <BottomSheetFlatList
+            data={pharmaciesDatas}
+            keyExtractor={(item) => item.Id}
+            renderItem={renderPharmaciesItems}
+            contentContainerStyle={styles.contentContainer}
+        />
     );
 };
 
@@ -43,11 +42,6 @@ const styles = StyleSheet.create({
         backgroundColor: "grey",
     },
     contentContainer: {
-        flex: 1,
-        alignItems: "center",
-    },
-    bottomSheetContainer: {
-        flex: 1,
         paddingHorizontal: 10,
     },
 });
