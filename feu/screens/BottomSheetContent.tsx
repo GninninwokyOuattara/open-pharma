@@ -5,6 +5,7 @@ import PharmaItem from "../components/PharmaItem";
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { Pharmacy } from "../types/dataTypes";
 import CustomSearchBar from "./CustomSearchBar";
+import { FlatList } from "react-native-gesture-handler";
 
 const BottomSheetContent = () => {
     const pharmaciesDatas = usePharmaciesData();
@@ -29,13 +30,13 @@ const BottomSheetContent = () => {
     );
 
     return (
-        <BottomSheetFlatList
+        <FlatList
             ListHeaderComponent={<CustomSearchBar />}
             data={pharmaciesDatas}
             keyExtractor={(item) => item.Id}
             renderItem={renderPharmaciesItems}
             contentContainerStyle={styles.contentContainer}
-        ></BottomSheetFlatList>
+        ></FlatList>
     );
 };
 
