@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 
 import useAxios from "axios-hooks";
 
@@ -14,7 +14,7 @@ import ReduxThunk from "redux-thunk";
 import { Provider } from "react-redux";
 import pharmaciesReducer from "./stores/pharmaciesReducer";
 import MapScreen from "./screens/MapScreen";
-import BottomSheetScreen from "./screens/BottomSheetScreen";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function App() {
     const rootReducers = combineReducers({
@@ -24,12 +24,12 @@ export default function App() {
     const store = createStore(rootReducers, applyMiddleware(ReduxThunk));
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaProvider>
             <StatusBar style="auto" />
             <Provider store={store}>
                 <MapScreen />
             </Provider>
-        </SafeAreaView>
+        </SafeAreaProvider>
         // <SafeAreaView style={styles.container}>
         //     <StatusBar style="auto" />
         //     <BottomSheetScreen />
