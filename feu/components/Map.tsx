@@ -20,47 +20,51 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
 
     if (!location) {
         return <LoadingSpinner />;
-    }
-
-    return (
-        <MapView
-            onMapLoaded={() => setIsMapLoaded(true)}
-            style={styles.map}
-            initialRegion={{
-                latitude: 5.393620594067611 || location.coords.latitude,
-                longitude: -4.005658558941592 || location.coords.longitude,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-            }}
-            provider={PROVIDER_GOOGLE}
-        >
-            <Marker
-                key={1000}
-                coordinate={{
+    } else {
+        return (
+            <MapView
+                onMapLoaded={() => setIsMapLoaded(true)}
+                style={styles.map}
+                initialRegion={{
                     latitude: 5.393620594067611 || location.coords.latitude,
                     longitude: -4.005658558941592 || location.coords.longitude,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
                 }}
-                title={"My marker"}
-            />
-            {pharmaciesDatas &&
-                pharmaciesDatas.map((pharmacyData, index) => {
-                    const [latitude, longitude] = pharmacyData.Position.split(
-                        ","
-                    ).map((coord) => +coord);
-                    return (
-                        <Marker
-                            key={index}
-                            coordinate={{
-                                latitude: latitude,
-                                longitude: -longitude,
-                            }}
-                            pinColor={"black"}
-                            onPress={() => console.log(pharmacyData.Position)}
-                        />
-                    );
-                })}
-        </MapView>
-    );
+                provider={PROVIDER_GOOGLE}
+            >
+                <Marker
+                    key={1000}
+                    coordinate={{
+                        latitude: 5.393620594067611 || location.coords.latitude,
+                        longitude:
+                            -4.005658558941592 || location.coords.longitude,
+                    }}
+                    title={"My marker"}
+                />
+                {pharmaciesDatas &&
+                    pharmaciesDatas.map((pharmacyData, index) => {
+                        const [latitude, longitude] =
+                            pharmacyData.Position.split(",").map(
+                                (coord) => +coord
+                            );
+                        return (
+                            <Marker
+                                key={index}
+                                coordinate={{
+                                    latitude: latitude,
+                                    longitude: -longitude,
+                                }}
+                                pinColor={"black"}
+                                onPress={() =>
+                                    console.log(pharmacyData.Position)
+                                }
+                            />
+                        );
+                    })}
+            </MapView>
+        );
+    }
 };
 
 const styles = StyleSheet.create({
