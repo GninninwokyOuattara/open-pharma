@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useRef } from "react";
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { calculateDistance } from "../utils/calculateDistance";
 import BottomSheetContent from "./BottomSheetContent";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -27,6 +26,7 @@ const MainBottomSheet = () => {
             onChange={handleSheetChanges}
             topInset={insets.top}
             backgroundStyle={{ backgroundColor: "#F0ECD6", opacity: 0.9 }}
+            keyboardBehavior="extend"
         >
             <BottomSheetContent />
         </BottomSheet>
