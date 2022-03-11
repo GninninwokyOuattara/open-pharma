@@ -12,6 +12,7 @@
     "axios": "^0.25.0",
     "axios-hooks": "^3.0.0",
     "expo": "~44.0.0",
+    "expo-blur": "~11.0.0",
     "expo-location": "~14.0.1",
     "expo-status-bar": "~1.2.0",
     "fs": "^0.0.1-security",
