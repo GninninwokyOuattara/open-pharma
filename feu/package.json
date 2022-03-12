@@ -10,6 +10,7 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "^4",
     "@react-navigation/native": "^6.0.8",
+    "@react-navigation/native-stack": "^6.5.0",
     "@react-navigation/stack": "^6.1.1",
     "axios": "^0.25.0",
     "axios-hooks": "^3.0.0",
