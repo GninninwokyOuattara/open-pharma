@@ -12,6 +12,7 @@ export interface RootReducerType {
     pharmacies: {
         all: Pharmacy[];
         open: Pharmacy[];
+        toDisplay: Pharmacy[];
     };
 }
 

@@ -8,65 +8,63 @@ import LoadingSpinner from "./LoadingSpinner";
 import UserPositionMarker from "./UserPositionMarker";
 import { Pharmacy } from "../types/dataTypes";
 import { LocationObject } from "expo-location";
+import usePharmaciesData from "../hooks/usePharmaciesData";
 
 interface props {
-    pharmaciesData?: Pharmacy[];
-    location: LocationObject | null;
-    setIsMapReady: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsMapLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Map: React.FC<props> = ({ pharmaciesData, location, setIsMapReady }) => {
-    // const { location, errorMsg } = useLocation();
+const Map: React.FC<props> = ({ setIsMapLoaded }) => {
+    const { location, errorMsg } = useLocation();
+    const pharmaciesDatas = usePharmaciesData();
 
     if (!location) {
         return <LoadingSpinner />;
-    }
-
-    if (pharmaciesData) {
-        console.log(pharmaciesData.length);
     } else {
-        console.log("Notheng");
-    }
-
-    return (
-        <MapView
-            onMapReady={() => setIsMapReady(true)}
-            style={styles.map}
-            initialRegion={{
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-            }}
-            provider={PROVIDER_GOOGLE}
-        >
-            <Marker
-                key={1000}
-                coordinate={{
-                    latitude: location.coords.latitude,
-                    longitude: location.coords.longitude,
+        return (
+            <MapView
+                onMapLoaded={() => setIsMapLoaded(true)}
+                style={styles.map}
+                initialRegion={{
+                    latitude: 5.393620594067611 || location.coords.latitude,
+                    longitude: -4.005658558941592 || location.coords.longitude,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
                 }}
-                title={"My marker"}
-            />
-            {pharmaciesData &&
-                pharmaciesData.map((pharmacyData, index) => {
-                    const [latitude, longitude] = pharmacyData.Position.split(
-                        ","
-                    ).map((coord) => +coord);
-                    return (
-                        <Marker
-                            key={index}
-                            coordinate={{
-                                latitude: latitude,
-                                longitude: -longitude,
-                            }}
-                            pinColor={"black"}
-                            onPress={() => console.log(pharmacyData.Position)}
-                        />
-                    );
-                })}
-        </MapView>
-    );
+                provider={PROVIDER_GOOGLE}
+            >
+                <Marker
+                    key={1000}
+                    coordinate={{
+                        latitude: 5.393620594067611 || location.coords.latitude,
+                        longitude:
+                            -4.005658558941592 || location.coords.longitude,
+                    }}
+                    title={"My marker"}
+                />
+                {pharmaciesDatas &&
+                    pharmaciesDatas.map((pharmacyData, index) => {
+                        const [latitude, longitude] =
+                            pharmacyData.Position.split(",").map(
+                                (coord) => +coord
+                            );
+                        return (
+                            <Marker
+                                key={index}
+                                coordinate={{
+                                    latitude: latitude,
+                                    longitude: -longitude,
+                                }}
+                                pinColor={"black"}
+                                onPress={() =>
+                                    console.log(pharmacyData.Position)
+                                }
+                            />
+                        );
+                    })}
+            </MapView>
+        );
+    }
 };
 
 const styles = StyleSheet.create({
