@@ -5,7 +5,6 @@ import BottomSheetContent from "./BottomSheetContent";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import RootStack from "../navigator/NavigatorTwo";
-import BottomSheetStackNavigator from "../navigator/BottomSheetNavigator";
 
 const MainBottomSheet = () => {
     // ref
@@ -31,10 +30,10 @@ const MainBottomSheet = () => {
             backgroundStyle={{ backgroundColor: "#F0ECD6", opacity: 0.9 }}
             keyboardBehavior="extend"
         >
-            <BottomSheetContent />
-            {/* <NavigationContainer>
-                <BottomSheetStackNavigator />
-            </NavigationContainer> */}
+            {/* <BottomSheetContent /> */}
+            <NavigationContainer>
+                <RootStack />
+            </NavigationContainer>
         </BottomSheet>
     );
 };
