@@ -10,7 +10,10 @@ import { LocationObject } from "expo-location";
 import { calculateDistance } from "../../../utils/calculateDistance";
 import { convertToReadableDistance } from "../../../utils/convertToReadableDistance";
 
-import { TouchableOpacity } from "@gorhom/bottom-sheet";
+import {
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+} from "@gorhom/bottom-sheet";
 
 interface Data {
     pharmacyName: string;
@@ -34,7 +37,7 @@ const PharmaItem: React.FC<Props> = ({ imageUrl, data, onPress }) => {
     // console.log(distance);
     return (
         <ShadowAround>
-            <TouchableOpacity onPress={onPress}>
+            <TouchableWithoutFeedback onPress={onPress}>
                 <View style={styles.container}>
                     <Image
                         style={styles.innerImageContainer}
@@ -100,7 +103,7 @@ const PharmaItem: React.FC<Props> = ({ imageUrl, data, onPress }) => {
                         </View>
                     </View>
                 </View>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
         </ShadowAround>
     );
 };
