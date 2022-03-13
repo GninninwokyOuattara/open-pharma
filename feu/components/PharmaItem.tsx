@@ -1,11 +1,4 @@
-import {
-    View,
-    Text,
-    StyleSheet,
-    Image,
-    ScrollView,
-    TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import React from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Icon } from "react-native-elements";
@@ -16,6 +9,8 @@ import { LocationObject } from "expo-location";
 
 import { calculateDistance } from "../utils/calculateDistance";
 import { convertToReadableDistance } from "../utils/convertToReadableDistance";
+
+import { TouchableOpacity } from "@gorhom/bottom-sheet";
 
 interface Data {
     pharmacyName: string;
@@ -28,9 +23,10 @@ interface Props {
     imageUrl: string;
     data: Data;
     // distance: number;
+    onPress?: () => void;
 }
 
-const PharmaItem: React.FC<Props> = ({ imageUrl, data }) => {
+const PharmaItem: React.FC<Props> = ({ imageUrl, data, onPress }) => {
     // console.log(data.distance);
     // const pharmaciePosition = `${location?.coords.latitude}, ${location?.coords.longitude}`;
 
@@ -38,7 +34,7 @@ const PharmaItem: React.FC<Props> = ({ imageUrl, data }) => {
     // console.log(distance);
     return (
         <ShadowAround>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onPress}>
                 <View style={styles.container}>
                     <Image
                         style={styles.innerImageContainer}
