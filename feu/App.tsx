@@ -13,7 +13,7 @@ import ReduxThunk from "redux-thunk";
 
 import { Provider } from "react-redux";
 import pharmaciesReducer from "./stores/pharmaciesReducer";
-import MapScreen from "./screens/MainScreen";
+import MainScreen from "./screens/MainScreen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function App() {
@@ -27,7 +27,7 @@ export default function App() {
         <SafeAreaProvider>
             <StatusBar style="auto" />
             <Provider store={store}>
-                <MapScreen />
+                <MainScreen />
             </Provider>
         </SafeAreaProvider>
         // <SafeAreaView style={styles.container}>
