@@ -28,7 +28,7 @@ export default (state: PharmaciesState = pharmaciesState, action: any) => {
             let obj = { ...state, all: action.data, toDisplay: action.data };
             return obj;
         case APPLY_FILTER:
-            const filter = action.data;
+            const filter: string = action.data.toLowerCase();
             if (!filter) {
                 return { ...state, toDisplay: state.all };
             }
