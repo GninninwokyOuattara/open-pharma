@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useState } from "react";
 
-import Map from "../components/Map";
+import Map from "../components/screens-components/Map";
 
-import MainBottomSheet from "./MainBottomSheet";
+import MainBottomSheet from "../components/screens-components/BottomSheet";
 
-const MapScreen = () => {
+const MainScreen = () => {
     const [isMapLoaded, setIsMapLoaded] = useState(false);
 
     return (
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default MapScreen;
+export default MainScreen;

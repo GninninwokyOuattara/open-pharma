@@ -1,13 +1,14 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useCallback } from "react";
-import usePharmaciesData from "../hooks/usePharmaciesData";
-import PharmaItem from "../components/PharmaItem";
+import usePharmaciesData from "../../../../hooks/usePharmaciesData";
+import PharmaItem from "../../bottomsheet-components/PharmaItem";
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import { Pharmacy } from "../types/dataTypes";
-import CustomSearchBar from "./CustomSearchBar";
+import { Pharmacy } from "../../../../types/dataTypes";
+import CustomSearchBar from "../../bottomsheet-components/CustomSearchBar";
 import { FlatList } from "react-native-gesture-handler";
+import { PharmaciesScreenType } from "../../../../types/screenTypes";
 
-const BottomSheetContent = () => {
+const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     const pharmaciesDatas = usePharmaciesData();
 
     const renderPharmaciesItems = useCallback(
@@ -23,6 +24,11 @@ const BottomSheetContent = () => {
                         pharmacyLocation: item.Localisation,
                         distance: item.Distance,
                     }}
+                    onPress={() =>
+                        navigation.navigate("Information", {
+                            pharmacy: item,
+                        })
+                    }
                 />
             );
         },
@@ -43,8 +49,8 @@ const BottomSheetContent = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 24,
-        backgroundColor: "grey",
+        // padding: 24,
+        // backgroundColor: "grey",
     },
     contentContainer: {
         paddingHorizontal: 10,

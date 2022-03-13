@@ -135,6 +135,7 @@ dmypy.json
 chromedriver
 datas/*.json
 node_modules/
+feu/node_modules/
 .expo/
 dist/
 npm-debug.*

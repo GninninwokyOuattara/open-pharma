@@ -1,8 +1,9 @@
 import React, { useCallback, useMemo, useRef } from "react";
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
-import BottomSheetContent from "./BottomSheetContent";
+import PharmaciesScreen from "./bottomsheet-navigation/bottomsheet-screens/PharmaciesScreen";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import BottomsheetStackNavigator from "./bottomsheet-navigation/BottomsheetStackNavigator";
 
 const MainBottomSheet = () => {
     // ref
@@ -28,7 +29,8 @@ const MainBottomSheet = () => {
             backgroundStyle={{ backgroundColor: "#F0ECD6", opacity: 0.9 }}
             keyboardBehavior="extend"
         >
-            <BottomSheetContent />
+            {/* <BottomSheetContent /> */}
+            <BottomsheetStackNavigator />
         </BottomSheet>
     );
 };

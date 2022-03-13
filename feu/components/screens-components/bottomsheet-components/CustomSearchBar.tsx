@@ -4,8 +4,8 @@ import { SearchBarBaseProps } from "react-native-elements/dist/searchbar/SearchB
 import { useDispatch } from "react-redux";
 import { SearchBar } from "react-native-elements";
 import { useBottomSheetInternal } from "@gorhom/bottom-sheet";
-import { applyFilter } from "../stores/pharmaciesActions";
-import usePharmaciesData from "../hooks/usePharmaciesData";
+import { applyFilter } from "../../../stores/pharmaciesActions";
+import usePharmaciesData from "../../../hooks/usePharmaciesData";
 
 const SafeSearchBar = SearchBar as unknown as React.FC<
     SearchBarBaseProps & { cancelButtonTitle?: boolean }
