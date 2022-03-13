@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useMemo } from "react";
-import { InformationScreenType } from "../../types/screenTypes";
-import usePharmaciesData from "../../hooks/usePharmaciesData";
+import { InformationScreenType } from "../../../../types/screenTypes";
+import usePharmaciesData from "../../../../hooks/usePharmaciesData";
 import { useSelector } from "react-redux";
 
 const Screen2: React.FC<InformationScreenType> = ({ navigation, route }) => {

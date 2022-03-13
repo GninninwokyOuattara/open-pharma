@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useCallback } from "react";
-import usePharmaciesData from "../hooks/usePharmaciesData";
-import PharmaItem from "../components/PharmaItem";
+import usePharmaciesData from "../../../../hooks/usePharmaciesData";
+import PharmaItem from "../../bottomsheet-components/PharmaItem";
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import { Pharmacy } from "../types/dataTypes";
-import CustomSearchBar from "./CustomSearchBar";
+import { Pharmacy } from "../../../../types/dataTypes";
+import CustomSearchBar from "../../bottomsheet-components/CustomSearchBar";
 import { FlatList } from "react-native-gesture-handler";
-import { PharmaciesScreenType } from "../types/screenTypes";
+import { PharmaciesScreenType } from "../../../../types/screenTypes";
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     const pharmaciesDatas = usePharmaciesData();

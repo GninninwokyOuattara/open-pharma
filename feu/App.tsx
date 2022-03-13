@@ -7,13 +7,13 @@ import useAxios from "axios-hooks";
 
 import { PROJECT_ENDPOINT, ALL_PHARMACIES } from "@env";
 
-import Map from "./components/Map";
+import Map from "./components/screens-components/Map";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
 
 import { Provider } from "react-redux";
 import pharmaciesReducer from "./stores/pharmaciesReducer";
-import MapScreen from "./screens/MapScreen";
+import MapScreen from "./screens/MainScreen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function App() {

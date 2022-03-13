@@ -1,9 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
 
-import Screen2 from "./dummyScreen/Screen2";
-import Screen1 from "./dummyScreen/Screen1";
+import InformationScreen from "./bottomsheet-screens/InformationScreen";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import BottomSheetContent from "./BottomSheetContent";
+import PharmaciesScreen from "./bottomsheet-screens/PharmaciesScreen";
 
 const Stack = createStackNavigator();
 
@@ -28,12 +27,12 @@ function BottomSheetStack() {
             >
                 <Stack.Screen
                     name="Pharmacies"
-                    component={BottomSheetContent}
+                    component={PharmaciesScreen}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
                     name="Information"
-                    component={Screen2}
+                    component={InformationScreen}
                     options={{ headerShown: false }}
                 />
             </Stack.Navigator>

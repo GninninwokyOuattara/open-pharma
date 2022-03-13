@@ -2,13 +2,13 @@ import { View, Text, SafeAreaView } from "react-native";
 import React from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { StyleSheet, Dimensions } from "react-native";
-import useLocation from "../hooks/useLocation";
+import useLocation from "../../hooks/useLocation";
 
-import LoadingSpinner from "./LoadingSpinner";
-import UserPositionMarker from "./UserPositionMarker";
-import { Pharmacy } from "../types/dataTypes";
+import LoadingSpinner from "../utility-components/LoadingSpinner";
+import UserPositionMarker from "../utility-components/UserPositionMarker";
+import { Pharmacy } from "../../types/dataTypes";
 import { LocationObject } from "expo-location";
-import usePharmaciesData from "../hooks/usePharmaciesData";
+import usePharmaciesData from "../../hooks/usePharmaciesData";
 
 interface props {
     setIsMapLoaded: React.Dispatch<React.SetStateAction<boolean>>;

@@ -3,12 +3,12 @@ import React from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Icon } from "react-native-elements";
 
-import ShadowAround from "./ShadowAround";
-import TextWithIcons from "./TextWithIcons";
+import ShadowAround from "../../utility-components/ShadowAround";
+import TextWithIcons from "../../utility-components/TextWithIcons";
 import { LocationObject } from "expo-location";
 
-import { calculateDistance } from "../utils/calculateDistance";
-import { convertToReadableDistance } from "../utils/convertToReadableDistance";
+import { calculateDistance } from "../../../utils/calculateDistance";
+import { convertToReadableDistance } from "../../../utils/convertToReadableDistance";
 
 import { TouchableOpacity } from "@gorhom/bottom-sheet";
 
