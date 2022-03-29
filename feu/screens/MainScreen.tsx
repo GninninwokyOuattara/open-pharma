@@ -5,15 +5,18 @@ import Map from "../components/screens-components/Map";
 
 import MainBottomSheet from "../components/screens-components/BottomSheet";
 import { MapContextProvider } from "../contexts/MapContext";
+import { UserLocationProvider } from "../contexts/UserLocationContext";
 
 const MainScreen = () => {
     const [isMapLoaded, setIsMapLoaded] = useState(false);
 
     return (
-        <MapContextProvider>
-            <Map setIsMapLoaded={setIsMapLoaded} />
-            <MainBottomSheet />
-        </MapContextProvider>
+        <UserLocationProvider>
+            <MapContextProvider>
+                <Map setIsMapLoaded={setIsMapLoaded} />
+                <MainBottomSheet />
+            </MapContextProvider>
+        </UserLocationProvider>
     );
 };
 

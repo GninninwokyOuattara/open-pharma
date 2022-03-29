@@ -11,7 +11,6 @@ import { MapContext } from "../../../../contexts/MapContext";
 import { useSelector } from "react-redux";
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
-    // const pharmaciesDatas = usePharmaciesData();
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
         return state.pharmacies.toDisplay;
     });
