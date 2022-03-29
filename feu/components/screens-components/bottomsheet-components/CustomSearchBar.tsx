@@ -1,11 +1,12 @@
 import { View, Text } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { SearchBarBaseProps } from "react-native-elements/dist/searchbar/SearchBar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SearchBar } from "react-native-elements";
 import { useBottomSheetInternal } from "@gorhom/bottom-sheet";
 import { applyFilter } from "../../../stores/pharmaciesActions";
 import usePharmaciesData from "../../../hooks/usePharmaciesData";
+import { RootReducerType } from "../../../types/dataTypes";
 
 const SafeSearchBar = SearchBar as unknown as React.FC<
     SearchBarBaseProps & { cancelButtonTitle?: boolean }
@@ -13,7 +14,9 @@ const SafeSearchBar = SearchBar as unknown as React.FC<
 
 const CustomSearchBar = () => {
     const dispatch = useDispatch();
-    const pharmaciesDatas = usePharmaciesData();
+    const pharmaciesDatas = useSelector((state: RootReducerType) => {
+        return state.pharmacies.toDisplay;
+    });
     const { shouldHandleKeyboardEvents } = useBottomSheetInternal();
     const [search, setSearch] = useState("");
 

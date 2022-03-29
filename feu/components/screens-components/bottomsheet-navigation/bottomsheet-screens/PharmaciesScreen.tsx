@@ -1,15 +1,21 @@
 import { View, Text, StyleSheet } from "react-native";
-import React, { useCallback } from "react";
+import React, { useCallback, useContext } from "react";
 import usePharmaciesData from "../../../../hooks/usePharmaciesData";
 import PharmaItem from "../../bottomsheet-components/PharmaItem";
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import { Pharmacy } from "../../../../types/dataTypes";
+import { Pharmacy, RootReducerType } from "../../../../types/dataTypes";
 import CustomSearchBar from "../../bottomsheet-components/CustomSearchBar";
 import { FlatList } from "react-native-gesture-handler";
 import { PharmaciesScreenType } from "../../../../types/screenTypes";
+import { MapContext } from "../../../../contexts/MapContext";
+import { useSelector } from "react-redux";
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
-    const pharmaciesDatas = usePharmaciesData();
+    // const pharmaciesDatas = usePharmaciesData();
+    const pharmaciesDatas = useSelector((state: RootReducerType) => {
+        return state.pharmacies.toDisplay;
+    });
+    const { mapRef } = useContext(MapContext);
 
     const renderPharmaciesItems = useCallback(
         ({ item }: { item: Pharmacy }) => {
@@ -24,11 +30,21 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                         pharmacyLocation: item.Localisation,
                         distance: item.Distance,
                     }}
-                    onPress={() =>
-                        navigation.navigate("Information", {
-                            pharmacy: item,
-                        })
-                    }
+                    onPress={() => {
+                        const [latitude, longitude] = item.Position.split(
+                            ","
+                        ).map((coord) => +coord);
+                        // Navigate to second screen
+                        // navigation.navigate("Information", {
+                        //     pharmacy: item,
+                        // });
+                        mapRef?.current?.animateToRegion({
+                            latitude,
+                            longitude: -longitude,
+                            latitudeDelta: 0.0922,
+                            longitudeDelta: 0.0421,
+                        });
+                    }}
                 />
             );
         },

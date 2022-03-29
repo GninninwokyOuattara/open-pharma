@@ -1,24 +1,37 @@
 import { View, Text, SafeAreaView } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { StyleSheet, Dimensions } from "react-native";
 import useLocation from "../../hooks/useLocation";
 
 import LoadingSpinner from "../utility-components/LoadingSpinner";
 import UserPositionMarker from "../utility-components/UserPositionMarker";
-import { Pharmacy } from "../../types/dataTypes";
+import { Pharmacy, RootReducerType } from "../../types/dataTypes";
 import { LocationObject } from "expo-location";
 import usePharmaciesData from "../../hooks/usePharmaciesData";
 import { MapContext, MapContextType } from "../../contexts/MapContext";
+import { UserLocationContext } from "../../contexts/UserLocationContext";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLocalPharmaciesData } from "../../stores/pharmaciesActions";
 
 interface props {
     setIsMapLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Map: React.FC<props> = ({ setIsMapLoaded }) => {
-    const { location, errorMsg } = useLocation();
-    const pharmaciesDatas = usePharmaciesData();
-    const { mapRef } = useContext(MapContext) as MapContextType;
+    // const { location, errorMsg } = useLocation();
+    const { location, errorMsg } = useContext(UserLocationContext);
+    const { mapRef } = useContext(MapContext);
+
+    // const pharmaciesDatas = usePharmaciesData();
+    const dispatch = useDispatch();
+    const pharmaciesDatas = useSelector((state: RootReducerType) => {
+        return state.pharmacies.toDisplay;
+    });
+
+    useEffect(() => {
+        dispatch(fetchLocalPharmaciesData(location));
+    }, [dispatch, location]);
 
     if (!location) {
         return <LoadingSpinner />;
