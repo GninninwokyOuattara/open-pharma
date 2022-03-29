@@ -1,13 +1,22 @@
-import React, { useCallback, useMemo, useRef } from "react";
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import React, { useCallback, useContext, useMemo, useRef } from "react";
+import {
+    View,
+    Text,
+    StyleSheet,
+    SafeAreaView,
+    ScrollView,
+    Button,
+} from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
 import PharmaciesScreen from "./bottomsheet-navigation/bottomsheet-screens/PharmaciesScreen";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import BottomsheetStackNavigator from "./bottomsheet-navigation/BottomsheetStackNavigator";
+import { MapContext, MapContextType } from "../../contexts/MapContext";
 
 const MainBottomSheet = () => {
     // ref
     const bottomSheetRef = useRef<BottomSheet>(null);
+    const { mapRef } = useContext(MapContext) as MapContextType;
 
     // variables
     const insets = useSafeAreaInsets();
@@ -30,6 +39,7 @@ const MainBottomSheet = () => {
             keyboardBehavior="extend"
         >
             {/* <BottomSheetContent /> */}
+            <Button title="Click Me" onPress={() => console.log(mapRef)} />
             <BottomsheetStackNavigator />
         </BottomSheet>
     );

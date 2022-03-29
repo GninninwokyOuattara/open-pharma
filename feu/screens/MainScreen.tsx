@@ -4,15 +4,16 @@ import React, { useState } from "react";
 import Map from "../components/screens-components/Map";
 
 import MainBottomSheet from "../components/screens-components/BottomSheet";
+import { MapContextProvider } from "../contexts/MapContext";
 
 const MainScreen = () => {
     const [isMapLoaded, setIsMapLoaded] = useState(false);
 
     return (
-        <React.Fragment>
+        <MapContextProvider>
             <Map setIsMapLoaded={setIsMapLoaded} />
             <MainBottomSheet />
-        </React.Fragment>
+        </MapContextProvider>
     );
 };
 

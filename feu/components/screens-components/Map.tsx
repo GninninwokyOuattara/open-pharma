@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { StyleSheet, Dimensions } from "react-native";
 import useLocation from "../../hooks/useLocation";
@@ -9,6 +9,7 @@ import UserPositionMarker from "../utility-components/UserPositionMarker";
 import { Pharmacy } from "../../types/dataTypes";
 import { LocationObject } from "expo-location";
 import usePharmaciesData from "../../hooks/usePharmaciesData";
+import { MapContext, MapContextType } from "../../contexts/MapContext";
 
 interface props {
     setIsMapLoaded: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,12 +18,14 @@ interface props {
 const Map: React.FC<props> = ({ setIsMapLoaded }) => {
     const { location, errorMsg } = useLocation();
     const pharmaciesDatas = usePharmaciesData();
+    const { mapRef } = useContext(MapContext) as MapContextType;
 
     if (!location) {
         return <LoadingSpinner />;
     } else {
         return (
             <MapView
+                ref={mapRef}
                 onMapLoaded={() => setIsMapLoaded(true)}
                 style={styles.map}
                 initialRegion={{
