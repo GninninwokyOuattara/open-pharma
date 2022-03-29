@@ -1,12 +1,5 @@
 import React, { useCallback, useContext, useMemo, useRef } from "react";
-import {
-    View,
-    Text,
-    StyleSheet,
-    SafeAreaView,
-    ScrollView,
-    Button,
-} from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
 import PharmaciesScreen from "./bottomsheet-navigation/bottomsheet-screens/PharmaciesScreen";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -20,7 +13,7 @@ const MainBottomSheet = () => {
 
     // variables
     const insets = useSafeAreaInsets();
-    const snapPoints = useMemo(() => [24, "50%", "100%"], []);
+    const snapPoints = useMemo(() => [40, "50%", "100%"], []);
 
     // callbacks
     const handleSheetChanges = useCallback((index: number) => {
@@ -39,7 +32,6 @@ const MainBottomSheet = () => {
             keyboardBehavior="extend"
         >
             {/* <BottomSheetContent /> */}
-            <Button title="Click Me" onPress={() => console.log(mapRef)} />
             <BottomsheetStackNavigator />
         </BottomSheet>
     );
