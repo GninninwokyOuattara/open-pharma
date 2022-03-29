@@ -8,14 +8,14 @@ import React, {
 import MapView from "react-native-maps";
 
 export interface MapContextType {
-    mapRef: RefObject<MapView>;
+    mapRef: RefObject<MapView> | null;
 }
 
 interface MapProviderProps {
     children: JSX.Element | JSX.Element[];
 }
 
-export const MapContext = createContext<MapContextType | null>(null);
+export const MapContext = createContext<MapContextType>({ mapRef: null });
 
 export const MapContextProvider: React.FC<MapProviderProps> = ({
     children,
