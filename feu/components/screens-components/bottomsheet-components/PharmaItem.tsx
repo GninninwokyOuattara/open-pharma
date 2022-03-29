@@ -16,6 +16,7 @@ import {
 } from "@gorhom/bottom-sheet";
 
 interface Data {
+    id: string;
     pharmacyName: string;
     pharmacyLocation: string;
     distance?: number;
@@ -35,6 +36,7 @@ const PharmaItem: React.FC<Props> = ({ imageUrl, data, onPress }) => {
 
     // pharmaciePosition && console.log(pharmaciePosition);
     // console.log(distance);
+
     return (
         <ShadowAround>
             <TouchableWithoutFeedback onPress={onPress}>
