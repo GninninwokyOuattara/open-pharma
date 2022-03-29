@@ -16,7 +16,7 @@ const usePharmaciesData = () => {
     useEffect(() => {
         // dispatch(fetchAllPharmacies());
         dispatch(fetchLocalPharmaciesData(location));
-    }, [dispatch]);
+    }, [dispatch, location]);
 
     return toDisplay;
 };
