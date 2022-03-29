@@ -21,7 +21,7 @@ interface props {
 const Map: React.FC<props> = ({ setIsMapLoaded }) => {
     // const { location, errorMsg } = useLocation();
     const { location, errorMsg } = useContext(UserLocationContext);
-    const { mapRef } = useContext(MapContext);
+    const { mapRef, selectedMarker } = useContext(MapContext);
 
     // const pharmaciesDatas = usePharmaciesData();
     const dispatch = useDispatch();
@@ -71,7 +71,11 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
                                     latitude: latitude,
                                     longitude: -longitude,
                                 }}
-                                pinColor={"black"}
+                                pinColor={
+                                    pharmacyData.Id == selectedMarker
+                                        ? "green"
+                                        : "black"
+                                }
                                 onPress={() =>
                                     console.log(pharmacyData.Position)
                                 }

@@ -14,7 +14,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
         return state.pharmacies.toDisplay;
     });
-    const { mapRef } = useContext(MapContext);
+    const { mapRef, setSelectedMarker } = useContext(MapContext);
 
     const renderPharmaciesItems = useCallback(
         ({ item }: { item: Pharmacy }) => {
@@ -25,6 +25,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                         "https://img.freepik.com/free-vector/pharmacy-building-isolated-white_180264-152.jpg?w=740"
                     }
                     data={{
+                        id: item.Id,
                         pharmacyName: item.Nom,
                         pharmacyLocation: item.Localisation,
                         distance: item.Distance,
@@ -43,6 +44,8 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                             latitudeDelta: 0.0922,
                             longitudeDelta: 0.0421,
                         });
+
+                        setSelectedMarker && setSelectedMarker(item.Id);
                     }}
                 />
             );
