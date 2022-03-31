@@ -1,7 +1,11 @@
 import { View, Text, StyleSheet, Animated, Easing, Button } from "react-native";
 import React, { useEffect } from "react";
 
-const Pulse = () => {
+interface PulseProps {
+    color?: "string";
+}
+
+const Pulse: React.FC<{ color?: string }> = ({ color }) => {
     let opacity = new Animated.Value(1);
 
     // const animate = () => {
@@ -15,6 +19,7 @@ const Pulse = () => {
 
     const animatedStyles = [
         styles.dot,
+        { backgroundColor: color || "blue" },
         {
             opacity,
             width: size,
@@ -40,7 +45,9 @@ const Pulse = () => {
         <>
             <View style={styles.container}>
                 <Animated.View style={animatedStyles} />
-                <View style={styles.dot}></View>
+                <View
+                    style={{ ...styles.dot, backgroundColor: color || "blue" }}
+                ></View>
             </View>
         </>
     );
@@ -48,16 +55,18 @@ const Pulse = () => {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 50,
-        marginLeft: 50,
-        alignSelf: "flex-start",
+        // marginTop: 50,
+        // marginLeft: 50,
+        // alignSelf: "flex-start",
         alignItems: "center",
         justifyContent: "center",
+        height: 20,
+        width: 20,
     },
     dot: {
         width: 20,
         height: 20,
-        backgroundColor: "blue",
+        // backgroundColor: "blue",
         borderRadius: 50,
         position: "absolute",
     },
