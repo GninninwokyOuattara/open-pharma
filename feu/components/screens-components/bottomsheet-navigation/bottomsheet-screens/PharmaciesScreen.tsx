@@ -9,6 +9,7 @@ import { FlatList } from "react-native-gesture-handler";
 import { PharmaciesScreenType } from "../../../../types/screenTypes";
 import { MapContext } from "../../../../contexts/MapContext";
 import { useSelector } from "react-redux";
+import PharmaItemLite from "../../bottomsheet-components/PharmaItemLite";
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
@@ -19,25 +20,23 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     const renderPharmaciesItems = useCallback(
         ({ item }: { item: Pharmacy }) => {
             return (
-                <PharmaItem
+                <PharmaItemLite
                     key={item.Id}
-                    imageUrl={
-                        "https://img.freepik.com/free-vector/pharmacy-building-isolated-white_180264-152.jpg?w=740"
-                    }
                     data={{
                         id: item.Id,
                         pharmacyName: item.Nom,
-                        pharmacyLocation: item.Localisation,
-                        distance: item.Distance,
+                        status: parseInt(item.Id) % 2 ? "Ouvert" : "Fermé",
                     }}
                     onPress={() => {
+                        setSelectedMarker && setSelectedMarker(item.Id);
+
                         const [latitude, longitude] = item.Position.split(
                             ","
                         ).map((coord) => +coord);
                         // Navigate to second screen
-                        // navigation.navigate("Information", {
-                        //     pharmacy: item,
-                        // });
+                        navigation.navigate("Information", {
+                            pharmacy: item,
+                        });
                         mapRef?.current?.animateToRegion({
                             latitude,
                             longitude: -longitude,
@@ -45,7 +44,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                             longitudeDelta: 0.0421,
                         });
 
-                        setSelectedMarker && setSelectedMarker(item.Id);
+                        // console.log("Hello");
                     }}
                 />
             );
@@ -54,13 +53,15 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     );
 
     return (
-        <FlatList
-            ListHeaderComponent={<CustomSearchBar />}
-            data={pharmaciesDatas}
-            keyExtractor={(item) => item.Id}
-            renderItem={renderPharmaciesItems}
-            contentContainerStyle={styles.contentContainer}
-        ></FlatList>
+        <>
+            <FlatList
+                ListHeaderComponent={<CustomSearchBar />}
+                data={pharmaciesDatas}
+                keyExtractor={(item) => item.Id}
+                renderItem={renderPharmaciesItems}
+                contentContainerStyle={styles.contentContainer}
+            ></FlatList>
+        </>
     );
 };
 
