@@ -14,7 +14,7 @@ const MainScreen = () => {
         <UserLocationProvider>
             <MapContextProvider>
                 <Map setIsMapLoaded={setIsMapLoaded} />
-                <MainBottomSheet />
+                {isMapLoaded ? <MainBottomSheet /> : null}
             </MapContextProvider>
         </UserLocationProvider>
     );

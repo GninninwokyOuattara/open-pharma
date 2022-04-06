@@ -33,58 +33,53 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
         dispatch(fetchLocalPharmaciesData(location));
     }, [dispatch, location]);
 
-    if (!location) {
-        return <LoadingSpinner />;
-    } else {
-        return (
-            <MapView
-                ref={mapRef}
-                onMapLoaded={() => setIsMapLoaded(true)}
-                style={styles.map}
-                initialRegion={{
-                    latitude: 5.393620594067611 || location.coords.latitude,
-                    longitude: -4.005658558941592 || location.coords.longitude,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
+    // if (!location) {
+    //     return <LoadingSpinner />;
+    // } else {
+    return (
+        <MapView
+            ref={mapRef}
+            onMapLoaded={() => setIsMapLoaded(true)}
+            style={styles.map}
+            initialRegion={{
+                latitude: location?.coords.latitude || 5.393620594067611,
+                longitude: location?.coords.longitude || -4.005658558941592,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            }}
+            provider={PROVIDER_GOOGLE}
+        >
+            <Marker
+                key={1000}
+                coordinate={{
+                    latitude: location?.coords.latitude || 5.393620594067611,
+                    longitude: location?.coords.longitude || -4.005658558941592,
                 }}
-                provider={PROVIDER_GOOGLE}
-            >
-                <Marker
-                    key={1000}
-                    coordinate={{
-                        latitude: 5.393620594067611 || location.coords.latitude,
-                        longitude:
-                            -4.005658558941592 || location.coords.longitude,
-                    }}
-                    title={"My marker"}
-                />
-                {pharmaciesDatas &&
-                    pharmaciesDatas.map((pharmacyData, index) => {
-                        const [latitude, longitude] =
-                            pharmacyData.Position.split(",").map(
-                                (coord) => +coord
-                            );
-                        return (
-                            <Marker
-                                key={index}
-                                coordinate={{
-                                    latitude: latitude,
-                                    longitude: -longitude,
-                                }}
-                                pinColor={
-                                    pharmacyData.Id == selectedMarker
-                                        ? "green"
-                                        : "black"
-                                }
-                                onPress={() =>
-                                    console.log(pharmacyData.Position)
-                                }
-                            />
-                        );
-                    })}
-            </MapView>
-        );
-    }
+                title={"My marker"}
+            />
+            {pharmaciesDatas &&
+                pharmaciesDatas.map((pharmacyData, index) => {
+                    const [latitude, longitude] = pharmacyData.Position.split(
+                        ","
+                    ).map((coord) => +coord);
+                    return (
+                        <Marker
+                            key={index}
+                            coordinate={{
+                                latitude: latitude,
+                                longitude: -longitude,
+                            }}
+                            pinColor={
+                                pharmacyData.Id == selectedMarker
+                                    ? "green"
+                                    : "black"
+                            }
+                            onPress={() => console.log(pharmacyData.Position)}
+                        />
+                    );
+                })}
+        </MapView>
+    );
 };
 
 const styles = StyleSheet.create({
