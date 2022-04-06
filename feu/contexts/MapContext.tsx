@@ -4,6 +4,7 @@ import React, {
     createContext,
     useRef,
     RefObject,
+    ReactNode,
 } from "react";
 import MapView from "react-native-maps";
 
@@ -14,7 +15,7 @@ export interface MapContextType {
 }
 
 interface MapProviderProps {
-    children: JSX.Element | JSX.Element[];
+    children?: JSX.Element | JSX.Element[] | ReactNode;
 }
 
 export const MapContext = createContext<MapContextType>({
