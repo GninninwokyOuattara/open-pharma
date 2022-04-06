@@ -33,7 +33,12 @@ function BottomSheetStack() {
                 <Stack.Screen
                     name="Information"
                     component={InformationScreen}
-                    options={{ headerShown: false }}
+                    options={{
+                        headerShown: false,
+                        cardStyle: {
+                            backgroundColor: "#F0ECD6",
+                        },
+                    }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
