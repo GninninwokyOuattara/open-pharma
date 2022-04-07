@@ -19,26 +19,30 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import AppLoading from "expo-app-loading";
 import LocationDeniedScreen from "./screens/LocationDeniedScreen";
+import { COLOR_SCHEME } from "./constants/colorSchemes";
+import Main from "./Main";
 
 export default function App() {
-    const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
-    const [location, setLocation] =
-        React.useState<Location.LocationObject | null>(null);
-    const [isReady, setIsReady] = React.useState(false);
+    // State Variables
 
-    const getLocationPermission = async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== "granted") {
-            setErrorMsg("Permission to access location was denied");
-            setIsReady(true);
+    //     const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
+    //     const [location, setLocation] =
+    //         React.useState<Location.LocationObject | null>(null);
+    //     const [isReady, setIsReady] = React.useState(false);
 
-            return;
-        }
+    //     const getLocationPermission = async () => {
+    //         let { status } = await Location.requestForegroundPermissionsAsync();
+    //         if (status !== "granted") {
+    //             setErrorMsg("Permission to access location was denied");
+    //             setIsReady(true);
 
-        let location = await Location.getCurrentPositionAsync({});
-        setLocation(location);
-        setIsReady(true);
-    };
+    //             return;
+    //         }
+
+    //         let location = await Location.getCurrentPositionAsync({});
+    //         setLocation(location);
+    //         setIsReady(true);
+    //     };
 
     const rootReducers = combineReducers({
         pharmacies: pharmaciesReducer,
@@ -46,32 +50,38 @@ export default function App() {
 
     const store = createStore(rootReducers, applyMiddleware(ReduxThunk));
 
-    React.useEffect(() => {
-        getLocationPermission();
-    }, []);
+    //     React.useEffect(() => {
+    //         getLocationPermission();
+    //     }, []);
 
-    if (!isReady) {
-        return <AppLoading />;
-    } else {
-        if (!location) {
-            return (
-                <SafeAreaView style={{ flex: 1 }}>
-                    <StatusBar style="auto" />
-                    <Provider store={store}>
-                        <LocationDeniedScreen />
-                    </Provider>
-                </SafeAreaView>
-            );
-        }
-        return (
-            <SafeAreaProvider>
-                <StatusBar style="auto" />
-                <Provider store={store}>
-                    <MainScreen />
-                </Provider>
-            </SafeAreaProvider>
-        );
-    }
+    //     if (!isReady) {
+    //         return <AppLoading />;
+    //     } else {
+    //         if (!location) {
+    //             return (
+    //                 <SafeAreaView style={{ flex: 1, backgroundColor: COLOR_SCHEME.LIGHT_ORANGE }}>
+    //                     <StatusBar style="auto" />
+    //                     <Provider store={store}>
+    //                         <LocationDeniedScreen />
+    //                     </Provider>
+    //                 </SafeAreaView>
+    //             );
+    //         }
+    //         return (
+    //             <SafeAreaProvider>
+    //                 <StatusBar style="auto" />
+    //                 <Provider store={store}>
+    //                     <MainScreen />
+    //                 </Provider>
+    //             </SafeAreaProvider>
+    //         );
+    //     }
+
+    return (
+        <Provider store={store}>
+            <Main />
+        </Provider>
+    );
 }
 
 const styles = StyleSheet.create({
