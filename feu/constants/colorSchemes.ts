@@ -1,0 +1,5 @@
+export const COLOR_SCHEME = {
+    LIGHT_ORANGE: "#F0ECD6",
+    MEDIUM_ORANGE: "#FDF2E3",
+    ORANGE: "#FC6E3C",
+};
