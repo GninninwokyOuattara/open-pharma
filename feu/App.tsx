@@ -14,10 +14,11 @@ import ReduxThunk from "redux-thunk";
 import { Provider } from "react-redux";
 import pharmaciesReducer from "./stores/pharmaciesReducer";
 import MainScreen from "./screens/MainScreen";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import * as Location from "expo-location";
 import AppLoading from "expo-app-loading";
+import LocationDeniedScreen from "./screens/LocationDeniedScreen";
 
 export default function App() {
     const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
@@ -54,9 +55,12 @@ export default function App() {
     } else {
         if (!location) {
             return (
-                <View style={styles.container}>
-                    <Text>Location Permission not provided</Text>
-                </View>
+                <SafeAreaView style={{ flex: 1 }}>
+                    <StatusBar style="auto" />
+                    <Provider store={store}>
+                        <LocationDeniedScreen />
+                    </Provider>
+                </SafeAreaView>
             );
         }
         return (
