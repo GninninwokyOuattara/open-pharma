@@ -18,7 +18,7 @@ interface Data {
 
 interface Props {
     data: Data;
-    onPress: () => void;
+    onPress?: () => void;
 }
 
 const PharmaItemLite: React.FC<Props> = ({ data, onPress }) => {
@@ -29,7 +29,7 @@ const PharmaItemLite: React.FC<Props> = ({ data, onPress }) => {
                 shadowOffset: { width: 0, height: 0 },
             }}
         >
-            <TouchableWithoutFeedback onPress={() => onPress()}>
+            <TouchableWithoutFeedback onPress={() => onPress && onPress()}>
                 <View style={styles.container}>
                     <View style={styles.pulseContainer}>
                         <Pulse
