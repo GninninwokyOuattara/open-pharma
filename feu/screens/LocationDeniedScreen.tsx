@@ -26,7 +26,6 @@ const LocationDeniedScreen = () => {
         [pharmaciesDatas]
     );
 
-    console.log(pharmaciesDatas.length);
     return (
         <View style={styles.container}>
             <FlatList
