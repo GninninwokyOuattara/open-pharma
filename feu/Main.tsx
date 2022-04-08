@@ -70,14 +70,13 @@ const Main = () => {
                         backgroundColor: COLOR_SCHEME.LIGHT_ORANGE,
                     }}
                 >
-                    <StatusBar style="auto" />
                     <LocationDeniedScreen />
                 </SafeAreaView>
             );
         }
         return (
             <SafeAreaProvider>
-                <StatusBar style="auto" />
+                {/* <StatusBar style="auto" /> */}
                 <MainScreen />
             </SafeAreaProvider>
         );
