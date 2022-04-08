@@ -39,8 +39,9 @@ const CustomSearchBar = () => {
             // clearIcon={false}
             value={search}
             containerStyle={{
-                backgroundColor: "#F0ECD6",
-                opacity: 0.9,
+                backgroundColor: "transparent",
+                // backgroundColor: "#F0ECD6",
+                // opacity: 0.9,
             }}
             inputContainerStyle={{
                 backgroundColor: "#FFF",
