@@ -5,6 +5,7 @@ import PharmaciesScreen from "./bottomsheet-navigation/bottomsheet-screens/Pharm
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import BottomsheetStackNavigator from "./bottomsheet-navigation/BottomsheetStackNavigator";
 import { MapContext, MapContextType } from "../../contexts/MapContext";
+import { COLOR_SCHEME } from "../../constants/colorSchemes";
 
 const MainBottomSheet = () => {
     // ref
@@ -13,7 +14,7 @@ const MainBottomSheet = () => {
 
     // variables
     const insets = useSafeAreaInsets();
-    const snapPoints = useMemo(() => [40, "50%", "100%"], []);
+    const snapPoints = useMemo(() => [24, "50%", "100%"], []);
 
     // callbacks
     const handleSheetChanges = useCallback((index: number) => {
@@ -28,8 +29,12 @@ const MainBottomSheet = () => {
             snapPoints={snapPoints}
             onChange={handleSheetChanges}
             topInset={insets.top}
+            bottomInset={insets.bottom}
             backgroundStyle={{ backgroundColor: "#F0ECD6", opacity: 0.9 }}
             keyboardBehavior="extend"
+            handleStyle={{
+                backgroundColor: COLOR_SCHEME.LIGHT_ORANGE,
+            }}
         >
             {/* <BottomSheetContent /> */}
             <BottomsheetStackNavigator />
