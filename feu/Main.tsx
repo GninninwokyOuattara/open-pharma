@@ -47,19 +47,17 @@ const Main = () => {
         setIsReady(true);
     };
 
-    // const rootReducers = combineReducers({
-    //     pharmacies: pharmaciesReducer,
-    // });
-
-    // const store = createStore(rootReducers, applyMiddleware(ReduxThunk));
-
     React.useEffect(() => {
-        dispatch(fetchLocalPharmaciesData);
-        // (async () => {
-
-        //     getLocationPermission();
-        // })();
-    }, [dispatch]);
+        (async () => {
+            // let e = await dispatch(fetchLocalPharmaciesData(location));
+            try {
+                await dispatch(fetchAllPharmacies());
+                getLocationPermission();
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, [dispatch, location]);
 
     if (!isReady) {
         return <AppLoading />;
@@ -73,18 +71,14 @@ const Main = () => {
                     }}
                 >
                     <StatusBar style="auto" />
-                    {/* <Provider store={store}> */}
                     <LocationDeniedScreen />
-                    {/* </Provider> */}
                 </SafeAreaView>
             );
         }
         return (
             <SafeAreaProvider>
                 <StatusBar style="auto" />
-                {/* <Provider store={store}> */}
                 <MainScreen />
-                {/* </Provider> */}
             </SafeAreaProvider>
         );
     }
