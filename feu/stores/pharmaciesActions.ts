@@ -60,7 +60,6 @@ export const fetchAllPharmacies = () => {
             res = await axios.get(`${PROJECT_ENDPOINT}${ALL_PHARMACIES}.json`);
             data = extractFirebaseData(res.data);
         } catch (error) {
-            console.log("ERROR", error);
             throw error;
         }
 
