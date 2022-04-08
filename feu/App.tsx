@@ -23,59 +23,11 @@ import { COLOR_SCHEME } from "./constants/colorSchemes";
 import Main from "./Main";
 
 export default function App() {
-    // State Variables
-
-    //     const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
-    //     const [location, setLocation] =
-    //         React.useState<Location.LocationObject | null>(null);
-    //     const [isReady, setIsReady] = React.useState(false);
-
-    //     const getLocationPermission = async () => {
-    //         let { status } = await Location.requestForegroundPermissionsAsync();
-    //         if (status !== "granted") {
-    //             setErrorMsg("Permission to access location was denied");
-    //             setIsReady(true);
-
-    //             return;
-    //         }
-
-    //         let location = await Location.getCurrentPositionAsync({});
-    //         setLocation(location);
-    //         setIsReady(true);
-    //     };
-
     const rootReducers = combineReducers({
         pharmacies: pharmaciesReducer,
     });
 
     const store = createStore(rootReducers, applyMiddleware(ReduxThunk));
-
-    //     React.useEffect(() => {
-    //         getLocationPermission();
-    //     }, []);
-
-    //     if (!isReady) {
-    //         return <AppLoading />;
-    //     } else {
-    //         if (!location) {
-    //             return (
-    //                 <SafeAreaView style={{ flex: 1, backgroundColor: COLOR_SCHEME.LIGHT_ORANGE }}>
-    //                     <StatusBar style="auto" />
-    //                     <Provider store={store}>
-    //                         <LocationDeniedScreen />
-    //                     </Provider>
-    //                 </SafeAreaView>
-    //             );
-    //         }
-    //         return (
-    //             <SafeAreaProvider>
-    //                 <StatusBar style="auto" />
-    //                 <Provider store={store}>
-    //                     <MainScreen />
-    //                 </Provider>
-    //             </SafeAreaProvider>
-    //         );
-    //     }
 
     return (
         <Provider store={store}>
