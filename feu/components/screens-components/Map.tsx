@@ -19,23 +19,14 @@ interface props {
 }
 
 const Map: React.FC<props> = ({ setIsMapLoaded }) => {
-    // const { location, errorMsg } = useLocation();
     const { location, errorMsg } = useContext(UserLocationContext);
     const { mapRef, selectedMarker } = useContext(MapContext);
 
-    // const pharmaciesDatas = usePharmaciesData();
     const dispatch = useDispatch();
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
         return state.pharmacies.toDisplay;
     });
 
-    useEffect(() => {
-        dispatch(fetchLocalPharmaciesData(location));
-    }, [dispatch, location]);
-
-    // if (!location) {
-    //     return <LoadingSpinner />;
-    // } else {
     return (
         <MapView
             ref={mapRef}
