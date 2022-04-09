@@ -1,0 +1,1 @@
+PHARMA_CONSULTS_URL = "https://pharma-consults.net/pharmacies-garde"
