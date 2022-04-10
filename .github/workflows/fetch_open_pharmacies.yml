@@ -12,6 +12,6 @@ jobs:
 
             - name: "Run"
               env:
-                  ENV_SECRET: ${{ secrets.OPEN_PHARMA_FIREBASE_CREDENTIALS }}
-                  REPO_SECRET: ${{ secrets.OPEN_PHARMA_DATABASE_URL }}
-              run: python -c 'import os;print(os.environ)'
+                  OPEN_PHARMA_FIREBASE_CREDENTIALS: ${{ secrets.OPEN_PHARMA_FIREBASE_CREDENTIALS }}
+                  OPEN_PHARMA_DATABASE_URL: ${{ secrets.OPEN_PHARMA_DATABASE_URL }}
+              run: python -c 'import os;print(os.environ.get("OPEN_PHARMA_DATABASE_URL"))'
