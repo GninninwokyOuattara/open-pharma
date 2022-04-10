@@ -29,4 +29,5 @@ jobs:
                   OPEN_PHARMA_DATABASE_URL: ${{ secrets.OPEN_PHARMA_DATABASE_URL }}
               run: |
                   cd charbon
-                  python main.py'
+                  ls -al
+                  python main.py
