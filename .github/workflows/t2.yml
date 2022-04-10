@@ -5,6 +5,9 @@ jobs:
         name: Hello world action
         runs-on: ubuntu-latest
         steps:
+            - env:
+              OPEN_PHARMA_FIREBASE_CREDENTIALS: ${{secrets.OPEN_PHARMA_FIREBASE_CREDENTIALS}}
+              OPEN_PHARMA_DATABASE_URL: ${{secrets.OPEN_PHARMA_DATABASE_URL}}
             - uses: actions/checkout@v1
             - uses: actions/setup-python@v3
             - run: echo "Hello World"
