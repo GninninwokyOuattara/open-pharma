@@ -1,13 +1,3 @@
-from sqlite3 import Date
-from pharmacy import Pharmacy
-
-# class OpenPharmacy(Pharmacy):
-    
-#     def __init__(self, nom : str, city : str, owner :str , phoneNumber : list[str], geographicalPosition : str, openFrom : Date, openUntil : Date):
-#         super().__init__(self, nom, city, owner, phoneNumber, geographicalPosition)
-#         self.openFrom = openFrom
-#         self.openUntil = openUntil
-
 
 class OpenPharmacy:
     
