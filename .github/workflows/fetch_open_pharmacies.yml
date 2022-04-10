@@ -3,10 +3,15 @@ on: push
 jobs:
     build:
         runs-on: "ubuntu-latest"
+        environment: Environnment
         steps:
             - name: "Set up Python"
               uses: actions/setup-python@v2
               with:
                   python-version: 3.8
+
             - name: "Run"
+              env:
+                  ENV_SECRET: ${{ secrets.OPEN_PHARMA_FIREBASE_CREDENTIALS }}
+                  REPO_SECRET: ${{ secrets.OPEN_PHARMA_DATABASE_URL }}
               run: python -c 'print("Hello World")'
