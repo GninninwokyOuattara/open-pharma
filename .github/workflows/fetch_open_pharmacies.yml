@@ -1,0 +1,29 @@
+name: "Fetch currently open pharmacies from pharma-consults"
+on: push
+jobs:
+    build:
+        runs-on: "ubuntu-latest"
+        environment: Environnment
+        steps:
+            - name: "Set up Python"
+              uses: actions/setup-python@v2
+              with:
+                  python-version: 3.9
+            - name: "Set up Check out"
+              uses: actions/checkout@v3
+              with:
+                  ref: charbon2
+            - name: "Install dependencies"
+              run: |
+                  cd charbon
+                  python -m pip install --upgrade pip
+                  pip install -r requirements.txt
+
+            - name: "Run Program"
+              env:
+                  OPEN_PHARMA_FIREBASE_CREDENTIALS: ${{ secrets.OPEN_PHARMA_FIREBASE_CREDENTIALS }}
+                  OPEN_PHARMA_DATABASE_URL: ${{ secrets.OPEN_PHARMA_DATABASE_URL }}
+              run: |
+                  cd charbon
+                  ls -al
+                  python main.py
