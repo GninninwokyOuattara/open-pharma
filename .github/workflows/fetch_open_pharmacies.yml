@@ -15,6 +15,7 @@ jobs:
                   ref: charbon2
             - name: check the file list
               run: |
+                  cd charbon
                   ls -al
             - name: "Install dependencies"
               run: |
