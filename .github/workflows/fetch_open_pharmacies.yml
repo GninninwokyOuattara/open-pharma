@@ -13,6 +13,9 @@ jobs:
               uses: actions/checkout@v3
               with:
                   ref: charbon2
+            - name: check the file list
+              run: |
+                  ls -al
             - name: "Install dependencies"
               run: |
                   python -m pip install --upgrade pip
