@@ -9,3 +9,6 @@ jobs:
             - uses: actions/setup-python@v3
             - run: echo "Hello World"
             - run: python -c 'import os;print(os.environ)'
+            env:
+              OPEN_PHARMA_FIREBASE_CREDENTIALS: ${{secrets.OPEN_PHARMA_FIREBASE_CREDENTIALS}}
+              OPEN_PHARMA_DATABASE_URL: ${{secrets.OPEN_PHARMA_DATABASE_URL}}
