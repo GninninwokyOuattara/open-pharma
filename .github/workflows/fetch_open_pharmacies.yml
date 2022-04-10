@@ -27,4 +27,6 @@ jobs:
               env:
                   OPEN_PHARMA_FIREBASE_CREDENTIALS: ${{ secrets.OPEN_PHARMA_FIREBASE_CREDENTIALS }}
                   OPEN_PHARMA_DATABASE_URL: ${{ secrets.OPEN_PHARMA_DATABASE_URL }}
-              run: python main.py'
+              run: |
+                  cd charbon
+                  python main.py'
