@@ -6,4 +6,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
+            - uses: actions/setup-python@v3
             - run: echo "Hello World"
+            - run: python -c 'import os;print(os.environ)'
