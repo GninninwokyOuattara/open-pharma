@@ -29,7 +29,7 @@ class GoogleMaps:
         return LinkWithCoordinates(pageSoup["content"])
 
     async def __async_get_meta_links(self, queries : list[str]):
-        tasks = [create_task(self.async_get_meta_link(query)) for query in queries]
+        tasks = [create_task(self.__async_get_meta_link(self, query)) for query in queries]
         resultsSet = await gather(*tasks)
         return resultsSet
     
