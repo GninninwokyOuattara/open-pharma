@@ -7,6 +7,12 @@ class LinkWithCoordinates:
             raise ValueError("Value provided is not an accepted format")
     
     def coordinates(self):
+        
+        if "marker" in self.link:
+            #Some search have multiple result, in those cases we just ignore them.
+            #A common factor for thos case is the presence of 'marker' in the content link
+            return {"lat" : None, "lng" : None}
+        
         centerIndex = self.link.index("center")
         zoomIndex = self.link.index("zoom")
         str = self.link[centerIndex+7:zoomIndex-1]
