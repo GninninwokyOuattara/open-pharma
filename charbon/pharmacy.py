@@ -1,8 +1,8 @@
 class Pharmacy:
     
-    def __init__(self, nom : str, supervisor :str , phoneNumbers : list[str], geographicalPosition : str, googleMapsPositionLink : str):
-        self.nom  = nom
+    def __init__(self, name : str, supervisor :str , phone_numbers : list[str], geographical_position : str, google_maps_position_link : str):
+        self.name  = name
         self.supervisor = supervisor
-        self.phoneNumbers = phoneNumbers
-        self.geographicalPosition = geographicalPosition
-        self.googleMapsPositionLink = googleMapsPositionLink
+        self.phone_numbers = phone_numbers
+        self.geographical_position = geographical_position
+        self.google_maps_position_link = google_maps_position_link
