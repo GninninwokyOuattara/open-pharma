@@ -1,8 +1,7 @@
 import urllib
-from requests import get
+import aiohttp
 from bs4 import BeautifulSoup
 from asyncio import create_task, gather, run
-import http3
 
 from link_with_coordinates import LinkWithCoordinates
 
@@ -13,20 +12,14 @@ class GoogleMaps:
     def __build_query(self, query):
         return self._maps_search_url + urllib.parse.quote("côte d'ivoire" + query)
     
-    # def __action_process(self, query : str):
-    #     page = get(self._maps_search_url + urllib.parse.quote("côte d'ivoire" + query))
-    #     pageSoup = BeautifulSoup(page.text, "html.parser").select_one(self._meta_link_selector)
-    #     return LinkWithCoordinates(pageSoup["content"])
-    
-    # @classmethod
-    # def get_meta_link(self, query : str):
-    #     return self.__action_process(self, query)
-    
     async def __async_get_meta_link(self, query:str):
-        client = http3.AsyncClient()
-        page = await client.get(self.__build_query(self,query))
-        pageSoup = BeautifulSoup(page.text, "html.parser").select_one(self._meta_link_selector)
-        return LinkWithCoordinates(pageSoup["content"])
+        
+        async with aiohttp.ClientSession() as session:
+            async with session.get(self.__build_query(self, query)) as resp:
+                page = await resp.read()
+                pageSoup = BeautifulSoup(page, "html.parser").select_one(self._meta_link_selector)
+                return LinkWithCoordinates(pageSoup["content"])
+        
 
     async def __async_get_meta_links(self, queries : list[str]):
         tasks = [create_task(self.__async_get_meta_link(self, query)) for query in queries]
@@ -36,6 +29,7 @@ class GoogleMaps:
     @classmethod
     def get_meta_link(self, query : str):
         result = run(self.__async_get_meta_link(self, query))
+        return result
     
     @classmethod
     def get_meta_links(self, queries : list[str]):
