@@ -17,7 +17,7 @@ class OpenPharmacy:
     def __init__(self, name : str, open_from : str, open_until : str):
         self.name = name
         self.open_from = open_from
-        self.open_util = open_until
+        self.open_until = open_until
         self.sanitize()
     
     
