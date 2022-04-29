@@ -17,6 +17,7 @@ class OpenPharmacy(Pharmacy):
         super().__init__(name,supervisor,phone_numbers, geographical_position, google_maps_position_link)
         self.open_from = open_from
         self.open_until = open_until
+        self.open = True
     
     
     
