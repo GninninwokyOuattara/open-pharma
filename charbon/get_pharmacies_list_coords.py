@@ -30,7 +30,7 @@ with open(PHARMACIES_LIST_FILE_PATH, "r") as pharmcies_file:
                     ref.child(FIREBASE_PHARMACIES_LIST).set(data)
             else:
                 ref = db.reference()
-                ref.child("all_pharmacies").set(data)
+                ref.child(FIREBASE_PHARMACIES_LIST).set(data)
             print("Process completed.")
         
 
