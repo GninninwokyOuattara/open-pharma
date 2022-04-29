@@ -35,7 +35,7 @@ googleapis-common-protos==1.56.0
 greenlet==1.1.2
 grpcio==1.44.0
 grpcio-status==1.44.0
-h11==0.8.1
+h11==0.8.*
 h2==3.2.0
 hpack==3.0.0
 http3==0.6.7
