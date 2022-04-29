@@ -1,5 +1,8 @@
-name: "Fetch currently open pharmacies from pharma-consults"
+name: "Update open pharmacies datas"
 on: push
+# on:
+#     schedule:
+#         - cron: "0 0 * * 0"
 jobs:
     build:
         runs-on: "ubuntu-latest"
@@ -19,11 +22,10 @@ jobs:
                   python -m pip install --upgrade pip
                   pip install -r requirements.txt
 
-            - name: "Run Program"
+            - name: "Run script"
               env:
                   OPEN_PHARMA_FIREBASE_CREDENTIALS: ${{ secrets.OPEN_PHARMA_FIREBASE_CREDENTIALS }}
                   OPEN_PHARMA_DATABASE_URL: ${{ secrets.OPEN_PHARMA_DATABASE_URL }}
               run: |
                   cd charbon
-                  ls -al
-                  python main.py
+                  python update_open_pharmacies.py
