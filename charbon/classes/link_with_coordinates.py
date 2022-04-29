@@ -17,7 +17,7 @@ class LinkWithCoordinates:
         if self.check_format(link):
             self.link = link
         else:
-            print(link)
+            # print(link)
             raise ValueError("Provided link is not of a valid structure")
     
     def coordinates(self):

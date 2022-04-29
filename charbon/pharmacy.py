@@ -27,6 +27,7 @@ class Pharmacy(BasePharmacy):
                 linkObject = LinkWithCoordinates(self.google_maps_position_link)
                 return linkObject.coordinates()
             except Exception as e:
+                self.google_maps_position_link = ""
                 return None
         
 
