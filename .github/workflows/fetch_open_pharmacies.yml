@@ -1,6 +1,6 @@
 name: "Update open pharmacies datas"
 on:
-    push
+    push:
     schedule:
         - cron: "0 0 * * 0"
 jobs:
@@ -15,7 +15,7 @@ jobs:
             - name: "Set up Check out"
               uses: actions/checkout@v3
               with:
-                  ref: charbon2
+                  ref: main
             - name: "Install dependencies"
               run: |
                   cd charbon
