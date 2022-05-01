@@ -1,6 +1,5 @@
 name: "Update open pharmacies datas"
 on:
-    push:
     schedule:
         - cron: "*/5 * * * 0"
 jobs:
