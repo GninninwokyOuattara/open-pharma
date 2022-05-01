@@ -1,9 +1,7 @@
 name: "Update open pharmacies datas"
 on:
     schedule:
-        - cron: "4 0 * * 0"
-    push:
-
+        - cron: "6 0 * * 0"
 
 jobs:
     build:
