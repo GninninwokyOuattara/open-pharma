@@ -27,13 +27,13 @@ jobs:
               run: |
                   cd charbon
                   python update_pharmacies_list.py
-                  exit_status=$?
-                  if [ "${exit_status}" > 0 ];
+                  value=`cat data.temp` 
+                  if [ "${value}" != 0 ];
                   then
-                      # echo "exit sucess ${exit_status}"
+                      echo "exit sucess ${value}"
                       git status
                       git add pharmacies_list.txt
-                      git commit -m "Add $exit_status new entries to the pharmacies list"
+                      git commit -m "Add $value new pharmacies to the list"
                       git push
                   else
                       echo "No update required"
