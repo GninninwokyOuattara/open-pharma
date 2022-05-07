@@ -13,12 +13,9 @@ jobs:
             - name: "Cloning open-pharma repo"
               run: |
                 git clone https://github.com/GninninwokyOuattara/open-pharma.git
-            - name: "Move into the right directory"
-              run: |
-                cd open-pharma/charbon
-                ls
             - name: "Install dependencies"
               run: |
+                  cd open-pharma/charbon
                   ls
                   python -m pip install --upgrade pip
                   sudo pip install wheel
@@ -28,6 +25,7 @@ jobs:
                   OPEN_PHARMA_FIREBASE_CREDENTIALS: ${{ secrets.OPEN_PHARMA_FIREBASE_CREDENTIALS }}
                   OPEN_PHARMA_DATABASE_URL: ${{ secrets.OPEN_PHARMA_DATABASE_URL }}
               run: |
+                  cd open-pharma/charbon
                   python update_pharmacies_list.py
                   value=`cat data.temp` 
                   if [ "${value}" != 0 ];
