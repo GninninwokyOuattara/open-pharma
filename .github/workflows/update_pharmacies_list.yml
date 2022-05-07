@@ -12,7 +12,7 @@ jobs:
                   python-version: 3.9
             - name: "Cloning open-pharma repo"
               run: |
-                git clone GninninwokyOuattara/open-pharma
+                git clone https://github.com/GninninwokyOuattara/open-pharma.git
             - name: "Move into the right directory"
               run: |
                 cd open-pharma
