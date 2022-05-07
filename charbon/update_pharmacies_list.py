@@ -40,4 +40,4 @@ def main():
 
 InitFirebaseConnection()
 out = main()
-exit(str(out)) 
+exit(not not out) 
