@@ -31,6 +31,7 @@ jobs:
                   if [ "${value}" != 0 ];
                   then
                       echo "exit sucess ${value}"
+                      git pull origin main
                       git branch pr-pharmacies-list-update
                       git checkout pr-pharmacies-list-update
                       git status
