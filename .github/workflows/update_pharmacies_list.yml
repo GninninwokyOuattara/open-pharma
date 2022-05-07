@@ -31,10 +31,12 @@ jobs:
                   if [ "${value}" != 0 ];
                   then
                       echo "exit sucess ${value}"
+                      git branch pr-pharmacies-list-update
+                      git checkout pr-pharmacies-list-update
                       git status
                       git add pharmacies_list.txt
                       git commit -m "Add $value new pharmacies to the list"
-                      git push
+                      git push origin pr_pharmacies_list
                   else
                       echo "No update required"
                   fi
