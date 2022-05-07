@@ -1,5 +1,4 @@
 import os
-# from sys import exit
 from classes.base_pharmacy import BasePharmacy
 from classes.firebase import InitFirebaseConnection
 from firebase_admin import db
@@ -29,7 +28,7 @@ def main():
         new_pharmacies_list = ""
         for key in sorted(pharmacies_list):
             pharmacy : BasePharmacy = pharmacies_list[key]
-            new_pharmacies_list+= f"{pharmacy['flat_name']}\n"
+            new_pharmacies_list+= f"{pharmacy['name']}\n"
         with open("./pharmacies_list.txt","w") as file:
             file.write(new_pharmacies_list.strip())
         print("Completed.")
@@ -43,4 +42,3 @@ out = main()
 with open("./data.temp", "w") as temp:
     temp.write(str(out))
     
-# exit(out) 
