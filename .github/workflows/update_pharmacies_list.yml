@@ -14,21 +14,15 @@ jobs:
               uses: actions/checkout@v3
               with:
                   ref: main
-            - name: "Install dependencies"
-              run: |
-                  cd charbon
-                  python -m pip install --upgrade pip
-                  sudo pip install wheel
-                  pip install -r requirements.txt
             - name: "Run script checking for possible update to the pharmacies lsit"
               run: |
-                  value=$(python action.py 2>&1)
-                  echo "::set-output name=bool::$value"
-                  if [ value != "False" ]; then
-                      echo "I am here"
-                      git add ./"pharmacies_list.txt"
-                      # git commit -m "Add $value new pharmacies to the list"
-                      echo "Add $value new pharmacies to the list"
-                  fi
+                  # value=$(python action.py 2>&1)
+                  # echo "::set-output name=bool::$value"
+                  # if [ value != "False" ]; then
+                  #     echo "I am here"
+                  #     git add ./"pharmacies_list.txt"
+                  #     # git commit -m "Add $value new pharmacies to the list"
+                  #     echo "Add $value new pharmacies to the list"
+                  # fi
 
                   git status
