@@ -1,6 +1,8 @@
 name: "Update pharmacies list file"
 on:
     push:
+    schedule:
+        - cron : "0 0 * * *"
 jobs:
     build:
         runs-on: "macos-latest"
