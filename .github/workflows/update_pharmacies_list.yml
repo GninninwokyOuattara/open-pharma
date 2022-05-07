@@ -24,13 +24,13 @@ jobs:
               run: |
                   cd charbon
                   ls
-                  value=$(python action.py 2>&1)
+                  value=$(python update_pharmacies_list.py 2>&1)
                   echo "::set-output name=bool::$value"
-                  # if [ value != "False" ]; then
-                  #     echo "I am here"
-                  #     git add ./"pharmacies_list.txt"
-                  #     # git commit -m "Add $value new pharmacies to the list"
-                  #     echo "Add $value new pharmacies to the list"
-                  # fi
+                  if [ value != "False" ]; then
+                      echo "I am here"
+                      git add ./"pharmacies_list.txt"
+                      # git commit -m "Add $value new pharmacies to the list"
+                      echo "Add $value new pharmacies to the list"
+                  fi
 
                   git status
