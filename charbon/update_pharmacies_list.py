@@ -1,4 +1,5 @@
 import os
+from sys import exit
 from classes.base_pharmacy import BasePharmacy
 from classes.firebase import InitFirebaseConnection
 from firebase_admin import db
@@ -38,5 +39,5 @@ def main():
         return False
 
 InitFirebaseConnection()
-main()        
-            
+out = main()
+exit(str(out)) 
