@@ -20,7 +20,7 @@ normalizer = str.maketrans(normalMap)
 
 
 class BasePharmacy:
-    stringsToreplace = {"phcie" : "pharmacie", "(grde)" : "", "(nvlle)" : "", "(gde)" : "", "(nlle)" : "", "(grande)" : "", "(nouvelle)" : "", "ii" : "2", "iii" : "3", "/" : "", "#" : "", "$" : "", "." : "", "[" : "", "]" : ""}
+    stringsToreplace = {"phcie" : "pharmacie", "(grde)" : "", "(nvlle)" : "", "(gde)" : "", "(nlle)" : "", "(grande)" : "", "(nouvelle)" : "", "ii" : "2", "iii" : "3", "/" : "", "#" : "", "$" : "", "." : "", "[" : "", "]" : "", "gde" : ""}
 
     
     def __init__(self, name : str):
