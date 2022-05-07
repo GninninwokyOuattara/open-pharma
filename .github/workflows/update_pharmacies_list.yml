@@ -20,7 +20,7 @@ jobs:
                   python -m pip install --upgrade pip
                   sudo pip install wheel
                   pip install -r requirements.txt
-            - name: "Run script checking for possible update to the pharmacies lsit"
+            - name: "Run script checking for possible update to the pharmacies list"
               env:
                   OPEN_PHARMA_FIREBASE_CREDENTIALS: ${{ secrets.OPEN_PHARMA_FIREBASE_CREDENTIALS }}
                   OPEN_PHARMA_DATABASE_URL: ${{ secrets.OPEN_PHARMA_DATABASE_URL }}
@@ -36,7 +36,7 @@ jobs:
                       git status
                       git add pharmacies_list.txt
                       git commit -m "Add $value new pharmacies to the list"
-                      git push origin pr_pharmacies_list
+                      git push origin pr_pharmacies_list-update
                   else
                       echo "No update required"
                   fi
