@@ -3,7 +3,7 @@ from classes.firebase import InitFirebaseConnection
 from firebase_admin import db
 from classes.pharma_consults import PharmaConsults
 from datetime import datetime
-from pharmacy import Pharmacy
+from classes.pharmacy import Pharmacy
 
 from constants.constants import  FIREBASE_PHARMACIES_LIST, FIREBASE_OPEN_PHARMACIES_ONLY,FIREBASE_OPEN_PHARMA_PHARMACIES_STATES
 
