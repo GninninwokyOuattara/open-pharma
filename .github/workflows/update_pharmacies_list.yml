@@ -23,14 +23,15 @@ jobs:
             - name: "Run script checking for possible update to the pharmacies lsit"
               run: |
                   cd charbon
-                  ls
-                  value=$(python update_pharmacies_list.py 2>&1)
-                  # echo "::set-output name=bool::$value"
-                  # if [ value != "False" ]; then
-                  #     echo "I am here"
-                  #     git add ./"pharmacies_list.txt"
-                  #     # git commit -m "Add $value new pharmacies to the list"
-                  #     echo "Add $value new pharmacies to the list"
-                  # fi
-
-                  git status
+                  python update_pharmacies_list.py
+                  exit_status=$?
+                  if [ "${exit_status}" > 0 ];
+                  then
+                      # echo "exit sucess ${exit_status}"
+                      git status
+                      git add pharmacies_list.txt
+                      git commit -m "Add $exit_status new entries to the pharmacies list"
+                      git push
+                  else
+                      echo "No update required"
+                  fi
