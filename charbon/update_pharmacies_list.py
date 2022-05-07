@@ -1,5 +1,5 @@
 import os
-from sys import exit
+# from sys import exit
 from classes.base_pharmacy import BasePharmacy
 from classes.firebase import InitFirebaseConnection
 from firebase_admin import db
@@ -36,8 +36,11 @@ def main():
         print(f"Total number of pharmacies : {len(pharmacies_list_keys)}")
         return diff
     else:
-        return False
+        return 0
 
 InitFirebaseConnection()
 out = main()
-exit(out) 
+with open("./data.temp", "w") as temp:
+    temp.write(str(out))
+    
+# exit(out) 
