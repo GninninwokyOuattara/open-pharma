@@ -1,6 +1,7 @@
 import json
 from classes.firebase import InitFirebaseConnection
 from firebase_admin import db
+from classes.open_pharmacy import OpenPharmacy
 from classes.pharma_consults import PharmaConsults
 from datetime import datetime
 from classes.pharmacy import Pharmacy
@@ -59,12 +60,20 @@ if changes :
     for key in currentlyOpenPharmacies:
         pharmacy : Pharmacy = currentlyOpenPharmacies[key]
         if not pharmacy["_name_safe"] in all_pharmacies:
-            all_pharmacies[pharmacy["_name_safe"]] = {"name" : pharmacy["name"], "flat_name" : pharmacy["flat_name"],"_name" : pharmacy["_name"], "_name_safe" : pharmacy["_name_safe"] ,"supervisor" : pharmacy["supervisor"],"phone_numbers" : pharmacy["phone_numbers"],"geographical_position" : pharmacy["geographical_position"], "google_maps_position_link": pharmacy["google_maps_position_link"],   "coordinates" : pharmacy["coordinates"]}
+            all_pharmacies[pharmacy["_name_safe"]] = {"name" : pharmacy["name"], "flat_name" : pharmacy["flat_name"],
+            "_name" : pharmacy["_name"], 
+            "_name_safe" : pharmacy["_name_safe"] ,
+            "supervisor" : pharmacy["supervisor"],
+            "phone_numbers" : pharmacy["phone_numbers"],
+            "geographical_position" : pharmacy["geographical_position"], "google_maps_position_link": pharmacy["google_maps_position_link"], "coordinates" : pharmacy["coordinates"]}
             new+=1
         else :
             item : Pharmacy = all_pharmacies[pharmacy["_name_safe"]]
                 
-            all_pharmacies[pharmacy["_name_safe"]] = {**item,"supervisor" : pharmacy["supervisor"],"phone_numbers" : pharmacy["phone_numbers"],"geographical_position" : pharmacy["geographical_position"], "google_maps_position_link": pharmacy["google_maps_position_link"],   "coordinates" : pharmacy["coordinates"]}
+            all_pharmacies[pharmacy["_name_safe"]] = {**item,
+            "supervisor" : pharmacy["supervisor"],
+            "phone_numbers" : pharmacy["phone_numbers"],
+            "geographical_position" : pharmacy["geographical_position"], "google_maps_position_link": pharmacy["google_maps_position_link"], "coordinates" : pharmacy["coordinates"]}
         
 print(f"New pharmacies detected : {new}")
 if new > 0:
@@ -78,9 +87,12 @@ if new or changes:
     all_pharmacies = all_pharmacies_ref.child(FIREBASE_PHARMACIES_LIST).get()
 
     for key in all_pharmacies:
-        pharmacy : Pharmacy
         if key in currentlyOpenPharmacies:
-            all_pharmacies[key] = {**all_pharmacies[key], "open" : True}
+            pharmacy : OpenPharmacy = currentlyOpenPharmacies[key]
+            all_pharmacies[key] = {**all_pharmacies[key],
+            "open" : True, 
+            "open_from": pharmacy["open_from"],
+            "open_until" : pharmacy["open_until"]}
         else:
             all_pharmacies[key] = {**all_pharmacies[key], "open" : False}
             
