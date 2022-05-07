@@ -10,13 +10,13 @@ jobs:
               uses: actions/setup-python@v2
               with:
                   python-version: 3.9
-            - name: "Cloning open-pharma repo"
-              run: |
-                git clone https://github.com/GninninwokyOuattara/open-pharma.git
+            - name: "Set up Check out"
+              uses: actions/checkout@v3
+              with:
+                  ref: main
             - name: "Install dependencies"
               run: |
-                  cd open-pharma/charbon
-                  ls
+                  cd charbon
                   python -m pip install --upgrade pip
                   sudo pip install wheel
                   pip install -r requirements.txt
@@ -25,17 +25,14 @@ jobs:
                   OPEN_PHARMA_FIREBASE_CREDENTIALS: ${{ secrets.OPEN_PHARMA_FIREBASE_CREDENTIALS }}
                   OPEN_PHARMA_DATABASE_URL: ${{ secrets.OPEN_PHARMA_DATABASE_URL }}
               run: |
-                  cd open-pharma/charbon
+                  cd charbon
                   python update_pharmacies_list.py
                   value=`cat data.temp` 
                   if [ "${value}" != 0 ];
                   then
                       echo "exit sucess ${value}"
-                      git branch pr-pharmacies-list-update
-                      git checkout pr-pharmacies-list-update
                       git status
                       git add pharmacies_list.txt
-                      git status
                       git commit -m "Add $value new pharmacies to the list"
                       git push
                   else
