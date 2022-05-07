@@ -1,17 +1,33 @@
+gde pharmacie des lacs (ex aniel)
 pharmacie 2 plateaux agban
+pharmacie 7 lys
+pharmacie 8eme tranche
+pharmacie  espoir
 pharmacie abobo belle ville
+pharmacie abobo clouetcha
+pharmacie abobo grand marche
+pharmacie abobo sante
 pharmacie abobo sogephia
+pharmacie aboh
+pharmacie abya
 pharmacie actuelle
-pharmacie adjamé bracodi
-pharmacie adjamé latin
+pharmacie adjame bracodi
+pharmacie adjame latin
+pharmacie adjame sante
+pharmacie adonai d'orly
 pharmacie agbassi
+pharmacie agoua
 pharmacie ahouane
+pharmacie ahoukoua
+pharmacie aimess
 pharmacie akadjoba
-pharmacie akré albert assamoi
+pharmacie akre albert assamoi
 pharmacie akwaba
+pharmacie al-fatih
 pharmacie alicia
 pharmacie alpha 16
 pharmacie amina
+pharmacie amira
 pharmacie an nasr
 pharmacie analya
 pharmacie ananeraie
@@ -24,141 +40,227 @@ pharmacie artemia
 pharmacie assonvon
 pharmacie atlantique
 pharmacie aurore
+pharmacie ave maria
 pharmacie avenue 21
 pharmacie avenue chardy
-pharmacie avocatier marché
+pharmacie avocatier marche
 pharmacie ayatha
 pharmacie azi
-pharmacie baïty
-pharmacie balnéaire
+pharmacie azur
+pharmacie baity
+pharmacie balneaire
 pharmacie bardot 2000
+pharmacie bd mitterrand
+pharmacie beatitudes
+pharmacie bel'fam
 pharmacie bel epine
 pharmacie bel horizon
-pharmacie bel'fam
+pharmacie belle-cite
+pharmacie belle cite
 pharmacie belle fontaine
-pharmacie belle-cité
 pharmacie belleville
-pharmacie beniabé
+pharmacie beniabe
 pharmacie beraca
+pharmacie berakha
+pharmacie bethanie
+pharmacie bethel- attoban
+pharmacie bethel de beago
 pharmacie bethesda
+pharmacie bethesda residentielle
 pharmacie beyniouah
+pharmacie bien etre
+pharmacie bokosso nouvelle
+pharmacie bon pasteur
+pharmacie bonne fortune
+pharmacie bonoumin
 pharmacie boulevard carde
 pharmacie boulevard de france
 pharmacie boulevard de la paix
 pharmacie boulevard de marseille
-pharmacie béthanie
+pharmacie boulevard du cameroun
+pharmacie boulevard y4
 pharmacie camp militaire
 pharmacie canaan
+pharmacie canaan 
 pharmacie carrefour
 pharmacie carrefour ancienne gendarmerie
 pharmacie carrefour diallo
+pharmacie carrefour ghandi
+pharmacie carrefour hma
 pharmacie carrefour koweit
-pharmacie carrefour santé
+pharmacie carrefour labia
+pharmacie carrefour n'dotre
+pharmacie carrefour sante
+pharmacie carrefour songon dagbe
+pharmacie carrefour st pierre
 pharmacie catherine
 pharmacie celia
 pharmacie centrale
+pharmacie centrale-angre
 pharmacie centrale ollo
 pharmacie charbel
 pharmacie chardy
-pharmacie château d'eau d'angré
-pharmacie che n'talé
+pharmacie chateau d'eau d'angre
+pharmacie chatelet
+pharmacie che n'tale
+pharmacie cheminot
 pharmacie chicaya
 pharmacie chigata
-pharmacie cité maroc
-pharmacie cité olympique
+pharmacie christ'emile
+pharmacie christ stella
+pharmacie cite maroc
+pharmacie cite olympique
+pharmacie cite sir
+pharmacie climbie
+pharmacie colombe
+pharmacie cosmos
 pharmacie cyd niko
 pharmacie cyrille
+pharmacie d'abobo baoule
+pharmacie d'abobodoume
+pharmacie d'adiake
+pharmacie d'adzope
 pharmacie d'agban
+pharmacie d'alepe
 pharmacie d'andokoi
+pharmacie d'anyama
 pharmacie d'arras
-pharmacie d'attinguié
-pharmacie d'attiécoubé
-pharmacie de abobo baoulé
+pharmacie d'attecoube
+pharmacie d'attiecoube
+pharmacie d'attinguie
+pharmacie dar es salam
+pharmacie de abobo baoule
+pharmacie de barhyo
+pharmacie de bietry
 pharmacie de blockhauss
 pharmacie de bocanda
 pharmacie de bongouanou
 pharmacie de bonoumin
+pharmacie de brofodoume
 pharmacie de cocody
+pharmacie de duekoue
+pharmacie de garahio
+pharmacie de gbagba 
 pharmacie de gesco
-pharmacie de gonaté
+pharmacie de gonate
+pharmacie de guiglo
 pharmacie de koumassi
-pharmacie de l' indénié
-pharmacie de l'agnéby
-pharmacie de l'amitié
+pharmacie de l' indenie
+pharmacie de l'agneby
+pharmacie de l'alliance
+pharmacie de l'amitie
+pharmacie de l'amitie 
 pharmacie de l'antenne
+pharmacie de l'archange
 pharmacie de l'autoroute
 pharmacie de l'entente
 pharmacie de l'espoir
 pharmacie de l'etoile
 pharmacie de l'horeb
-pharmacie de l'immaculée
-pharmacie de l'indénié
+pharmacie de l'immaculee
+pharmacie de l'immaculee conception
+pharmacie de l'indenie
 pharmacie de l'injs
-pharmacie de l'océan
-pharmacie de l'orée
-pharmacie de la 7ème tranche
-pharmacie de la 8è tranche
+pharmacie de l'ocean
+pharmacie de l'oree
+pharmacie de la 7eme tranche
+pharmacie de la 8e tranche
 pharmacie de la bagoe
 pharmacie de la baltique
 pharmacie de la bourse
 pharmacie de la caserne
-pharmacie de la cité
+pharmacie de la cathedrale 
+pharmacie de la cite
 pharmacie de la corniche
 pharmacie de la djibi
+pharmacie de la felicite
 pharmacie de la fondation
 pharmacie de la galerie
 pharmacie de la gare
-pharmacie de la grande mosquée
-pharmacie de la grâce
+pharmacie de la gare de duekoue
+pharmacie de la gde mosquee
+pharmacie de la grace
+pharmacie de la grande mosquee
 pharmacie de la mairie
+pharmacie de la mairie abobo
 pharmacie de la me
-pharmacie de la mosquée
+pharmacie de la mosquee
 pharmacie de la paix
 pharmacie de la place
+pharmacie de la place-marcory
 pharmacie de la plaque 2
+pharmacie de la plaque ii
+pharmacie de la rive gauche
 pharmacie de la riviera
 pharmacie de la riviera 3
+pharmacie de la riviera iii
 pharmacie de la sainte face
 pharmacie de la sopim
-pharmacie de la téné
+pharmacie de la tene
 pharmacie de la vie
 pharmacie de la zone 3
 pharmacie de lakota
+pharmacie de locodjoro sarl
 pharmacie de m'pouto
 pharmacie de port bouet
+pharmacie de port bouet 2 sarl
 pharmacie de seweke
 pharmacie de sion
 pharmacie de sokoura
+pharmacie de songon
+pharmacie de tiassale
 pharmacie de toupah
+pharmacie de yamoussoukro (agbassi)
+pharmacie delore
 pharmacie denise
-pharmacie des 2 plateaux
 pharmacie des 220 logements
+pharmacie des 2 plateaux
 pharmacie des 3 ponts
 pharmacie des 7 lys
-pharmacie des allées
+pharmacie des allees
 pharmacie des ambassades
+pharmacie des antilopes
 pharmacie des antilopes sarl
 pharmacie des arts
+pharmacie des arts 
 pharmacie des brasseurs
+pharmacie des champs 
+pharmacie des cites
+pharmacie des deux plateaux
 pharmacie des entreprises
 pharmacie des finances
-pharmacie des frontières
+pharmacie des frontieres
 pharmacie des garages
-pharmacie des grâces
+pharmacie des gares
+pharmacie des generations de montezo
+pharmacie des graces
 pharmacie des jardins
 pharmacie des lacs
 pharmacie des lagunes
-pharmacie des lauréades
+pharmacie des laureades
+pharmacie des mosquees
+pharmacie des nations
 pharmacie des palmes
+pharmacie des plages
 pharmacie des quais
-pharmacie des quatre étages
+pharmacie des quatre etages
 pharmacie des sables
+pharmacie des savanes 
 pharmacie des tours
-pharmacie des trois mosquées
+pharmacie des trois mosquees
+pharmacie dioulabougou sante
 pharmacie divin amour
-pharmacie divine espérane
-pharmacie divine grâce
+pharmacie divine esperance
+pharmacie divine esperane
+pharmacie divine grace
+pharmacie divine onction
+pharmacie divine providence
 pharmacie djessou
+pharmacie djigui
+pharmacie do sarl
+pharmacie du 14
+pharmacie du 16eme
+pharmacie du banco
 pharmacie du bas cavally
 pharmacie du bien etre
 pharmacie du bonheur
@@ -166,91 +268,148 @@ pharmacie du campement
 pharmacie du canal
 pharmacie du carmel
 pharmacie du carrefour
+pharmacie du carrefour ancienne gendarmerie
 pharmacie du carrefour boby
-pharmacie du château
-pharmacie du château d'eau
+pharmacie du cenacle
+pharmacie du centre
+pharmacie du chateau
+pharmacie du chateau d'eau
+pharmacie du chateau sarl
 pharmacie du cheminot
-pharmacie du cinéma boissy
+pharmacie du cinema boissy
 pharmacie du commerce
-pharmacie du cénacle
+pharmacie du denguele
 pharmacie du dialogue
+pharmacie du djuablin
+pharmacie du dokui 
 pharmacie du forum
+pharmacie du gbeke
+pharmacie du gognoa
 pharmacie du golf
-pharmacie du grand marché
-pharmacie du jubilé
-pharmacie du jubilé de tazibouo
+pharmacie du grand marche
+pharmacie du grand marche de marcory
+pharmacie du jubile
+pharmacie du jubile 
+pharmacie du jubile de tazibouo
 pharmacie du lac
 pharmacie du lavage
+pharmacie du littoral
 pharmacie du lonchamp
-pharmacie du lycée technique
+pharmacie du lycee technique
+pharmacie du manguier 
 pharmacie du marais
-pharmacie du marché
-pharmacie du marché d'adjamé
-pharmacie du marché d'anyama
-pharmacie du marché de bingerville
-pharmacie du marché gouro
+pharmacie du marche
+pharmacie du marche d'adjame
+pharmacie du marche d'anyama
+pharmacie du marche de bingerville
+pharmacie du marche de grand bassam
+pharmacie du marche gouro
 pharmacie du massan
-pharmacie du mémorial
+pharmacie du memorial
+pharmacie du millionnaire
+pharmacie du monastere
+pharmacie du mont korhogo
 pharmacie du n'zi
+pharmacie du nord
 pharmacie du palais de justice
 pharmacie du palais des sports
 pharmacie du palm club
 pharmacie du parvis
-pharmacie du petit marché
-pharmacie du petit marché de dokui
+pharmacie du petit marche
+pharmacie du petit marche de dokui
 pharmacie du phare
+pharmacie du pont de lianes
 pharmacie du port
-pharmacie du progrès
+pharmacie du progres
+pharmacie du rail
+pharmacie du rocher
 pharmacie du rond point
+pharmacie du sanwi
 pharmacie du soleil
+pharmacie du sud ouest sarl
+pharmacie du triomphe (ex pharmacie seneve)
 pharmacie du vallon
 pharmacie du wharf
 pharmacie dunia
 pharmacie eau vive
 pharmacie ebathe
+pharmacie eben-ezer
 pharmacie eden
+pharmacie el kabod
+pharmacie el nissi
 pharmacie eliashib
 pharmacie eliel
+pharmacie eliezer
+pharmacie eliora
 pharmacie elite
 pharmacie elkanah
 pharmacie eloma
-pharmacie elysées
+pharmacie elysees
+pharmacie emmanuel
+pharmacie enica
 pharmacie ephrata
+pharmacie epiphanie
 pharmacie erginal
-pharmacie espace santé
+pharmacie espace sante
+pharmacie esperance
+pharmacie espoir bouake (ex aboussouan)
 pharmacie esther
+pharmacie eureka
+pharmacie fadyl
 pharmacie fandasso
 pharmacie fanny
 pharmacie fatima
+pharmacie fely
+pharmacie fezan
 pharmacie flora
+pharmacie florel
 pharmacie france afrique
-pharmacie galilée
+pharmacie fraternite 
+pharmacie galilee
+pharmacie gaudo
 pharmacie gbede
 pharmacie gnimah
-pharmacie grand marché de marcory
+pharmacie grand marche de marcory
+pharmacie hadassa 
 pharmacie harmonies
-pharmacie hermès
+pharmacie hermes
+pharmacie hosanna
 pharmacie imann
+pharmacie in'challa
 pharmacie inch - allah
 pharmacie iroko
 pharmacie jean-pierre
+pharmacie jehovah-rapha
+pharmacie jericho
+pharmacie jlog
+pharmacie jules verne
 pharmacie k. boilot
 pharmacie kahyra
 pharmacie kakoumani
 pharmacie kana
 pharmacie kann'sy
+pharmacie kannien
+pharmacie kavoudroh
 pharmacie keneya
+pharmacie keneya 
+pharmacie kennedy
 pharmacie khianelly
+pharmacie kinninya
 pharmacie koffi kra
 pharmacie koko
 pharmacie koro
-pharmacie kouté
+pharmacie koute
+pharmacie l'emmanuel
 pharmacie l'emmanuel de taabo
 pharmacie la colombe
-pharmacie la délivrance
+pharmacie la delivrance
+pharmacie la grace de sotref
 pharmacie la maison blanche
 pharmacie la paix
+pharmacie la plenitude
 pharmacie la providence
+pharmacie la redemption sarlu
+pharmacie la vierge du signe
 pharmacie labia
 pharmacie lafia
 pharmacie lagoma
@@ -258,50 +417,80 @@ pharmacie lanvia
 pharmacie laoulo
 pharmacie las palmas
 pharmacie latrille
-pharmacie le bélier
+pharmacie laurier 9
+pharmacie le belier
 pharmacie le jourdain
+pharmacie le labelle
 pharmacie le lotus
-pharmacie le réel
-pharmacie le trèfle
-pharmacie leïla
+pharmacie le reel
+pharmacie le roc
+pharmacie le trefle
+pharmacie lea
+pharmacie leila
+pharmacie lem 
 pharmacie les 4 saisons
 pharmacie les 7 colonnes
 pharmacie les arcades
 pharmacie les archanges
 pharmacie les arums
-pharmacie les béatitudes
+pharmacie les beatitudes
 pharmacie les catleyas
 pharmacie les elias
-pharmacie les elysées
+pharmacie les elysees
 pharmacie les halles
+pharmacie les jasmins
+pharmacie les magnolias
+pharmacie les merveilles
 pharmacie les mimosas
 pharmacie les oliviers
-pharmacie les phalènes
+pharmacie les phalenes
 pharmacie les remblais
 pharmacie les rosiers
 pharmacie les studios
 pharmacie les tulipes
+pharmacie liberte
+pharmacie libreville
 pharmacie livie
 pharmacie lobia
+pharmacie louise-antoine
+pharmacie luminance
 pharmacie luminance k
+pharmacie lycee club
 pharmacie lymanya
-pharmacie léa
 pharmacie m'pike
+pharmacie m'pouto
 pharmacie madou
 pharmacie magnificat
+pharmacie magnificat des 2 plateaux
+pharmacie mai
+pharmacie mairie
 pharmacie mairie de treichville
 pharmacie makissi
 pharmacie malon
 pharmacie manzan
+pharmacie marche de gros de bouake sarl
+pharmacie marche locodjro (ex mokla)
 pharmacie marie esther
+pharmacie marie therese d'adjame sarlu
 pharmacie mariel
+pharmacie marina
 pharmacie marlyns
 pharmacie marthe robin
 pharmacie massarana
 pharmacie matene
+pharmacie mathe
 pharmacie maty
+pharmacie mayess
+pharmacie meagui
+pharmacie megane
+pharmacie meridien
+pharmacie meydeba
+pharmacie milie hevie
+pharmacie milliwanga
+pharmacie misericorde
+pharmacie moaye
 pharmacie moderne
-pharmacie moderne de hiré
+pharmacie moderne de hire
 pharmacie moderne de man
 pharmacie moderne de vavoua
 pharmacie moderne kenedy
@@ -309,39 +498,50 @@ pharmacie moderne mazuet
 pharmacie mognan
 pharmacie mokla
 pharmacie mont carmel
+pharmacie montana
+pharmacie mosquee
 pharmacie moya
 pharmacie myriam de biaffra
-pharmacie méagui
-pharmacie mégane
-pharmacie méridien
+pharmacie myriam de biafra
+pharmacie n'dotre
+pharmacie n'dotre palmeraie 2
 pharmacie nabenou
 pharmacie nankoko
 pharmacie nassara
 pharmacie nero
-pharmacie niacadié
+pharmacie niacadie
 pharmacie niangon lokoa
 pharmacie niangon nord
+pharmacie nienema de tengrela
+pharmacie nikibel
 pharmacie nikla
 pharmacie nimbo
 pharmacie nissi
 pharmacie nitoro
+pharmacie nlle du chateau
+pharmacie notre dame
 pharmacie notre dame d'afrique
 pharmacie notre dame de fatima
+pharmacie notre dame de l'esperance sarl u
 pharmacie notre dame de l'incarnation
-pharmacie notre dame de la délivrance
+pharmacie notre dame de la delivrance
 pharmacie notre dame de la paix
-pharmacie notre dame de la piété
+pharmacie notre dame de la piete
 pharmacie notre dame de la visitation
-pharmacie notre dame des grâces
+pharmacie notre dame des graces
 pharmacie notre dame du refuge
+pharmacie nour
+pharmacie nour d'abobo
+pharmacie nouram
 pharmacie nouveau quartier
 pharmacie nouvelle
-pharmacie nouvelle avenue noguès
-pharmacie nouvelle de nénié
-pharmacie nouvelle de séguéla
+pharmacie nouvelle avenue nogues
+pharmacie nouvelle de nenie
+pharmacie nouvelle de seguela
+pharmacie nouvelle de sinfra
 pharmacie nouvelle des 220 logements
 pharmacie nouvelle du boulevard vge
-pharmacie nouvelle du château
+pharmacie nouvelle du chateau
 pharmacie nouvelle espoir
 pharmacie nouvelle florel
 pharmacie nouvelle gabriel gare
@@ -349,47 +549,70 @@ pharmacie nouvelle kavoudro
 pharmacie nouvelle marlodie
 pharmacie nouvelle miria
 pharmacie nouvelle nanan yamousso
-pharmacie nouvelle phénix
+pharmacie nouvelle phenix
 pharmacie nouvelle principale de abobo te
 pharmacie nouvelle ptt
-pharmacie nouvelle wakouboué
+pharmacie nouvelle wakouboue
+pharmacie odelia
 pharmacie olympique
+pharmacie palais de justice
+pharmacie palais de la culture
 pharmacie palmeraie
+pharmacie peniel
 pharmacie perusia
-pharmacie place de la république
+pharmacie petit marche du dokui
+pharmacie philadelphie
+pharmacie pierre &amp; marie curie
+pharmacie place de la republique
 pharmacie port bouet 2
 pharmacie principale
+pharmacie principale d'abobote
 pharmacie prodomo
 pharmacie providence
-pharmacie péniel
-pharmacie quartier ebrié
+pharmacie providence 
+pharmacie quartier air france
+pharmacie quartier ebrie
+pharmacie quartier francophonie
+pharmacie quatre etages
+pharmacie racines
+pharmacie rahman
 pharmacie rapha
 pharmacie reboul
 pharmacie regina
 pharmacie rehoboth
+pharmacie residence abobo pk 18
 pharmacie roeddent
+pharmacie roi david
+pharmacie route akeikoi
+pharmacie route d'alepe
 pharmacie route d'anyama
+pharmacie route d'anyama 
 pharmacie route de bassam
 pharmacie roxanne
 pharmacie rue 12
+pharmacie rue abraham
 pharmacie rue ministre
+pharmacie sacre coeur
+pharmacie safir
 pharmacie saint alexandre
 pharmacie saint amans
-pharmacie saint andré
+pharmacie saint ambroise
+pharmacie saint andre
+pharmacie saint andre et marthe
 pharmacie saint ange
 pharmacie saint athanase
 pharmacie saint augustin
 pharmacie saint bernard
 pharmacie saint christophe
-pharmacie saint clément
-pharmacie saint côme et damien
+pharmacie saint clement
+pharmacie saint come et damien
 pharmacie saint dominique
 pharmacie saint emmanuel
 pharmacie saint etienne
-pharmacie saint françois
-pharmacie saint françois d'assise
-pharmacie saint françois de danga
-pharmacie saint françois xavier
+pharmacie saint francois
+pharmacie saint francois d'assise
+pharmacie saint francois de danga
+pharmacie saint francois xavier
 pharmacie saint georges
 pharmacie saint gil
 pharmacie saint jean
@@ -403,63 +626,141 @@ pharmacie saint martin
 pharmacie saint michel
 pharmacie saint paul
 pharmacie saint pierre d'anono
-pharmacie saint pierre des rosées
+pharmacie saint pierre des rosees
 pharmacie saint raphael
 pharmacie saint raphael archange
 pharmacie saint sauveur
 pharmacie saint uriel
-pharmacie sainte adèle
+pharmacie sainte adele
 pharmacie sainte agathe
 pharmacie sainte aude
-pharmacie sainte béatrice des rosiers
+pharmacie sainte beatrice des rosiers
 pharmacie sainte claudine
 pharmacie sainte croix
 pharmacie sainte famille
 pharmacie sainte foi
 pharmacie sainte harmony
+pharmacie sainte helene du marche
 pharmacie sainte hermann
-pharmacie sainte hélène du marché
 pharmacie sainte jeanne
 pharmacie sainte marie
-pharmacie sainte marie d'adjamé
+pharmacie sainte marie d'adjame
 pharmacie sainte marie d'adjouffou
+pharmacie sainte marie d'elve
 pharmacie sainte marie de ngattakro
-pharmacie sainte marie des béatitudes
+pharmacie sainte marie des beatitudes
 pharmacie sainte marie majeure
+pharmacie sainte marie n'gattakro
 pharmacie sainte odile
 pharmacie sainte rita
-pharmacie sainte trinité
+pharmacie sainte trinite
+pharmacie sainte veronique
 pharmacie sandrina
-pharmacie santé de vie
-pharmacie santé plus
-pharmacie santé pour tous
+pharmacie sanmien de natio
+pharmacie sans frontieres
+pharmacie sante de vie
+pharmacie sante plus
+pharmacie sante pour tous
+pharmacie sante pour tous d'anyama
 pharmacie sarah
 pharmacie scheckina
 pharmacie sebroko sarl
-pharmacie segaï
+pharmacie segai
 pharmacie selmer
 pharmacie seneve
+pharmacie servir
 pharmacie shalom
 pharmacie sideci extension
-pharmacie siloé
+pharmacie siloe
+pharmacie sini-keneya
 pharmacie sini keneya
 pharmacie siporex
+pharmacie soba
+pharmacie sogefiha
+pharmacie sokoura
+pharmacie sokoura d'aboisso
+pharmacie st alexandre
+pharmacie st ambroise
+pharmacie st ange
+pharmacie st ange emmanuel
+pharmacie st antoine
+pharmacie st augustin
+pharmacie st clement
+pharmacie st etienne
+pharmacie st francois
+pharmacie st francois d'assise
+pharmacie st francois de danga
+pharmacie st francois xavier
+pharmacie st gabriel
+pharmacie st georges d'akouedo
+pharmacie st jean paul 2 de bonoumin
+pharmacie st joseph
+pharmacie st joseph 
+pharmacie st joseph academie
+pharmacie st laurent
+pharmacie st louis de gonzag
+pharmacie st lucien
+pharmacie st martin de faya
+pharmacie st michel
+pharmacie st paul
+pharmacie st pierre d'anono
+pharmacie st raphael archange
+pharmacie st sauveur
+pharmacie st sylvestre
+pharmacie st uriel
+pharmacie star 9 angre
+pharmacie ste adele
+pharmacie ste agathe
+pharmacie ste claudine
+pharmacie ste clementine
+pharmacie ste croix
+pharmacie ste famille
+pharmacie ste harmony
+pharmacie ste madeleine nimbo 18 lgts
+pharmacie ste marie
+pharmacie ste marie-majeure
+pharmacie ste marie 
+pharmacie ste marie d'adjame
+pharmacie ste monique
+pharmacie ste odile
+pharmacie ste rita sarlu
+pharmacie ste ruth
+pharmacie ste therese
+pharmacie sts come et damien
+pharmacie synovie
+pharmacie t s f 
+pharmacie tchergnim
 pharmacie tchologo
+pharmacie tehoua
+pharmacie tera
 pharmacie tereza
 pharmacie terminus
+pharmacie theodora
+pharmacie tiacoh
 pharmacie tima
 pharmacie tizra
 pharmacie toits rouges
-pharmacie tsacoé
-pharmacie val de grâce
+pharmacie tsacoe
+pharmacie tsf
+pharmacie val d'oise
+pharmacie val de grace
 pharmacie valors
+pharmacie victor tenena
+pharmacie vridi-sir
+pharmacie vridi-village
 pharmacie vridi palm beach
 pharmacie vridi village
+pharmacie wahon
 pharmacie wassakara
 pharmacie wassia
+pharmacie wharf sarl
 pharmacie william ponty
+pharmacie yacine
+pharmacie yacouba sylla
 pharmacie yarapha
-pharmacie yélé
+pharmacie yele
 pharmacie zahara
+pharmacie zanon pierre
 pharmacie zeulayet
 pharmacie zone industrielle
+pharmacie zone micao
