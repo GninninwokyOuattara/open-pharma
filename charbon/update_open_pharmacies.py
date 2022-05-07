@@ -39,6 +39,7 @@ if len(currentlyOpenPharmacies.keys())!= 0:
         print("Changes detected, update required")
         print("Updating firebase data...")
         ref = db.reference("/")
+ 
         ref.child(FIREBASE_OPEN_PHARMACIES_ONLY).set(currentlyOpenPharmacies)
         # try:
         #     now = datetime.now().timestamp()
