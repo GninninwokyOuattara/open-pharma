@@ -21,6 +21,9 @@ jobs:
                   sudo pip install wheel
                   pip install -r requirements.txt
             - name: "Run script checking for possible update to the pharmacies lsit"
+              env:
+                  OPEN_PHARMA_FIREBASE_CREDENTIALS: ${{ secrets.OPEN_PHARMA_FIREBASE_CREDENTIALS }}
+                  OPEN_PHARMA_DATABASE_URL: ${{ secrets.OPEN_PHARMA_DATABASE_URL }}
               run: |
                   cd charbon
                   python update_pharmacies_list.py
