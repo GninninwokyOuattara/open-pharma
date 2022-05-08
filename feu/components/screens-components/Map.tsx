@@ -39,15 +39,18 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
                 longitudeDelta: 0.0421,
             }}
             provider={PROVIDER_GOOGLE}
+            showsUserLocation={true}
+            // showsMyLocationButton={true}
+            // mapPadding={{ top: 0, right: 0, bottom: 50, left: 0 }}
         >
-            <Marker
+            {/* <Marker
                 key={1000}
                 coordinate={{
                     latitude: location?.coords.latitude || 5.393620594067611,
                     longitude: location?.coords.longitude || -4.005658558941592,
                 }}
                 title={"My marker"}
-            />
+            /> */}
             {pharmaciesDatas &&
                 pharmaciesDatas.map((pharmacyData, index) => {
                     const [latitude, longitude] = pharmacyData.Position.split(

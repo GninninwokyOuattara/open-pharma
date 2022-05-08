@@ -51,7 +51,7 @@ const Main = () => {
         (async () => {
             // let e = await dispatch(fetchLocalPharmaciesData(location));
             try {
-                await dispatch(fetchAllPharmacies());
+                // await dispatch(fetchAllPharmacies());
                 getLocationPermission();
             } catch (error) {
                 console.log(error);
