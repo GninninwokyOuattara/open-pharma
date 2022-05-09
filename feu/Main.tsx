@@ -51,36 +51,45 @@ const Main = () => {
         (async () => {
             // let e = await dispatch(fetchLocalPharmaciesData(location));
             try {
-                // await dispatch(fetchAllPharmacies());
-                getLocationPermission();
+                // Separate problem
+                // Function to fetch data from firebase call here
+                // Calculate distance function called from Map component with onUserPositionchange
+                await dispatch(fetchAllPharmacies());
+                // await getLocationPermission();
             } catch (error) {
                 console.log(error);
             }
         })();
     }, [dispatch, location]);
 
-    if (!isReady) {
-        return <AppLoading />;
-    } else {
-        if (!location) {
-            return (
-                <SafeAreaView
-                    style={{
-                        flex: 1,
-                        backgroundColor: COLOR_SCHEME.LIGHT_ORANGE,
-                    }}
-                >
-                    <LocationDeniedScreen />
-                </SafeAreaView>
-            );
-        }
-        return (
-            <SafeAreaProvider>
-                {/* <StatusBar style="auto" /> */}
-                <MainScreen />
-            </SafeAreaProvider>
-        );
-    }
+    // if (!isReady) {
+    //     return <AppLoading />;
+    // } else {
+    //     if (!location) {
+    //         return (
+    //             <SafeAreaView
+    //                 style={{
+    //                     flex: 1,
+    //                     backgroundColor: COLOR_SCHEME.LIGHT_ORANGE,
+    //                 }}
+    //             >
+    //                 <LocationDeniedScreen />
+    //             </SafeAreaView>
+    //         );
+    //     }
+    //     return (
+    //         <SafeAreaProvider>
+    //             {/* <StatusBar style="auto" /> */}
+    //             <MainScreen />
+    //         </SafeAreaProvider>
+    //     );
+    // }
+    return (
+        <SafeAreaProvider>
+            {/* <StatusBar style="auto" /> */}
+            <MainScreen />
+        </SafeAreaProvider>
+    );
 };
 
 export default Main;

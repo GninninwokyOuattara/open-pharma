@@ -53,22 +53,29 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
             /> */}
             {pharmaciesDatas &&
                 pharmaciesDatas.map((pharmacyData, index) => {
-                    const [latitude, longitude] = pharmacyData.Position.split(
-                        ","
-                    ).map((coord) => +coord);
+                    const { lat, lng } = pharmacyData.coordinates;
+                    // try {
+                    // } catch (err) {
+                    //     console.log(pharmacyData);
+                    // }
+
+                    // console.log(pharmacyData.coordinates);
+                    // const [latitude, longitude] = pharmacyData.coordinates.split(
+                    //     ","
+                    // ).map((coord) => +coord);
                     return (
                         <Marker
                             key={index}
                             coordinate={{
-                                latitude: latitude,
-                                longitude: -longitude,
+                                latitude: +lat,
+                                longitude: +lng,
                             }}
-                            pinColor={
-                                pharmacyData.Id == selectedMarker
-                                    ? "green"
-                                    : "black"
-                            }
-                            onPress={() => console.log(pharmacyData.Position)}
+                            // pinColor={
+                            //     pharmacyData.Id == selectedMarker
+                            //         ? "green"
+                            //         : "black"
+                            // }
+                            // onPress={() => console.log(pharmacyData.Position)}
                         />
                     );
                 })}

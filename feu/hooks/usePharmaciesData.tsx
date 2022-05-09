@@ -8,6 +8,7 @@ import useLocation from "./useLocation";
 const usePharmaciesData = () => {
     const dispatch = useDispatch();
     const { location, errorMsg } = useLocation();
+    console.log("USER LOCATION", location);
 
     const [all, toDisplay] = useSelector((state: RootReducerType) => {
         return [state.pharmacies.all, state.pharmacies.toDisplay];
