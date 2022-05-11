@@ -97,3 +97,6 @@ const styles = StyleSheet.create({
 });
 
 export default Map;
+
+//  Bottomsheet component should use new data format
+//  Pharma item should display something please

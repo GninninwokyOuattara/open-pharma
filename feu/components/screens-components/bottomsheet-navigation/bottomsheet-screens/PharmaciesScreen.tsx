@@ -19,27 +19,29 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
 
     const renderPharmaciesItems = useCallback(
         ({ item }: { item: Pharmacy }) => {
+            // console.log(item.phid);
             return (
                 <PharmaItemLite
-                    key={item.Id}
+                    // key={item.phid}
                     data={{
-                        id: item.Id,
-                        pharmacyName: item.Nom,
-                        status: parseInt(item.Id) % 2 ? "Ouvert" : "Fermé",
+                        id: item.phid,
+                        pharmacyName: item.name,
+                        // status: parseInt(item.phid) % 2 ? "Ouvert" : "Fermé",
                     }}
                     onPress={() => {
-                        setSelectedMarker && setSelectedMarker(item.Id);
+                        setSelectedMarker && setSelectedMarker(item.phid);
 
-                        const [latitude, longitude] = item.Position.split(
-                            ","
-                        ).map((coord) => +coord);
+                        // const [latitude, longitude] = item.Position.split(
+                        //     ","
+                        // ).map((coord) => +coord);
+                        const { lat, lng } = item.coordinates;
                         // Navigate to second screen
                         navigation.navigate("Information", {
                             pharmacy: item,
                         });
                         mapRef?.current?.animateToRegion({
-                            latitude,
-                            longitude: -longitude,
+                            latitude: +lat,
+                            longitude: +lng,
                             latitudeDelta: 0.0922,
                             longitudeDelta: 0.0421,
                         });
@@ -57,7 +59,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
             <FlatList
                 ListHeaderComponent={<CustomSearchBar />}
                 data={pharmaciesDatas}
-                keyExtractor={(item) => item.Id}
+                keyExtractor={(item) => item.phid}
                 renderItem={renderPharmaciesItems}
                 contentContainerStyle={styles.contentContainer}
             ></FlatList>

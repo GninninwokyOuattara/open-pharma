@@ -1,4 +1,5 @@
 import axios from "axios";
+import uuid from "react-native-uuid";
 import {
     PROJECT_ENDPOINT,
     ALL_PHARMACIES,
@@ -28,38 +29,38 @@ const extractFirebaseData = (
     return data;
 };
 
-export const fetchLocalPharmaciesData = (
-    locationData: LocationObject | null
-) => {
-    return async (dispatch: any) => {
-        let pharmacies: Pharmacy[] =
-            await require("./../dummy_data/pharmacies_with_coordinates_save.json");
+// export const fetchLocalPharmaciesData = (
+//     locationData: LocationObject | null
+// ) => {
+//     return async (dispatch: any) => {
+//         let pharmacies: Pharmacy[] =
+//             await require("./../dummy_data/pharmacies_with_coordinates_save.json");
 
-        if (locationData) {
-            const userPosition = `${locationData.coords.latitude}, ${locationData.coords.longitude}`;
+//         if (locationData) {
+//             const userPosition = `${locationData.coords.latitude}, ${locationData.coords.longitude}`;
 
-            pharmacies.map((pharmacie) => {
-                // THIS WILL NEED TO BE REFACTORED AS IT IS ONLY USED BECAUSE CURRETLY FROM FIREBASE THE LOCATION DATA ARE INCORRECT, SO I GO THROUGH ALL THIS JUST TO HAVE SOMETHING TO WORK WITH
-                let positionArray = pharmacie.Position.split(",").map((e) =>
-                    e.trim()
-                );
-                positionArray[1] = "-" + positionArray[1]; // <- Line where I forcefully add a - to the longitude
-                let pharmaciePosition = positionArray.join(",");
-                const distance = calculateDistance(
-                    userPosition,
-                    pharmaciePosition
-                );
-                pharmacie.Distance = distance;
-                return pharmacie;
-            });
-        }
+//             pharmacies.map((pharmacie) => {
+//                 // THIS WILL NEED TO BE REFACTORED AS IT IS ONLY USED BECAUSE CURRETLY FROM FIREBASE THE LOCATION DATA ARE INCORRECT, SO I GO THROUGH ALL THIS JUST TO HAVE SOMETHING TO WORK WITH
+//                 let positionArray = pharmacie.Position.split(",").map((e) =>
+//                     e.trim()
+//                 );
+//                 positionArray[1] = "-" + positionArray[1]; // <- Line where I forcefully add a - to the longitude
+//                 let pharmaciePosition = positionArray.join(",");
+//                 const distance = calculateDistance(
+//                     userPosition,
+//                     pharmaciePosition
+//                 );
+//                 pharmacie.Distance = distance;
+//                 return pharmacie;
+//             });
+//         }
 
-        dispatch({
-            type: FETCH_ALL_PHARMACIES,
-            data: pharmacies,
-        });
-    };
-};
+//         dispatch({
+//             type: FETCH_ALL_PHARMACIES,
+//             data: pharmacies,
+//         });
+//     };
+// };
 
 export const fetchAllPharmacies = () => {
     return async (dispatch: any) => {
@@ -67,11 +68,20 @@ export const fetchAllPharmacies = () => {
         let pharmaciesDatas: Pharmacies;
         try {
             res = await axios.get(`${PROJECT_ENDPOINT}${PHARMACIES}.json`);
+            // Transform result from a hash in an array
             pharmaciesDatas = Object.values(res.data);
+
+            // Remove pharmacies without coordinates in the list
             pharmaciesDatas = pharmaciesDatas.filter(
                 (pharmacy) => !!pharmacy.coordinates == true
             );
-            // console.log(pharmaciesDatas);
+
+            // Add an uuid to each element
+            pharmaciesDatas = pharmaciesDatas.map((pharmacy) => ({
+                ...pharmacy,
+                phid: uuid.v4() as string,
+            }));
+
             // data = extractFirebaseData(res.data);
         } catch (error) {
             throw error;
