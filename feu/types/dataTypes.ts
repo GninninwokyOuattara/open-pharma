@@ -9,6 +9,7 @@
 // }
 
 export interface Pharmacy {
+    phid: string;
     name: string;
     _name: string;
     _name_safe: string;
@@ -18,12 +19,12 @@ export interface Pharmacy {
     };
     flat_name: string;
     open: boolean;
-    geographical_position: string;
-    google_maps_position_link: string;
-    phone_numbers: string[];
-    supervisor: string;
-    open_from: string;
-    open_until: string;
+    geographical_position?: string;
+    google_maps_position_link?: string;
+    phone_numbers?: string[];
+    supervisor?: string;
+    open_from?: string;
+    open_until?: string;
 }
 
 export type Pharmacies = Pharmacy[];
