@@ -1,9 +1,11 @@
+nlle pharmacie de l'alliance
 pharmacie 2 plateaux agban
 pharmacie 7 lys
 pharmacie 7eme tranche
 pharmacie 8eme tranche
 pharmacie  espoir
 pharmacie abobo belle ville
+pharmacie abobo belleville
 pharmacie abobo clouetcha
 pharmacie abobo grand marche
 pharmacie abobo sante
@@ -15,6 +17,7 @@ pharmacie adjame bracodi
 pharmacie adjame latin
 pharmacie adjame sante
 pharmacie adonai d'orly
+pharmacie afia
 pharmacie agbassi
 pharmacie agoua
 pharmacie ahouane
@@ -60,6 +63,7 @@ pharmacie bardot 2000
 pharmacie bd mitterrand
 pharmacie beatitudes
 pharmacie bel'fam
+pharmacie bel air
 pharmacie bel epine
 pharmacie bel horizon
 pharmacie belle-cite
@@ -69,6 +73,7 @@ pharmacie belleville
 pharmacie beniabe
 pharmacie beraca
 pharmacie berakha
+pharmacie berekyah
 pharmacie bethanie
 pharmacie bethel- attoban
 pharmacie bethel de beago
@@ -87,10 +92,12 @@ pharmacie boulevard de la paix
 pharmacie boulevard de marseille
 pharmacie boulevard du cameroun
 pharmacie boulevard y4
+pharmacie bsa
 pharmacie camp militaire
 pharmacie canaan
 pharmacie canaan 
 pharmacie carrefour
+pharmacie carrefour anador
 pharmacie carrefour ancienne gendarmerie
 pharmacie carrefour diallo
 pharmacie carrefour ghandi
@@ -113,6 +120,7 @@ pharmacie chateau d'eau d'angre
 pharmacie chatelet
 pharmacie che n'tale
 pharmacie cheminot
+pharmacie chenain
 pharmacie chicaya
 pharmacie chigata
 pharmacie christ'emile
@@ -122,6 +130,7 @@ pharmacie christ stella
 pharmacie cite maroc
 pharmacie cite olympique
 pharmacie cite sir
+pharmacie cites synacassi sarl
 pharmacie climbie
 pharmacie colombe
 pharmacie cosmos
@@ -181,11 +190,13 @@ pharmacie de la 7eme tranche
 pharmacie de la 8e tranche
 pharmacie de la bagoe
 pharmacie de la baltique
+pharmacie de la benediction
 pharmacie de la bourse
 pharmacie de la caserne
 pharmacie de la cathedrale
 pharmacie de la cathedrale 
 pharmacie de la cite
+pharmacie de la cite policiere (ex bethel)
 pharmacie de la corniche
 pharmacie de la djibi
 pharmacie de la felicite
@@ -193,6 +204,8 @@ pharmacie de la fondation
 pharmacie de la galerie
 pharmacie de la gare
 pharmacie de la gare de duekoue
+pharmacie de la gare de sinfra
+pharmacie de la gare sarl
 pharmacie de la gde mosquee
 pharmacie de la grace
 pharmacie de la grande mosquee
@@ -228,8 +241,10 @@ pharmacie de seweke
 pharmacie de sion
 pharmacie de sokoura
 pharmacie de songon
+pharmacie de sopim
 pharmacie de tiassale
 pharmacie de toupah
+pharmacie de williamsville
 pharmacie de yamoussoukro (agbassi)
 pharmacie delore
 pharmacie denise
@@ -271,6 +286,7 @@ pharmacie des sables
 pharmacie des savanes 
 pharmacie des tours
 pharmacie des trois mosquees
+pharmacie des tulipes
 pharmacie di georges
 pharmacie dioulabougou sante
 pharmacie divin amour
@@ -281,12 +297,14 @@ pharmacie divine misericorde
 pharmacie divine onction
 pharmacie divine providence
 pharmacie djessou
+pharmacie djessou de vridi 2i
 pharmacie djigui
 pharmacie do sarl
 pharmacie du 14
 pharmacie du 16eme
 pharmacie du banco
 pharmacie du bas cavally
+pharmacie du bd giscard d'estaing
 pharmacie du bien etre
 pharmacie du bonheur
 pharmacie du boulevard carde
@@ -300,6 +318,7 @@ pharmacie du cenacle
 pharmacie du centre
 pharmacie du chateau
 pharmacie du chateau d'eau
+pharmacie du chateau d'eau d'angre
 pharmacie du chateau sarl
 pharmacie du cheminot
 pharmacie du cinema boissy
@@ -327,6 +346,7 @@ pharmacie du lycee technique
 pharmacie du manguier 
 pharmacie du marais
 pharmacie du marche
+pharmacie du marche akeikoi
 pharmacie du marche d'adjame
 pharmacie du marche d'anyama
 pharmacie du marche de bingerville
@@ -368,6 +388,7 @@ pharmacie eben-ezer
 pharmacie eden
 pharmacie el kabod
 pharmacie el nissi
+pharmacie el rapha de zoe bruno
 pharmacie eliashib
 pharmacie eliel
 pharmacie eliezer
@@ -378,13 +399,16 @@ pharmacie elkanah
 pharmacie eloma
 pharmacie eloma de gonzag
 pharmacie elysees
+pharmacie emeraude
 pharmacie emmanuel
+pharmacie ems sante
 pharmacie enica
 pharmacie ephrata
 pharmacie epiphanie
 pharmacie erginal
 pharmacie espace sante
 pharmacie esperance
+pharmacie espoir
 pharmacie espoir bouake (ex aboussouan)
 pharmacie esther
 pharmacie eureka
@@ -397,8 +421,11 @@ pharmacie fezan
 pharmacie flora
 pharmacie florel
 pharmacie fondation
+pharmacie forets
 pharmacie france afrique
+pharmacie fraternite
 pharmacie fraternite 
+pharmacie gabriel gare
 pharmacie galilee
 pharmacie gare de hire
 pharmacie gaudo
@@ -419,6 +446,7 @@ pharmacie inch - allah
 pharmacie inchallah
 pharmacie iroko
 pharmacie jean-pierre
+pharmacie jehova-jire sarl-u
 pharmacie jehovah-rapha
 pharmacie jericho
 pharmacie jlog
@@ -438,6 +466,7 @@ pharmacie khianelly
 pharmacie kinninya
 pharmacie koffi kra
 pharmacie koko
+pharmacie kokoman vie
 pharmacie koro
 pharmacie koute
 pharmacie l'emmanuel
@@ -453,6 +482,7 @@ pharmacie la redemption sarlu
 pharmacie la source (ex delivrance)
 pharmacie la vierge du signe
 pharmacie labia
+pharmacie lael
 pharmacie lafia
 pharmacie lagoma
 pharmacie langevin
@@ -503,17 +533,20 @@ pharmacie lycee club
 pharmacie lymanya
 pharmacie m'pike
 pharmacie m'pouto
+pharmacie macy-ya
 pharmacie madou
 pharmacie magnificat
 pharmacie magnificat des 2 plateaux
 pharmacie mai
 pharmacie mairie
+pharmacie mairie-nord
 pharmacie mairie de treichville
 pharmacie makissi
 pharmacie malon
 pharmacie manzan
 pharmacie marche de gros de bouake sarl
 pharmacie marche locodjro (ex mokla)
+pharmacie marcory ptt
 pharmacie marie esther
 pharmacie marie therese d'adjame sarlu
 pharmacie mariel
@@ -529,6 +562,7 @@ pharmacie meagui
 pharmacie megane
 pharmacie meridien
 pharmacie merouane
+pharmacie metropole
 pharmacie meydeba
 pharmacie milie hevie
 pharmacie milliwanga
@@ -541,6 +575,7 @@ pharmacie moderne de hire
 pharmacie moderne de man
 pharmacie moderne de vavoua
 pharmacie moderne kenedy
+pharmacie moderne kennedy
 pharmacie moderne mazuet
 pharmacie mognan
 pharmacie mokla
@@ -554,6 +589,7 @@ pharmacie myriam de biaffra
 pharmacie myriam de biafra
 pharmacie n'dotre
 pharmacie n'dotre palmeraie 2
+pharmacie n'gohesse
 pharmacie nabenou
 pharmacie nankoko
 pharmacie nassara
@@ -561,6 +597,7 @@ pharmacie nero
 pharmacie niacadie
 pharmacie niangon lokoa
 pharmacie niangon nord
+pharmacie niangon sud
 pharmacie nienema de tengrela
 pharmacie nikibel
 pharmacie nikla
@@ -569,6 +606,7 @@ pharmacie nissi
 pharmacie nitoro
 pharmacie nlle du chateau
 pharmacie nlle sokoura
+pharmacie noemie sarl
 pharmacie notre dame
 pharmacie notre dame d'afrique
 pharmacie notre dame de fatima
@@ -580,6 +618,7 @@ pharmacie notre dame de la piete
 pharmacie notre dame de la visitation
 pharmacie notre dame des graces
 pharmacie notre dame des victoires
+pharmacie notre dame du grand signe (ex cellule saine )
 pharmacie notre dame du refuge
 pharmacie notre dame immaculee conception
 pharmacie nour
@@ -605,6 +644,7 @@ pharmacie nouvelle phenix
 pharmacie nouvelle principale de abobo te
 pharmacie nouvelle ptt
 pharmacie nouvelle wakouboue
+pharmacie noya
 pharmacie odelia
 pharmacie olympique
 pharmacie palais de justice
@@ -629,7 +669,9 @@ pharmacie prunelle marie
 pharmacie quartier air france
 pharmacie quartier ebrie
 pharmacie quartier francophonie
+pharmacie quartier huberson
 pharmacie quatre etages
+pharmacie rabbi
 pharmacie racines
 pharmacie rahman
 pharmacie rapha
@@ -637,6 +679,7 @@ pharmacie reboul
 pharmacie regina
 pharmacie rehoboth
 pharmacie residence abobo pk 18
+pharmacie riviera 2i
 pharmacie riviera m'badon
 pharmacie roeddent
 pharmacie roi david
@@ -645,6 +688,7 @@ pharmacie route d'abatta
 pharmacie route d'alepe
 pharmacie route d'anyama
 pharmacie route d'anyama 
+pharmacie route d'issia sarl
 pharmacie route de bassam
 pharmacie route du zoo
 pharmacie roxanne
@@ -681,6 +725,7 @@ pharmacie saint laurent
 pharmacie saint louis
 pharmacie saint louis de gonzag
 pharmacie saint lucien
+pharmacie saint marc broukro
 pharmacie saint martin
 pharmacie saint michel
 pharmacie saint paul
@@ -694,8 +739,10 @@ pharmacie sainte adele
 pharmacie sainte agathe
 pharmacie sainte aude
 pharmacie sainte beatrice des rosiers
+pharmacie sainte cecile des vallons
 pharmacie sainte claudine
 pharmacie sainte croix
+pharmacie sainte eunice
 pharmacie sainte famille
 pharmacie sainte foi
 pharmacie sainte harmony
@@ -743,14 +790,17 @@ pharmacie soba
 pharmacie sogefiha
 pharmacie sokoura
 pharmacie sokoura d'aboisso
+pharmacie st albert
 pharmacie st alexandre
 pharmacie st amans
 pharmacie st ambroise
 pharmacie st ange
 pharmacie st ange emmanuel
 pharmacie st antoine
+pharmacie st athanase
 pharmacie st augustin
 pharmacie st bernard
+pharmacie st charbel
 pharmacie st clement
 pharmacie st emmanuel
 pharmacie st etienne
@@ -761,6 +811,7 @@ pharmacie st francois xavier
 pharmacie st gabriel
 pharmacie st georges
 pharmacie st georges d'akouedo
+pharmacie st gil
 pharmacie st jean paul 2 de bonoumin
 pharmacie st joseph
 pharmacie st joseph 
@@ -777,16 +828,19 @@ pharmacie st raphael archange
 pharmacie st sauveur
 pharmacie st sylvestre
 pharmacie st uriel
+pharmacie st viateur
 pharmacie star 9 angre
 pharmacie ste adele
 pharmacie ste agathe
 pharmacie ste agnes
+pharmacie ste beatrice des rosiers
 pharmacie ste catherine sarl
 pharmacie ste claudine
 pharmacie ste clementine
 pharmacie ste croix
 pharmacie ste dorothee
 pharmacie ste famille
+pharmacie ste foi
 pharmacie ste harmony
 pharmacie ste madeleine nimbo 18 lgts
 pharmacie ste marie
@@ -805,6 +859,7 @@ pharmacie synovie
 pharmacie t s f 
 pharmacie tchergnim
 pharmacie tchologo
+pharmacie tehia
 pharmacie tehoua
 pharmacie tera
 pharmacie tereza
