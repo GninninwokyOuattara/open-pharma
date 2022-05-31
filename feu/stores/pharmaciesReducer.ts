@@ -22,20 +22,25 @@ const pharmaciesState: PharmaciesState = {
 export default (state: PharmaciesState = pharmaciesState, action: any) => {
     switch (action.type) {
         case FETCH_ALL_PHARMACIES:
-            return { ...state, all: action.data, toDisplay: action.data };
+            // console.log(action.pharmaciesDatas);
+            return {
+                ...state,
+                all: action.pharmaciesDatas,
+                toDisplay: action.pharmaciesDatas,
+            };
         case UPDATE_RELATIVE_DISTANCES:
             console.log(action.data[1]);
             let obj = { ...state, all: action.data, toDisplay: action.data };
             return obj;
-        case APPLY_FILTER:
-            const filter: string = action.data.toLowerCase();
-            if (!filter) {
-                return { ...state, toDisplay: state.all };
-            }
-            const filtered = state.all.filter((pharmacy) => {
-                return pharmacy.Nom.toLowerCase().includes(filter);
-            });
-            return { ...state, toDisplay: filtered };
+        // case APPLY_FILTER:
+        //     const filter: string = action.data.toLowerCase();
+        //     if (!filter) {
+        //         return { ...state, toDisplay: state.all };
+        //     }
+        //     const filtered = state.all.filter((pharmacy) => {
+        //         return pharmacy.Nom.toLowerCase().includes(filter);
+        //     });
+        //     return { ...state, toDisplay: filtered };
         default:
             return { ...state };
     }

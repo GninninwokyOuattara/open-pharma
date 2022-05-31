@@ -39,33 +39,43 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
                 longitudeDelta: 0.0421,
             }}
             provider={PROVIDER_GOOGLE}
+            showsUserLocation={true}
+            // showsMyLocationButton={true}
+            // mapPadding={{ top: 0, right: 0, bottom: 50, left: 0 }}
         >
-            <Marker
+            {/* <Marker
                 key={1000}
                 coordinate={{
                     latitude: location?.coords.latitude || 5.393620594067611,
                     longitude: location?.coords.longitude || -4.005658558941592,
                 }}
                 title={"My marker"}
-            />
+            /> */}
             {pharmaciesDatas &&
                 pharmaciesDatas.map((pharmacyData, index) => {
-                    const [latitude, longitude] = pharmacyData.Position.split(
-                        ","
-                    ).map((coord) => +coord);
+                    const { lat, lng } = pharmacyData.coordinates;
+                    // try {
+                    // } catch (err) {
+                    //     console.log(pharmacyData);
+                    // }
+
+                    // console.log(pharmacyData.coordinates);
+                    // const [latitude, longitude] = pharmacyData.coordinates.split(
+                    //     ","
+                    // ).map((coord) => +coord);
                     return (
                         <Marker
                             key={index}
                             coordinate={{
-                                latitude: latitude,
-                                longitude: -longitude,
+                                latitude: +lat,
+                                longitude: +lng,
                             }}
-                            pinColor={
-                                pharmacyData.Id == selectedMarker
-                                    ? "green"
-                                    : "black"
-                            }
-                            onPress={() => console.log(pharmacyData.Position)}
+                            // pinColor={
+                            //     pharmacyData.Id == selectedMarker
+                            //         ? "green"
+                            //         : "black"
+                            // }
+                            // onPress={() => console.log(pharmacyData.Position)}
                         />
                     );
                 })}
@@ -87,3 +97,6 @@ const styles = StyleSheet.create({
 });
 
 export default Map;
+
+//  Bottomsheet component should use new data format
+//  Pharma item should display something please
