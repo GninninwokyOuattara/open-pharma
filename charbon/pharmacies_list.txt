@@ -74,6 +74,7 @@ pharmacie belle-cite
 pharmacie belle cite
 pharmacie belle fontaine
 pharmacie belleville
+pharmacie bellevue
 pharmacie beniabe
 pharmacie beniabie
 pharmacie beraca
@@ -87,6 +88,7 @@ pharmacie bethesda residentielle
 pharmacie beyniouah
 pharmacie biabou mosquee
 pharmacie bien etre
+pharmacie boaz
 pharmacie boissy
 pharmacie bokosso nouvelle
 pharmacie bon pasteur
@@ -137,6 +139,7 @@ pharmacie christ'emile
 pharmacie christ marie de paillet
 pharmacie christ roi
 pharmacie christ stella
+pharmacie cite cie
 pharmacie cite maroc
 pharmacie cite olympique
 pharmacie cite sir
@@ -188,6 +191,7 @@ pharmacie de l'amitie
 pharmacie de l'antenne
 pharmacie de l'archange
 pharmacie de l'autoroute
+pharmacie de l'autoroute ( pharmacie
 pharmacie de l'avenue nogues
 pharmacie de l'entente
 pharmacie de l'espoir
@@ -197,6 +201,7 @@ pharmacie de l'immaculee
 pharmacie de l'immaculee conception
 pharmacie de l'indenie
 pharmacie de l'injs
+pharmacie de l'oasis de paix
 pharmacie de l'ocean
 pharmacie de l'oree
 pharmacie de la 7eme tranche
@@ -275,6 +280,7 @@ pharmacie des antilopes sarl
 pharmacie des arts
 pharmacie des arts 
 pharmacie des brasseurs
+pharmacie des champs
 pharmacie des champs 
 pharmacie des cites
 pharmacie des deux plateaux
@@ -303,6 +309,7 @@ pharmacie des savanes
 pharmacie des tours
 pharmacie des trois mosquees
 pharmacie des tulipes
+pharmacie des villages
 pharmacie di georges
 pharmacie dioulabougou sante
 pharmacie divin amour
@@ -320,6 +327,7 @@ pharmacie du 14
 pharmacie du 16eme
 pharmacie du banco
 pharmacie du bas cavally
+pharmacie du bd du gabon
 pharmacie du bd giscard d'estaing
 pharmacie du bien etre
 pharmacie du bonheur
@@ -404,6 +412,7 @@ pharmacie eau vive
 pharmacie ebathe
 pharmacie eben-ezer
 pharmacie eden
+pharmacie ehile
 pharmacie el kabod
 pharmacie el nissi
 pharmacie el olam
@@ -473,6 +482,7 @@ pharmacie jlog
 pharmacie jules verne
 pharmacie k. boilot
 pharmacie kaemilla
+pharmacie kahira
 pharmacie kahyra
 pharmacie kakoumani
 pharmacie kana
@@ -500,6 +510,7 @@ pharmacie la plenitude
 pharmacie la providence
 pharmacie la redemption sarlu
 pharmacie la source (ex delivrance)
+pharmacie la vie
 pharmacie la vierge du signe
 pharmacie labia
 pharmacie lael
@@ -532,12 +543,14 @@ pharmacie les ecluses
 pharmacie les elias
 pharmacie les elysees
 pharmacie les halles
+pharmacie les heveas
 pharmacie les jardins d'eden
 pharmacie les jasmins
 pharmacie les magnolias
 pharmacie les merveilles
 pharmacie les mimosas
 pharmacie les oliviers
+pharmacie les perles
 pharmacie les phalenes
 pharmacie les remblais
 pharmacie les rosiers
@@ -585,6 +598,7 @@ pharmacie meagui
 pharmacie megane
 pharmacie meridien
 pharmacie merouane
+pharmacie mesano
 pharmacie metropole
 pharmacie meydeba
 pharmacie milie hevie
@@ -614,6 +628,7 @@ pharmacie n'dotre
 pharmacie n'dotre palmeraie 2
 pharmacie n'gohesse
 pharmacie nabenou
+pharmacie nanan yamousso
 pharmacie nankoko
 pharmacie nassara
 pharmacie nero
@@ -669,11 +684,15 @@ pharmacie nouvelle principale de abobo te
 pharmacie nouvelle ptt
 pharmacie nouvelle wakouboue
 pharmacie noya
+pharmacie ode
 pharmacie odelia
 pharmacie olympique
 pharmacie palais de justice
 pharmacie palais de la culture
 pharmacie palmeraie
+pharmacie palmeraie sarl
+pharmacie paloma
+pharmacie pefina
 pharmacie peniel
 pharmacie perusia
 pharmacie petit marche
@@ -708,6 +727,7 @@ pharmacie riviera 2i
 pharmacie riviera m'badon
 pharmacie roeddent
 pharmacie roi david
+pharmacie roma d'anoumabo
 pharmacie route akeikoi
 pharmacie route d'abatta
 pharmacie route d'alepe
@@ -824,9 +844,11 @@ pharmacie st ange
 pharmacie st ange emmanuel
 pharmacie st antoine
 pharmacie st athanase
+pharmacie st auguste
 pharmacie st augustin
 pharmacie st bernard
 pharmacie st charbel
+pharmacie st christophe
 pharmacie st clement
 pharmacie st emmanuel
 pharmacie st etienne
@@ -847,6 +869,7 @@ pharmacie st joseph artisan
 pharmacie st laurent
 pharmacie st louis de gonzag
 pharmacie st lucien
+pharmacie st martin
 pharmacie st martin de faya
 pharmacie st michel
 pharmacie st paul
@@ -855,6 +878,7 @@ pharmacie st pierre des rosees
 pharmacie st raphael
 pharmacie st raphael archange
 pharmacie st sauveur
+pharmacie st simeon
 pharmacie st sylvestre
 pharmacie st uriel
 pharmacie st viateur
@@ -862,6 +886,7 @@ pharmacie star 9 angre
 pharmacie ste adele
 pharmacie ste agathe
 pharmacie ste agnes
+pharmacie ste anne
 pharmacie ste aude
 pharmacie ste beatrice des rosiers
 pharmacie ste catherine sarl
@@ -884,6 +909,7 @@ pharmacie ste monique
 pharmacie ste odile
 pharmacie ste pauline
 pharmacie ste rita
+pharmacie ste rita de cascia
 pharmacie ste rita sarlu
 pharmacie ste ruth
 pharmacie ste therese
