@@ -216,6 +216,7 @@ pharmacie de la cathedrale
 pharmacie de la cathedrale 
 pharmacie de la cite
 pharmacie de la cite policiere (ex bethel)
+pharmacie de la cite rouge
 pharmacie de la corniche
 pharmacie de la djibi
 pharmacie de la felicite
@@ -411,6 +412,7 @@ pharmacie dunia
 pharmacie eau vive
 pharmacie ebathe
 pharmacie eben-ezer
+pharmacie ebena
 pharmacie eden
 pharmacie ehile
 pharmacie el kabod
@@ -472,6 +474,7 @@ pharmacie immaculee
 pharmacie in'challa
 pharmacie inch - allah
 pharmacie inchallah
+pharmacie inox
 pharmacie iroko
 pharmacie jean-pierre
 pharmacie jean pierre sarl
@@ -489,6 +492,7 @@ pharmacie kana
 pharmacie kann'sy
 pharmacie kannien
 pharmacie kavoudroh
+pharmacie keliam
 pharmacie keneya
 pharmacie keneya 
 pharmacie kennedy
@@ -579,6 +583,7 @@ pharmacie mairie-nord
 pharmacie mairie de treichville
 pharmacie makissi
 pharmacie malon
+pharmacie mamy adjoua
 pharmacie manzan
 pharmacie marche de gros de bouake sarl
 pharmacie marche locodjro (ex mokla)
@@ -601,6 +606,7 @@ pharmacie merouane
 pharmacie mesano
 pharmacie metropole
 pharmacie meydeba
+pharmacie michel archange
 pharmacie milie hevie
 pharmacie milliwanga
 pharmacie miria
@@ -697,6 +703,7 @@ pharmacie peniel
 pharmacie perusia
 pharmacie petit marche
 pharmacie petit marche du dokui
+pharmacie phalenes
 pharmacie phenix
 pharmacie philadelphie
 pharmacie pierre &amp; marie curie
@@ -819,6 +826,7 @@ pharmacie sante pour tous
 pharmacie sante pour tous d'anyama
 pharmacie sarah
 pharmacie scheckina
+pharmacie schekina
 pharmacie schiba
 pharmacie sebroko sarl
 pharmacie segai
@@ -836,10 +844,12 @@ pharmacie soba
 pharmacie sogefiha
 pharmacie sokoura
 pharmacie sokoura d'aboisso
+pharmacie souraley
 pharmacie st albert
 pharmacie st alexandre
 pharmacie st amans
 pharmacie st ambroise
+pharmacie st andre
 pharmacie st ange
 pharmacie st ange emmanuel
 pharmacie st antoine
@@ -872,6 +882,7 @@ pharmacie st lucien
 pharmacie st martin
 pharmacie st martin de faya
 pharmacie st michel
+pharmacie st moise
 pharmacie st paul
 pharmacie st pierre d'anono
 pharmacie st pierre des rosees
@@ -905,6 +916,7 @@ pharmacie ste marie-majeure
 pharmacie ste marie 
 pharmacie ste marie d'adjame
 pharmacie ste marie des beatitudes
+pharmacie ste marthe
 pharmacie ste monique
 pharmacie ste odile
 pharmacie ste pauline
@@ -957,4 +969,5 @@ pharmacie zahara
 pharmacie zanon pierre
 pharmacie zeulayet
 pharmacie zone industrielle
+pharmacie zone industrielle yopougon
 pharmacie zone micao
