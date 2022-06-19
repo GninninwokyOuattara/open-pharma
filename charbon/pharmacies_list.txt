@@ -51,6 +51,7 @@ pharmacie atlantique
 pharmacie aurore
 pharmacie ave maria
 pharmacie avenue 21
+pharmacie avenue 8 ( ex pharmacie flora)
 pharmacie avenue chardy
 pharmacie avicienne
 pharmacie avocatier marche
@@ -464,6 +465,7 @@ pharmacie gloria
 pharmacie gnimah
 pharmacie grace divine
 pharmacie grand marche de marcory
+pharmacie gremian
 pharmacie hadassa
 pharmacie hadassa 
 pharmacie harmonies
@@ -535,6 +537,7 @@ pharmacie le roc
 pharmacie le trefle
 pharmacie lea
 pharmacie leila
+pharmacie lem
 pharmacie lem 
 pharmacie les 4 saisons
 pharmacie les 7 colonnes
@@ -547,6 +550,7 @@ pharmacie les ecluses
 pharmacie les elias
 pharmacie les elysees
 pharmacie les halles
+pharmacie les harmonies
 pharmacie les heveas
 pharmacie les jardins d'eden
 pharmacie les jasmins
@@ -602,6 +606,7 @@ pharmacie mayess
 pharmacie meagui
 pharmacie megane
 pharmacie meridien
+pharmacie mermoz
 pharmacie merouane
 pharmacie mesano
 pharmacie metropole
@@ -845,6 +850,7 @@ pharmacie sogefiha
 pharmacie sokoura
 pharmacie sokoura d'aboisso
 pharmacie souraley
+pharmacie spring
 pharmacie st albert
 pharmacie st alexandre
 pharmacie st amans
