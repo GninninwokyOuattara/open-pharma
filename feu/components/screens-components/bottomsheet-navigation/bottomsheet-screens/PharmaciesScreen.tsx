@@ -1,14 +1,11 @@
-import { View, Text, StyleSheet } from "react-native";
 import React, { useCallback, useContext } from "react";
-import usePharmaciesData from "../../../../hooks/usePharmaciesData";
-import PharmaItem from "../../bottomsheet-components/PharmaItem";
-import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import { Pharmacy, RootReducerType } from "../../../../types/dataTypes";
-import CustomSearchBar from "../../bottomsheet-components/CustomSearchBar";
+import { StyleSheet } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { PharmaciesScreenType } from "../../../../types/screenTypes";
-import { MapContext } from "../../../../contexts/MapContext";
 import { useSelector } from "react-redux";
+import { MapContext } from "../../../../contexts/MapContext";
+import { Pharmacy, RootReducerType } from "../../../../types/dataTypes";
+import { PharmaciesScreenType } from "../../../../types/screenTypes";
+import CustomSearchBar from "../../bottomsheet-components/CustomSearchBar";
 import PharmaItemLite from "../../bottomsheet-components/PharmaItemLite";
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
@@ -36,9 +33,9 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                         // ).map((coord) => +coord);
                         const { lat, lng } = item.coordinates;
                         // Navigate to second screen
-                        navigation.navigate("Information", {
-                            pharmacy: item,
-                        });
+                        // navigation.navigate("Information", {
+                        //     pharmacy: item,
+                        // });
                         mapRef?.current?.animateToRegion({
                             latitude: +lat,
                             longitude: +lng,
