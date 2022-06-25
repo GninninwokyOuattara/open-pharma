@@ -1,28 +1,12 @@
 import * as React from "react";
 
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button } from "react-native";
-
-import useAxios from "axios-hooks";
-
-import { PROJECT_ENDPOINT, ALL_PHARMACIES } from "@env";
-
-import Map from "./components/screens-components/Map";
-import { combineReducers, createStore, applyMiddleware } from "redux";
-import ReduxThunk from "redux-thunk";
-
-import { Provider, useDispatch } from "react-redux";
-import pharmaciesReducer from "./stores/pharmaciesReducer";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useDispatch } from "react-redux";
 import MainScreen from "./screens/MainScreen";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import * as Location from "expo-location";
-import AppLoading from "expo-app-loading";
-import LocationDeniedScreen from "./screens/LocationDeniedScreen";
-import { COLOR_SCHEME } from "./constants/colorSchemes";
 import {
-    fetchAllPharmacies,
-    fetchLocalPharmaciesData,
+    fetchAllPharmacies
 } from "./stores/pharmaciesActions";
 
 const Main = () => {
@@ -62,28 +46,6 @@ const Main = () => {
         })();
     }, [dispatch, location]);
 
-    // if (!isReady) {
-    //     return <AppLoading />;
-    // } else {
-    //     if (!location) {
-    //         return (
-    //             <SafeAreaView
-    //                 style={{
-    //                     flex: 1,
-    //                     backgroundColor: COLOR_SCHEME.LIGHT_ORANGE,
-    //                 }}
-    //             >
-    //                 <LocationDeniedScreen />
-    //             </SafeAreaView>
-    //         );
-    //     }
-    //     return (
-    //         <SafeAreaProvider>
-    //             {/* <StatusBar style="auto" /> */}
-    //             <MainScreen />
-    //         </SafeAreaProvider>
-    //     );
-    // }
     return (
         <SafeAreaProvider>
             {/* <StatusBar style="auto" /> */}
