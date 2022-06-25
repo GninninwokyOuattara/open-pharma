@@ -1,14 +1,13 @@
-import { View, Text, StyleSheet } from "react-native";
 import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
 
 import Map from "../components/screens-components/Map";
 
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import BottomBar from "../components/screens-components/BottomBar";
 import MainBottomSheet from "../components/screens-components/BottomSheet";
 import { MapContextProvider } from "../contexts/MapContext";
 import { UserLocationProvider } from "../contexts/UserLocationContext";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { COLOR_SCHEME } from "../constants/colorSchemes";
-import BottomBar from "../components/screens-components/BottomBar";
 
 const MainScreen = () => {
     const [isMapLoaded, setIsMapLoaded] = useState(false);
