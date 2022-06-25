@@ -68,6 +68,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                 keyExtractor={(item) => item.phid}
                 renderItem={renderPharmaciesItems}
                 contentContainerStyle={styles.contentContainer}
+                contentOffset={{ y: 70, x: 0 }}
             ></FlatList>
         </>
     );
