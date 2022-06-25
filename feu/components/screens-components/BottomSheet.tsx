@@ -1,11 +1,10 @@
-import React, { useCallback, useContext, useMemo, useRef } from "react";
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
-import PharmaciesScreen from "./bottomsheet-navigation/bottomsheet-screens/PharmaciesScreen";
+import React, { useCallback, useContext, useMemo, useRef } from "react";
+import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import BottomsheetStackNavigator from "./bottomsheet-navigation/BottomsheetStackNavigator";
-import { MapContext, MapContextType } from "../../contexts/MapContext";
 import { COLOR_SCHEME } from "../../constants/colorSchemes";
+import { MapContext, MapContextType } from "../../contexts/MapContext";
+import BottomsheetStackNavigator from "./bottomsheet-navigation/BottomsheetStackNavigator";
 
 const MainBottomSheet = () => {
     // ref
@@ -22,6 +21,7 @@ const MainBottomSheet = () => {
     }, []);
 
     // renders
+
     return (
         <BottomSheet
             ref={bottomSheetRef}
