@@ -1,12 +1,13 @@
+import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import React, { useCallback, useContext } from "react";
 import { StyleSheet } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import { MapContext } from "../../../../contexts/MapContext";
 import { Pharmacy, RootReducerType } from "../../../../types/dataTypes";
 import { PharmaciesScreenType } from "../../../../types/screenTypes";
 import CustomSearchBar from "../../bottomsheet-components/CustomSearchBar";
 import PharmaItemLite from "../../bottomsheet-components/PharmaItemLite";
+
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
@@ -53,13 +54,13 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
 
     return (
         <>
-            <FlatList
+            <BottomSheetFlatList
                 ListHeaderComponent={<CustomSearchBar />}
                 data={pharmaciesDatas}
                 keyExtractor={(item) => item.phid}
                 renderItem={renderPharmaciesItems}
                 contentContainerStyle={styles.contentContainer}
-            ></FlatList>
+            ></BottomSheetFlatList>
         </>
     );
 };
