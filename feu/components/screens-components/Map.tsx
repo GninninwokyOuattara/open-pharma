@@ -16,7 +16,7 @@ interface props {
 
 const Map: React.FC<props> = ({ setIsMapLoaded }) => {
     const { location, errorMsg } = useContext(UserLocationContext);
-    const { mapRef, selectedMarker } = useContext(MapContext);
+    const { mapRef, selectedMarker, mapPadding } = useContext(MapContext);
 
     const dispatch = useDispatch();
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
@@ -36,7 +36,7 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
             }}
             provider={PROVIDER_GOOGLE}
             showsUserLocation={true}
-            mapPadding={{ top: 0, left: 0, right: 0, bottom: 0 }}
+            mapPadding={{ ...mapPadding }}
             // mapType={"mutedStandard"}
             // showsMyLocationButton={true}
             showsCompass={true}

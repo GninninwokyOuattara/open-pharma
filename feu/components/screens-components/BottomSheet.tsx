@@ -9,7 +9,7 @@ import BottomsheetStackNavigator from "./bottomsheet-navigation/BottomsheetStack
 const MainBottomSheet = () => {
     // ref
     const bottomSheetRef = useRef<BottomSheet>(null);
-    const { mapRef } = useContext(MapContext) as MapContextType;
+    const { mapRef, setMapPadding } = useContext(MapContext) as MapContextType;
 
     // variables
     const insets = useSafeAreaInsets();
@@ -17,6 +17,14 @@ const MainBottomSheet = () => {
 
     // callbacks
     const handleSheetChanges = useCallback((index: number) => {
+        if (setMapPadding) {
+
+            if (!index) {
+                setMapPadding({ top: 0, left: 0, right: 0, bottom: 0 })
+            } else {
+                setMapPadding({ top: 0, left: 0, right: 0, bottom: 250 })
+            }
+        }
         console.log("handleSheetChanges", index);
     }, []);
 
