@@ -4,8 +4,10 @@ import { useSelector } from "react-redux";
 import { MapContext } from "../../../../contexts/MapContext";
 import { Pharmacy, RootReducerType } from "../../../../types/dataTypes";
 import { PharmaciesScreenType } from "../../../../types/screenTypes";
+import SkeletonContentLoader from "../../../utility-components/SkeletonContentLoader";
 import CustomSearchBar from "../../bottomsheet-components/CustomSearchBar";
 import PharmaItemLite from "../../bottomsheet-components/PharmaItemLite";
+
 
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
@@ -13,6 +15,8 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
         return state.pharmacies.toDisplay;
     });
     const { mapRef, setSelectedMarker } = useContext(MapContext);
+
+
 
     const renderPharmaciesItems = useCallback(
         ({ item }: { item: Pharmacy }) => {
@@ -50,6 +54,11 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
         },
         [pharmaciesDatas]
     );
+
+    if (!pharmaciesDatas.length) {
+        return <SkeletonContentLoader />
+
+    }
 
     return (
         <>
