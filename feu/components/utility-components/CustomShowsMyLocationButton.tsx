@@ -3,63 +3,63 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import { MapContext, MapContextType } from "../../contexts/MapContext";
+import { UserContextType, UserLocationContext } from '../../contexts/UserLocationContext';
+
 
 
 const CustomShowsMyLocationButton = () => {
   const { mapRef } = useContext(MapContext) as MapContextType;
+  const { location } = useContext(UserLocationContext) as UserContextType;
+
+  // Hooks
+
 
   return (
-    
-<TouchableOpacity onPress={() => console.log("Hello World")}>
 
-    <View style={styles.iconContainer}>
+    <TouchableOpacity onPress={() => mapRef?.current?.animateToRegion({
+      latitude: location!.coords.latitude,
+      longitude: location!.coords.longitude,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    })}>
+      <View style={styles.iconContainer}>
 
-      <MaterialIcons
-        style={styles.myLocationIcon}
-        name="my-location"
-        size={24}
-        color="#616161"
-        // onPress={() => {
-          // console.log("Hello!");
-          // dispatch(settingActions.getLocation());
-          // mapRef.current.animateToRegion({
-          //   latitude: myLatitude,
-          //   longitude: myLongitude,
-          //   latitudeDelta: 0.0922,
-          //   longitudeDelta: 0.0421,
-          // });
-        // }}
-      />
-    </View>
-</TouchableOpacity>
+        <MaterialIcons
+          style={styles.myLocationIcon}
+          name="my-location"
+          size={24}
+          color="#616161"
+        />
+      </View>
+    </TouchableOpacity>
 
   )
 }
 
 
 const styles = StyleSheet.create({
-  iconContainer : {
+  iconContainer: {
     // borderWidth: 1,
     // borderColor: 'black',
     width: 60,
     height: 60,
     backgroundColor: "white",
     position: "absolute",
-    top: 690,
-    left: 200,
+    top: 200,
+    right: 10,
     borderRadius: 50,
-    flex : 1,
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.32,
-        shadowRadius: 5.46,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
 
-        elevation: 9,
+    elevation: 9,
   },
 
   myLocationIcon: {
