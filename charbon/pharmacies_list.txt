@@ -37,6 +37,7 @@ pharmacie amina
 pharmacie amira
 pharmacie an-asr
 pharmacie an nasr
+pharmacie anador
 pharmacie analya
 pharmacie ananeraie
 pharmacie andy
@@ -148,6 +149,7 @@ pharmacie cite verte
 pharmacie cites synacassi sarl
 pharmacie climbie
 pharmacie colombe
+pharmacie comoe
 pharmacie cosmos
 pharmacie cyd niko
 pharmacie cyrille
@@ -193,6 +195,7 @@ pharmacie de l'antenne
 pharmacie de l'archange
 pharmacie de l'autoroute
 pharmacie de l'autoroute ( pharmacie
+pharmacie de l'avenue 21
 pharmacie de l'avenue nogues
 pharmacie de l'entente
 pharmacie de l'espoir
@@ -369,6 +372,7 @@ pharmacie du lac
 pharmacie du lavage
 pharmacie du littoral
 pharmacie du lonchamp
+pharmacie du longchamp
 pharmacie du lycee technique
 pharmacie du manguier
 pharmacie du manguier 
@@ -509,6 +513,7 @@ pharmacie l'emmanuel
 pharmacie l'emmanuel de taabo
 pharmacie la colombe
 pharmacie la delivrance
+pharmacie la grace
 pharmacie la grace de sotref
 pharmacie la maison blanche
 pharmacie la paix
@@ -740,6 +745,7 @@ pharmacie riviera m'badon
 pharmacie roeddent
 pharmacie roi david
 pharmacie roma d'anoumabo
+pharmacie rond point du chu
 pharmacie route akeikoi
 pharmacie route d'abatta
 pharmacie route d'alepe
