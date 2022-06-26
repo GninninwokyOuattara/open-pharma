@@ -19,14 +19,14 @@ const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
                 shadowOffset: { width: 0, height: 0 },
             }}
         >
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => onPress && onPress()}>
                 <View style={styles.container}>
 
                     <View style={styles.primaryContainer}>
                         <View style={styles.pharmacyInfoContainer}>
 
-                            <Text style={styles.pharmacyHeader}>Pharmacy Skeema</Text>
-                            <Text style={styles.pharmacyPosition}>Autoroute de l'Est, vers le Sud</Text>
+                            <Text style={styles.pharmacyHeader}>{pharmacyData.flat_name}</Text>
+                            <Text style={styles.pharmacyPosition}>{pharmacyData.geographical_position}</Text>
                         </View>
                         <View style={styles.pharmacyDistanceContainer}>
 
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FDF2E3",
         borderRadius: 15,
         padding: 10,
+        marginBottom: 10,
         // borderWidth: 1,
         // borderColor: "red"
     },
@@ -67,7 +68,8 @@ const styles = StyleSheet.create({
     },
     pharmacyInfoContainer: {
         flexDirection: "column",
-        width: "80%",
+        // width: "80%",
+        flex: 1,
     },
     pharmacyHeader: {
         fontSize: 15,

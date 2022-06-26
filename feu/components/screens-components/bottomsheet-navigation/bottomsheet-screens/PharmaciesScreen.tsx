@@ -6,7 +6,7 @@ import { Pharmacy, RootReducerType } from "../../../../types/dataTypes";
 import { PharmaciesScreenType } from "../../../../types/screenTypes";
 import SkeletonContentLoader from "../../../utility-components/SkeletonContentLoader";
 import CustomSearchBar from "../../bottomsheet-components/CustomSearchBar";
-import PharmaItemLite from "../../bottomsheet-components/PharmaItemLite";
+import PharmaItemExtended from "../../bottomsheet-components/PharmaItemExtended";
 
 
 
@@ -22,13 +22,9 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
         ({ item }: { item: Pharmacy }) => {
             // console.log(item.phid);
             return (
-                <PharmaItemLite
-                    // key={item.phid}
-                    data={{
-                        id: item.phid,
-                        pharmacyName: item.name,
-                        // status: parseInt(item.phid) % 2 ? "Ouvert" : "Fermé",
-                    }}
+                <PharmaItemExtended
+                    key={item.phid}
+                    pharmacyData={item}
                     onPress={() => {
                         setSelectedMarker && setSelectedMarker(item.phid);
 
