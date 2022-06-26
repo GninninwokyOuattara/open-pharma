@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import ShadowAround from '../../utility-components/ShadowAround'
 
 import { Pharmacy } from '../../../types/dataTypes'
+import OpenPharmacyItemSticker from './OpenPharmacyItemSticker'
 
 
 
@@ -33,13 +34,10 @@ const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
                             <Text style={styles.pharmacyDistance}>121.43 Km</Text>
                         </View>
                     </View>
-                    <View style={styles.pharmacyStateContainer}>
-                        <View style={styles.pharmacyState}>
+                    {
 
-                            <Text>Pharmacie de garde</Text>
-                        </View>
-
-                    </View>
+                        pharmacyData.open && <OpenPharmacyItemSticker state='open' title="Pharmacie de garde" />
+                    }
 
 
                 </View>
@@ -74,6 +72,7 @@ const styles = StyleSheet.create({
     pharmacyHeader: {
         fontSize: 15,
         fontWeight: "bold",
+        // textTransform: "capitalize",
     },
     pharmacyPosition: {
         color: "gray",
