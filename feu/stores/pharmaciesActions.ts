@@ -67,7 +67,6 @@ export const fetchAllPharmacies = (location ?: LocationObject) => {
             // Transform result from a hash into an array
             
             pharmaciesDatas = Object.values(res.data);
-            pharmaciesDatas = _.sortBy(pharmaciesDatas, ["flat_name"])
             
             // Remove pharmacies without coordinates in the list
             pharmaciesDatas = pharmaciesDatas.filter(
@@ -85,6 +84,11 @@ export const fetchAllPharmacies = (location ?: LocationObject) => {
                     const distance = calculateDistance([location.coords.latitude, location.coords.longitude], [+pharmacy.coordinates.lat, +pharmacy.coordinates.lng])
                     return {...pharmacy, distance: convertToReadableDistance( distance)}
                 })
+
+                pharmaciesDatas = _.sortBy(pharmaciesDatas, ["distance"])
+            } else {
+            pharmaciesDatas = _.sortBy(pharmaciesDatas, ["flat_name"])
+                
             }
 
             // data = extractFirebaseData(res.data);
