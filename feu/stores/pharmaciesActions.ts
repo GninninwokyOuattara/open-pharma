@@ -1,25 +1,18 @@
+import {
+    PHARMACIES, PROJECT_ENDPOINT
+} from "@env";
 import axios from "axios";
 import uuid from "react-native-uuid";
 import {
-    PROJECT_ENDPOINT,
-    ALL_PHARMACIES,
-    OPEN_PHARMACIES,
-    PHARMACIES,
-} from "@env";
+    FireBaseResponseObject,
+    Pharmacies
+} from "../types/dataTypes";
 import {
     APPLY_FILTER,
-    FETCH_ALL_PHARMACIES,
-    FETCH_OPEN_PHARMACIES,
-    UPDATE_RELATIVE_DISTANCES,
+    FETCH_ALL_PHARMACIES
 } from "./actions";
-import {
-    Pharmacy,
-    FireBaseResponseObject,
-    Pharmacies,
-} from "../types/dataTypes";
-import { calculateDistance } from "../utils/calculateDistance";
-import usePharmaciesData from "../hooks/usePharmaciesData";
-import { LocationObject } from "expo-location";
+
+import _ from "lodash";
 
 const extractFirebaseData = (
     firebaseResponseObject: FireBaseResponseObject
@@ -68,9 +61,13 @@ export const fetchAllPharmacies = () => {
         let pharmaciesDatas: Pharmacies;
         try {
             res = await axios.get(`${PROJECT_ENDPOINT}${PHARMACIES}.json`);
-            // Transform result from a hash in an array
+            // Transform result from a hash into an array
+            
             pharmaciesDatas = Object.values(res.data);
-
+            pharmaciesDatas = _.sortBy(pharmaciesDatas, ["flat_name"])
+            // pharmaciesDatas.forEach((pharmacy) => console.log(pharmacy.flat_name))
+            // console.log(pharmaciesDatas)
+            
             // Remove pharmacies without coordinates in the list
             pharmaciesDatas = pharmaciesDatas.filter(
                 (pharmacy) => !!pharmacy.coordinates == true
