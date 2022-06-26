@@ -29,10 +29,13 @@ const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
                             <Text style={styles.pharmacyHeader}>{pharmacyData.flat_name}</Text>
                             <Text style={styles.pharmacyPosition}>{pharmacyData.geographical_position}</Text>
                         </View>
-                        <View style={styles.pharmacyDistanceContainer}>
+                        {
+                            pharmacyData.distance && <View style={styles.pharmacyDistanceContainer}>
 
-                            <Text style={styles.pharmacyDistance}>121.43 Km</Text>
-                        </View>
+                                <Text style={styles.pharmacyDistance}>{pharmacyData.distance}</Text>
+                            </View>
+                        }
+
                     </View>
                     {
 

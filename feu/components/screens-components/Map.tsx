@@ -27,6 +27,7 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
         <MapView
             ref={mapRef}
             onMapLoaded={() => setIsMapLoaded(true)}
+            onUserLocationChange={(coordinate) => console.log(coordinate)}
             style={styles.map}
             initialRegion={{
                 latitude: location?.coords.latitude || 5.393620594067611,

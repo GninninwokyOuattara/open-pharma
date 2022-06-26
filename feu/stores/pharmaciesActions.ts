@@ -12,7 +12,10 @@ import {
     FETCH_ALL_PHARMACIES
 } from "./actions";
 
+import { LocationObject } from "expo-location";
 import _ from "lodash";
+import { calculateDistance } from "../utils/calculateDistance";
+import { convertToReadableDistance } from "../utils/convertToReadableDistance";
 
 const extractFirebaseData = (
     firebaseResponseObject: FireBaseResponseObject
@@ -55,7 +58,7 @@ const extractFirebaseData = (
 //     };
 // };
 
-export const fetchAllPharmacies = () => {
+export const fetchAllPharmacies = (location ?: LocationObject) => {
     return async (dispatch: any) => {
         let res: any;
         let pharmaciesDatas: Pharmacies;
@@ -65,8 +68,6 @@ export const fetchAllPharmacies = () => {
             
             pharmaciesDatas = Object.values(res.data);
             pharmaciesDatas = _.sortBy(pharmaciesDatas, ["flat_name"])
-            // pharmaciesDatas.forEach((pharmacy) => console.log(pharmacy.flat_name))
-            // console.log(pharmaciesDatas)
             
             // Remove pharmacies without coordinates in the list
             pharmaciesDatas = pharmaciesDatas.filter(
@@ -78,6 +79,13 @@ export const fetchAllPharmacies = () => {
                 ...pharmacy,
                 phid: uuid.v4() as string,
             }));
+
+            if(location){
+                pharmaciesDatas = pharmaciesDatas.map((pharmacy) => {
+                    const distance = calculateDistance([location.coords.latitude, location.coords.longitude], [+pharmacy.coordinates.lat, +pharmacy.coordinates.lng])
+                    return {...pharmacy, distance: convertToReadableDistance( distance)}
+                })
+            }
 
             // data = extractFirebaseData(res.data);
         } catch (error) {
