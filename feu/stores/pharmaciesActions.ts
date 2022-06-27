@@ -9,7 +9,8 @@ import {
 } from "../types/dataTypes";
 import {
     APPLY_FILTER,
-    FETCH_ALL_PHARMACIES
+    FETCH_ALL_PHARMACIES,
+    UPDATE_PHARMACIES_DISTANCES
 } from "./actions";
 
 import { LocationObject } from "expo-location";
@@ -62,6 +63,7 @@ export const fetchAllPharmacies = (location ?: LocationObject) => {
     return async (dispatch: any) => {
         let res: any;
         let pharmaciesDatas: Pharmacies;
+        let temp : Pharmacies
         try {
             res = await axios.get(`${PROJECT_ENDPOINT}${PHARMACIES}.json`);
             // Transform result from a hash into an array
@@ -80,12 +82,15 @@ export const fetchAllPharmacies = (location ?: LocationObject) => {
             }));
 
             if(location){
-                pharmaciesDatas = pharmaciesDatas.map((pharmacy) => {
+                temp = pharmaciesDatas.map((pharmacy) => {
                     const distance = calculateDistance([location.coords.latitude, location.coords.longitude], [+pharmacy.coordinates.lat, +pharmacy.coordinates.lng])
-                    return {...pharmacy, distance: convertToReadableDistance( distance)}
+                    return {...pharmacy, distance: distance}
                 })
-
-                pharmaciesDatas = _.sortBy(pharmaciesDatas, ["distance"])
+                // Sort item by distance
+                temp = _.sortBy(temp, ["distance"])
+                pharmaciesDatas = temp.map((pharmacy) => {
+                    return {...pharmacy, distance : convertToReadableDistance( pharmacy.distance as number)}
+                })
             } else {
             pharmaciesDatas = _.sortBy(pharmaciesDatas, ["flat_name"])
                 
@@ -102,6 +107,18 @@ export const fetchAllPharmacies = (location ?: LocationObject) => {
         });
     };
 };
+
+const updatePharmaciesDistances = (pharmaciesDatas: Pharmacies, userCoordinate : LocationObject) => {
+    return async (dispatch: any) => {
+
+        // Work to do here....
+
+        dispatch({
+            type : UPDATE_PHARMACIES_DISTANCES,
+            pharmaciesDatas: pharmaciesDatas,
+        })
+    }
+}
 
 // export const calculateRelativeDistances = (
 //     pharmacies: Pharmacy[],

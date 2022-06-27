@@ -25,7 +25,7 @@ export interface Pharmacy {
     supervisor?: string;
     open_from?: string;
     open_until?: string;
-    distance ?: string;
+    distance ?: number | string;
 }
 
 export type Pharmacies = Pharmacy[];
