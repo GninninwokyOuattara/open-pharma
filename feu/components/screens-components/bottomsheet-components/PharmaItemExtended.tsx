@@ -84,9 +84,10 @@ const styles = StyleSheet.create({
         width: "20%",
         justifyContent: "center",
         alignItems: "center",
+
     },
     pharmacyDistance: {
-        fontSize: 15,
+        fontSize: 13,
         fontWeight: "bold",
         color: "gray",
         textAlign: "center",
