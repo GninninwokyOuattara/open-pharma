@@ -723,6 +723,7 @@ pharmacie noya
 pharmacie ode
 pharmacie odelia
 pharmacie olympique
+pharmacie orchid
 pharmacie palais de justice
 pharmacie palais de la culture
 pharmacie palmeraie
