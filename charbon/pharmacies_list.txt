@@ -364,6 +364,7 @@ pharmacie du chateau sarl
 pharmacie du cheminot
 pharmacie du cinema boissy
 pharmacie du commerce
+pharmacie du commerce-plateau
 pharmacie du commerce kodjo
 pharmacie du denguele
 pharmacie du dialogue
@@ -839,6 +840,7 @@ pharmacie sainte marie
 pharmacie sainte marie d'adjame
 pharmacie sainte marie d'adjouffou
 pharmacie sainte marie d'elve
+pharmacie sainte marie de la celle
 pharmacie sainte marie de ngattakro
 pharmacie sainte marie des beatitudes
 pharmacie sainte marie majeure
