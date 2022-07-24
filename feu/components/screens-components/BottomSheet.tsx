@@ -15,16 +15,31 @@ const MainBottomSheet = () => {
     const insets = useSafeAreaInsets();
     const snapPoints = useMemo(() => [24, "50%", "100%"], []);
 
+    // MapPadding Manager
+
+
+
     // callbacks
     const handleSheetChanges = useCallback((index: number) => {
         if (setMapPadding) {
 
-            if (!index) {
-                setMapPadding({ top: 0, left: 0, right: 0, bottom: 0 })
-            } else {
-                setMapPadding({ top: 0, left: 0, right: 0, bottom: 250 })
-            }
+            // if (!index) {
+            //     setMapPadding({ top: 0, left: 0, right: 0, bottom: 0 })
+            // } else {
+            //     console.log("Incresing mapPadding")
+            //     // mapRef?.current?.animate([{"latitude": 5.376891458495003,
+            //     // "latitudeDelta": 0.09220246288836087,
+            //     // "longitude": -4.006000533699989,
+            //     // "longitudeDelta": 0.04276916384697005, }], { edgePadding: { top: 0, left: 0, right: 0, bottom: 0 }, animated: true })
+            //     mapRef?.current?.animateToRegion({
+            //         "latitude": 5.376891458495003,
+            //         "latitudeDelta": 0.09220246288836087,
+            //         "longitude": -4.006000533699989,
+            //         "longitudeDelta": 0.04276916384697005
+            //     }, 1000)
+            // }
         }
+
         console.log("handleSheetChanges", index);
     }, []);
 

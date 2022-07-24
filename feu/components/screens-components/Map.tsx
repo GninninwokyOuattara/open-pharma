@@ -16,28 +16,45 @@ interface props {
 
 const Map: React.FC<props> = ({ setIsMapLoaded }) => {
     const { location, errorMsg } = useContext(UserLocationContext);
-    const { mapRef, selectedMarker, mapPadding } = useContext(MapContext);
+    const { mapRef, selectedMarker, mapPadding, mapSetting } = useContext(MapContext);
 
     const dispatch = useDispatch();
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
         return state.pharmacies.toDisplay;
     });
 
+
+    if (location) {
+
+    }
     return (
         <MapView
             ref={mapRef}
             onMapLoaded={() => setIsMapLoaded(true)}
-            onUserLocationChange={(coordinate) => console.log(coordinate)}
+            onUserLocationChange={(locationEvent) => console.log(locationEvent.nativeEvent.coordinate)}
+            onRegionChange={(region) => console.log("Region", region)}
             style={styles.map}
-            initialRegion={{
-                latitude: location?.coords.latitude || 5.393620594067611,
-                longitude: location?.coords.longitude || -4.005658558941592,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-            }}
+            // initialRegion={{
+            //     latitude: location?.coords.latitude || 5.393620594067611,
+            //     longitude: location?.coords.longitude || -4.005658558941592,
+            //     latitudeDelta: 0.0922,
+            //     longitudeDelta: 0.0421,
+            // }}
+            initialRegion={(() => {
+
+                if (location) {
+
+                    return {
+                        latitude: location.coords.latitude - mapSetting.lat,
+                        longitude: location.coords.longitude - mapSetting.lng,
+                        latitudeDelta: mapSetting.latDelta,
+                        longitudeDelta: mapSetting.lngDelta,
+                    }
+                }
+            })()}
             provider={PROVIDER_GOOGLE}
             showsUserLocation={true}
-            mapPadding={{ ...mapPadding }}
+            // mapPadding={{ ...mapPadding }}
             // mapType={"mutedStandard"}
             // showsMyLocationButton={true}
             showsCompass={true}
@@ -71,6 +88,7 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
         </MapView>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {

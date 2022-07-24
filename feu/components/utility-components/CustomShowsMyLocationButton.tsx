@@ -8,7 +8,7 @@ import { UserContextType, UserLocationContext } from '../../contexts/UserLocatio
 
 
 const CustomShowsMyLocationButton = () => {
-  const { mapRef } = useContext(MapContext) as MapContextType;
+  const { mapRef, mapSetting } = useContext(MapContext) as MapContextType;
   const { location } = useContext(UserLocationContext) as UserContextType;
 
   // Hooks
@@ -17,10 +17,10 @@ const CustomShowsMyLocationButton = () => {
   return (
 
     <TouchableOpacity onPress={() => mapRef?.current?.animateToRegion({
-      latitude: location!.coords.latitude,
-      longitude: location!.coords.longitude,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
+      latitude: location!.coords.latitude - mapSetting.lat,
+      longitude: location!.coords.longitude - mapSetting.lng,
+      latitudeDelta: mapSetting.latDelta,
+      longitudeDelta: mapSetting.lngDelta,
     })}>
       <View style={styles.iconContainer}>
 
