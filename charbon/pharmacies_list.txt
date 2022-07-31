@@ -1,5 +1,6 @@
 nlle pharmacie de l'alliance
 nouvelle pharmacie principale yopougon
+phaarmacie residence abobo pk 18
 pharmacie 2 plateaux agban
 pharmacie 7 lys
 pharmacie 7eme tranche
@@ -295,6 +296,7 @@ pharmacie des antilopes
 pharmacie des antilopes sarl
 pharmacie des arts
 pharmacie des arts 
+pharmacie des banques
 pharmacie des brasseurs
 pharmacie des champs
 pharmacie des champs 
