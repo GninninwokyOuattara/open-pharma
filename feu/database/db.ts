@@ -4,7 +4,7 @@ import { Pharmacy } from "../types/dataTypes";
 
 const db = SQLite.openDatabase("pharmacies");
 
-export const init = () => {
+export const initDatabase = () => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(

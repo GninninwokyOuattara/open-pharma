@@ -10,12 +10,20 @@ import AppLoading from 'expo-app-loading';
 import { MapContextProvider } from "./contexts/MapContext";
 import { UserLocationProvider } from "./contexts/UserLocationContext";
 
+import { initDatabase } from "./database/db";
+
 
 const Main = () => {
     // const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
     // const [location, setLocation] =
     // React.useState<Location.LocationObject | null>(null);
+
     const [isReady, setIsReady] = React.useState(false);
+
+    initDatabase().then((res) => {
+        console.log(res)
+
+    }).catch((err) => { console.log(err) });
 
     const dispatch = useDispatch();
 
@@ -32,21 +40,6 @@ const Main = () => {
         // setLocation(location);
         // setIsReady(true);
     };
-
-    // React.useEffect(() => {
-    //     (async () => {
-    //         // let e = await dispatch(fetchLocalPharmaciesData(location));
-    //         try {
-    //             // Separate problem
-    //             // Function to fetch data from firebase call here
-    //             // Calculate distance function called from Map component with onUserPositionchange
-    //             await dispatch(fetchAllPharmacies());
-    //             // await getLocationPermission();
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     })();
-    // }, [dispatch, location]);
 
     if (!isReady) {
         return (
