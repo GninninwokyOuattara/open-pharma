@@ -30,7 +30,7 @@ export const insertPharmacie = (pharmacy : Pharmacy)=> {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                "INSERT INTO places (name, _name, _name_safe, flat_name, geographical_position, google_maps_position_link,phone_numbers, lat, lng, open, open_from, open_until) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO pharmacies (name, _name, _name_safe, flat_name, geographical_position, google_maps_position_link,phone_numbers, lat, lng, open, open_from, open_until) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 [name, _name, _name_safe, flat_name, geographical_position || "", google_maps_position_link || "",JSON.stringify(phone_numbers), coordinates.lat, coordinates.lng, open ? 1 : 0, open_from || "", open_until || ""],
                 (_, res) => {
                     resolve(res);
@@ -41,4 +41,40 @@ export const insertPharmacie = (pharmacy : Pharmacy)=> {
                 }
             );
         });
-    })}
+    })
+    return promise;
+
+}
+
+// export const getPharmacies = () => {
+//     const promise = new Promise<any>((resolve, reject) => {
+//         db.transaction((tx) => {
+//             tx.executeSql("SELECT * FROM pharmacies", [],(data) => {
+//                 resolve(data)
+//             }, (_, error) : any => {
+//                 reject(error);
+//             }
+//             );
+//         });
+//     })
+//     return promise;
+// }
+
+
+export const getPharmacies = () => {
+    return new Promise((resolve: (value: any) => void, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "SELECT * FROM pharmacies",
+                [],
+                (_, res: any) => {
+                    return resolve(res.rows._array);
+                },
+                (_, err) => {
+                    reject(err);
+                    return false;
+                }
+            );
+        });
+    });
+};
