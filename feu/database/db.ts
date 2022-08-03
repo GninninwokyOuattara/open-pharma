@@ -4,6 +4,8 @@ import { Pharmacy } from "../types/dataTypes";
 
 const db = SQLite.openDatabase("pharmacies");
 
+// DATABSE INITIALIZATION
+
 export const initDatabase = () => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
@@ -36,6 +38,70 @@ export const initDatabase = () => {
 
     return promise;
 };
+
+export const initUpdateTable = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "CREATE TABLE IF NOT EXISTS update "
+                +"(id INTEGER PRIMARY KEY NOT NULL, "
+                +"version TEXT NOT NULL",
+                [],
+                () => {
+                    resolve("Update table initialized");
+                },
+                (_, error): boolean => {
+                    reject(error);
+                    return false;
+                }
+            );
+        });
+    });
+
+    return promise;
+};
+
+
+// DATABASE METHODS
+
+export const getUpdateVersion = () => {
+    return new Promise((resolve: (value: any) => void, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "SELECT version FROM update LIMIT 1",
+                [],
+                (_, res: any) => {
+                    return resolve(res.rows._array[0]);
+                },
+                (_, err) => {
+                    reject(err);
+                    return false;
+                }
+            );
+        });
+    });
+};
+
+export const changeUpdateVersion = (newVersion : string) => {
+    return new Promise((resolve: (value: any) => void, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                `UPDATE update 
+                SET version = ? 
+                WHERE id = ?`,
+                [newVersion,1],
+                (_, res: any) => {
+                    return resolve(res.rows._array);
+                },
+                (_, err) => {
+                    reject(err);
+                    return false;
+                }
+            );
+        });
+    });
+};
+
 
 
 export const insertPharmacie = (pharmacy : Pharmacy)=> {
@@ -83,14 +149,53 @@ export const insertPharmacie = (pharmacy : Pharmacy)=> {
 // }
 
 
-export const getPharmacies = () => {
+export const getAllPharmacies = () => {
     return new Promise((resolve: (value: any) => void, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                "SELECT * FROM pharmacies",
+                "SELECT * FROM pharmacies "
+                +"ORDER BY name ASC",
                 [],
                 (_, res: any) => {
                     return resolve(res.rows._array);
+                },
+                (_, err) => {
+                    reject(err);
+                    return false;
+                }
+            );
+        });
+    });
+};
+
+export const getOpenPharmacies = () => {
+    return new Promise((resolve: (value: any) => void, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "SELECT * FROM pharmacies "
+                +"WHERE open = 1",
+                [],
+                (_, res: any) => {
+                    return resolve(res.rows._array);
+                },
+                (_, err) => {
+                    reject(err);
+                    return false;
+                }
+            );
+        });
+    });
+};
+
+
+export const deleteAllPharmacies = () => {
+    return new Promise((resolve: (value: string) => void, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "DELETE FROM pharmacies ",
+                [],
+                (_, res: any) => {
+                    return resolve("All pharmacies has been deleted Successfully.");
                 },
                 (_, err) => {
                     reject(err);
