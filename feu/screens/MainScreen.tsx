@@ -10,7 +10,6 @@ import MainBottomSheet from "../components/screens-components/BottomSheet";
 import { UserLocationContext } from "../contexts/UserLocationContext";
 import { fetchAllPharmacies } from "../stores/pharmaciesActions";
 
-import { getPharmacies, insertPharmacie } from "../database/db";
 
 const MainScreen = () => {
     const [isMapLoaded, setIsMapLoaded] = useState(false);
@@ -31,21 +30,7 @@ const MainScreen = () => {
         })()
     }, [dispatch, location])
 
-    useEffect(() => {
-        (async () => {
-            try {
 
-                let res1 = await insertPharmacie({ "name": "name", "_name": "name", "_name_safe": "name", "flat_name": "flat_name", "geographical_position": "geographical_position", "google_maps_position_link": "google_maps_position_position", "phone_numbers": ["1", "2"], "coordinates": { "lat": "1.11", "lng": "2.11" }, "open_from": "01/01/2015", "open_until": "01/01/2015", "open": true, "phid": "21" })
-
-                console.log("RES1", res1)
-                let res = await getPharmacies()
-                console.log("RES", res)
-
-            } catch (error) {
-                console.log("ERROR", error)
-            }
-        })()
-    }, [])
 
 
     return (
