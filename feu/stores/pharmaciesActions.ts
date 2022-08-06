@@ -2,8 +2,8 @@ import {
     PHARMACIES, PROJECT_ENDPOINT
 } from "@env";
 import axios from "axios";
-import uuid from "react-native-uuid";
 import {
+    DBPharmacy,
     FireBaseResponseObject,
     Pharmacies
 } from "../types/dataTypes";
@@ -14,9 +14,10 @@ import {
 } from "./actions";
 
 import { LocationObject } from "expo-location";
-import _ from "lodash";
-import { calculateDistance } from "../utils/calculateDistance";
-import { convertToReadableDistance } from "../utils/convertToReadableDistance";
+import { getAllPharmacies, insertPharmacie } from "../database/db";
+import { parsePharmacy } from "../utils/datasMorphing";
+
+
 
 const extractFirebaseData = (
     firebaseResponseObject: FireBaseResponseObject
@@ -26,80 +27,48 @@ const extractFirebaseData = (
     return data;
 };
 
-// export const fetchLocalPharmaciesData = (
-//     locationData: LocationObject | null
-// ) => {
-//     return async (dispatch: any) => {
-//         let pharmacies: Pharmacy[] =
-//             await require("./../dummy_data/pharmacies_with_coordinates_save.json");
-
-//         if (locationData) {
-//             const userPosition = `${locationData.coords.latitude}, ${locationData.coords.longitude}`;
-
-//             pharmacies.map((pharmacie) => {
-//                 // THIS WILL NEED TO BE REFACTORED AS IT IS ONLY USED BECAUSE CURRETLY FROM FIREBASE THE LOCATION DATA ARE INCORRECT, SO I GO THROUGH ALL THIS JUST TO HAVE SOMETHING TO WORK WITH
-//                 let positionArray = pharmacie.Position.split(",").map((e) =>
-//                     e.trim()
-//                 );
-//                 positionArray[1] = "-" + positionArray[1]; // <- Line where I forcefully add a - to the longitude
-//                 let pharmaciePosition = positionArray.join(",");
-//                 const distance = calculateDistance(
-//                     userPosition,
-//                     pharmaciePosition
-//                 );
-//                 pharmacie.Distance = distance;
-//                 return pharmacie;
-//             });
-//         }
-
-//         dispatch({
-//             type: FETCH_ALL_PHARMACIES,
-//             data: pharmacies,
-//         });
-//     };
-// };
-
 export const fetchAllPharmacies = (location ?: LocationObject) => {
     return async (dispatch: any) => {
-        let res: any;
-        let pharmaciesDatas: Pharmacies;
-        let temp : Pharmacies
-        try {
-            res = await axios.get(`${PROJECT_ENDPOINT}${PHARMACIES}.json`);
-            // Transform result from a hash into an array
-            
-            pharmaciesDatas = Object.values(res.data);
-            
-            // Remove pharmacies without coordinates in the list
-            pharmaciesDatas = pharmaciesDatas.filter(
-                (pharmacy) => !!pharmacy.coordinates == true
-            );
 
-            // Add an uuid to each element
-            pharmaciesDatas = pharmaciesDatas.map((pharmacy) => ({
-                ...pharmacy,
-                phid: uuid.v4() as string,
-            }));
 
-            if(location){
-                temp = pharmaciesDatas.map((pharmacy) => {
-                    const distance = calculateDistance([location.coords.latitude, location.coords.longitude], [+pharmacy.coordinates.lat, +pharmacy.coordinates.lng])
-                    return {...pharmacy, distance: distance}
-                })
-                // Sort item by distance
-                temp = _.sortBy(temp, ["distance"])
-                pharmaciesDatas = temp.map((pharmacy) => {
-                    return {...pharmacy, distance : convertToReadableDistance( pharmacy.distance as number)}
-                })
-            } else {
-            pharmaciesDatas = _.sortBy(pharmaciesDatas, ["flat_name"])
+        //GET PHARMACIES FROM DATABASE
+        let pharmaciesDatas: any;
+        let pharmacies = await getAllPharmacies() as DBPharmacy[]
+
+        if(pharmacies.length > 0) {
+            pharmaciesDatas = pharmacies
+        } else {
+            try {
+                
+                // get pharmacies from database
+                let response = await axios.get(`${PROJECT_ENDPOINT}${PHARMACIES}.json`);
+    
+                //The responsee comes as an object of object, we have to convert it into an array of object
+                pharmaciesDatas = Object.values(response.data)
+
+                // Then we insert them into the database
+                for(let i = 0; i <pharmaciesDatas.length; i++) {
+                    try {
+                        
+                        await insertPharmacie(pharmaciesDatas[i]);
+                    } catch (error) {
+                     console.log("ERROR", pharmaciesDatas[i]) 
+                     throw error  
+                    }
+                }
+
+                pharmacies = await getAllPharmacies();
+                
+                
+            } catch (error) {
+                throw error
                 
             }
-
-            // data = extractFirebaseData(res.data);
-        } catch (error) {
-            throw error;
+            
         }
+
+        pharmaciesDatas = pharmacies.map((pharmacy) => parsePharmacy(pharmacy))
+        console.log("11111", pharmaciesDatas[1])
 
         dispatch({
             type: FETCH_ALL_PHARMACIES,
@@ -107,6 +76,7 @@ export const fetchAllPharmacies = (location ?: LocationObject) => {
         });
     };
 };
+
 
 const updatePharmaciesDistances = (pharmaciesDatas: Pharmacies, userCoordinate : LocationObject) => {
     return async (dispatch: any) => {
