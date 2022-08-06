@@ -8,8 +8,24 @@
 //     Distance?: number; // Should remove this later
 // }
 
+export interface DBPharmacy {
+    id: string;
+    name: string;
+    _name: string;
+    _name_safe: string;
+    flat_name: string;
+    supervisor?: string;
+    coordinates: string;
+    geographical_position?: string;
+    google_maps_position_link?: string;
+    phone_numbers?: string;
+    open: number;
+    open_from?: string;
+    open_until?: string;
+}
+
 export interface Pharmacy {
-    phid: string;
+    id: string;
     name: string;
     _name: string;
     _name_safe: string;
