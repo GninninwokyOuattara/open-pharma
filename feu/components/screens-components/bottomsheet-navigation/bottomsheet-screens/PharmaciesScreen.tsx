@@ -23,10 +23,10 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
             // console.log(item.phid);
             return (
                 <PharmaItemExtended
-                    key={item.phid}
+                    key={item.id}
                     pharmacyData={item}
                     onPress={() => {
-                        setSelectedMarker && setSelectedMarker(item.phid);
+                        setSelectedMarker && setSelectedMarker(item.id);
 
                         // const [latitude, longitude] = item.Position.split(
                         //     ","
@@ -60,7 +60,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
             <FlatList
                 ListHeaderComponent={<CustomSearchBar />}
                 data={pharmaciesDatas}
-                keyExtractor={(item) => item.phid}
+                keyExtractor={(item) => item.id}
                 renderItem={renderPharmaciesItems}
                 contentContainerStyle={styles.contentContainer}
                 contentOffset={{ y: 70, x: 0 }}
