@@ -66,14 +66,15 @@ export const initUpdateTable = () => {
 export const dropPharmaciesTable = () => {
     return new Promise((resolve: (value: any) => void, reject) => {
         db.transaction((tx) => {
-            tx.executeSql(`DROP TABLE IF EXISTS pharmacies`), 
+            tx.executeSql(`DROP TABLE IF EXISTS pharmacies`, 
             [],
-            () => {
+            (_, res: any) => {
                 resolve("Pharmacies table dropped")
             },
-            (err :any) => {
+            (_, err) => {
                 reject(err)
-            }
+                return false;
+            })
         }
     )}
 )}
