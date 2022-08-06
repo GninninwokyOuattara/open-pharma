@@ -1,5 +1,5 @@
 import * as SQLite from "expo-sqlite";
-import { Pharmacy } from "../types/dataTypes";
+import { DBPharmacy, Pharmacy } from "../types/dataTypes";
 
 
 const db = SQLite.openDatabase("pharmacies");
@@ -16,7 +16,7 @@ export const initDatabase = () => {
                 +"_name TEXT NOT NULL, "
                 +"_name_safe TEXT NOT NULL, "
                 +"flat_name TEXT NOT NULL, "
-                +"coordinates TEXT NOT NULL, "
+                +"coordinates TEXT, "
                 +"geographical_position TEXT, "
                 +"google_maps_position_link TEXT, "
                 +"phone_numbers TEXT, "
@@ -60,6 +60,24 @@ export const initUpdateTable = () => {
 
     return promise;
 };
+
+// DROP DATABASE
+
+export const dropPharmaciesTable = () => {
+    return new Promise((resolve: (value: any) => void, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(`DROP TABLE IF EXISTS pharmacies`), 
+            [],
+            () => {
+                resolve("Pharmacies table dropped")
+            },
+            (err :any) => {
+                reject(err)
+            }
+        }
+    )}
+)}
+
 
 
 // DATABASE METHODS
@@ -153,11 +171,12 @@ export const getAllPharmacies = () => {
     return new Promise((resolve: (value: any) => void, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                "SELECT * FROM pharmacies "
-                +"ORDER BY name ASC",
+                `SELECT * FROM pharmacies
+                WHERE coordinates IS NOT NULL
+                ORDER BY name ASC`,
                 [],
                 (_, res: any) => {
-                    return resolve(res.rows._array);
+                    return resolve(res.rows._array as DBPharmacy);
                 },
                 (_, err) => {
                     reject(err);
