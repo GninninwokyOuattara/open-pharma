@@ -1,7 +1,7 @@
 import {
     PHARMACIES, PROJECT_ENDPOINT
 } from "@env";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
     DBPharmacy,
     FireBaseResponseObject,
@@ -30,21 +30,18 @@ const extractFirebaseData = (
 export const fetchAllPharmacies = (location ?: LocationObject) => {
     return async (dispatch: any) => {
 
-
-        //GET PHARMACIES FROM DATABASE
-        let pharmaciesDatas: any;
-        let pharmacies = await getAllPharmacies() as DBPharmacy[]
-
-        if(pharmacies.length > 0) {
-            pharmaciesDatas = pharmacies
-        } else {
+            let response : AxiosResponse<any, any>
             try {
                 
                 // get pharmacies from database
-                let response = await axios.get(`${PROJECT_ENDPOINT}${PHARMACIES}.json`);
+                response = await axios.get(`${PROJECT_ENDPOINT}${PHARMACIES}.json`);
     
+            } catch (error) {
+                throw error
+                
+            }
                 //The responsee comes as an object of object, we have to convert it into an array of object
-                pharmaciesDatas = Object.values(response.data)
+                let pharmaciesDatas : Pharmacies = Object.values(response.data)
 
                 // Then we insert them into the database
                 for(let i = 0; i <pharmaciesDatas.length; i++) {
@@ -52,23 +49,13 @@ export const fetchAllPharmacies = (location ?: LocationObject) => {
                         
                         await insertPharmacie(pharmaciesDatas[i]);
                     } catch (error) {
-                     console.log("ERROR", pharmaciesDatas[i]) 
                      throw error  
                     }
                 }
 
-                pharmacies = await getAllPharmacies();
+               let  pharmacies  : DBPharmacy[] = await getAllPharmacies();
                 
-                
-            } catch (error) {
-                throw error
-                
-            }
-            
-        }
-
         pharmaciesDatas = pharmacies.map((pharmacy) => parsePharmacy(pharmacy))
-        console.log("11111", pharmaciesDatas[1])
 
         dispatch({
             type: FETCH_ALL_PHARMACIES,

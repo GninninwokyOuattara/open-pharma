@@ -8,7 +8,11 @@ import { useDispatch } from "react-redux";
 import BottomBar from "../components/screens-components/BottomBar";
 import MainBottomSheet from "../components/screens-components/BottomSheet";
 import { UserLocationContext } from "../contexts/UserLocationContext";
+import { getAllPharmacies } from "../database/db";
+import { FETCH_ALL_PHARMACIES } from "../stores/actions";
 import { fetchAllPharmacies } from "../stores/pharmaciesActions";
+import { DBPharmacy } from "../types/dataTypes";
+import { parsePharmacy } from "../utils/datasMorphing";
 
 
 const MainScreen = () => {
@@ -19,16 +23,19 @@ const MainScreen = () => {
 
     useEffect(() => {
         (async () => {
-            if (location) {
-                await dispatch(fetchAllPharmacies(location))
-
+            let pharmacies: DBPharmacy[] = await getAllPharmacies()
+            if (pharmacies.length > 0) {
+                let pharmaciesDatas = pharmacies.map((pharmacy) => parsePharmacy(pharmacy))
+                return dispatch({
+                    type: FETCH_ALL_PHARMACIES,
+                    pharmaciesDatas: pharmaciesDatas
+                })
             } else {
-
                 await dispatch(fetchAllPharmacies())
             }
-
         })()
-    }, [dispatch, location])
+    }, [])
+
 
 
 
