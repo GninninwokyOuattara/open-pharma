@@ -42,6 +42,7 @@ export interface Pharmacy {
     open_from?: string;
     open_until?: string;
     distance ?: number | string;
+    distanceRaw ?: number
 }
 
 export type Pharmacies = Pharmacy[];

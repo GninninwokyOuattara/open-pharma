@@ -1,18 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import Map from "../components/screens-components/Map";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import BottomBar from "../components/screens-components/BottomBar";
 import MainBottomSheet from "../components/screens-components/BottomSheet";
 import { UserLocationContext } from "../contexts/UserLocationContext";
 import { getAllPharmacies } from "../database/db";
 import { FETCH_ALL_PHARMACIES } from "../stores/actions";
-import { fetchAllPharmacies } from "../stores/pharmaciesActions";
-import { DBPharmacy } from "../types/dataTypes";
+import { calculatePharmaciesProximityToUser, fetchAllPharmacies } from "../stores/pharmaciesActions";
+import { DBPharmacy, RootReducerType } from "../types/dataTypes";
 import { parsePharmacy } from "../utils/datasMorphing";
+
+import Map from "../components/screens-components/Map";
 
 
 const MainScreen = () => {
@@ -20,6 +21,9 @@ const MainScreen = () => {
     const insets = useSafeAreaInsets();
     const dispatch = useDispatch();
     const { location } = useContext(UserLocationContext)
+    const pharmaciesDatas = useSelector((state: RootReducerType) => {
+        return state.pharmacies.toDisplay;
+    });
 
     useEffect(() => {
         (async () => {
@@ -39,6 +43,22 @@ const MainScreen = () => {
 
 
 
+    // Location Updater
+    useEffect(() => {
+        let intervalId: number
+        if (location) {
+            intervalId = setInterval(() => {
+                dispatch(calculatePharmaciesProximityToUser(location, pharmaciesDatas))
+            }, 5000)
+        }
+
+        return () => {
+            if (intervalId) clearInterval(intervalId)
+        }
+    }, [location])
+
+
+
 
     return (
 
@@ -47,8 +67,10 @@ const MainScreen = () => {
                 flex: 1,
             }}
         >
+            {/* <Map setIsMapLoaded={setIsMapLoaded} />
+            {isMapLoaded ? <MainBottomSheet /> : null} */}
             <Map setIsMapLoaded={setIsMapLoaded} />
-            {isMapLoaded ? <MainBottomSheet /> : null}
+            <MainBottomSheet />
             <BottomBar />
         </View>
 
@@ -69,3 +91,5 @@ const styles = StyleSheet.create({
 });
 
 export default MainScreen;
+
+

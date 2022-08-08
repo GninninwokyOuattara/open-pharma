@@ -18,6 +18,7 @@ import { LocationObject } from "expo-location";
 import _ from "lodash";
 import { getAllPharmacies, insertPharmacie } from "../database/db";
 import { calculateDistance } from "../utils/calculateDistance";
+import { convertToReadableDistance } from "../utils/convertToReadableDistance";
 import { parsePharmacy } from "../utils/datasMorphing";
 
 
@@ -87,11 +88,12 @@ export const calculatePharmaciesProximityToUser = (userCoordinate : any, pharmac
         // Calculate the distance between the user and the location of each pharmacies
         pharmacies = pharmacies.map((pharmacy) => {
             let distanceToUser = calculateDistance([userCoordinate.coords.latitude, userCoordinate.coords.longitude], [+pharmacy.coordinates.lat, +pharmacy.coordinates.lng])
-            return {...pharmacy, distance :  distanceToUser, distanceRaw : distanceToUser}
+            return {...pharmacy, distance :  convertToReadableDistance( distanceToUser), distanceRaw : distanceToUser}
         })
 
         // Sort by distance ASC
         pharmacies = _.sortBy(pharmacies, ["distanceRaw"])
+
 
         //Dispatch Action
         dispatch({
