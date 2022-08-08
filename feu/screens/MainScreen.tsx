@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 
@@ -41,21 +41,37 @@ const MainScreen = () => {
     }, [])
 
 
+    const proximityCalculationDispatcher = useCallback(() => {
+
+        let intervalId = setInterval(() => {
+            dispatch(calculatePharmaciesProximityToUser(location, pharmaciesDatas))
+
+        }, 5000)
+
+        return intervalId
+    }, [location, pharmaciesDatas])
+
 
 
     // Location Updater
     useEffect(() => {
-        let intervalId: number
-        if (location) {
-            intervalId = setInterval(() => {
-                dispatch(calculatePharmaciesProximityToUser(location, pharmaciesDatas))
-            }, 5000)
-        }
+        // let intervalId: number
+        // if (location) {
+        //     intervalId = setInterval(() => {
+        //         dispatch(calculatePharmaciesProximityToUser(location, pharmaciesDatas))
+        //     }, 5000)
+        // }
 
-        return () => {
-            if (intervalId) clearInterval(intervalId)
-        }
-    }, [location])
+        // return () => {
+        //     if (intervalId) clearInterval(intervalId)
+        // }
+
+        const intervalId = proximityCalculationDispatcher()
+
+        return () => clearInterval(intervalId)
+
+
+    }, [proximityCalculationDispatcher])
 
 
 
