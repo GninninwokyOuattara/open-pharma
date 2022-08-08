@@ -72,6 +72,7 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
                                 latitude: +lat,
                                 longitude: +lng,
                             }}
+                            pinColor={pharmacyData.open ? "#a0f20c" : "red"}
                         // pinColor={
                         //     pharmacyData.Id == selectedMarker
                         //         ? "green"
