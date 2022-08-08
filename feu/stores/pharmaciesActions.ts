@@ -10,11 +10,14 @@ import {
 import {
     APPLY_FILTER,
     FETCH_ALL_PHARMACIES,
-    UPDATE_PHARMACIES_DISTANCES
+    UPDATE_PHARMACIES_DISTANCES,
+    UPDATE_RELATIVE_DISTANCES
 } from "./actions";
 
 import { LocationObject } from "expo-location";
+import _ from "lodash";
 import { getAllPharmacies, insertPharmacie } from "../database/db";
+import { calculateDistance } from "../utils/calculateDistance";
 import { parsePharmacy } from "../utils/datasMorphing";
 
 
@@ -57,6 +60,7 @@ export const fetchAllPharmacies = (location ?: LocationObject) => {
                 
         pharmaciesDatas = pharmacies.map((pharmacy) => parsePharmacy(pharmacy))
 
+        
         dispatch({
             type: FETCH_ALL_PHARMACIES,
             pharmaciesDatas: pharmaciesDatas,
@@ -74,6 +78,28 @@ const updatePharmaciesDistances = (pharmaciesDatas: Pharmacies, userCoordinate :
             type : UPDATE_PHARMACIES_DISTANCES,
             pharmaciesDatas: pharmaciesDatas,
         })
+    }
+}
+
+export const calculatePharmaciesProximityToUser = (userCoordinate : any, pharmacies : Pharmacies) => {
+    return async (dispatch: any) => {
+
+        // Calculate the distance between the user and the location of each pharmacies
+        pharmacies = pharmacies.map((pharmacy) => {
+            let distanceToUser = calculateDistance([userCoordinate.coords.latitude, userCoordinate.coords.longitude], [+pharmacy.coordinates.lat, +pharmacy.coordinates.lng])
+            return {...pharmacy, distance :  distanceToUser, distanceRaw : distanceToUser}
+        })
+
+        // Sort by distance ASC
+        pharmacies = _.sortBy(pharmacies, ["distanceRaw"])
+
+        //Dispatch Action
+        dispatch({
+            type : UPDATE_RELATIVE_DISTANCES,
+            orderedPharmaciesWithDistances : pharmacies
+        })
+
+
     }
 }
 
