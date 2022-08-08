@@ -24,15 +24,15 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
     });
 
 
-    if (location) {
+    // if (location) {
 
-    }
+    // }
     return (
         <MapView
             ref={mapRef}
             onMapLoaded={() => setIsMapLoaded(true)}
             onUserLocationChange={(locationEvent) => console.log(locationEvent.nativeEvent.coordinate)}
-            onRegionChange={(region) => console.log("Region", region)}
+            // onRegionChange={(region) => console.log("Region", region)}
             style={styles.map}
             // initialRegion={{
             //     latitude: location?.coords.latitude || 5.393620594067611,
