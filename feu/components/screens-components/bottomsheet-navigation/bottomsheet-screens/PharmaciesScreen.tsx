@@ -1,6 +1,6 @@
-import { BottomSheetFlatList, BottomSheetView } from "@gorhom/bottom-sheet";
+import { BottomSheetView } from "@gorhom/bottom-sheet";
 import React, { useCallback, useContext } from "react";
-import { StyleSheet } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import { MapContext } from "../../../../contexts/MapContext";
 import { Pharmacy, RootReducerType } from "../../../../types/dataTypes";
@@ -57,7 +57,8 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
 
     return (
         <>
-            <BottomSheetFlatList
+
+            <FlatList
                 ListHeaderComponent={<CustomSearchBar />}
                 data={pharmaciesDatas}
                 keyExtractor={(item) => item.id}
@@ -66,7 +67,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                 contentOffset={{ y: 70, x: 0 }}
                 ListFooterComponent={<BottomSheetView style={{ height: 200, flex: 1 }} children={undefined} />}
 
-            ></BottomSheetFlatList>
+            ></FlatList>
         </>
     );
 };
