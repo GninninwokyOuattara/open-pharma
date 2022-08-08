@@ -1,5 +1,6 @@
+import { BottomSheetFlatList, BottomSheetView } from "@gorhom/bottom-sheet";
 import React, { useCallback, useContext } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import { MapContext } from "../../../../contexts/MapContext";
 import { Pharmacy, RootReducerType } from "../../../../types/dataTypes";
@@ -10,13 +11,12 @@ import PharmaItemExtended from "../../bottomsheet-components/PharmaItemExtended"
 
 
 
+
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
         return state.pharmacies.toDisplay;
     });
     const { mapRef, setSelectedMarker, mapSetting } = useContext(MapContext);
-
-
 
     const renderPharmaciesItems = useCallback(
         ({ item }: { item: Pharmacy }) => {
@@ -57,16 +57,16 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
 
     return (
         <>
-            <FlatList
+            <BottomSheetFlatList
                 ListHeaderComponent={<CustomSearchBar />}
                 data={pharmaciesDatas}
                 keyExtractor={(item) => item.id}
                 renderItem={renderPharmaciesItems}
                 contentContainerStyle={styles.contentContainer}
                 contentOffset={{ y: 70, x: 0 }}
-                ListFooterComponent={<View style={{ height: 200, flex: 1 }} />}
+                ListFooterComponent={<BottomSheetView style={{ height: 200, flex: 1 }} children={undefined} />}
 
-            ></FlatList>
+            ></BottomSheetFlatList>
         </>
     );
 };
