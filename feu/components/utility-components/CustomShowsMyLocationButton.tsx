@@ -27,7 +27,7 @@ const CustomShowsMyLocationButton = () => {
         <MaterialIcons
           style={styles.myLocationIcon}
           name="my-location"
-          size={24}
+          size={20}
           color="#616161"
         />
       </View>
@@ -37,16 +37,18 @@ const CustomShowsMyLocationButton = () => {
 }
 
 
+
 const styles = StyleSheet.create({
   iconContainer: {
     // borderWidth: 1,
     // borderColor: 'black',
-    width: 60,
-    height: 60,
+    // width: 60,
+    // height: 60,
+    padding: 5,
     backgroundColor: "white",
-    position: "absolute",
-    top: 200,
-    right: 10,
+    // position: "absolute",
+    // top: 200,
+    // right: 10,
     borderRadius: 50,
     flex: 1,
     justifyContent: "center",
