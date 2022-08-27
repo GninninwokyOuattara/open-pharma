@@ -8,8 +8,6 @@ import { UserLocationContext } from "../../contexts/UserLocationContext";
 import { RootReducerType } from "../../types/dataTypes";
 // import { fetchLocalPharmaciesData } from "../../stores/pharmaciesActions";
 
-import CustomShowsMyLocationButton from "../../components/utility-components/CustomShowsMyLocationButton";
-
 interface props {
     setIsMapLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -84,7 +82,7 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
                 })}
 
             {/* Button to point map on user position */}
-            {location && <CustomShowsMyLocationButton />}
+            {/* {location && <CustomShowsMyLocationButton />} */}
 
         </MapView>
     );
