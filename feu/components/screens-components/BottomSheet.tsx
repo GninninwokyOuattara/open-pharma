@@ -51,7 +51,7 @@ const MainBottomSheet = () => {
             index={1}
             snapPoints={snapPoints}
             onChange={handleSheetChanges}
-            topInset={insets.top}
+            topInset={insets.top + 110}
             bottomInset={insets.bottom}
             backgroundStyle={{ backgroundColor: "#F0ECD6", opacity: 0.9 }}
             keyboardBehavior="extend"
