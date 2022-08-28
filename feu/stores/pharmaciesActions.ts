@@ -9,9 +9,7 @@ import {
 } from "../types/dataTypes";
 import {
     APPLY_FILTER,
-    FETCH_ALL_PHARMACIES,
-    UPDATE_PHARMACIES_DISTANCES,
-    UPDATE_RELATIVE_DISTANCES
+    FETCH_ALL_PHARMACIES, UPDATE_RELATIVE_DISTANCES
 } from "./actions";
 
 import { LocationObject } from "expo-location";
@@ -70,17 +68,6 @@ export const fetchAllPharmacies = (location ?: LocationObject) => {
 };
 
 
-const updatePharmaciesDistances = (pharmaciesDatas: Pharmacies, userCoordinate : LocationObject) => {
-    return async (dispatch: any) => {
-
-        // Work to do here....
-
-        dispatch({
-            type : UPDATE_PHARMACIES_DISTANCES,
-            pharmaciesDatas: pharmaciesDatas,
-        })
-    }
-}
 
 export const calculatePharmaciesProximityToUser = (userCoordinate : any, pharmacies : Pharmacies) => {
     return async (dispatch: any) => {
@@ -104,30 +91,6 @@ export const calculatePharmaciesProximityToUser = (userCoordinate : any, pharmac
 
     }
 }
-
-// export const calculateRelativeDistances = (
-//     pharmacies: Pharmacy[],
-//     userPosition: string
-// ) => {
-//     return async (dispatch: any) => {
-//         pharmacies.map((pharmacie) => {
-//             // THIS WILL NEED TO BE REFACTORED AS IT IS ONLY USED BECAUSE CURRETLY FROM FIREBASE THE LOCATION DATA ARE INCORRECT, SO I GO THROUGH ALL THIS JUST TO HAVE SOMETHING TO WORK WITH
-//             let positionArray = pharmacie.Position.split(",").map((e) =>
-//                 e.trim()
-//             );
-//             positionArray[1] = "-" + positionArray[1]; // <- Line where I forcefully add a - to the longitude
-//             let pharmaciePosition = positionArray.join(",");
-//             const distance = calculateDistance(userPosition, pharmaciePosition);
-//             pharmacie.Distance = distance;
-//             return pharmacie;
-//         });
-
-//         dispatch({
-//             type: UPDATE_RELATIVE_DISTANCES,
-//             data: pharmacies,
-//         });
-//     };
-// };
 
 export const applyFilter = (filter: string) => {
     return async (dispatch: any) => {
