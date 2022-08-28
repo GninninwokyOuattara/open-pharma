@@ -2,7 +2,7 @@ import React from 'react'
 import { Marker } from 'react-native-maps'
 
 interface Props {
-    key: any,
+    id: any,
     coordinate: {
         latitude: number,
         longitude: number
@@ -10,16 +10,28 @@ interface Props {
     open: boolean,
 }
 
-let CustomMarker: React.FC<Props> = ({ key, coordinate, open }) => {
+let CustomMarker: React.FC<Props> = ({ id, coordinate, open }) => {
+
     return (
+        // <Marker
+        //     key={id}
+        //     coordinate={coordinate}
+        //     pinColor={open ? "#a0f20c" : "red"}
+        //     tracksViewChanges={false}
+        // />
         <Marker
-            key={key}
-            coordinate={coordinate}
+            key={id}
+            coordinate={{
+                latitude: +coordinate.latitude,
+                longitude: +coordinate.longitude,
+            }}
             pinColor={open ? "#a0f20c" : "red"}
-            tracksViewChanges={false}
+
         />
 
     )
 }
 
-export default CustomMarker = React.memo(CustomMarker)
+// export default CustomMarker = React.memo(CustomMarker)
+
+export default CustomMarker
