@@ -13,7 +13,9 @@ import { calculatePharmaciesProximityToUser, fetchAllPharmacies } from "../store
 import { DBPharmacy, RootReducerType } from "../types/dataTypes";
 import { parsePharmacy } from "../utils/datasMorphing";
 
+
 import Map from "../components/screens-components/Map";
+import ToolBar from "../components/ToolBar";
 
 
 const MainScreen = () => {
@@ -86,8 +88,14 @@ const MainScreen = () => {
             {/* <Map setIsMapLoaded={setIsMapLoaded} />
             {isMapLoaded ? <MainBottomSheet /> : null} */}
             <Map setIsMapLoaded={setIsMapLoaded} />
+
             <MainBottomSheet />
             <BottomBar />
+
+            {/* SearchBar */}
+            <ToolBar />
+
+
         </View>
 
     );
