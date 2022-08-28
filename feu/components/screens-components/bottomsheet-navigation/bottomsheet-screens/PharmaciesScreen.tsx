@@ -6,7 +6,6 @@ import { MapContext } from "../../../../contexts/MapContext";
 import { Pharmacy, RootReducerType } from "../../../../types/dataTypes";
 import { PharmaciesScreenType } from "../../../../types/screenTypes";
 import SkeletonContentLoader from "../../../utility-components/SkeletonContentLoader";
-import CustomSearchBar from "../../bottomsheet-components/CustomSearchBar";
 import PharmaItemExtended from "../../bottomsheet-components/PharmaItemExtended";
 
 
@@ -59,12 +58,12 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
         <>
 
             <FlatList
-                ListHeaderComponent={<CustomSearchBar />}
+                // ListHeaderComponent={<CustomSearchBar />}
                 data={pharmaciesDatas}
                 keyExtractor={(item) => item.id}
                 renderItem={renderPharmaciesItems}
                 contentContainerStyle={styles.contentContainer}
-                contentOffset={{ y: 70, x: 0 }}
+                // contentOffset={{ y: 70, x: 0 }}
                 ListFooterComponent={<BottomSheetView style={{ height: 200, flex: 1 }} children={undefined} />}
 
             ></FlatList>
