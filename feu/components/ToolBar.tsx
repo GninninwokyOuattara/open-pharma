@@ -1,12 +1,18 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useContext } from 'react';
+import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { UserLocationContext } from '../contexts/UserLocationContext';
+import PharmacyListOrder from './PharmacyListOrder';
+import PharmacyShowMode from './PharmacyShowMode';
 import CustomSearchBar from './screens-components/bottomsheet-components/CustomSearchBar';
 import Tag from './Tag';
+import CustomShowsMyLocationButton from './utility-components/CustomShowsMyLocationButton';
 
 const ToolBar = () => {
 
     const insets = useSafeAreaInsets();
+    const { location, errorMsg } = useContext(UserLocationContext);
+
 
     return (
         <View style={{ position: 'absolute', width: "100%", top: insets.top }}>
@@ -14,24 +20,29 @@ const ToolBar = () => {
             <View style={{
                 flexDirection: "row",
                 paddingHorizontal: 10,
-                borderWidth: 1,
+                // borderWidth: 1,
                 justifyContent: 'space-between'
             }}>
-                <View style={{
-                    flex: 1,
-                    flexDirection: "row"
-                }}>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}
 
-                    <Tag />
-                    <Tag />
-                </View>
+                    style={{
+                        flex: 1,
+                        flexDirection: "row"
+                    }}>
+                    <PharmacyShowMode />
+                    <PharmacyListOrder />
+                    <Tag title={"Pharmacie de garde"} />
+                    {/* <Tag title={"Toutes les pharmacies"} /> */}
+                    {/* <Tag title={"Toutes les pharmacies"} /> */}
+                </ScrollView>
                 <View style={{
-                    flex: 1,
-                    flexDirection: "row-reverse"
+                    // flex: 1,
+                    flexDirection: "row-reverse",
+                    marginRight: 10,
                 }}>
-                    <Tag />
+                    {location && <CustomShowsMyLocationButton />}
 
-                    {/* <CustomShowsMyLocationButton /> */}
+
                 </View>
 
             </View>
