@@ -9,6 +9,7 @@ import {
 } from "../types/dataTypes";
 import {
     APPLY_FILTER,
+    CHANGE_DISPLAY_MODE,
     FETCH_ALL_PHARMACIES, UPDATE_RELATIVE_DISTANCES
 } from "./actions";
 
@@ -100,3 +101,21 @@ export const applyFilter = (filter: string) => {
         });
     };
 };
+
+
+export const changeDisplayMode = ( mode : "All" | "OpenOnly" ) => {
+    return async (dispatch : any) => {
+        dispatch({
+            type : CHANGE_DISPLAY_MODE,
+            data : mode
+        })
+    }
+}
+
+export const sortPharmaciesBy = ( mode : string ) => {
+    return async (dispatch : any) => {
+        dispatch({
+            // 
+        })
+    }
+}
