@@ -86,6 +86,7 @@ export default (state: PharmaciesState = pharmaciesState, action: any) => {
       }
     case CHANGE_ORDER:
       const pharmacies = action.data;
+      console.log(pharmacies[0]);
       return {
         ...state,
         toDisplay: pharmacies,

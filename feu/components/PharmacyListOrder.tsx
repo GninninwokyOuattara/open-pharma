@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { COLOR_SCHEME } from '../constants/colorSchemes'
 import { UserLocationContext } from '../contexts/UserLocationContext'
+import { changePharmacyDisplayOrder } from '../stores/pharmaciesActions'
 import { RootReducerType } from '../types/dataTypes'
 import ShadowAround from './utility-components/ShadowAround'
 
@@ -14,7 +15,7 @@ const PharmacyListOrder = () => {
   const { location } = useContext(UserLocationContext)
   const dispatch = useDispatch();
   const pharmaciesDatas = useSelector((state: RootReducerType) => {
-    return state.pharmacies.toDisplay;
+    return state.pharmacies.toDisplayInBottomSheet;
   });
 
 
@@ -36,10 +37,15 @@ const PharmacyListOrder = () => {
 
     if (orderMode === "A proximité") {
       console.log("Ordering by proximity")
+      // dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
     } else if (orderMode === "Ascendant") {
       console.log("Ordering by Ascendancy")
+      dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
+
     } else if (orderMode === "Descendant") {
       console.log("Ordering by Descendancy")
+      dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
+
 
     }
 
