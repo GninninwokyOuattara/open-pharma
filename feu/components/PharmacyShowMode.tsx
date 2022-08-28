@@ -23,7 +23,7 @@ const PharmacyShowMode = () => {
                     marginRight: 5,
                     borderRadius: 5
                 }}>
-                    <Text>{showMode == "All" ? "Toutes les pharmacies" : "Pharmacies de garde uniquement"}</Text>
+                    <Text style={{ fontWeight: "500" }}>{showMode == "All" ? "Toutes les pharmacies" : "Pharmacies de garde uniquement"}</Text>
                 </View>
             </TouchableOpacity>
         </ShadowAround>

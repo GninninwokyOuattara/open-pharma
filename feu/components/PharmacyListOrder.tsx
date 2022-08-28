@@ -34,7 +34,7 @@ const PharmacyListOrder = () => {
           marginRight: 5,
           borderRadius: 5
         }}>
-          <Text style={{ fontWeight: "bold" }}>{orderMode}</Text>
+          <Text style={{ fontWeight: "500" }}>{orderMode}</Text>
         </View>
       </TouchableOpacity>
     </ShadowAround>
