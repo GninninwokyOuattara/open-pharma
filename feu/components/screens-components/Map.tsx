@@ -29,7 +29,7 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
         <MapView
             ref={mapRef}
             onMapLoaded={() => setIsMapLoaded(true)}
-            onUserLocationChange={(locationEvent) => console.log(locationEvent.nativeEvent.coordinate)}
+            // onUserLocationChange={(locationEvent) => console.log(locationEvent.nativeEvent.coordinate)}
             // onRegionChange={(region) => console.log("Region", region)}
             style={styles.map}
             // initialRegion={{

@@ -5,7 +5,6 @@ import { UserLocationContext } from '../contexts/UserLocationContext';
 import PharmacyShowMode from './PharmacyDisplayMode';
 import PharmacyListOrder from './PharmacyListOrder';
 import CustomSearchBar from './screens-components/bottomsheet-components/CustomSearchBar';
-import Tag from './Tag';
 import CustomShowsMyLocationButton from './utility-components/CustomShowsMyLocationButton';
 
 const ToolBar = () => {
@@ -31,7 +30,7 @@ const ToolBar = () => {
                     }}>
                     <PharmacyShowMode />
                     <PharmacyListOrder />
-                    <Tag title={"Pharmacie de garde"} />
+                    {/* <Tag title={"Pharmacie de garde"} /> */}
                     {/* <Tag title={"Toutes les pharmacies"} /> */}
                     {/* <Tag title={"Toutes les pharmacies"} /> */}
                 </ScrollView>

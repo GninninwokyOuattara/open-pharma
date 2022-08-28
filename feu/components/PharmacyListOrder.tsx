@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import { COLOR_SCHEME } from '../constants/colorSchemes'
+import { UserLocationContext } from '../contexts/UserLocationContext'
+import { RootReducerType } from '../types/dataTypes'
 import ShadowAround from './utility-components/ShadowAround'
 
 type OrderType = "A proximité" | "Ascendant" | "Descendant"
@@ -8,6 +11,13 @@ type OrderType = "A proximité" | "Ascendant" | "Descendant"
 const PharmacyListOrder = () => {
 
   const [orderMode, setOrderMode] = useState<OrderType>("A proximité")
+  const { location } = useContext(UserLocationContext)
+  const dispatch = useDispatch();
+  const pharmaciesDatas = useSelector((state: RootReducerType) => {
+    return state.pharmacies.toDisplay;
+  });
+
+
 
   const toggleOrder = () => {
     let newOrder: OrderType
@@ -21,6 +31,19 @@ const PharmacyListOrder = () => {
 
     setOrderMode(newOrder)
   }
+
+  useEffect(() => {
+
+    if (orderMode === "A proximité") {
+      console.log("Ordering by proximity")
+    } else if (orderMode === "Ascendant") {
+      console.log("Ordering by Ascendancy")
+    } else if (orderMode === "Descendant") {
+      console.log("Ordering by Descendancy")
+
+    }
+
+  }, [orderMode])
   return (
     <ShadowAround>
       <TouchableOpacity onPress={toggleOrder}>
@@ -34,7 +57,7 @@ const PharmacyListOrder = () => {
           marginRight: 5,
           borderRadius: 5
         }}>
-          <Text style={{ fontWeight: "500" }}>{orderMode}</Text>
+          <Text style={{ fontWeight: "500" }}>Ordre : {orderMode}</Text>
         </View>
       </TouchableOpacity>
     </ShadowAround>

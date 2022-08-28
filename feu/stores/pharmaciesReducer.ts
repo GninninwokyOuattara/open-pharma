@@ -1,6 +1,6 @@
 import { Pharmacy } from "../types/dataTypes";
 import {
-    APPLY_FILTER, CHANGE_DISPLAY_MODE, FETCH_ALL_PHARMACIES,
+    APPLY_FILTER, CHANGE_DISPLAY_MODE, CHANGE_ORDER, FETCH_ALL_PHARMACIES,
     UPDATE_RELATIVE_DISTANCES
 } from "./actions";
 
@@ -48,14 +48,15 @@ export default (state: PharmaciesState = pharmaciesState, action: any) => {
             return { ...state, toDisplay: filtered };
         case CHANGE_DISPLAY_MODE:
             const mode = action.data
-            console.log(mode)
-            console.log(state.all.length, state.open.length)
             if (mode == "All"){
                 console.log("Dispatch all")
                 return {...state, toDisplay : state.all};
             } else {
                 return {...state , toDisplay : state.open}
             }
+        case CHANGE_ORDER:
+            const pharmacies = action.data
+            return {...state, toDisplay : pharmacies}
         default:
             return { ...state };
     }

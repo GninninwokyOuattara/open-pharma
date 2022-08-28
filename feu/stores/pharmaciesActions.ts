@@ -10,6 +10,7 @@ import {
 import {
     APPLY_FILTER,
     CHANGE_DISPLAY_MODE,
+    CHANGE_ORDER,
     FETCH_ALL_PHARMACIES, UPDATE_RELATIVE_DISTANCES
 } from "./actions";
 
@@ -74,13 +75,15 @@ export const calculatePharmaciesProximityToUser = (userCoordinate : any, pharmac
     return async (dispatch: any) => {
 
         // Calculate the distance between the user and the location of each pharmacies
+        if(!userCoordinate || !pharmacies) return
+        
         pharmacies = pharmacies.map((pharmacy) => {
             let distanceToUser = calculateDistance([userCoordinate.coords.latitude, userCoordinate.coords.longitude], [+pharmacy.coordinates.lat, +pharmacy.coordinates.lng])
             return {...pharmacy, distance :  convertToReadableDistance( distanceToUser), distanceRaw : distanceToUser}
         })
 
         // Sort by distance ASC
-        pharmacies = _.sortBy(pharmacies, ["distanceRaw"])
+        // pharmacies = _.sortBy(pharmacies, ["distanceRaw"])
 
 
         //Dispatch Action
@@ -112,10 +115,18 @@ export const changeDisplayMode = ( mode : "All" | "OpenOnly" ) => {
     }
 }
 
-export const sortPharmaciesBy = ( mode : string ) => {
+export const changePharmacyDisplayOrder = (pharmacies : Pharmacies, mode : "Ascendant" | "Descendant" ) => {
     return async (dispatch : any) => {
+        let orderedPharmacies : Pharmacies 
+        if ( mode === "Ascendant"){
+            orderedPharmacies = _.sortBy(pharmacies, ["name"], ["asc"])
+        } else {
+            orderedPharmacies = _.sortBy(pharmacies, ["name"], ["desc"])
+
+        }
         dispatch({
-            // 
+            type : CHANGE_ORDER,
+            data : orderedPharmacies
         })
     }
 }
