@@ -18,8 +18,10 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
 
     const dispatch = useDispatch();
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
-        return state.pharmacies.toDisplay;
+        return state.pharmacies.toDisplayInMap;
     });
+
+    // console.log(pharmaciesDatas.splice(100, 200))
 
 
     // if (location) {
@@ -71,13 +73,16 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
                                 longitude: +lng,
                             }}
                             pinColor={pharmacyData.open ? "#a0f20c" : "red"}
-                        // pinColor={
-                        //     pharmacyData.Id == selectedMarker
-                        //         ? "green"
-                        //         : "black"
-                        // }
-                        // onPress={() => console.log(pharmacyData.Position)}
+
                         />
+                        // <CustomMarker
+                        //     id={index}
+                        //     coordinate={{
+                        //         latitude: +lat,
+                        //         longitude: +lng,
+                        //     }}
+                        //     open={pharmacyData.open}
+                        // />
                     );
                 })}
 

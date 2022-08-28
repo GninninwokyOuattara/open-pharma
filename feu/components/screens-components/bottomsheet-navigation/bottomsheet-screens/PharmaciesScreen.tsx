@@ -13,7 +13,7 @@ import PharmaItemExtended from "../../bottomsheet-components/PharmaItemExtended"
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
-        return state.pharmacies.toDisplay;
+        return state.pharmacies.toDisplayInBottomSheet;
     });
     const { mapRef, setSelectedMarker, mapSetting } = useContext(MapContext);
 
