@@ -5,6 +5,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { MapContext, MapContextType } from "../../contexts/MapContext";
 import { UserContextType, UserLocationContext } from '../../contexts/UserLocationContext';
 
+import { COLOR_SCHEME } from '../../constants/colorSchemes';
+
 
 
 const CustomShowsMyLocationButton = () => {
@@ -28,7 +30,7 @@ const CustomShowsMyLocationButton = () => {
           style={styles.myLocationIcon}
           name="my-location"
           size={20}
-          color="#616161"
+          color={COLOR_SCHEME.ORANGE}
         />
       </View>
     </TouchableOpacity>
