@@ -62,12 +62,14 @@ export const fetchAllPharmacies = (location?: LocationObject) => {
 
 export const calculatePharmaciesProximityToUser = (
   userCoordinate: any,
-  pharmacies: Pharmacies
+  pharmacies: Pharmacies,
+  isProximityMode: boolean
 ) => {
   return async (dispatch: any) => {
     // Calculate the distance between the user and the location of each pharmacies
     if (!userCoordinate || !pharmacies) return;
 
+    console.log("PATCH DISTANCES");
     pharmacies = pharmacies.map((pharmacy) => {
       let distanceToUser = calculateDistance(
         [userCoordinate.coords.latitude, userCoordinate.coords.longitude],
@@ -80,8 +82,9 @@ export const calculatePharmaciesProximityToUser = (
       };
     });
 
-    // Sort by distance ASC
-    // pharmacies = _.sortBy(pharmacies, ["distanceRaw"])
+    // Sort by distance ASC if proximityMode is true
+    console.log("PROX MODE", isProximityMode);
+    if (isProximityMode) pharmacies = _.sortBy(pharmacies, ["distanceRaw"]);
 
     //Dispatch Action
     dispatch({
@@ -111,19 +114,19 @@ export const changeDisplayMode = (mode: "All" | "OpenOnly") => {
 
 export const changePharmacyDisplayOrder = (
   pharmacies: Pharmacies,
-  mode: "Ascendant" | "Descendant"
+  mode: "Ascendant" | "Descendant" | "A proximité"
 ) => {
   return async (dispatch: any) => {
     let orderedPharmacies: Pharmacies;
 
     if (mode === "Ascendant") {
-      console.log("BEFORE", pharmacies[0]);
       orderedPharmacies = _.orderBy(pharmacies, "name", "asc");
-      console.log("AFTER", pharmacies[0]);
     } else if (mode === "Descendant") {
       orderedPharmacies = _.orderBy(pharmacies, "name", "desc");
-    } else {
+    } else if (mode === "A proximité") {
       orderedPharmacies = _.orderBy(pharmacies, ["distanceRaw"]);
+    } else {
+      throw new Error("Invalid mode");
     }
     dispatch({
       type: CHANGE_ORDER,

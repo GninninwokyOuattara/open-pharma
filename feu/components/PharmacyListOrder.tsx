@@ -7,9 +7,14 @@ import { changePharmacyDisplayOrder } from '../stores/pharmaciesActions'
 import { RootReducerType } from '../types/dataTypes'
 import ShadowAround from './utility-components/ShadowAround'
 
-type OrderType = "A proximité" | "Ascendant" | "Descendant"
+export type OrderType = "A proximité" | "Ascendant" | "Descendant"
 
-const PharmacyListOrder = () => {
+interface Props {
+  setIsProximityMode: React.Dispatch<React.SetStateAction<boolean>>
+
+}
+
+const PharmacyListOrder: React.FC<Props> = ({ setIsProximityMode }) => {
 
   const [orderMode, setOrderMode] = useState<OrderType>("A proximité")
   const { location } = useContext(UserLocationContext)
@@ -33,23 +38,61 @@ const PharmacyListOrder = () => {
     setOrderMode(newOrder)
   }
 
+  //   const proximityOrderingDispatcher = useCallback(() => {
+
+  //     let intervalId = setInterval(() => {
+  //         dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
+
+  //     }, 5000)
+
+  //     return intervalId
+  // }, [pharmaciesDatas, orderMode])
+
   useEffect(() => {
+
+    // let intervalId: number | null = null;
 
     if (orderMode === "A proximité") {
       console.log("Ordering by proximity")
-      // dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
-    } else if (orderMode === "Ascendant") {
-      console.log("Ordering by Ascendancy")
       dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
+      setIsProximityMode(true)
 
-    } else if (orderMode === "Descendant") {
-      console.log("Ordering by Descendancy")
-      dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
+    } else {
+      if (orderMode === "Ascendant") {
+        console.log("Ordering by Ascendancy")
+        dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
 
-
+      } else if (orderMode === "Descendant") {
+        console.log("Ordering by Descendancy")
+        dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
+      }
+      setIsProximityMode(false)
     }
 
+
+
+    // Cleanup
+
+    // return () => {
+    //   console.log("OORR", intervalId)
+    //   if (intervalId) {
+    //     console.log("To clearInterval")
+    //     clearInterval(intervalId)
+    //   }
+    // }
+
   }, [orderMode])
+
+  // useEffect(() => {
+
+  //   let intervalID : Number | null = null;
+  //   if (orderMode === "A proximité") {
+  //     intervalID = setInterval(() => {
+
+  //     }, 5000)
+  //   }
+
+  // }, [orderMode])
   return (
     <ShadowAround>
       <TouchableOpacity onPress={toggleOrder}>

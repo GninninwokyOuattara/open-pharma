@@ -7,7 +7,11 @@ import PharmacyListOrder from './PharmacyListOrder';
 import CustomSearchBar from './screens-components/bottomsheet-components/CustomSearchBar';
 import CustomShowsMyLocationButton from './utility-components/CustomShowsMyLocationButton';
 
-const ToolBar = () => {
+interface Props {
+    setIsProximityMode: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const ToolBar: React.FC<Props> = ({ setIsProximityMode }) => {
 
     const insets = useSafeAreaInsets();
     const { location, errorMsg } = useContext(UserLocationContext);
@@ -29,7 +33,7 @@ const ToolBar = () => {
                         flexDirection: "row"
                     }}>
                     <PharmacyShowMode />
-                    <PharmacyListOrder />
+                    <PharmacyListOrder {...{ setIsProximityMode }} />
                     {/* <Tag title={"Pharmacie de garde"} /> */}
                     {/* <Tag title={"Toutes les pharmacies"} /> */}
                     {/* <Tag title={"Toutes les pharmacies"} /> */}

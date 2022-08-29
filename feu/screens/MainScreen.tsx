@@ -26,7 +26,9 @@ const MainScreen = () => {
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
         return state.pharmacies.toDisplay;
     });
+    const [isProximityMode, setIsProximityMode] = useState<boolean>(false);
 
+    // On launch, retrieve data from database if exist otherwise from firebase
     useEffect(() => {
         (async () => {
             let pharmacies: DBPharmacy[] = await getAllPharmacies()
@@ -46,12 +48,12 @@ const MainScreen = () => {
     const proximityCalculationDispatcher = useCallback(() => {
 
         let intervalId = setInterval(() => {
-            dispatch(calculatePharmaciesProximityToUser(location, pharmaciesDatas))
+            dispatch(calculatePharmaciesProximityToUser(location, pharmaciesDatas, isProximityMode))
 
         }, 5000)
 
         return intervalId
-    }, [location, pharmaciesDatas])
+    }, [location, pharmaciesDatas, isProximityMode])
 
 
 
@@ -93,7 +95,7 @@ const MainScreen = () => {
             <BottomBar />
 
             {/* SearchBar */}
-            <ToolBar />
+            <ToolBar {...{ setIsProximityMode }} />
 
 
         </View>

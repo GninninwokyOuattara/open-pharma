@@ -41,7 +41,6 @@ export default (state: PharmaciesState = pharmaciesState, action: any) => {
       };
 
     case UPDATE_RELATIVE_DISTANCES:
-      // console.log(action.data[1]);
       let obj = {
         ...state,
         // all : action.orderedPharmaciesWithDistances,
@@ -69,7 +68,6 @@ export default (state: PharmaciesState = pharmaciesState, action: any) => {
     case CHANGE_DISPLAY_MODE:
       const mode = action.data;
       if (mode == "All") {
-        // console.log("Dispatch all")
         return {
           ...state,
           toDisplay: state.all,
@@ -86,7 +84,6 @@ export default (state: PharmaciesState = pharmaciesState, action: any) => {
       }
     case CHANGE_ORDER:
       const pharmacies = action.data;
-      console.log(pharmacies[0]);
       return {
         ...state,
         toDisplay: pharmacies,
