@@ -69,7 +69,6 @@ export const calculatePharmaciesProximityToUser = (
     // Calculate the distance between the user and the location of each pharmacies
     if (!userCoordinate || !pharmacies) return;
 
-    console.log("PATCH DISTANCES");
     pharmacies = pharmacies.map((pharmacy) => {
       let distanceToUser = calculateDistance(
         [userCoordinate.coords.latitude, userCoordinate.coords.longitude],
@@ -83,7 +82,6 @@ export const calculatePharmaciesProximityToUser = (
     });
 
     // Sort by distance ASC if proximityMode is true
-    console.log("PROX MODE", isProximityMode);
     if (isProximityMode) pharmacies = _.sortBy(pharmacies, ["distanceRaw"]);
 
     //Dispatch Action
