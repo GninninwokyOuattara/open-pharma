@@ -10,6 +10,7 @@ import AppLoading from 'expo-app-loading';
 import { MapContextProvider } from "./contexts/MapContext";
 import { UserLocationProvider } from "./contexts/UserLocationContext";
 
+import { BottomSheetRefContextProvider } from "./contexts/BottomSheetRefContext";
 import { initDatabase } from "./database/db";
 
 
@@ -55,8 +56,11 @@ const Main = () => {
         <SafeAreaProvider>
             <UserLocationProvider>
                 <MapContextProvider>
+                    <BottomSheetRefContextProvider>
 
-                    <MainScreen />
+                        <MainScreen />
+                    </BottomSheetRefContextProvider>
+
                 </MapContextProvider>
 
             </UserLocationProvider>

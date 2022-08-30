@@ -1,14 +1,16 @@
 import BottomSheet from "@gorhom/bottom-sheet";
-import React, { useCallback, useContext, useMemo, useRef } from "react";
+import React, { useCallback, useContext, useMemo } from "react";
 import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { COLOR_SCHEME } from "../../constants/colorSchemes";
+import { BottomSheetRefContext } from "../../contexts/BottomSheetRefContext";
 import { MapContext, MapContextType } from "../../contexts/MapContext";
 import BottomsheetStackNavigator from "./bottomsheet-navigation/BottomsheetStackNavigator";
 
 const MainBottomSheet = () => {
     // ref
-    const bottomSheetRef = useRef<BottomSheet>(null);
+    // const bottomSheetRef = useRef<BottomSheet>(null);
+    const { bottomSheetRef } = useContext(BottomSheetRefContext)
     const { mapRef, setMapPadding } = useContext(MapContext) as MapContextType;
 
     // variables
@@ -16,7 +18,6 @@ const MainBottomSheet = () => {
     const snapPoints = useMemo(() => [24, "50%", "100%"], []);
 
     // MapPadding Manager
-
 
 
     // callbacks
@@ -40,7 +41,6 @@ const MainBottomSheet = () => {
             // }
         }
 
-        console.log("handleSheetChanges", index);
     }, []);
 
     // renders

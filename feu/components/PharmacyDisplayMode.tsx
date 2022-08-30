@@ -17,7 +17,6 @@ const PharmacyDisplayMode = () => {
 
     useEffect(() => {
         dispatch(changeDisplayMode(displayMode))
-        console.log("Dispatched")
     }, [displayMode])
 
     return (

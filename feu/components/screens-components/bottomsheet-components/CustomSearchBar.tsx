@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SearchBar } from "react-native-elements";
 import { SearchBarBaseProps } from "react-native-elements/dist/searchbar/SearchBar";
 import { useDispatch, useSelector } from "react-redux";
+import { BottomSheetRefContext } from "../../../contexts/BottomSheetRefContext";
 import { applyFilter } from "../../../stores/pharmaciesActions";
 import { RootReducerType } from "../../../types/dataTypes";
 import ShadowAround from "../../utility-components/ShadowAround";
@@ -16,6 +17,8 @@ const CustomSearchBar = () => {
         return state.pharmacies.toDisplay;
     });
     const [search, setSearch] = useState("");
+    const { bottomSheetRef } = useContext(BottomSheetRefContext)
+
 
     const handleChange = (searchString: string) => {
         setSearch(searchString);
@@ -36,6 +39,8 @@ const CustomSearchBar = () => {
                 placeholder="Rechercher une pharmacie..."
                 clearButtonMode="never"
                 onChangeText={handleChange}
+                onFocus={() => bottomSheetRef?.current?.expand()
+                }
                 // clearIcon={false}
                 value={search}
                 containerStyle={{
