@@ -50,6 +50,17 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
                         latitudeDelta: mapSetting.latDelta,
                         longitudeDelta: mapSetting.lngDelta,
                     }
+                } else {
+                    if (pharmaciesDatas.length) {
+
+                        const pharmacy = pharmaciesDatas[0]
+                        return {
+                            latitude: +pharmacy.coordinates.lat - mapSetting.lat,
+                            longitude: +pharmacy.coordinates.lng - mapSetting.lng,
+                            latitudeDelta: mapSetting.latDelta,
+                            longitudeDelta: mapSetting.lngDelta,
+                        }
+                    }
                 }
             })()}
             provider={PROVIDER_GOOGLE}
