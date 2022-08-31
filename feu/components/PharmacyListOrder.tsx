@@ -7,8 +7,10 @@ import { changePharmacyDisplayOrder } from '../stores/pharmaciesActions'
 import { RootReducerType } from '../types/dataTypes'
 import ShadowAround from './utility-components/ShadowAround'
 
-export type OrderType = "A proximité" | "Ascendant" | "Descendant"
+export type OrderType = OrderWIthoutUserLocation | OrderWithUserLocation
 
+type OrderWithUserLocation = "A proximité" | "Ascendant" | "Descendant"
+type OrderWIthoutUserLocation = "Ascendant" | "Descendant"
 interface Props {
   setIsProximityMode: React.Dispatch<React.SetStateAction<boolean>>
 
@@ -16,8 +18,14 @@ interface Props {
 
 const PharmacyListOrder: React.FC<Props> = ({ setIsProximityMode }) => {
 
-  const [orderMode, setOrderMode] = useState<OrderType>("A proximité")
   const { location } = useContext(UserLocationContext)
+  const [orderMode, setOrderMode] = useState<OrderType>(() => {
+    if (location) {
+      return "A proximité"
+    }
+    return "Ascendant"
+  })
+
   const dispatch = useDispatch();
   const pharmaciesDatas = useSelector((state: RootReducerType) => {
     return state.pharmacies.toDisplayInBottomSheet;
@@ -26,12 +34,21 @@ const PharmacyListOrder: React.FC<Props> = ({ setIsProximityMode }) => {
 
   const toggleOrder = () => {
     let newOrder: OrderType
-    if (orderMode === "A proximité") {
-      newOrder = "Ascendant"
-    } else if (orderMode === "Ascendant") {
-      newOrder = "Descendant"
+    if (location) {
+      if (orderMode === "A proximité") {
+        newOrder = "Ascendant"
+      } else if (orderMode === "Ascendant") {
+        newOrder = "Descendant"
+      } else {
+        newOrder = "A proximité"
+      }
+
     } else {
-      newOrder = "A proximité"
+      if (orderMode === "Ascendant") {
+        newOrder = "Descendant"
+      } else {
+        newOrder = "Ascendant"
+      }
     }
 
     setOrderMode(newOrder)
