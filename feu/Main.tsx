@@ -10,8 +10,9 @@ import AppLoading from 'expo-app-loading';
 import { MapContextProvider } from "./contexts/MapContext";
 import { UserLocationProvider } from "./contexts/UserLocationContext";
 
+import { useEffect } from "react";
 import { BottomSheetRefContextProvider } from "./contexts/BottomSheetRefContext";
-import { initDatabase } from "./database/db";
+import { initDatabase, initUpdateTable } from "./database/db";
 
 
 const Main = () => {
@@ -20,11 +21,19 @@ const Main = () => {
     // React.useState<Location.LocationObject | null>(null);
 
     const [isReady, setIsReady] = React.useState(false);
+    useEffect(() => {
+        (async () => {
+            try {
+                const initDbRes = await initDatabase();
+                const initUpdateDbRes = await initUpdateTable();
 
-    initDatabase().then((res) => {
-        console.log(res)
-
-    }).catch((err) => { console.log(err) });
+                console.log(initDbRes);
+                console.log(initUpdateDbRes)
+            } catch (error) {
+                console.log(error);
+            }
+        })()
+    }, [])
 
     const dispatch = useDispatch();
 
