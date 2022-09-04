@@ -60,6 +60,8 @@ export const fetchAllPharmacies = (location?: LocationObject) => {
   };
 };
 
+// Calculate user proximity to pharmacies
+// If isProximityMode is se to True, the resulting array will be sorted by order of proximity
 export const calculatePharmaciesProximityToUser = (
   userCoordinate: any,
   pharmacies: Pharmacies,
@@ -92,6 +94,7 @@ export const calculatePharmaciesProximityToUser = (
   };
 };
 
+// Used for search, filter pharmacies based on entered string
 export const applyFilter = (filter: string) => {
   return async (dispatch: any) => {
     dispatch({
@@ -101,6 +104,9 @@ export const applyFilter = (filter: string) => {
   };
 };
 
+// Change display mode
+// All -> Display everything
+// OpenOnly -> Display only open pharmacies
 export const changeDisplayMode = (mode: "All" | "OpenOnly") => {
   return async (dispatch: any) => {
     dispatch({
@@ -110,6 +116,7 @@ export const changeDisplayMode = (mode: "All" | "OpenOnly") => {
   };
 };
 
+// Change pharmacies display order in bottomsheet
 export const changePharmacyDisplayOrder = (
   pharmacies: Pharmacies,
   mode: "Ascendant" | "Descendant" | "A proximité"
