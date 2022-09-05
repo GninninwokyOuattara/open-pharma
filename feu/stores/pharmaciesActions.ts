@@ -1,4 +1,4 @@
-import { PHARMACIES, PROJECT_ENDPOINT } from "@env";
+import { PHARMACIES, PROJECT_ENDPOINT, UPDATE } from "@env";
 import axios, { AxiosResponse } from "axios";
 import {
   DBPharmacy,
@@ -26,6 +26,15 @@ const extractFirebaseData = (
   const dataKey = Object.keys(firebaseResponseObject)[0];
   const data = firebaseResponseObject[dataKey];
   return data;
+};
+
+export const getCurrentUpdateVersion = async () => {
+  try {
+    let response = await axios.get(`${PROJECT_ENDPOINT}${UPDATE}.json`);
+    return response.data as string;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const fetchAllPharmacies = (location?: LocationObject) => {
