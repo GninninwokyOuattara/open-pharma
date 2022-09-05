@@ -86,10 +86,11 @@ export const getUpdateVersion = () => {
   return new Promise((resolve: (value: any) => void, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT version FROM update_version LIMIT 1",
+        "SELECT version FROM update_version",
         [],
         (_, res: any) => {
-          return resolve(res.rows._array[0]);
+          const version = res.rows._array[0].version;
+          return resolve(version);
         },
         (_, err) => {
           reject(err);
@@ -100,16 +101,19 @@ export const getUpdateVersion = () => {
   });
 };
 
-export const changeUpdateVersion = (newVersion: string) => {
+export const updateDeviceUpdateVersionTo = (newVersion: string) => {
   return new Promise((resolve: (value: any) => void, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `UPDATE update_version 
-                SET version = ? 
-                WHERE id = ?`,
-        [newVersion, 1],
+        // `UPDATE update_version
+        //         SET version = ?
+        //         WHERE id = ?`,
+        `INSERT OR REPLACE INTO update_version (id, version) 
+        VALUES (?, ?)`,
+        [1, newVersion],
         (_, res: any) => {
-          return resolve(res.rows._array);
+          // console.log(res);
+          return resolve(res);
         },
         (_, err) => {
           reject(err);
