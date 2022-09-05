@@ -40,6 +40,7 @@ export const getCurrentUpdateVersion = async () => {
 export const fetchAllPharmacies = (location?: LocationObject) => {
   return async (dispatch: any) => {
     let response: AxiosResponse<any, any>;
+    console.log("-- Fetching pharmacies...");
     try {
       // get pharmacies from database
       response = await axios.get(`${PROJECT_ENDPOINT}${PHARMACIES}.json`);
@@ -50,6 +51,7 @@ export const fetchAllPharmacies = (location?: LocationObject) => {
     let pharmaciesDatas: Pharmacies = Object.values(response.data);
 
     // Then we insert them into the database
+    console.log("-- Inserting into database");
     for (let i = 0; i < pharmaciesDatas.length; i++) {
       try {
         await insertPharmacie(pharmaciesDatas[i]);
@@ -58,10 +60,13 @@ export const fetchAllPharmacies = (location?: LocationObject) => {
       }
     }
 
+    console.log("-- Getting pharmacies from db...");
     let pharmacies: DBPharmacy[] = await getAllPharmacies();
 
+    console.log("-- Parsing pharmacies into workable format...");
     pharmaciesDatas = pharmacies.map((pharmacy) => parsePharmacy(pharmacy));
 
+    console.log("-- Dispatching action...");
     dispatch({
       type: FETCH_ALL_PHARMACIES,
       pharmaciesDatas: pharmaciesDatas,
