@@ -1,0 +1,18 @@
+version: '3.8' # Specify docker-compose version
+
+# Define the services/containers to be run
+services:
+   expo: # Name of the frontend service
+      container_name: rna
+      build: . # Specify the directory of the Dockerfile
+      ports:
+         - 19000:19000 # Specify port-forwarding
+         - 19001:19001
+         - 19002:19002
+         - 19006:19006
+      # volumes: # Mount host path in the container
+      #    - ./:/usr/src/app
+      #    - /usr/src/app/node_modules
+      environment:
+         - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
+         - REACT_NATIVE_PACKAGER_HOSTNAME=127.0.0.1 

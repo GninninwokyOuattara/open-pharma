@@ -1,34 +1,57 @@
-import React, { useCallback, useContext, useMemo, useRef } from "react";
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
-import PharmaciesScreen from "./bottomsheet-navigation/bottomsheet-screens/PharmaciesScreen";
+import React, { useCallback, useContext, useMemo } from "react";
+import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import BottomsheetStackNavigator from "./bottomsheet-navigation/BottomsheetStackNavigator";
-import { MapContext, MapContextType } from "../../contexts/MapContext";
 import { COLOR_SCHEME } from "../../constants/colorSchemes";
+import { BottomSheetRefContext } from "../../contexts/BottomSheetRefContext";
+import { MapContext, MapContextType } from "../../contexts/MapContext";
+import BottomsheetStackNavigator from "./bottomsheet-navigation/BottomsheetStackNavigator";
 
 const MainBottomSheet = () => {
     // ref
-    const bottomSheetRef = useRef<BottomSheet>(null);
-    const { mapRef } = useContext(MapContext) as MapContextType;
+    // const bottomSheetRef = useRef<BottomSheet>(null);
+    const { bottomSheetRef } = useContext(BottomSheetRefContext)
+    const { mapRef, setMapPadding } = useContext(MapContext) as MapContextType;
 
     // variables
     const insets = useSafeAreaInsets();
     const snapPoints = useMemo(() => [24, "50%", "100%"], []);
 
+    // MapPadding Manager
+
+
     // callbacks
     const handleSheetChanges = useCallback((index: number) => {
-        console.log("handleSheetChanges", index);
+        if (setMapPadding) {
+
+            // if (!index) {
+            //     setMapPadding({ top: 0, left: 0, right: 0, bottom: 0 })
+            // } else {
+            //     console.log("Incresing mapPadding")
+            //     // mapRef?.current?.animate([{"latitude": 5.376891458495003,
+            //     // "latitudeDelta": 0.09220246288836087,
+            //     // "longitude": -4.006000533699989,
+            //     // "longitudeDelta": 0.04276916384697005, }], { edgePadding: { top: 0, left: 0, right: 0, bottom: 0 }, animated: true })
+            //     mapRef?.current?.animateToRegion({
+            //         "latitude": 5.376891458495003,
+            //         "latitudeDelta": 0.09220246288836087,
+            //         "longitude": -4.006000533699989,
+            //         "longitudeDelta": 0.04276916384697005
+            //     }, 1000)
+            // }
+        }
+
     }, []);
 
     // renders
+
     return (
         <BottomSheet
             ref={bottomSheetRef}
             index={1}
             snapPoints={snapPoints}
             onChange={handleSheetChanges}
-            topInset={insets.top}
+            topInset={insets.top + 110}
             bottomInset={insets.bottom}
             backgroundStyle={{ backgroundColor: "#F0ECD6", opacity: 0.9 }}
             keyboardBehavior="extend"
