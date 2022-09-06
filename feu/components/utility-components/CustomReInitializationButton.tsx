@@ -3,7 +3,6 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { COLOR_SCHEME } from '../../constants/colorSchemes';
 
 
 
@@ -14,14 +13,16 @@ const CustomReInitializationButton = () => {
 
     return (
 
-        <TouchableOpacity onPress={() => { }}>
+        <TouchableOpacity onPress={() => {
+            console.log("Reinitialization")
+        }}>
             <View style={styles.iconContainer}>
 
                 <MaterialCommunityIcons
                     style={styles.myLocationIcon}
                     name="reload"
                     size={20}
-                    color={COLOR_SCHEME.ORANGE}
+                    color="green"
                 />
             </View>
         </TouchableOpacity>
