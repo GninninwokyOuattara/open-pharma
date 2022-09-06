@@ -5,6 +5,7 @@ import { UserLocationContext } from '../contexts/UserLocationContext';
 import PharmacyShowMode from './PharmacyDisplayMode';
 import PharmacyListOrder from './PharmacyListOrder';
 import CustomSearchBar from './screens-components/bottomsheet-components/CustomSearchBar';
+import CustomReInitializationButton from './utility-components/CustomReInitializationButton';
 import CustomShowsMyLocationButton from './utility-components/CustomShowsMyLocationButton';
 
 interface Props {
@@ -44,6 +45,7 @@ const ToolBar: React.FC<Props> = ({ setIsProximityMode }) => {
                     marginRight: 10,
                 }}>
                     {location && <CustomShowsMyLocationButton />}
+                    <CustomReInitializationButton />
 
 
                 </View>
