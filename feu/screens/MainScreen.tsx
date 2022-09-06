@@ -28,6 +28,35 @@ const MainScreen = () => {
     });
     const [isProximityMode, setIsProximityMode] = useState<boolean>(false);
 
+    const isDeviceVersionValid = async () => {
+        // Check is current version of data is up to date.
+        console.log("Checking for device version...");
+        try {
+            let deviceVersion = await getCurrentUpdateVersion()
+            let lastVersion = await getUpdateVersion()
+
+            // console.log(deviceVersion, lastVersion)
+            if (deviceVersion === lastVersion) return true;
+            return false;
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
+    const updateDeviceVersion = async () => {
+        // Update current device version with lastest
+        console.log("Updating device version...");
+        try {
+            const latestVersion = await getCurrentUpdateVersion()
+            await updateDeviceUpdateVersionTo(latestVersion)
+            return latestVersion
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
     // On launch, retrieve data from database if exist otherwise from firebase
     useEffect(() => {
         (async () => {
@@ -38,23 +67,36 @@ const MainScreen = () => {
 
             let pharmacies: DBPharmacy[] = await getAllPharmacies()
             if (pharmacies.length > 0) {
+                // const isOk = await isDeviceVersionValid()
+
                 console.log("Using locally stored pharmacies")
                 let pharmaciesDatas = pharmacies.map((pharmacy) => parsePharmacy(pharmacy))
-                return dispatch({
+                dispatch({
                     type: FETCH_ALL_PHARMACIES,
                     pharmaciesDatas: pharmaciesDatas
                 })
+                // const isOk = await isDeviceVersionValid()
+                // console.log("isOk: " + isOk)
+                if (!await isDeviceVersionValid()) {
+                    console.log("Outdated device version, fetching most recent one...")
+                }
+
+
+
+                // Check if version  is ok to work with here
 
             } else if (!pharmacies.length) {
                 // There is no pharmacies in the database yet.
                 console.log("Fetching pharmacies online")
                 // await dropPharmaciesTable()
-                await dispatch(fetchAllPharmacies())
-                const latestVersion = await getCurrentUpdateVersion()
-                await updateDeviceUpdateVersionTo(latestVersion)
-                const currentVersion = await getUpdateVersion()
+                await Promise.all([dispatch(fetchAllPharmacies()), updateDeviceVersion()])
+                // await dispatch(fetchAllPharmacies())
+                // await updateDeviceVersion()
+                // const latestVersion = await getCurrentUpdateVersion()
+                // await updateDeviceUpdateVersionTo(latestVersion)
+                // const currentVersion = await getUpdateVersion()
                 // console.log("Latest version: " + latestVersion)
-                console.log("Current version: " + currentVersion)
+                // console.log("Current version: " + currentVersion)
 
             } else {
                 // await dispatch(fetchAllPharmacies())
