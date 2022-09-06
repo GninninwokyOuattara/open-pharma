@@ -14,7 +14,8 @@ interface props {
 
 const Map: React.FC<props> = ({ setIsMapLoaded }) => {
     const { location, errorMsg } = useContext(UserLocationContext);
-    const { mapRef, selectedMarker, mapPadding, mapSetting } = useContext(MapContext);
+    const { mapRef, selectedMarker, mapPadding, mapSetting, isFetching } = useContext(MapContext);
+
 
     const dispatch = useDispatch();
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
@@ -73,7 +74,7 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
         // mapPadding={{ top: 0, right: 0, bottom: 50, left: 0 }}
         >
 
-            {pharmaciesDatas &&
+            {(!isFetching && pharmaciesDatas) &&
                 pharmaciesDatas.map((pharmacyData, index) => {
                     const { lat, lng } = pharmacyData.coordinates;
                     return (
