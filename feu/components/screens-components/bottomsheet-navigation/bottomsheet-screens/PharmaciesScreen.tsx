@@ -16,6 +16,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
         return state.pharmacies.toDisplayInBottomSheet;
     });
     const { mapRef, setSelectedMarker, mapSetting } = useContext(MapContext);
+    const { isFetching } = useContext(MapContext)
 
     const renderPharmaciesItems = useCallback(
         ({ item }: { item: Pharmacy }) => {
@@ -49,7 +50,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
         [pharmaciesDatas]
     );
 
-    if (!pharmaciesDatas.length) {
+    if (isFetching) {
         return <SkeletonContentLoader />
 
     }

@@ -16,6 +16,7 @@ import { parsePharmacy } from "../utils/datasMorphing";
 
 import Map from "../components/screens-components/Map";
 import ToolBar from "../components/ToolBar";
+import { MapContext } from "../contexts/MapContext";
 
 
 const MainScreen = () => {
@@ -23,6 +24,7 @@ const MainScreen = () => {
     const insets = useSafeAreaInsets();
     const dispatch = useDispatch();
     const { location } = useContext(UserLocationContext)
+    const { setIsFetching } = useContext(MapContext)
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
         return state.pharmacies.toDisplay;
     });
@@ -59,7 +61,9 @@ const MainScreen = () => {
 
     // On launch, retrieve data from database if exist otherwise from firebase
     useEffect(() => {
+        // if(setIsFetching){}
         (async () => {
+            setIsFetching!(true)
             // const update = await updateDeviceUpdateVersionTo("TEST0001")
             // console.log("update", update);
             // const currentVersion = await getUpdateVersion()
@@ -104,7 +108,9 @@ const MainScreen = () => {
                 console.log(!pharmacies)
                 console.log("Something went wrong")
             }
-        })()
+            setIsFetching!(false)
+        }
+        )()
     }, [])
 
 
