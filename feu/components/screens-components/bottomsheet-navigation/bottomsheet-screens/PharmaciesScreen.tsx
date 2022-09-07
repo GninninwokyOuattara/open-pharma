@@ -1,6 +1,6 @@
 import { BottomSheetView } from "@gorhom/bottom-sheet";
 import React, { useCallback, useContext } from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, Text } from "react-native";
 import { useSelector } from "react-redux";
 import { MapContext } from "../../../../contexts/MapContext";
 import { Pharmacy, RootReducerType } from "../../../../types/dataTypes";
@@ -50,9 +50,14 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
         [pharmaciesDatas]
     );
 
+
     if (isFetching) {
         return <SkeletonContentLoader />
 
+    }
+
+    if (!isFetching && !pharmaciesDatas) {
+        return <Text>Yup something went horribly wrong...</Text>
     }
 
     return (
