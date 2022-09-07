@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import useInitializer from '../../hooks/useInitializer';
 
 
 
@@ -9,12 +10,15 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const CustomReInitializationButton = () => {
 
     // Hooks
+    const { init } = useInitializer()
+
 
 
     return (
 
-        <TouchableOpacity onPress={() => {
+        <TouchableOpacity onPress={async () => {
             console.log("Reinitialization")
+            await init();
         }}>
             <View style={styles.iconContainer}>
 
