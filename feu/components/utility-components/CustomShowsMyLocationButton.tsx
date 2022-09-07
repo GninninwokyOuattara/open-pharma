@@ -42,6 +42,7 @@ const CustomShowsMyLocationButton = () => {
 
 const styles = StyleSheet.create({
   iconContainer: {
+    marginHorizontal: 3,
     // borderWidth: 1,
     // borderColor: 'black',
     // width: 60,
