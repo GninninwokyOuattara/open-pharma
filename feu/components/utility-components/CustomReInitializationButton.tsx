@@ -50,7 +50,7 @@ const CustomReInitializationButton = () => {
             }}
             disabled={!!isFetching}
         >
-            <Animated.View style={{ ...styles.iconContainer, transform: [{ rotate: spin }] }}>
+            <Animated.View style={{ ...styles.iconContainer, transform: [{ rotate: spin }], backgroundColor: isFetching ? "gray" : "white" }}>
 
                 <MaterialCommunityIcons
                     style={styles.myLocationIcon}
