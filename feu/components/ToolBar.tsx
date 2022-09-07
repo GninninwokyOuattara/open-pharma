@@ -42,7 +42,7 @@ const ToolBar: React.FC<Props> = ({ setIsProximityMode }) => {
                 <View style={{
                     // flex: 1,
                     flexDirection: "row-reverse",
-                    marginRight: 10,
+                    // marginRight: 1,
                 }}>
                     {location && <CustomShowsMyLocationButton />}
                     <CustomReInitializationButton />
