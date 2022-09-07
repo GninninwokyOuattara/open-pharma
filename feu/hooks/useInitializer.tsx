@@ -21,11 +21,16 @@ const useInitializer = () => {
         // Check is current version of data is up to date.
         console.log("Checking for device version...");
         try {
-            let deviceVersion = await getCurrentUpdateVersion()
-            let lastVersion = await getUpdateVersion()
+            // let deviceVersion = await getCurrentUpdateVersion()
+            // let lastVersion = await getUpdateVersion()
+            let [deviceVersion, lastVersion] = await Promise.all([getCurrentUpdateVersion(), getUpdateVersion()])
 
             // console.log(deviceVersion, lastVersion)
-            if (deviceVersion === lastVersion) return true;
+            if (deviceVersion === lastVersion) {
+                console.log("Device version is up to date.")
+                return true
+            };
+            console.log("Device version is outdated ! you currently have version " + deviceVersion + " installed but last version is " + lastVersion)
             return false;
         } catch (error) {
             throw error;
@@ -64,6 +69,7 @@ const useInitializer = () => {
                 // console.log("isOk: " + isOk)
                 if (!await isDeviceVersionValid()) {
                     console.log("Outdated device version, fetching most recent one...")
+                    await init()
                 }
 
 
