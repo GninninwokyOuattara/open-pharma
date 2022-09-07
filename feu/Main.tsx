@@ -24,6 +24,7 @@ const Main = () => {
     useEffect(() => {
         (async () => {
             try {
+                // await dropPharmaciesTable()
                 const initDbRes = await initDatabase();
                 const initUpdateDbRes = await initUpdateTable();
 
