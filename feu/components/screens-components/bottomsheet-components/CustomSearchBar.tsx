@@ -41,6 +41,7 @@ const CustomSearchBar = () => {
                 onChangeText={handleChange}
                 onFocus={() => bottomSheetRef?.current?.expand()
                 }
+                onClear={() => handleChange("")}
                 // clearIcon={false}
                 value={search}
                 containerStyle={{

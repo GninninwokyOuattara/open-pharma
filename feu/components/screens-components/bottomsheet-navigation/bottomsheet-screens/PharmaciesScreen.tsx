@@ -56,7 +56,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
 
     }
 
-    if (!isFetching && !pharmaciesDatas) {
+    if (!isFetching && !pharmaciesDatas.length) {
         return <Text>Yup something went horribly wrong...</Text>
     }
 
