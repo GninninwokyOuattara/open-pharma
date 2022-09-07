@@ -1,7 +1,8 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import React, { useContext, useEffect } from 'react';
+import { Animated, Easing, StyleSheet, TouchableOpacity } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MapContext } from '../../contexts/MapContext';
 import useInitializer from '../../hooks/useInitializer';
 
 
@@ -11,7 +12,49 @@ const CustomReInitializationButton = () => {
 
     // Hooks
     const { init } = useInitializer()
+    const { isFetching } = useContext(MapContext)
 
+
+    let spinValue = new Animated.Value(0);
+
+    // First set up animation
+
+    const spinningAnimation = Animated.loop(Animated.timing(
+        spinValue,
+        {
+            toValue: 1,
+            duration: 3000,
+            easing: Easing.linear, // Easing is an additional import from react-native
+            useNativeDriver: true  // To make use of native driver for performance
+        }
+    ))
+
+
+    // Next, interpolate beginning and end values (in this case 0 and 1)
+    const spin = spinValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '360deg']
+    })
+
+    const respin = () => {
+
+        spinningAnimation.start((result) => {
+            console.log("Animation done!")
+
+        })
+
+    }
+
+    // respin()
+
+    useEffect(() => {
+        console.log(isFetching)
+        if (isFetching) {
+            spinningAnimation.start()
+        } else {
+            spinningAnimation.stop()
+        }
+    }, [isFetching, spinningAnimation])
 
 
     return (
@@ -20,7 +63,7 @@ const CustomReInitializationButton = () => {
             console.log("Reinitialization")
             await init();
         }}>
-            <View style={styles.iconContainer}>
+            <Animated.View style={{ ...styles.iconContainer, transform: [{ rotate: spin }] }}>
 
                 <MaterialCommunityIcons
                     style={styles.myLocationIcon}
@@ -28,7 +71,7 @@ const CustomReInitializationButton = () => {
                     size={20}
                     color="green"
                 />
-            </View>
+            </Animated.View>
         </TouchableOpacity>
 
     )
