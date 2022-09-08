@@ -14,7 +14,8 @@ interface props {
 
 const Map: React.FC<props> = ({ setIsMapLoaded }) => {
     const { location, errorMsg } = useContext(UserLocationContext);
-    const { mapRef, selectedMarker, mapPadding, mapSetting } = useContext(MapContext);
+    const { mapRef, selectedMarker, mapPadding, mapSetting, isFetching } = useContext(MapContext);
+
 
     const dispatch = useDispatch();
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
@@ -50,6 +51,17 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
                         latitudeDelta: mapSetting.latDelta,
                         longitudeDelta: mapSetting.lngDelta,
                     }
+                } else {
+                    if (pharmaciesDatas.length) {
+
+                        const pharmacy = pharmaciesDatas[0]
+                        return {
+                            latitude: +pharmacy.coordinates.lat - mapSetting.lat,
+                            longitude: +pharmacy.coordinates.lng - mapSetting.lng,
+                            latitudeDelta: mapSetting.latDelta,
+                            longitudeDelta: mapSetting.lngDelta,
+                        }
+                    }
                 }
             })()}
             provider={PROVIDER_GOOGLE}
@@ -62,7 +74,7 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
         // mapPadding={{ top: 0, right: 0, bottom: 50, left: 0 }}
         >
 
-            {pharmaciesDatas &&
+            {(!isFetching && pharmaciesDatas) &&
                 pharmaciesDatas.map((pharmacyData, index) => {
                     const { lat, lng } = pharmacyData.coordinates;
                     return (

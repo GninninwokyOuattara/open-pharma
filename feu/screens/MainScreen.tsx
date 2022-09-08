@@ -7,15 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import BottomBar from "../components/screens-components/BottomBar";
 import MainBottomSheet from "../components/screens-components/BottomSheet";
 import { UserLocationContext } from "../contexts/UserLocationContext";
-import { getAllPharmacies } from "../database/db";
-import { FETCH_ALL_PHARMACIES } from "../stores/actions";
-import { calculatePharmaciesProximityToUser, fetchAllPharmacies } from "../stores/pharmaciesActions";
-import { DBPharmacy, RootReducerType } from "../types/dataTypes";
-import { parsePharmacy } from "../utils/datasMorphing";
+import { calculatePharmaciesProximityToUser } from "../stores/pharmaciesActions";
+import { RootReducerType } from "../types/dataTypes";
 
 
 import Map from "../components/screens-components/Map";
 import ToolBar from "../components/ToolBar";
+import { MapContext } from "../contexts/MapContext";
+import useInitializer from "../hooks/useInitializer";
 
 
 const MainScreen = () => {
@@ -23,25 +22,21 @@ const MainScreen = () => {
     const insets = useSafeAreaInsets();
     const dispatch = useDispatch();
     const { location } = useContext(UserLocationContext)
+    const { setIsFetching } = useContext(MapContext)
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
         return state.pharmacies.toDisplay;
     });
     const [isProximityMode, setIsProximityMode] = useState<boolean>(false);
 
+    const { init } = useInitializer()
+
     // On launch, retrieve data from database if exist otherwise from firebase
     useEffect(() => {
+        // if(setIsFetching){}
         (async () => {
-            let pharmacies: DBPharmacy[] = await getAllPharmacies()
-            if (pharmacies.length > 0) {
-                let pharmaciesDatas = pharmacies.map((pharmacy) => parsePharmacy(pharmacy))
-                return dispatch({
-                    type: FETCH_ALL_PHARMACIES,
-                    pharmaciesDatas: pharmaciesDatas
-                })
-            } else {
-                await dispatch(fetchAllPharmacies())
-            }
-        })()
+            await init()
+        }
+        )()
     }, [])
 
 

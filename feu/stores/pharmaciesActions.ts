@@ -1,4 +1,4 @@
-import { PHARMACIES, PROJECT_ENDPOINT } from "@env";
+import { PHARMACIES, PROJECT_ENDPOINT, UPDATE } from "@env";
 import axios, { AxiosResponse } from "axios";
 import {
   DBPharmacy,
@@ -28,9 +28,19 @@ const extractFirebaseData = (
   return data;
 };
 
+export const getCurrentUpdateVersion = async () => {
+  try {
+    let response = await axios.get(`${PROJECT_ENDPOINT}${UPDATE}.json`);
+    return response.data as string;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const fetchAllPharmacies = (location?: LocationObject) => {
   return async (dispatch: any) => {
     let response: AxiosResponse<any, any>;
+    console.log("-- Fetching pharmacies...");
     try {
       // get pharmacies from database
       response = await axios.get(`${PROJECT_ENDPOINT}${PHARMACIES}.json`);
@@ -41,6 +51,7 @@ export const fetchAllPharmacies = (location?: LocationObject) => {
     let pharmaciesDatas: Pharmacies = Object.values(response.data);
 
     // Then we insert them into the database
+    console.log("-- Inserting into database");
     for (let i = 0; i < pharmaciesDatas.length; i++) {
       try {
         await insertPharmacie(pharmaciesDatas[i]);
@@ -49,10 +60,13 @@ export const fetchAllPharmacies = (location?: LocationObject) => {
       }
     }
 
+    console.log("-- Getting pharmacies from db...");
     let pharmacies: DBPharmacy[] = await getAllPharmacies();
 
+    console.log("-- Parsing pharmacies into workable format...");
     pharmaciesDatas = pharmacies.map((pharmacy) => parsePharmacy(pharmacy));
 
+    console.log("-- Dispatching action...");
     dispatch({
       type: FETCH_ALL_PHARMACIES,
       pharmaciesDatas: pharmaciesDatas,
@@ -60,6 +74,8 @@ export const fetchAllPharmacies = (location?: LocationObject) => {
   };
 };
 
+// Calculate user proximity to pharmacies
+// If isProximityMode is se to True, the resulting array will be sorted by order of proximity
 export const calculatePharmaciesProximityToUser = (
   userCoordinate: any,
   pharmacies: Pharmacies,
@@ -92,6 +108,7 @@ export const calculatePharmaciesProximityToUser = (
   };
 };
 
+// Used for search, filter pharmacies based on entered string
 export const applyFilter = (filter: string) => {
   return async (dispatch: any) => {
     dispatch({
@@ -101,6 +118,9 @@ export const applyFilter = (filter: string) => {
   };
 };
 
+// Change display mode
+// All -> Display everything
+// OpenOnly -> Display only open pharmacies
 export const changeDisplayMode = (mode: "All" | "OpenOnly") => {
   return async (dispatch: any) => {
     dispatch({
@@ -110,6 +130,7 @@ export const changeDisplayMode = (mode: "All" | "OpenOnly") => {
   };
 };
 
+// Change pharmacies display order in bottomsheet
 export const changePharmacyDisplayOrder = (
   pharmacies: Pharmacies,
   mode: "Ascendant" | "Descendant" | "A proximité"

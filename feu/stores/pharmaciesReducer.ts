@@ -53,8 +53,8 @@ export default (state: PharmaciesState = pharmaciesState, action: any) => {
       if (!filter) {
         return {
           ...state,
-          toDisplay: state.toDisplay,
-          toDisplayInBottomSheet: state.toDisplayInBottomSheet,
+          toDisplay: state.all,
+          toDisplayInBottomSheet: state.all,
         };
       }
       const filtered = state.all.filter((pharmacy) => {
@@ -86,6 +86,7 @@ export default (state: PharmaciesState = pharmaciesState, action: any) => {
       const pharmacies = action.data;
       return {
         ...state,
+        all: pharmacies,
         toDisplay: pharmacies,
         toDisplayInBottomSheet: pharmacies,
       };

@@ -5,6 +5,7 @@ import { UserLocationContext } from '../contexts/UserLocationContext';
 import PharmacyShowMode from './PharmacyDisplayMode';
 import PharmacyListOrder from './PharmacyListOrder';
 import CustomSearchBar from './screens-components/bottomsheet-components/CustomSearchBar';
+import CustomReInitializationButton from './utility-components/CustomReInitializationButton';
 import CustomShowsMyLocationButton from './utility-components/CustomShowsMyLocationButton';
 
 interface Props {
@@ -41,9 +42,10 @@ const ToolBar: React.FC<Props> = ({ setIsProximityMode }) => {
                 <View style={{
                     // flex: 1,
                     flexDirection: "row-reverse",
-                    marginRight: 10,
+                    // marginRight: 1,
                 }}>
                     {location && <CustomShowsMyLocationButton />}
+                    <CustomReInitializationButton />
 
 
                 </View>
