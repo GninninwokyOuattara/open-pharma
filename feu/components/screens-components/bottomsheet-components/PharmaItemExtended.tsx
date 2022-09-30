@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import ShadowAround from '../../utility-components/ShadowAround'
 
@@ -117,4 +117,4 @@ const PharmacyStateContainer = () => {
 }
 
 
-export default PharmaItemExtended
+export default memo(PharmaItemExtended)
