@@ -1,5 +1,5 @@
 import { BottomSheetView } from "@gorhom/bottom-sheet";
-import React, { useCallback, useContext } from "react";
+import React, { useContext } from "react";
 import { FlatList, StyleSheet, Text } from "react-native";
 import { useSelector } from "react-redux";
 import { MapContext } from "../../../../contexts/MapContext";
@@ -18,7 +18,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     const { mapRef, setSelectedMarker, mapSetting } = useContext(MapContext);
     const { isFetching } = useContext(MapContext)
 
-    const renderPharmaciesItems = useCallback(
+    const renderPharmaciesItems =
         ({ item }: { item: Pharmacy }) => {
             // console.log(item.phid);
             return (
@@ -46,9 +46,9 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                     }}
                 />
             );
-        },
-        [pharmaciesDatas]
-    );
+        }
+    //     [pharmaciesDatas]
+    // );
 
 
     if (isFetching) {
@@ -67,6 +67,10 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                 // ListHeaderComponent={<CustomSearchBar />}
                 data={pharmaciesDatas}
                 keyExtractor={(item) => item.id}
+                maxToRenderPerBatch={10}
+                initialNumToRender={10}
+                windowSize={10}
+                removeClippedSubviews={true}
                 renderItem={renderPharmaciesItems}
                 contentContainerStyle={styles.contentContainer}
                 // contentOffset={{ y: 70, x: 0 }}
@@ -86,6 +90,7 @@ const styles = StyleSheet.create({
     contentContainer: {
         paddingHorizontal: 10,
         paddingBottom: 200,
+        // flex: 1,
         // borderWidth: 1,
     },
 });
