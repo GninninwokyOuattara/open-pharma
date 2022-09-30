@@ -37,18 +37,18 @@ const PharmacyListOrder: React.FC<Props> = ({ setIsProximityMode }) => {
     if (location) {
       if (orderMode === "A proximité") {
         newOrder = "Ascendant"
-      } else if (orderMode === "Ascendant") {
-        newOrder = "Descendant"
+        // } else if (orderMode === "Ascendant") {
+        //   newOrder = "Descendant"
       } else {
         newOrder = "A proximité"
       }
 
     } else {
-      if (orderMode === "Ascendant") {
-        newOrder = "Descendant"
-      } else {
-        newOrder = "Ascendant"
-      }
+      // if (orderMode === "Ascendant") {
+      //   newOrder = "Descendant"
+      // } else {
+      newOrder = "Ascendant"
+      // }
     }
 
     setOrderMode(newOrder)
@@ -63,12 +63,12 @@ const PharmacyListOrder: React.FC<Props> = ({ setIsProximityMode }) => {
       setIsProximityMode(true)
 
     } else {
-      if (orderMode === "Ascendant") {
-        dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
+      // if (orderMode === "Ascendant") {
+      dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
 
-      } else if (orderMode === "Descendant") {
-        dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
-      }
+      // } else if (orderMode === "Descendant") {
+      //   dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
+      // }
       setIsProximityMode(false)
     }
 
@@ -89,7 +89,7 @@ const PharmacyListOrder: React.FC<Props> = ({ setIsProximityMode }) => {
           marginRight: 5,
           borderRadius: 5
         }}>
-          <Text style={{ fontWeight: "500" }}>Ordre : {orderMode}</Text>
+          <Text style={{ fontWeight: "500" }}>{orderMode}</Text>
         </View>
       </TouchableOpacity>
     </ShadowAround>
