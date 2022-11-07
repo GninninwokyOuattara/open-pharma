@@ -38,7 +38,7 @@ jobs:
                       git status
                       git add pharmacies_list.txt
                       git commit -m "Add $value new pharmacies to the list"
-                      git push --set-upstreal origin list-update
+                      git push --set-upstream origin list-update
                   else
                       echo "No update required"
                   fi
