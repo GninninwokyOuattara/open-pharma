@@ -1,3 +1,4 @@
+grande pharmacie des lacs (ex aniel)
 nlle pharmacie de l'alliance
 nouvelle pharmacie principale yopougon
 phaarmacie residence abobo pk 18
@@ -35,6 +36,7 @@ pharmacie akwaba
 pharmacie al-fatih
 pharmacie alicia
 pharmacie alpha 16
+pharmacie amaryllis
 pharmacie amina
 pharmacie amira
 pharmacie an-asr
@@ -124,6 +126,7 @@ pharmacie carrefour koweit
 pharmacie carrefour labia
 pharmacie carrefour n'dotre
 pharmacie carrefour pompier
+pharmacie carrefour saint pierre
 pharmacie carrefour sante
 pharmacie carrefour songon dagbe
 pharmacie carrefour st pierre
@@ -529,6 +532,7 @@ pharmacie kokoman vie
 pharmacie koralie
 pharmacie koro
 pharmacie koute
+pharmacie koweit marche
 pharmacie l'emmanuel
 pharmacie l'emmanuel de taabo
 pharmacie la colombe
@@ -723,6 +727,7 @@ pharmacie nouvelle pergola
 pharmacie nouvelle phenix
 pharmacie nouvelle principale de abobo te
 pharmacie nouvelle ptt
+pharmacie nouvelle sokoura
 pharmacie nouvelle wakouboue
 pharmacie noya
 pharmacie ode
@@ -793,6 +798,7 @@ pharmacie saint ambroise
 pharmacie saint andre
 pharmacie saint andre et marthe
 pharmacie saint ange
+pharmacie saint antoine
 pharmacie saint athanase
 pharmacie saint augustin
 pharmacie saint bernard
@@ -806,9 +812,11 @@ pharmacie saint francois
 pharmacie saint francois d'assise
 pharmacie saint francois de danga
 pharmacie saint francois xavier
+pharmacie saint gabriel
 pharmacie saint georges
 pharmacie saint gil
 pharmacie saint jean
+pharmacie saint jean paul 2 de bonoumin
 pharmacie saint joseph
 pharmacie saint joseph artisan
 pharmacie saint joseph de palmeraie
@@ -818,22 +826,30 @@ pharmacie saint louis de gonzag
 pharmacie saint lucien
 pharmacie saint marc broukro
 pharmacie saint martin
+pharmacie saint martin de faya
 pharmacie saint michel
+pharmacie saint moise
 pharmacie saint paul
+pharmacie saint paul (ex shekina)
 pharmacie saint pierre d'anono
 pharmacie saint pierre des rosees
 pharmacie saint raphael
 pharmacie saint raphael archange
 pharmacie saint sauveur
+pharmacie saint sylvestre
 pharmacie saint uriel
 pharmacie sainte adele
 pharmacie sainte agathe
+pharmacie sainte agnes
+pharmacie sainte anne d'abatta
 pharmacie sainte aude
 pharmacie sainte beatrice des rosiers
+pharmacie sainte catherine sarl
 pharmacie sainte cecile des vallons
 pharmacie sainte cecile des vallons(source: wwwpharma-consultscom)
 pharmacie sainte claudine
 pharmacie sainte croix
+pharmacie sainte dorothee
 pharmacie sainte eunice
 pharmacie sainte famille
 pharmacie sainte foi
@@ -841,6 +857,7 @@ pharmacie sainte harmony
 pharmacie sainte helene du marche
 pharmacie sainte hermann
 pharmacie sainte jeanne
+pharmacie sainte madeleine nimbo 18 logements
 pharmacie sainte marie
 pharmacie sainte marie d'adjame
 pharmacie sainte marie d'adjouffou
@@ -850,11 +867,13 @@ pharmacie sainte marie de ngattakro
 pharmacie sainte marie des beatitudes
 pharmacie sainte marie majeure
 pharmacie sainte marie n'gattakro
+pharmacie sainte marthe
 pharmacie sainte odile
 pharmacie sainte rita
 pharmacie sainte rosalie
 pharmacie sainte trinite
 pharmacie sainte veronique
+pharmacie saints andre et marthe
 pharmacie sandrina
 pharmacie sanitas
 pharmacie sanmien de natio
@@ -1013,6 +1032,7 @@ pharmacie yacouba sylla
 pharmacie yandi
 pharmacie yarapha
 pharmacie yele
+pharmacie yele sarl
 pharmacie zahara
 pharmacie zanon pierre
 pharmacie zeulayet
@@ -1020,3 +1040,5 @@ pharmacie zone industrielle
 pharmacie zone industrielle yopougon
 pharmacie zone micao
 pharmacie zone micao(source: wwwpharma-consultscom)
+rootpharmacie
+testpharmagarde
