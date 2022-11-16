@@ -9,6 +9,7 @@ django-rest-framework = "3.14.0"
 psycopg2-binary = "2.9.5"
 
 [dev-packages]
+autopep8 = "*"
 
 [requires]
 python_version = "3.10"
