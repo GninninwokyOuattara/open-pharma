@@ -6,13 +6,12 @@ class PharmacySerializer(serializers.ModelSerializer):
     class Meta:
         model = Pharmacy
         fields = ["id", "name", "director", "addresses", "phones", "email", "website", "description", "images",
-                  "google_maps_link", "latitude", "longitude", "date_created", "date_updated", "active", "pending_review", "coordinates"]
+                  "google_maps_link", "coordinates"]
         depth = 1
 
 
 class OpenPharmacySerializer(serializers.ModelSerializer):
 
-    # pharmacy field
     pharmacy_id = serializers.IntegerField(source='pharmacy.id')
 
     class Meta:
