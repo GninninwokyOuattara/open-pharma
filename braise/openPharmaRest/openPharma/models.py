@@ -11,15 +11,15 @@ class Pharmacy(models.Model):
     name = models.CharField(max_length=100)
     director = models.CharField(max_length=100, blank=True, null=True)
     addresses = ArrayField(models.CharField(
-        max_length=255), size=10, default=list)
+        max_length=255), size=10, default=list, blank=True, null=True)
     phones = ArrayField(models.CharField(
-        max_length=255), size=10, default=list)
-    email = models.CharField(max_length=100)
-    website = models.CharField(max_length=100)
+        max_length=255), size=10, default=list, blank=True, null=True)
+    email = models.CharField(max_length=100, blank=True, null=True)
+    website = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(
-        max_length=1000, default="Aucune description.")
+        max_length=1000, default="Aucune description.", blank=True, null=True)
     images = ArrayField(models.CharField(
-        max_length=255), size=50, default=list)
+        max_length=255), size=50, default=list, blank=True, null=True)
     google_maps_link = models.CharField(max_length=255, blank=True, null=True)
     latitude = models.FloatField()
     longitude = models.FloatField()
