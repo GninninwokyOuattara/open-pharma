@@ -15,15 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from openPharma.views import PharmacyViewSet
+from openPharma.views import (OpenPharmaciesFullView, OpenPharmaciesView,
+                              PharmacyViewSet)
 from openPharmaRest.views import TestView
 from rest_framework import routers
 
 router = routers.SimpleRouter()
-router.register(r'pharmacies', PharmacyViewSet)
-# router.register("test", TestView, basename='test')
-# router.register("test", TestViewSet, basename='test')
-
+router.register(r'pharmacies', PharmacyViewSet, basename='pharmacies')
+router.register(r"open", OpenPharmaciesView, basename="open")
+router.register(r"open_pharmacy_full", OpenPharmaciesFullView,
+                basename="open_pharmacy_full")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
