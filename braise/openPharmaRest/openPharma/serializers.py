@@ -2,38 +2,21 @@ from openPharma.models import OpenPharmacy, Pharmacy
 from rest_framework import serializers
 
 
-class PharmacySerializer(serializers.ModelSerializer):
+class PharmaciesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pharmacy
         fields = ["id", "name", "director", "addresses", "phones", "email", "website", "description", "images",
-                  "google_maps_link", "coordinates"]
-        depth = 1
+                  "google_maps_link", "coordinates", "date_created", "date_updated", "active", "pending_review"]
 
 
-class OpenPharmacySerializer(serializers.ModelSerializer):
-
-    pharmacy_id = serializers.IntegerField(source='pharmacy.id')
-
+class PharmaciesAdminSerializer(serializers.ModelSerializer):
     class Meta:
-        model = OpenPharmacy
-        fields = ["id", "pharmacy_id", "open_from",
-                  "open_until", "date_created", "date_updated"]
-        depth = 1
+        model = Pharmacy
+        fields = ["id", "name", "director", "addresses", "phones", "email", "website", "description", "images",
+                  "google_maps_link", "latitude", "longitude", "coordinates", "date_created", "date_updated", "active", "pending_review"]
 
     def create(self, validated_data):
-        pharmacy_id = validated_data.pop('pharmacy')['id']
-        pharmacy = Pharmacy.objects.get(id=pharmacy_id)
-        open_pharmacy = OpenPharmacy.objects.create(
-            pharmacy=pharmacy, **validated_data)
-        return open_pharmacy
+        return Pharmacy.objects.create(**validated_data)
 
-
-class OpenPharmacyDetailsSerializer(serializers.ModelSerializer):
-
-    pharmacy = PharmacySerializer()
-
-    class Meta:
-        model = OpenPharmacy
-        fields = ["id", "pharmacy", "open_from",
-                  "open_until", "date_created", "date_updated"]
-        depth = 1
+    def delete(self, instance):
+        instance.delete()
