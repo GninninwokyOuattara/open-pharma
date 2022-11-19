@@ -15,6 +15,12 @@ class PharmaciesAdminSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "director", "addresses", "phones", "email", "website", "description", "images",
                   "google_maps_link", "latitude", "longitude", "coordinates", "date_created", "date_updated", "active", "pending_review"]
 
+    def validate(self, data):
+        # if pending_review is True, active must be False
+        if data["pending_review"] and data["active"]:
+            raise serializers.ValidationError(
+                "pending_review and active cannot be both True")
+
     def create(self, validated_data):
         return Pharmacy.objects.create(**validated_data)
 
@@ -26,13 +32,13 @@ class PharmaciesPendingReviewAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pharmacy
         fields = ["id", "name", "director", "addresses", "phones", "email", "website", "description", "images",
-                  "google_maps_link", "coordinates", "date_created", "pending_review"]
+                  "google_maps_link", "coordinates", "date_created", "date_updated", "active", "pending_review"]
 
-    def create(self, validated_data):
-        return Pharmacy.objects.create(**validated_data)
+    # def create(self, validated_data):
+    #     return Pharmacy.objects.create(**validated_data)
 
-    def delete(self, instance):
-        instance.delete()
+    # def delete(self, instance):
+    #     instance.delete()
 
 
 # OPEN PHARMACY SERIALIZER
