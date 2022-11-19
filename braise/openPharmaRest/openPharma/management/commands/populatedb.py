@@ -27,6 +27,10 @@ class Command(BaseCommand):
             pharmacy_addresses = [
                 "Address " + str(i) + " " + str(j) for j in range(3)]
 
+            # pending_review alternate between True and False
+            pending_review = i % 2 == 0
+            active = not pending_review
+
             # create pharmacy
             pharmacy = Pharmacy.objects.create(
                 name=pharmacy_name,
@@ -34,7 +38,9 @@ class Command(BaseCommand):
                 addresses=pharmacy_addresses,
                 phones=pharmacy_phone,
                 latitude=pharmacy_latitude,
-                longitude=pharmacy_longitude
+                longitude=pharmacy_longitude,
+                active=active,
+                pending_review=pending_review
             )
             pharmacy.save()
 
