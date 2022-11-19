@@ -46,7 +46,7 @@ class PharmaciesPendingReviewAdminSerializer(serializers.ModelSerializer):
 class OpenPharmaciesAdminSerializer(serializers.ModelSerializer):
 
     pharmacy_id = serializers.IntegerField(
-        source="pharmacy", write_only=True)
+        write_only=True)
 
     class Meta:
         model = OpenPharmacy
@@ -75,14 +75,19 @@ class OpenPharmaciesAdminSerializer(serializers.ModelSerializer):
         if open_from > open_until:
             raise serializers.ValidationError("Invalid date range.")
 
+        pharmacy_id = data["pharmacy_id"]
+        pharmacy = Pharmacy.objects.get(id=pharmacy_id)
+
+        open_pharmacies = OpenPharmacy.objects.filter(
+            pharmacy=pharmacy, open_from__lte=open_from, open_until__gte=open_until)
+        if open_pharmacies:
+            raise serializers.ValidationError(
+                "Pharmacy already open on that date range.")
+
         return data
 
     def create(self, validated_data):
-        pharmacy_id = validated_data.pop("pharmacy")
-        pharmacy = Pharmacy.objects.get(id=pharmacy_id)
-        print("PHARMACY", pharmacy.name, pharmacy.coordinates)
-
-        return OpenPharmacy.objects.create(**validated_data, pharmacy=pharmacy)
+        return OpenPharmacy.objects.create(**validated_data)
 
 
 class OpenPharmaciesListAdminSerializer(serializers.ModelSerializer):
