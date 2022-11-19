@@ -5,6 +5,7 @@ from openPharma.models import OpenPharmacy, Pharmacy
 from openPharma.serializers import (OpenPharmaciesAdminSerializer,
                                     OpenPharmaciesListAdminSerializer,
                                     PharmaciesAdminSerializer,
+                                    PharmaciesOpenStateSerializer,
                                     PharmaciesPendingReviewAdminSerializer,
                                     PharmaciesSerializer)
 from rest_framework import status, viewsets
@@ -98,8 +99,10 @@ class OpenPharmaciesAdminViewset(viewsets.ModelViewSet):
 
 class PharmaciesCurrentStateViewset(viewsets.ReadOnlyModelViewSet):
 
-    serializer_class = PharmaciesSerializer
+    serializer_class = PharmaciesOpenStateSerializer
+    queryset = Pharmacy.objects.all()
 
-    def get_queryset(self):
-        # Get all pharmacies
-        return Pharmacy.objects.select_related('open_pharmacies').all()
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)

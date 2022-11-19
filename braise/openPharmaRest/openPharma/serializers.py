@@ -1,3 +1,5 @@
+
+from django.utils import timezone
 from openPharma.models import OpenPharmacy, Pharmacy
 from rest_framework import serializers
 
@@ -99,3 +101,31 @@ class OpenPharmaciesListAdminSerializer(serializers.ModelSerializer):
         model = OpenPharmacy
         fields = ["id", "pharmacy", "open_from",
                   "open_until", "date_created", "date_updated"]
+
+
+# All current pharmacies state
+
+class PharmaciesOpenStateSerializer(serializers.ModelSerializer):
+
+    open_pharmacies = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Pharmacy
+        fields = ["id", "name", "director", "addresses", "phones", "email", "website", "description", "images",
+                  "google_maps_link", "coordinates", "date_created", "date_updated", "active", "pending_review", "open_pharmacies"]
+
+    def get_open_pharmacies(self, obj):
+
+        open_pharmacies = OpenPharmacy.objects.get(
+            pharmacy=obj, open_from__lte=timezone.now(), open_until__gte=timezone.now())
+
+        if open_pharmacies:
+            open_pharmacies = OpenPharmaciesAdminSerializer(
+                open_pharmacies, many=True).data
+            print(open_pharmacies)
+            return open_pharmacies
+
+        if open_pharmacies:
+            return True
+        else:
+            return False
