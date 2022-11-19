@@ -68,7 +68,7 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
 class OpenPharmaciesViewset(viewsets.ReadOnlyModelViewSet):
     # queryset = OpenPharmacy.objects.all()
     current_date = datetime.datetime.now()
-    serializer_class = OpenPharmaciesAdminSerializer
+    serializer_class = OpenPharmaciesListAdminSerializer
 
     def get_queryset(self):
         # Get pharmacies that are open at the current time
@@ -92,3 +92,6 @@ class OpenPharmaciesAdminViewset(viewsets.ModelViewSet):
     def get_queryset(self):
         # Get all open pharmacies
         return OpenPharmacy.objects.filter(open_from__lte=self.current_date, open_until__gte=self.current_date)
+
+
+# OpenPharma All Pharmacies State
