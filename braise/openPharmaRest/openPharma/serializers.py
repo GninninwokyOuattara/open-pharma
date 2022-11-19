@@ -107,25 +107,25 @@ class OpenPharmaciesListAdminSerializer(serializers.ModelSerializer):
 
 class PharmaciesOpenStateSerializer(serializers.ModelSerializer):
 
-    open_pharmacies = serializers.SerializerMethodField()
+    open_date_range = serializers.SerializerMethodField()
 
     class Meta:
         model = Pharmacy
         fields = ["id", "name", "director", "addresses", "phones", "email", "website", "description", "images",
-                  "google_maps_link", "coordinates", "date_created", "date_updated", "active", "pending_review", "open_pharmacies"]
+                  "google_maps_link", "coordinates", "date_created", "date_updated", "open_date_range"]
 
-    def get_open_pharmacies(self, obj):
+    def get_open_date_range(self, obj):
 
-        open_pharmacies = OpenPharmacy.objects.filter(
+        open_pharmacy = OpenPharmacy.objects.filter(
             pharmacy=obj, open_from__lte=timezone.now(), open_until__gte=timezone.now())
 
-        if open_pharmacies:
-            open_pharmacies = OpenPharmaciesAdminSerializer(
-                open_pharmacies, many=True).data
-            print(open_pharmacies)
-            return open_pharmacies
-
-        if open_pharmacies:
-            return True
+        if open_pharmacy:
+            date_range_string = open_pharmacy[0].open_from.strftime(
+                "%d/%m/%Y") + " - " + open_pharmacy[0].open_until.strftime("%d/%m/%Y")
+            open_from = open_pharmacy[0].open_from.strftime(
+                "%d/%m/%Y")
+            open_until = open_pharmacy[0].open_until.strftime(
+                "%d/%m/%Y")
+            return {"open_from": open_from, "open_until": open_until, "date_range_string": date_range_string}
         else:
-            return False
+            return None
