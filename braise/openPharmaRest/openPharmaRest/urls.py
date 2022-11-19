@@ -34,12 +34,12 @@ user_router.register(r"pharmacies-current-state",
 
 admin_router = routers.SimpleRouter()
 admin_router.register(
-    r"pharmacies", PharmaciesAdminViewset, basename="pharmacies")
+    r"pharmacies", PharmaciesAdminViewset, basename="admin-pharmacies")
 admin_router.register(r'pharmacies-pending-review',
-                      PharmaciesPendingReviewAdminViewset, basename='pharmacies-pending-review')
+                      PharmaciesPendingReviewAdminViewset, basename='admin-pharmacies-pending-review')
 
 admin_router.register(r"open-pharmacies",
-                      OpenPharmaciesAdminViewset, basename="open-pharmacies")
+                      OpenPharmaciesAdminViewset, basename="admin-open-pharmacies")
 
 
 urlpatterns = [
