@@ -19,7 +19,7 @@ class PharmaciesAdminSerializer(serializers.ModelSerializer):
         # if pending_review is True, active must be False
         if data["pending_review"] and data["active"]:
             raise serializers.ValidationError(
-                "pending_review and active cannot be both True")
+                "Pharmacy cannot be active and pending review at the same time.")
 
     def create(self, validated_data):
         return Pharmacy.objects.create(**validated_data)
