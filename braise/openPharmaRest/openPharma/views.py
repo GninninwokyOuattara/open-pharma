@@ -81,8 +81,12 @@ class OpenPharmaciesAdminViewset(viewsets.ModelViewSet):
     serializer_class = OpenPharmaciesAdminSerializer
 
     def get_serializer_class(self):
-        if self.action == 'list':
+
+        print("ACTION NAME: ", self.action)
+        if self.action == 'list' or self.action == 'retrieve':
             return OpenPharmaciesListAdminSerializer
+        elif self.request.method == "POST" or self.request.method == "PATCH" or self.request.method == "PUT":
+            return OpenPharmaciesAdminSerializer
         return super().get_serializer_class()
 
     def get_queryset(self):

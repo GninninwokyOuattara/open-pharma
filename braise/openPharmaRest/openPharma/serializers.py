@@ -50,6 +50,7 @@ class OpenPharmaciesAdminSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OpenPharmacy
+
         fields = ["id", "pharmacy_id", "open_from",
                   "open_until"]
 
