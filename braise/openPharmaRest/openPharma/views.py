@@ -95,3 +95,11 @@ class OpenPharmaciesAdminViewset(viewsets.ModelViewSet):
 
 
 # OpenPharma All Pharmacies State
+
+class PharmaciesCurrentStateViewset(viewsets.ReadOnlyModelViewSet):
+
+    serializer_class = PharmaciesSerializer
+
+    def get_queryset(self):
+        # Get all pharmacies
+        return Pharmacy.objects.select_related('open_pharmacies').all()

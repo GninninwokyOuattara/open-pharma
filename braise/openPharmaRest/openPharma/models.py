@@ -41,7 +41,8 @@ class OpenPharmacy(models.Model):
         db_table = 'open_pharmacy'
 
     id = models.AutoField(primary_key=True)
-    pharmacy = models.ForeignKey(Pharmacy, on_delete=models.CASCADE)
+    pharmacy = models.ForeignKey(
+        Pharmacy, on_delete=models.CASCADE, related_name='open_pharmacies')
     open_from = models.DateField(blank=True, null=True)
     open_until = models.DateField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)

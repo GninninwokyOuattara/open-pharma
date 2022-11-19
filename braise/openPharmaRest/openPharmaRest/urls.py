@@ -16,14 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from openPharma.views import (OpenPharmaciesAdminViewset,
-                              PharmaciesAdminViewset,
+                              OpenPharmaciesViewset, PharmaciesAdminViewset,
+                              PharmaciesCurrentStateViewset,
                               PharmaciesPendingReviewAdminViewset,
                               PharmaciesViewset)
-from openPharmaRest.views import TestView
 from rest_framework import routers
+
+from openPharmaRest.views import TestView
 
 user_router = routers.SimpleRouter()
 user_router.register(r'pharmacies', PharmaciesViewset, basename='pharmacies')
+user_router.register(r'open-pharmacies',
+                     OpenPharmaciesViewset, basename='open-pharmacies')
+user_router.register(r"pharmacies-current-state",
+                     PharmaciesCurrentStateViewset, basename="pharmacies-current-state")
 
 
 admin_router = routers.SimpleRouter()
