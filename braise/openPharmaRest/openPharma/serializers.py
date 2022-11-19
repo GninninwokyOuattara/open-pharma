@@ -53,18 +53,36 @@ class OpenPharmaciesAdminSerializer(serializers.ModelSerializer):
         fields = ["id", "pharmacy_id", "open_from",
                   "open_until"]
 
+    def validate_pharmacy_id(self, value):
+
+        pharmacy = Pharmacy.objects.filter(id=value)
+        if not pharmacy:
+            raise serializers.ValidationError(
+                "Pharmacy not found.")
+        else:
+            pharmacy = pharmacy[0]
+
+        if not pharmacy.active:
+            raise serializers.ValidationError(
+                "An unactive pharmacy cannot be open.")
+        return value
+
+    def validate(self, data):
+        # get the dates
+        open_from = data["open_from"]
+        open_until = data["open_until"]
+
+        if open_from > open_until:
+            raise serializers.ValidationError("Invalid date range.")
+
+        return data
+
     def create(self, validated_data):
-        print("VALIDATED DATA", validated_data)
-        # Validate date
-        # if validated_data["open_from"] > validated_data["open_until"]:
-        #     raise serializers.ValidationError("Invalid date range.")
+        pharmacy_id = validated_data.pop("pharmacy")
+        pharmacy = Pharmacy.objects.get(id=pharmacy_id)
+        print("PHARMACY", pharmacy.name, pharmacy.coordinates)
 
-        # Get pharmacy by pharmacy_id
-        print("SHAT")
-
-        return "Hello World"
-
-        # return OpenPharmacy.objects.create(**validated_data)
+        return OpenPharmacy.objects.create(**validated_data, pharmacy=pharmacy)
 
 
 class OpenPharmaciesListAdminSerializer(serializers.ModelSerializer):
