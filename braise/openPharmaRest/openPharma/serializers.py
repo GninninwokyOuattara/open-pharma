@@ -116,7 +116,7 @@ class PharmaciesOpenStateSerializer(serializers.ModelSerializer):
 
     def get_open_pharmacies(self, obj):
 
-        open_pharmacies = OpenPharmacy.objects.get(
+        open_pharmacies = OpenPharmacy.objects.filter(
             pharmacy=obj, open_from__lte=timezone.now(), open_until__gte=timezone.now())
 
         if open_pharmacies:
