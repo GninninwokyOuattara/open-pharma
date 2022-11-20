@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+# import SearchApiView
+from googleMapsScrapper.views import SearchApiView
 from openPharma.views import (OpenPharmaciesAdminViewset,
                               OpenPharmaciesViewset, PharmaciesAdminViewset,
                               PharmaciesCurrentStateViewset,
@@ -46,7 +48,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include(user_router.urls)),
     path("api/admin/", include(admin_router.urls)),
-    # path("test/", TestView.as_view()),
-    # path('api/', include(router.urls)),
-    # path('api/admin/', include(adminRouter.urls))
+    path("maps-api/search/", SearchApiView.as_view(), name="search"),
+
 ]
