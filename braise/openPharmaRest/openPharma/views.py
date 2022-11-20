@@ -29,7 +29,7 @@ class PharmaciesAdminViewset(viewsets.ModelViewSet):
         return super().get_queryset()
 
     @action(detail=True, methods=['post'])
-    def desactivate(self, request, *args, **kwargs):
+    def deactivate(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.active = False
         instance.save()
@@ -37,15 +37,15 @@ class PharmaciesAdminViewset(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class PharmaciesPendingReviewAdminViewset(viewsets.ReadOnlyModelViewSet):
+class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
     queryset = Pharmacy.objects.filter(pending_review=True)
     serializer_class = PharmaciesPendingReviewAdminSerializer
+    http_method_names = ['get', 'post']
 
     def get_queryset(self):
         return super().get_queryset()
 
-    # Create a desactivate action
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=['post'])
     def deactivate(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.active = False
@@ -54,8 +54,7 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ReadOnlyModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
-    # Create an activate action
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=['post'])
     def activate(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.active = True
