@@ -124,6 +124,71 @@ class TestPharmaciesInsertionTestCase(APITestCase):
         self.assertEqual(response.status_code,
                          status.HTTP_201_CREATED)
 
+    def test_admin_can_modify_pharmacy(self):
+
+        pharmacy = Pharmacy.objects.create(
+            name="Pharmacy 1",
+            latitude=0.123,
+            longitude=0.123,
+            active=True,
+            pending_review=False,
+        )
+
+        url = reverse('admin-pharmacies-detail', args=[pharmacy.id])
+        data = {
+            "name": "Pharmacy 1",
+            "latitude": 0.124,
+            "longitude": 0.124,
+            "addresses": ["Address 1", "Address 2"],
+            "active": True,
+            "pending_review": False,
+        }
+        response = self.client.patch(url, data, format='json')
+        self.assertEqual(response.status_code,
+                         status.HTTP_200_OK)
+        self.assertEqual(response.data['latitude'], 0.124)
+        self.assertEqual(response.data['longitude'], 0.124)
+        self.assertEqual(response.data['addresses'], [
+                         "Address 1", "Address 2"])
+
+    def test_admin_cannot_modify_pharmacy_incorrectly(self):
+
+        pharmacy = Pharmacy.objects.create(
+            name="Pharmacy 1",
+            latitude=0.123,
+            longitude=0.123,
+            active=True,
+            pending_review=False,
+        )
+
+        url = reverse('admin-pharmacies-detail', args=[pharmacy.id])
+        data = {
+            "name": "Pharmacy 1",
+            "latitude": 0.124,
+            "longitude": 0.124,
+            "addresses": "Address 1",  # incorrect addresses hold an array
+            "active": True,
+            "pending_review": False,
+        }
+
+        response = self.client.patch(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_admin_can_delete_pharmacy(self):
+
+        pharmacy = Pharmacy.objects.create(
+            name="Pharmacy 1",
+            latitude=0.123,
+            longitude=0.123,
+            active=True,
+            pending_review=False,
+        )
+
+        url = reverse('admin-pharmacies-detail', args=[pharmacy.id])
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code,
+                         status.HTTP_204_NO_CONTENT)
+
     def test_admin_cannott_insert_active_and_pending_pharmacy(self):
 
         url = reverse('admin-pharmacies-list')
@@ -174,7 +239,7 @@ class TestPharmaciesInsertionTestCase(APITestCase):
         self.assertEqual(response.data[0]['pending_review'], True)
 
         # activate the pharmacy
-        response = self.client.get(
+        response = self.client.post(
             f"{url}{pharmacy.id}/activate/", format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # assert pharmacy is now active
@@ -203,7 +268,36 @@ class TestPharmaciesInsertionTestCase(APITestCase):
         self.assertEqual(response.data[0]['pending_review'], True)
 
         # deactivate the pharmacy
-        response = self.client.get(
+        response = self.client.post(
+            f"{url}{pharmacy.id}/deactivate/", format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # assert pharmacy is now inactive
+        self.assertEqual(response.data['active'], False)
+        self.assertEqual(response.data['pending_review'], False)
+
+    def test_admin_can_deactivate_active_pharmacy(self):
+
+        url = reverse('admin-pharmacies-list')
+
+        # create active pharmacy
+        pharmacy = Pharmacy.objects.create(
+            name="Pharmacy 1",
+            latitude=0.123,
+            longitude=0.123,
+            active=True,
+            pending_review=False,
+        )
+
+        # get pharmacies
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        # assert pharmacy is active
+        self.assertEqual(response.data[0]['active'], True)
+        self.assertEqual(response.data[0]['pending_review'], False)
+
+        # deactivate the pharmacy
+        response = self.client.post(
             f"{url}{pharmacy.id}/deactivate/", format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # assert pharmacy is now inactive
@@ -230,7 +324,7 @@ class TestPharmaciesInsertionTestCase(APITestCase):
         self.assertEqual(response.status_code,
                          status.HTTP_201_CREATED)
 
-    def test_admin_cannot_open_pending_pharmacy(self):
+    def test_admin_cannot_open_pending_review_pharmacy(self):
 
         url = reverse('admin-open-pharmacies-list')
         # create a pending pharmacy
