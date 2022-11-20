@@ -22,6 +22,10 @@ class PharmaciesAdminSerializer(serializers.ModelSerializer):
         if data["pending_review"] and data["active"]:
             raise serializers.ValidationError(
                 "Pharmacy cannot be active and pending review at the same time.")
+        # A pharmacy with same coordinates should not exist in the database
+        elif Pharmacy.objects.filter(latitude=data["latitude"], longitude=data["longitude"], name=data["name"]).exists():
+            raise serializers.ValidationError(
+                "A pharmacy with this name already exist on this location.")
         else:
             return data
 
