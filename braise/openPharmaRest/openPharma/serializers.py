@@ -38,12 +38,6 @@ class PharmaciesPendingReviewAdminSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "director", "addresses", "phones", "email", "website", "description", "images",
                   "google_maps_link", "coordinates", "date_created", "date_updated", "active", "pending_review"]
 
-    # def create(self, validated_data):
-    #     return Pharmacy.objects.create(**validated_data)
-
-    # def delete(self, instance):
-    #     instance.delete()
-
 
 # OPEN PHARMACY SERIALIZER
 
