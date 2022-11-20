@@ -97,7 +97,7 @@ class TestPharmaciesListingTestCase(APITestCase):
 
 class TestPharmaciesInsertionTestCase(APITestCase):
 
-    def test_user_cant_insert_pharmacy(self):
+    def test_user_cannot_insert_pharmacy(self):
 
         url = reverse('pharmacies-list')
         data = {
@@ -124,7 +124,7 @@ class TestPharmaciesInsertionTestCase(APITestCase):
         self.assertEqual(response.status_code,
                          status.HTTP_201_CREATED)
 
-    def test_admin_cant_insert_active_and_pending_pharmacy(self):
+    def test_admin_cannott_insert_active_and_pending_pharmacy(self):
 
         url = reverse('admin-pharmacies-list')
         data = {
@@ -230,7 +230,7 @@ class TestPharmaciesInsertionTestCase(APITestCase):
         self.assertEqual(response.status_code,
                          status.HTTP_201_CREATED)
 
-    def test_admin_cant_open_pending_pharmacy(self):
+    def test_admin_cannot_open_pending_pharmacy(self):
 
         url = reverse('admin-open-pharmacies-list')
         # create a pending pharmacy
@@ -250,7 +250,7 @@ class TestPharmaciesInsertionTestCase(APITestCase):
         self.assertEqual(response.status_code,
                          status.HTTP_400_BAD_REQUEST)
 
-    def test_admin_cant_open_inactive_pharmacy(self):
+    def test_admin_cannot_open_inactive_pharmacy(self):
 
         url = reverse('admin-open-pharmacies-list')
         # create an inactive pharmacy
@@ -270,7 +270,7 @@ class TestPharmaciesInsertionTestCase(APITestCase):
         self.assertEqual(response.status_code,
                          status.HTTP_400_BAD_REQUEST)
 
-    def test_admin_cant_open_pharmacy_on_same_date_range(self):
+    def test_admin_cannot_open_pharmacy_on_same_date_range(self):
 
         url = reverse('admin-open-pharmacies-list')
         # create an active pharmacy
