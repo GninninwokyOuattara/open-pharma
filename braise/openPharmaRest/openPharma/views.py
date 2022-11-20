@@ -46,7 +46,7 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
 
     # Create a desactivate action
     @action(detail=True, methods=['post'])
-    def desactivate(self, request, *args, **kwargs):
+    def deactivate(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.active = False
         instance.pending_review = False
