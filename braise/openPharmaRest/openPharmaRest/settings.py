@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'openPharma',
     'rest_framework',
     'googleMapsScrapper',
+    'openTracker',
 ]
 
 MIDDLEWARE = [

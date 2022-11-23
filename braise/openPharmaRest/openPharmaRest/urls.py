@@ -22,6 +22,7 @@ from openPharma.views import (OpenPharmaciesAdminViewset,
                               PharmaciesCurrentStateViewset,
                               PharmaciesPendingReviewAdminViewset,
                               PharmaciesViewset)
+from openTracker.views import CurrentlyOpenPharmaciesView
 from rest_framework import routers
 
 from openPharmaRest.views import TestView
@@ -49,5 +50,6 @@ urlpatterns = [
     path("api/", include(user_router.urls)),
     path("api/admin/", include(admin_router.urls)),
     path("maps-api/search/", SearchApiView.as_view(), name="search"),
+    path("tracker/", CurrentlyOpenPharmaciesView.as_view(), name="tracker"),
 
 ]
