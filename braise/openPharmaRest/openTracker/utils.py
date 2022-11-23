@@ -16,15 +16,22 @@ def extract_pharmacy_data_from_row(row):
     # separated by 'Contact :'
     manager_name, manager_contacts = manager_column.split("contact :")
     data["director"] = manager_name.strip()
-    data["phones"] = manager_contacts.split("/")
+    data["phones"] = manager_contacts.replace(
+        " ", "").replace("+225", "").split("/")
 
     geographical_datas_column = row_datas[2].get_text(strip=True).lower()
     google_maps_link = row_datas[2].select_one("a")
     data["google_maps_link"] = google_maps_link["href"] if google_maps_link else ""
 
     if data["google_maps_link"]:
-        data["latitude"], data["longitude"] = data["google_maps_link"].split(
+        latitude, longitude = data["google_maps_link"].split(
             "@")[1].split(",")[:2]
+        data["latitude"] = float(latitude)
+        data["longitude"] = float(longitude)
+
+    else:
+        data["latitude"] = 0
+        data["longitude"] = 0
 
     addresses = geographical_datas_column.split("position :")[0]
     # Each address is separated by a /
