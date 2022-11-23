@@ -1,3 +1,8 @@
+import requests
+from bs4 import BeautifulSoup
+from openTracker.constants import SOURCE_URL
+
+
 def extract_pharmacy_data_from_row(row):
     """Given a row from the source url, extract revelant data at each indexes
     and return a dictionary with the data"""
@@ -28,3 +33,25 @@ def extract_pharmacy_data_from_row(row):
     data["open_from"] = row_datas[4].get_text(strip=True)
     data["open_until"] = row_datas[5].get_text(strip=True)
     return data
+
+
+# PHARMA CONSULT
+
+def get_pharmacies_datas_rows():
+    """Get the table rows containing pharmacies data from the source url"""
+
+    page = requests.get(SOURCE_URL)
+    soup = BeautifulSoup(page.text, "html.parser")
+    tables_rows = soup.select("table > tbody > tr")
+    return tables_rows
+
+
+def get_currently_open_pharmacies_datas():
+    """Get all pharmacies datas from the source url"""
+
+    tables_rows = get_pharmacies_datas_rows()
+    collection = []
+    for table_row in tables_rows:
+        pharmacy_data = extract_pharmacy_data_from_row(table_row)
+        collection.append(pharmacy_data)
+    return collection

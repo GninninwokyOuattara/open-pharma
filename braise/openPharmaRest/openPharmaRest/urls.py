@@ -49,7 +49,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include(user_router.urls)),
     path("api/admin/", include(admin_router.urls)),
+    path("api/admin/get-currently-open-pharmacies/",
+         CurrentlyOpenPharmaciesView.as_view(), name="tracker"),
     path("maps-api/search/", SearchApiView.as_view(), name="search"),
-    path("tracker/", CurrentlyOpenPharmaciesView.as_view(), name="tracker"),
 
 ]

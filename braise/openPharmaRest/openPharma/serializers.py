@@ -19,7 +19,9 @@ class PharmaciesAdminSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         # if pending_review is True, active must be False
-        if data["pending_review"] and data["active"]:
+        # Check if data has pending_review key
+
+        if data.get("pending_review", True) and data.get("active", False):
             raise serializers.ValidationError(
                 "Pharmacy cannot be active and pending review at the same time.")
         # A pharmacy with same coordinates should not exist in the database
