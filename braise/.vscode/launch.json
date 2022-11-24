@@ -30,6 +30,15 @@
       "args": ["main"],
       "django": true,
       "justMyCode": true
+    },
+    {
+      "name": "Debug Command Main Windows",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}\\openPharmaRest\\manage.py",
+      "args": ["main"],
+      "django": true,
+      "justMyCode": true
     }
   ]
 }
