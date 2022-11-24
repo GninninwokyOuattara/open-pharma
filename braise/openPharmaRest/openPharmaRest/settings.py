@@ -43,6 +43,13 @@ INSTALLED_APPS = [
     'openTracker',
 ]
 
+REST_FRAMEWORK = {
+    "DATE_FORMAT": '%d/%m/%Y',
+    "DATE_INPUT_FORMATS": ["%d/%m/%Y", ],
+
+}
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
