@@ -72,13 +72,14 @@ class Command(BaseCommand):
             self.n_updates += 1
         except Exception as err:
             # TODO Better handling of this exception...
+            self.stdout.write(self.style.ERROR(
+                f'Pharmacy {pharmacy_datas["name"]} opening data has not been set due to an unknown error.'))
             pass
 
     def handle(self, *args, **options):
         try:
             pharmacies_datas = self.perform_get_currently_open_pharmacies_datas()
             for pharmacy_datas in pharmacies_datas:
-                print(pharmacy_datas["name"])
                 # Look for the pharmacy in the db
                 pharmacy = Pharmacy.objects.filter(
                     name=pharmacy_datas["name"], latitude=pharmacy_datas["latitude"], longitude=pharmacy_datas["longitude"])
@@ -88,13 +89,19 @@ class Command(BaseCommand):
                     continue
 
                 pharmacy = pharmacy[0]
-                # Check if this pharmacy isn't alrady open at this date range
+
+                pharmacy_datas["open_from"] = datetime.strptime(
+                    pharmacy_datas["open_from"], '%d/%m/%Y')
+                pharmacy_datas["open_until"] = datetime.strptime(
+                    pharmacy_datas["open_until"], '%d/%m/%Y')
+
                 open_pharmacy = OpenPharmacy.objects.filter(
-                    pharmacy=pharmacy, open_from=pharmacy_datas["open_from"], open_until=pharmacy_datas["open_until"])
+                    pharmacy=pharmacy, open_from__lte=pharmacy_datas["open_from"],
+                    open_until__gte=pharmacy_datas["open_until"])
 
                 if open_pharmacy.exists():
                     self.stdout.write(self.style.ERROR(
-                        f'Pharmacy {pharmacy_datas["name"]} is already open between {pharmacy_datas["open_from"]} and {pharmacy_datas["open_until"]}. Skipped.'))
+                        f'{pharmacy_datas["name"]} is already open between {pharmacy_datas["open_from"]} and {pharmacy_datas["open_until"]}. Skipped.'))
                     self.n_skipping += 1
                     continue
                 # try to open pharmacy at provided date range
@@ -104,9 +111,11 @@ class Command(BaseCommand):
             # raise CommandError(str(error))
             raise error
         finally:
+            # Summary of the task
+            print("======= SUMMARY =======")
             self.stdout.write(self.style.SUCCESS(
                 f'{self.n_insertions} new pharmacies inserted'))
             self.stdout.write(self.style.SUCCESS(
                 f'{self.n_updates} pharmacies updated'))
-            self.stdout.write(self.style.SUCCESS(
+            self.stdout.write(self.style.ERROR(
                 f'{self.n_skipping} pharmacies skipped'))
