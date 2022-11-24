@@ -10,7 +10,6 @@ class TestPharmaciesListingTestCase(APITestCase):
 
     def setUp(self):
 
-        # current date formatted like dd/mm/yyyy
         self.current_date = datetime.now().strftime("%Y-%m-%d")
         # one week after current date
         self.one_week_after = (
