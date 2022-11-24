@@ -131,6 +131,6 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(
                 f'{self.n_updates} pharmacies updated'))
             self.stdout.write(self.style.WARNING(
-                f'{self.n_skipped_already_open} pharmacies already open at given date'))
+                f'{self.n_skipped_already_open} pharmacies already open at provided date range'))
             self.stdout.write(self.style.WARNING(
-                f'{self.n_skipped_inactive} pharmacies skipped because inactive'))
+                f'{self.n_skipped_inactive} pharmacies skipped due to inactivity'))
