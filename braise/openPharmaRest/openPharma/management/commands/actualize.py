@@ -16,7 +16,8 @@ class Command(BaseCommand):
     help = 'Collects currently open pharmacies on the internet to update the database'
     n_insertions = 0
     n_updates = 0
-    n_skipping = 0
+    n_skipped_already_open = 0
+    n_skipped_inactive = 0
 
     def perform_get_currently_open_pharmacies_datas(self):
         """Run get_currently_open_pharmacies_datas function while also keeping track of its performance and handling printing informations in console.
@@ -94,6 +95,13 @@ class Command(BaseCommand):
 
                 pharmacy = pharmacy[0]
 
+                if not pharmacy.active:
+                    # Pharmacy is not active, skip
+                    self.stdout.write(self.style.WARNING(
+                        f'Pharmacy {pharmacy_datas["name"]} is not active.'))
+                    self.n_skipped_inactive += 1
+                    continue
+
                 pharmacy_datas["open_from"] = datetime.strptime(
                     pharmacy_datas["open_from"], '%d/%m/%Y')
                 pharmacy_datas["open_until"] = datetime.strptime(
@@ -106,8 +114,9 @@ class Command(BaseCommand):
                 if open_pharmacy.exists():
                     self.stdout.write(self.style.ERROR(
                         f'{pharmacy_datas["name"]} is already open between {pharmacy_datas["open_from"]} and {pharmacy_datas["open_until"]}. Skipped.'))
-                    self.n_skipping += 1
+                    self.n_skipped_already_open += 1
                     continue
+
                 # try to open pharmacy at provided date range
                 self.perform_pharmacy_opening(pharmacy, pharmacy_datas)
                 continue
@@ -122,4 +131,6 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(
                 f'{self.n_updates} pharmacies updated'))
             self.stdout.write(self.style.WARNING(
-                f'{self.n_skipping} pharmacies skipped'))
+                f'{self.n_skipped_already_open} pharmacies already open at given date'))
+            self.stdout.write(self.style.WARNING(
+                f'{self.n_skipped_inactive} pharmacies skipped because inactive'))
