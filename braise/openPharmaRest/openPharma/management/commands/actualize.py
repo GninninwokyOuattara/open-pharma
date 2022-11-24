@@ -1,5 +1,9 @@
+# Main script used to update the database for the following case:
+# - Add new pharmacies is not existing
+# - Update existing pharmacies by defyning their opening date range
+#   - If pharmacies are active
 
-import random
+
 from datetime import datetime
 
 from django.core.management.base import BaseCommand, CommandError
@@ -117,5 +121,5 @@ class Command(BaseCommand):
                 f'{self.n_insertions} new pharmacies inserted'))
             self.stdout.write(self.style.SUCCESS(
                 f'{self.n_updates} pharmacies updated'))
-            self.stdout.write(self.style.ERROR(
+            self.stdout.write(self.style.WARNING(
                 f'{self.n_skipping} pharmacies skipped'))
