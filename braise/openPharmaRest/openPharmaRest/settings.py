@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 
 # import DIR_PATH
-from openTracker.constants import DIR_PATH
+from global_constants import DIR_PATH
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -147,5 +147,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRONJOBS = [
     ("* * * * *", "django.core.management.call_command",
      ["actualize"], {}, f">> {DIR_PATH}/cron_actualize.log 2>&1"),
+
+    #  NB :
+    # Add cronjob -> python manage.py crontab add
+    # Remove cronjob -> python manage.py crontab remove
+    # List cronjob -> python manage.py crontab show
 
 ]
