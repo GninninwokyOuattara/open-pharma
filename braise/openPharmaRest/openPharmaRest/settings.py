@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 
+# import DIR_PATH
+from global_constants import DIR_PATH
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -37,10 +40,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
     'openPharma',
     'rest_framework',
     'googleMapsScrapper',
+    'openTracker',
 ]
+
+REST_FRAMEWORK = {
+    "DATE_FORMAT": '%d/%m/%Y',
+    "DATE_INPUT_FORMATS": ["%d/%m/%Y", ],
+
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -130,3 +142,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CRONJOBS = [
+    ("0 9 * * *", "django.core.management.call_command",
+     ["actualize"], {}, f">> {DIR_PATH}/cron_actualize.log 2>&1"),
+
+    #  NB :
+    # Add cronjob -> python manage.py crontab add
+    # Remove cronjob -> python manage.py crontab remove
+    # List cronjob -> python manage.py crontab show
+
+]

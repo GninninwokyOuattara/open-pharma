@@ -10,7 +10,6 @@ class TestPharmaciesListingTestCase(APITestCase):
 
     def setUp(self):
 
-        # current date formatted like dd/mm/yyyy
         self.current_date = datetime.now().strftime("%Y-%m-%d")
         # one week after current date
         self.one_week_after = (
@@ -317,8 +316,8 @@ class TestPharmaciesInsertionTestCase(APITestCase):
 
         data = {
             "pharmacy_id": pharmacy.id,
-            "open_from": "2020-01-01",
-            "open_until": "2020-01-07",
+            "open_from": "01/01/2020",
+            "open_until": "07/01/2020",
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code,
@@ -337,8 +336,8 @@ class TestPharmaciesInsertionTestCase(APITestCase):
 
         data = {
             "pharmacy_id": pharmacy.id,
-            "open_from": "2020-01-01",
-            "open_until": "2020-01-07",
+            "open_from": "01/01/2020",
+            "open_until": "07/01/2020",
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code,
@@ -357,8 +356,8 @@ class TestPharmaciesInsertionTestCase(APITestCase):
 
         data = {
             "pharmacy_id": pharmacy.id,
-            "open_from": "2020-01-01",
-            "open_until": "2020-01-07",
+            "open_from": "01/01/2020",
+            "open_until": "07/01/2020",
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code,
@@ -377,8 +376,8 @@ class TestPharmaciesInsertionTestCase(APITestCase):
 
         data = {
             "pharmacy_id": pharmacy.id,
-            "open_from": "2020-01-01",
-            "open_until": "2020-01-07",
+            "open_from": "01/01/2020",
+            "open_until": "07/01/2020",
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code,
@@ -402,16 +401,16 @@ class TestPharmaciesInsertionTestCase(APITestCase):
 
         data = {
             "pharmacy_id": pharmacy.id,
-            "open_from": "2020-01-01",
-            "open_until": "2020-01-07",
+            "open_from": "01/01/2020",
+            "open_until": "07/01/2020",
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code,
                          status.HTTP_201_CREATED)
 
         # try to open the same pharmacy on a different date range
-        data['open_from'] = '2020-01-08'
-        data['open_until'] = '2020-01-14'
+        data['open_from'] = "08/01/2020"
+        data['open_until'] = "14/01/2020"
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code,
                          status.HTTP_201_CREATED)
