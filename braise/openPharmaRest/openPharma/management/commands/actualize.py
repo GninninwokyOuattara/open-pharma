@@ -4,20 +4,29 @@
 #   - If pharmacies are active
 
 
-from datetime import datetime
+import json
 
 from django.core.management.base import BaseCommand, CommandError
+# from timezone import timezone
+from django.utils import timezone
 # import pharmact
 from openPharma.models import OpenPharmacy, Pharmacy
+from openTracker.models import TrackerHistory
 from openTracker.utils import get_currently_open_pharmacies_datas
 
 
 class Command(BaseCommand):
     help = 'Collects currently open pharmacies on the internet to update the database'
+
+    start_time = timezone.now()
+    end_time = None
+
     n_insertions = 0
     n_updates = 0
     n_skipped_already_open = 0
     n_skipped_inactive = 0
+
+    pharmacies_datas = None
 
     @property
     def timestamp(self):
@@ -26,7 +35,7 @@ class Command(BaseCommand):
         Returns:
             str: The current timestamp
         """
-        return datetime.now().strftime("%d/%m/%Y %H:%M:%S:%f")
+        return timezone.now().strftime("%d/%m/%Y %H:%M:%S:%f")
 
     def stdout_stamp(self, message):
         """Print a message with a timestamp
@@ -43,17 +52,17 @@ class Command(BaseCommand):
         print(
             f"[{self.timestamp}] Collecting currently open pharmacies. Please wait...")
         # get the timestamp
-        start = datetime.now()
-        pharmacies_datas = get_currently_open_pharmacies_datas()
-        end = datetime.now()
+        start = timezone.now()
+        self.pharmacies_datas = get_currently_open_pharmacies_datas()
+        end = timezone.now()
         # duration in sec
         duration = (end - start).total_seconds()
         self.stdout.write(self.style.SUCCESS(
             f"[{self.timestamp}] Fetch completed in {duration} seconds"))
         self.stdout.write(self.style.SUCCESS(
-            f'[{self.timestamp}] There is currently {len(pharmacies_datas)} open pharmacies'))
+            f'[{self.timestamp}] There is currently {len(self.pharmacies_datas)} open pharmacies'))
 
-        return pharmacies_datas
+        return self.pharmacies_datas
 
     def perform_pharmacy_insertion(self, pharmacy_datas):
         """Perform a regular pharmacy insertion while handling possible error and printing
@@ -102,8 +111,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            pharmacies_datas = self.perform_get_currently_open_pharmacies_datas()
-            for pharmacy_datas in pharmacies_datas:
+            self.pharmacies_datas = self.perform_get_currently_open_pharmacies_datas()
+            for pharmacy_datas in self.pharmacies_datas:
                 # Look for the pharmacy in the db
                 pharmacy = Pharmacy.objects.filter(
                     name=pharmacy_datas["name"], latitude=pharmacy_datas["latitude"], longitude=pharmacy_datas["longitude"])
@@ -121,9 +130,9 @@ class Command(BaseCommand):
                     self.n_skipped_inactive += 1
                     continue
 
-                pharmacy_datas["open_from"] = datetime.strptime(
+                pharmacy_datas["open_from"] = timezone.strptime(
                     pharmacy_datas["open_from"], '%d/%m/%Y')
-                pharmacy_datas["open_until"] = datetime.strptime(
+                pharmacy_datas["open_until"] = timezone.strptime(
                     pharmacy_datas["open_until"], '%d/%m/%Y')
 
                 open_pharmacy = OpenPharmacy.objects.filter(
@@ -153,3 +162,14 @@ class Command(BaseCommand):
                 f'[{self.timestamp}] {self.n_skipped_already_open} pharmacies already open at provided date range'))
             self.stdout.write(self.style.WARNING(
                 f'[{self.timestamp}] {self.n_skipped_inactive} pharmacies skipped due to inactivity'))
+
+            self.end_time = timezone.now()
+            self.duration = (self.end_time - self.start_time)
+            # print total duration
+            print(
+                f"[{self.timestamp}] Job execution duration: {self.duration}")
+            # convert self.pharmacies_datas to json
+
+            # insert in TrackerHistory
+            TrackerHistory.objects.create(
+                start_time=self.start_time, end_time=self.end_time, duration=self.duration, mode="scheduled", collected_data=json.dumps(self.pharmacies_datas))
