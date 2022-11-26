@@ -145,7 +145,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CRONJOBS = [
-    ("* * * * *", "django.core.management.call_command",
+    ("0 9 * * *", "django.core.management.call_command",
      ["actualize"], {}, f">> {DIR_PATH}/cron_actualize.log 2>&1"),
 
     #  NB :
