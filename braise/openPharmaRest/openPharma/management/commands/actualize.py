@@ -5,6 +5,7 @@
 
 
 import json
+from datetime import datetime
 
 from django.core.management.base import BaseCommand, CommandError
 # from timezone import timezone
@@ -130,9 +131,9 @@ class Command(BaseCommand):
                     self.n_skipped_inactive += 1
                     continue
 
-                pharmacy_datas["open_from"] = timezone.strptime(
+                pharmacy_datas["open_from"] = datetime.strptime(
                     pharmacy_datas["open_from"], '%d/%m/%Y')
-                pharmacy_datas["open_until"] = timezone.strptime(
+                pharmacy_datas["open_until"] = datetime.strptime(
                     pharmacy_datas["open_until"], '%d/%m/%Y')
 
                 open_pharmacy = OpenPharmacy.objects.filter(
@@ -172,4 +173,4 @@ class Command(BaseCommand):
 
             # insert in TrackerHistory
             TrackerHistory.objects.create(
-                start_time=self.start_time, end_time=self.end_time, duration=self.duration, mode="scheduled", collected_data=json.dumps(self.pharmacies_datas))
+                start_time=self.start_time, end_time=self.end_time, duration=self.duration, mode="scheduled", collected_data=json.dumps(self.pharmacies_datas, default=str))
