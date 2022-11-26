@@ -23,11 +23,23 @@ def extract_pharmacy_data_from_row(row):
     google_maps_link = row_datas[2].select_one("a")
     data["google_maps_link"] = google_maps_link["href"] if google_maps_link else ""
 
+    if data["name"] == "pharmacie synovie":
+        print(data["name"])
+        print(geographical_datas_column)
+        print(data["google_maps_link"])
+
     if data["google_maps_link"]:
-        latitude, longitude = data["google_maps_link"].split(
-            "@")[1].split(",")[:2]
-        data["latitude"] = float(latitude)
-        data["longitude"] = float(longitude)
+        if "maps.apple.com" in data["google_maps_link"]:
+            latitude, longitude = data["google_maps_link"].split("=")[
+                1].split("&")[0].split(",")
+            data["latitude"] = float(latitude)
+            data["longitude"] = float(longitude)
+
+        else:
+            latitude, longitude = data["google_maps_link"].split(
+                "@")[1].split(",")[:2]
+            data["latitude"] = float(latitude)
+            data["longitude"] = float(longitude)
 
     else:
         data["latitude"] = 0
