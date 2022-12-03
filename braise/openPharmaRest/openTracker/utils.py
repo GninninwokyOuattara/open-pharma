@@ -2,6 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 from openTracker.constants import SOURCE_URL
 
+# Checkers
+
+
+def is_valid_maps_link(link):
+    if "maps" in link:
+        return True
+
 
 def extract_pharmacy_data_from_row(row):
     """Given a row from the source url, extract revelant data at each indexes
@@ -23,12 +30,12 @@ def extract_pharmacy_data_from_row(row):
     google_maps_link = row_datas[2].select_one("a")
     data["google_maps_link"] = google_maps_link["href"] if google_maps_link else ""
 
-    if data["name"] == "pharmacie synovie":
-        print(data["name"])
-        print(geographical_datas_column)
-        print(data["google_maps_link"])
+    # if data["name"]:
+    #     print(data["name"])
+    #     print(geographical_datas_column)
+    #     print(data["google_maps_link"])
 
-    if data["google_maps_link"]:
+    if is_valid_maps_link(data["google_maps_link"]):
         if "maps.apple.com" in data["google_maps_link"]:
             latitude, longitude = data["google_maps_link"].split("=")[
                 1].split("&")[0].split(",")
