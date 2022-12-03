@@ -35,7 +35,7 @@ jobs:
                       echo "exit sucess ${value}"
                       git branch list-update
                       git checkout list-update
-                      git pull
+                      git pull list-update list-update
                       git status
                       git add pharmacies_list.txt
                       git commit -m "Add $value new pharmacies to the list"
