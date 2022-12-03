@@ -23,20 +23,20 @@
       "justMyCode": true
     },
     {
-      "name": "Debug Command Main Mac",
+      "name": "Debug Command actualize Mac",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/openPharmaRest/manage.py",
-      "args": ["main"],
+      "args": ["actualize"],
       "django": true,
       "justMyCode": true
     },
     {
-      "name": "Debug Command Main Windows",
+      "name": "Debug Command actualize Windows",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}\\openPharmaRest\\manage.py",
-      "args": ["main"],
+      "args": ["actualize"],
       "django": true,
       "justMyCode": true
     }
