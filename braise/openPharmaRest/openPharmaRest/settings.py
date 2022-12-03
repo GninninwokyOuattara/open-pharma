@@ -50,11 +50,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'googleMapsScrapper',
     'openTracker',
+    'rest_framework_swagger'
 ]
 
 REST_FRAMEWORK = {
     "DATE_FORMAT": '%d/%m/%Y',
     "DATE_INPUT_FORMATS": ["%d/%m/%Y", ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 
 }
 
@@ -83,6 +85,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'staticfiles': 'django.templatetags.static',
+            }
         },
     },
 ]
