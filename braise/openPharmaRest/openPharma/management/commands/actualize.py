@@ -102,7 +102,7 @@ class Command(BaseCommand):
             OpenPharmacy.objects.create(
                 pharmacy=pharmacy, open_from=pharmacy_datas["open_from"], open_until=pharmacy_datas["open_until"])
             self.stdout.write(self.style.SUCCESS(
-                f'[{self.timestamp}] Pharmacy {pharmacy_datas["name"]} opening data has been set.'))
+                f'[{self.timestamp}] {pharmacy_datas["name"]} opening data has been set.'))
             self.n_updates += 1
         except Exception as err:
             # TODO Better handling of this exception...
