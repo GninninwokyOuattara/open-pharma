@@ -86,7 +86,7 @@ class Command(BaseCommand):
                 active=False)
 
             self.stdout.write(self.style.SUCCESS(
-                f'[{self.timestamp}] Pharmacy {pharmacy_datas["name"]} created and pending review'))
+                f'[{self.timestamp}] {pharmacy_datas["name"]} created and pending review'))
             self.n_insertions += 1
         except Exception as err:
             # TODO handle exception.
@@ -107,7 +107,7 @@ class Command(BaseCommand):
         except Exception as err:
             # TODO Better handling of this exception...
             self.stdout.write(self.style.ERROR(
-                f'[{self.timestamp}] Pharmacy {pharmacy_datas["name"]} opening data has not been set due to an unknown error.'))
+                f'[{self.timestamp}] {pharmacy_datas["name"]} opening data has not been set due to an unknown error.'))
             pass
 
     def handle(self, *args, **options):
@@ -127,7 +127,7 @@ class Command(BaseCommand):
                 if not pharmacy.active:
                     # Pharmacy is not active, skip
                     self.stdout.write(self.style.WARNING(
-                        f'[{self.timestamp}] Pharmacy {pharmacy_datas["name"]} is not active.'))
+                        f'[{self.timestamp}] {pharmacy_datas["name"]} is not active.'))
                     self.n_skipped_inactive += 1
                     continue
 
