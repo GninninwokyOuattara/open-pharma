@@ -24,6 +24,7 @@ from openPharma.views import (OpenPharmaciesAdminViewset,
                               PharmaciesViewset)
 from openTracker.views import CurrentlyOpenPharmaciesView
 from rest_framework import routers
+from rest_framework_swagger.views import get_swagger_view
 
 from openPharmaRest.views import TestView
 
@@ -45,12 +46,17 @@ admin_router.register(r"open-pharmacies",
                       OpenPharmaciesAdminViewset, basename="admin-open-pharmacies")
 
 
+schema_view = get_swagger_view(title='OpenPharma API')
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include(user_router.urls)),
-    path("api/admin/", include(admin_router.urls)),
-    path("api/admin/get-currently-open-pharmacies/",
+    path("admin-api/", include(admin_router.urls)),
+    path("admin-api/get-currently-open-pharmacies/",
          CurrentlyOpenPharmaciesView.as_view(), name="tracker"),
-    path("maps-api/search/", SearchApiView.as_view(), name="search"),
+    path("search/",
+         SearchApiView.as_view(), name="search"),
+
+    path("docs/", schema_view),
 
 ]
