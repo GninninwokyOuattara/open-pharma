@@ -8,6 +8,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgresdb:/var/lib/postgresql/data
 
   backend:
 
@@ -24,3 +26,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: db
       DB_PORT: ${DB_PORT}
+    volumes:
+      - .:/app
+volumes:
+  postgresdb:
