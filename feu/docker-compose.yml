@@ -13,6 +13,9 @@ services:
       # volumes: # Mount host path in the container
       #    - ./:/usr/src/app
       #    - /usr/src/app/node_modules
+      volumes:
+        - .:/usr/src/react-native-app
+        - /usr/src/react-native-app/node_modules
       environment:
          - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
          - REACT_NATIVE_PACKAGER_HOSTNAME=127.0.0.1 
