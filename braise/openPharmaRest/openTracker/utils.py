@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from openTracker.constants import SOURCE_URL
+from openTracker.constants import REQUEST_HEADERS, SOURCE_URL
 
 # Checkers
 
@@ -66,7 +66,8 @@ def extract_pharmacy_data_from_row(row):
 def get_pharmacies_datas_rows():
     """Get the table rows containing pharmacies data from the source url"""
 
-    page = requests.get(SOURCE_URL)
+    page = requests.get(SOURCE_URL, headers=REQUEST_HEADERS
+                        )
     soup = BeautifulSoup(page.text, "html.parser")
     tables_rows = soup.select("table > tbody > tr")
     return tables_rows
