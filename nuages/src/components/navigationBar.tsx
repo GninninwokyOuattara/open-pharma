@@ -1,10 +1,12 @@
 // Navigation bar component
 
 import { Box, Icon, List, ListItem, VStack } from "@chakra-ui/react";
-import { MdSettings } from 'react-icons/md';
+import { MdSettings } from "react-icons/md";
+import { NavLink } from "react-router-dom";
+
 
 // import Link from router
-import { Link } from 'react-router-dom';
+import routes from "../routes";
 
 
 
@@ -24,40 +26,43 @@ const NavigationBar = () => {
             <VStack spacing={10} w={"full"}>
 
 
-                <List width={"full"}>
-                    <ListItem w={"full"} h={"40px"} justifyContent="center" alignItems="center" _hover={{
-                        backgroundColor: "gray.700",
+                <nav style={{
+                    width: "100%"
+                }}>
+                    <List>
+                        {routes.map((route) => {
 
-                    }}
-                        _groupHover={{
-                            bg: "gray.500",
-                            color: "white"
-                        }}>
-                        <Link to={"/"} style={{ display: "block" }} >
-                            <Icon as={MdSettings} w="full" _hover={{
-                                color: "white",
-                            }} />
-                        </Link>
-                    </ListItem>
-                    <ListItem
-                        _hover={{
-                            bg: "gray.500",
-                            color: "orange",
-                        }}
-                    >
-                        <Icon
-                            as={MdSettings} w="full"
-                            _hover={{
-                                color: "orange",
-                            }}
-                        />
-                    </ListItem>
-                    <ListItem>
-                        <Link to={"/"}>
-                            <Icon as={MdSettings} />
-                        </Link>
-                    </ListItem>
-                </List>
+                            return <ListItem h={10}
+
+                            >
+                                <NavLink
+                                    className={"navigationLink"}
+                                    to={route.path}
+                                    style={{
+                                        // display: "block",
+                                        width: "100%",
+                                        height: "100%",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        color: "#8F8F8F"
+
+
+                                    }}
+                                >
+
+                                    <Icon as={MdSettings}
+                                        display={"block"}
+                                        _hover={{
+                                            color: "white",
+                                        }} />
+
+                                </NavLink>
+                            </ListItem>
+                        })}
+                    </List>
+
+                </nav>
 
 
 
