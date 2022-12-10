@@ -1,7 +1,7 @@
 const routes = [
   { path: "/", name: "home" },
-  { path: "/about", name: "about" },
-  { path: "/contact", name: "contact" },
+  { path: "/pharmacies", name: "about" },
+  { path: "/pending-reviews", name: "contact" },
 ];
 
 export default routes;
