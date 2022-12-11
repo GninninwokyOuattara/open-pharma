@@ -7,6 +7,8 @@ import { NavLink } from "react-router-dom";
 // import Link from router
 import routes from "../routes";
 
+import { IoIosAddCircleOutline } from "react-icons/io";
+
 
 // styles
 import styles from "./navigation.module.css";
@@ -14,7 +16,7 @@ import styles from "./navigation.module.css";
 
 const NavigationBar = () => {
     return (
-        // A Box of black color with padding of 10 that take all the available height
+
         <Box
             backgroundColor="black"
             // padding={10}
@@ -36,7 +38,6 @@ const NavigationBar = () => {
 
             </Box>
 
-            {/* The Vstack should take all remaining container height */}
             <VStack spacing={10} w={"full"} height={"100%"}>
 
 
@@ -44,7 +45,9 @@ const NavigationBar = () => {
                     <List>
                         {routes.map((route) => {
 
-                            return <ListItem h={10}
+                            return <ListItem
+
+                                height={14}
 
                             >
                                 <NavLink
@@ -54,6 +57,7 @@ const NavigationBar = () => {
                                 >
 
                                     <Icon as={route.icon}
+                                        boxSize={9}
                                         display={"block"}
                                         _hover={{
                                             color: "white",
@@ -72,7 +76,7 @@ const NavigationBar = () => {
 
             <Box h={10} w="full" alignItems={"center"} justifyContent={"center"} display={"flex"}>
 
-                <Icon as={routes[0].icon} color="white" display={"block"} />
+                <Icon as={IoIosAddCircleOutline} color="white" display={"block"} boxSize={10} />
 
 
             </Box>
