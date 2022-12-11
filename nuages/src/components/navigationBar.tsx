@@ -1,7 +1,6 @@
 // Navigation bar component
 
 import { Box, Icon, List, ListItem, VStack } from "@chakra-ui/react";
-import { MdSettings } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
 
@@ -24,9 +23,21 @@ const NavigationBar = () => {
             paddingY={5}
             borderRadius="md"
             overflow={"hidden"}
+            display={"flex"}
+            flexDirection={"column"}
+            alignItems={"center"}
+
         >
 
-            <VStack spacing={10} w={"full"}>
+            <Box h={10} w="full" alignItems={"center"} justifyContent={"center"} display={"flex"} marginBottom={20}>
+
+                <Icon as={routes[0].icon} color="white" display={"block"} />
+
+
+            </Box>
+
+            {/* The Vstack should take all remaining container height */}
+            <VStack spacing={10} w={"full"} height={"100%"}>
 
 
                 <nav className={styles.navigation}>
@@ -42,7 +53,7 @@ const NavigationBar = () => {
 
                                 >
 
-                                    <Icon as={MdSettings}
+                                    <Icon as={route.icon}
                                         display={"block"}
                                         _hover={{
                                             color: "white",
@@ -59,6 +70,12 @@ const NavigationBar = () => {
 
             </VStack>
 
+            <Box h={10} w="full" alignItems={"center"} justifyContent={"center"} display={"flex"}>
+
+                <Icon as={routes[0].icon} color="white" display={"block"} />
+
+
+            </Box>
         </Box >
     );
 };
