@@ -23,7 +23,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color : #ffffff
+    color : #ffffff;
+    background-color: #474747;
+
 }
 
 
