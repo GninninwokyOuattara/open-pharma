@@ -9,6 +9,9 @@ import { NavLink } from "react-router-dom";
 import routes from "../routes";
 
 
+// styles
+import styles from "./navigation.module.css";
+
 
 const NavigationBar = () => {
     return (
@@ -26,9 +29,7 @@ const NavigationBar = () => {
             <VStack spacing={10} w={"full"}>
 
 
-                <nav style={{
-                    width: "100%"
-                }}>
+                <nav className={styles.navigation}>
                     <List>
                         {routes.map((route) => {
 
@@ -36,19 +37,9 @@ const NavigationBar = () => {
 
                             >
                                 <NavLink
-                                    className={"navigationLink"}
                                     to={route.path}
-                                    style={{
-                                        // display: "block",
-                                        width: "100%",
-                                        height: "100%",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        color: "#8F8F8F"
+                                    className={({ isActive }) => isActive ? styles.navigationLinkActive : styles.navigationLink}
 
-
-                                    }}
                                 >
 
                                     <Icon as={MdSettings}
