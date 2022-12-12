@@ -43,11 +43,12 @@ const NavigationBar = () => {
 
                 <nav className={styles.navigation}>
                     <List>
-                        {routes.map((route) => {
+                        {routes.map((route, idx) => {
 
                             return <ListItem
 
                                 height={14}
+                                key={idx}
 
                             >
                                 <NavLink
