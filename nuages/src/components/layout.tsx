@@ -12,15 +12,20 @@ import { Outlet } from 'react-router-dom';
 const Layout = () => {
     return (
         // The box should have padding left and right of 10
-        <Box paddingX={10} paddingY={10}
+        <Box paddingX={5} paddingY={5}
             height="100vh"
             width="100vw"
+            overflow={"hidden"}
 
         >
             {/* <VStack spacing={10}> */}
             <Flex height={"100%"} gap={2}>
                 <NavigationBar />
-                <Box backgroundColor="red.100" width={"100%"} height={"100%"} >
+                <Box width={"100%"} height={"100%"}
+                    borderWidth={1}
+                    borderColor="gray.200"
+                    borderRadius={5}
+                >
                     <Outlet />
                 </Box>
 
