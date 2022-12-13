@@ -3,6 +3,10 @@ import {
 } from "react-router-dom";
 import Layout from "./components/layout";
 
+// import Home
+import Home from "./components/home";
+
+import PharmaciesPage from "./components/pages/pharmaciesPage";
 
 
 // Path : 
@@ -19,11 +23,11 @@ const appRouting = createBrowserRouter([
 
             {
                 path: "/",
-                element: <div>Home</div>,
+                element: <Home />
             },
             {
                 path: "/pharmacies",
-                element: <div>Pharmacies</div>,
+                element: <PharmaciesPage />
             },
             {
                 path: "/pending-reviews",
