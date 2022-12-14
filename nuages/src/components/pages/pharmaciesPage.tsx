@@ -1,10 +1,15 @@
 
 
 import {
-    Table, TableCaption,
-    TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr
+    Table, TableContainer, Tbody, Td, Th, Thead, Tr
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+// import Pagination from chakra ui
+
+// import pagination module css
+
+
 
 
 
@@ -27,6 +32,10 @@ const PharmaciesPage = () => {
 
     const [pharmacies, setPharmacies] = useState<Pharmacy[] | null>(null);
 
+    // useref for pagination
+    const pageNumberRef = useRef(1);
+
+
     // get pharmacies data from api
     const getPharmacies = async () => {
         const response = await fetch(`http://localhost:8000/admin-api/pharmacies/`);
@@ -35,56 +44,56 @@ const PharmaciesPage = () => {
         return data
     }
 
+
+
     useEffect(() => {
-        // getPharmacies();
-        (async () => {
-            const data = await getPharmacies();
+        getPharmacies().then((data) => {
             setPharmacies(data);
-        }
-        )();
+        })
     }, [])
 
 
 
 
     return (
-        <TableContainer>
-            <Table variant='simple'>
-                <TableCaption>Imperial to metric conversion factors</TableCaption>
-                <Thead>
-                    <Tr>
-                        <Th>Name</Th>
-                        <Th>Active</Th>
-                        <Th>Pending review</Th>
+        <>
+            <TableContainer style={{ height: "100%" }} overflowY={"scroll"} overflowX={"scroll"}>
+                <Table variant='simple' >
 
-                        <Th>Coordinates</Th>
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {pharmacies?.map((pharmacy) => {
-                        console.log("pharmacy: ", pharmacy)
-                        return (
-                            <Tr key={pharmacy.id}>
-                                <Td>{pharmacy.name}</Td>
-                                <Td>{pharmacy.active ? "Yes" : "No"}</Td>
-                                <Td>{pharmacy.pending_review ? "Yes" : "No"}</Td>
+                    <Thead>
+                        <Tr>
+                            <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white" }}>#</Th>
+                            <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white" }}>Name</Th>
+                            <Th style={{ position: "sticky", top: 0, backgroundColor: "white" }}>Active</Th>
+                            <Th style={{ position: "sticky", top: 0, backgroundColor: "white" }}>Pending review</Th>
 
-                                <Td>{`${pharmacy.coordinates.latitude},${pharmacy.coordinates.longitude}`}</Td>
-                            </Tr>
-                        )
-                    })
-                    }
+                            <Th style={{ position: "sticky", top: 0, backgroundColor: "white" }}>Coordinates</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {pharmacies?.map((pharmacy, idx) => {
+                            console.log("pharmacy: ", pharmacy)
+                            return (
+                                <Tr key={pharmacy.id}>
+                                    <Td>{idx + 1}</Td>
+                                    <Td>{pharmacy.name}</Td>
+                                    <Td>{pharmacy.active ? "Yes" : "No"}</Td>
+                                    <Td>{pharmacy.pending_review ? "Yes" : "No"}</Td>
 
-                </Tbody>
-                <Tfoot>
-                    <Tr>
-                        <Th>To convert</Th>
-                        <Th>into</Th>
-                        <Th isNumeric>multiply by</Th>
-                    </Tr>
-                </Tfoot>
-            </Table>
-        </TableContainer>
+                                    <Td>{`${pharmacy.coordinates.latitude},${pharmacy.coordinates.longitude}`}</Td>
+                                </Tr>
+                            )
+                        })
+                        }
+
+                    </Tbody>
+                </Table>
+            </TableContainer>
+
+
+
+
+        </>
     );
 };
 
