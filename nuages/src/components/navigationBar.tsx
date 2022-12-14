@@ -22,6 +22,7 @@ const NavigationBar = () => {
             // padding={10}
             height="100%"
             width={"100px"}
+            minWidth={"100px"}
             paddingY={5}
             borderRadius="md"
             overflow={"hidden"}
