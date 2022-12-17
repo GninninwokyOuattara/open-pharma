@@ -24,7 +24,7 @@ const NavigationBar = () => {
             width={"100px"}
             minWidth={"100px"}
             paddingY={5}
-            borderRadius="md"
+            // borderRadius="md"
             overflow={"hidden"}
             display={"flex"}
             flexDirection={"column"}

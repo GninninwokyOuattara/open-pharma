@@ -1,0 +1,20 @@
+.tableRow {
+    background-color: "#fff";
+
+}
+.tableDataHidden {
+    visibility: "invisible";
+    opacity: 0;
+}
+
+.tableRow:hover .tableDataHidden{
+    visibility: "visible";
+    opacity: 1;
+
+
+}
+
+.tableRow:hover {
+    background-color: #f9fafb;
+
+}

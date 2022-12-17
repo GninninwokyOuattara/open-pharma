@@ -6,6 +6,7 @@ import Layout from "./components/layout";
 // import Home
 import Home from "./components/home";
 
+import PendingReviews from "./components/pages/pendingReviewsPage";
 import PharmaciesPage from "./components/pages/pharmaciesPage";
 
 
@@ -31,7 +32,7 @@ const appRouting = createBrowserRouter([
             },
             {
                 path: "/pending-reviews",
-                element: <div>Pending Reviews</div>,
+                element: <PendingReviews />,
             },
         ]
     },
