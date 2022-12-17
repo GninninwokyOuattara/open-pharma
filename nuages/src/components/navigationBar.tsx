@@ -21,8 +21,8 @@ const NavigationBar = () => {
             backgroundColor="black"
             // padding={10}
             height="100%"
-            width={"100px"}
-            minWidth={"100px"}
+            // width={"100px"}
+            minWidth={"20"}
             paddingY={5}
             // borderRadius="md"
             overflow={"hidden"}
@@ -43,13 +43,20 @@ const NavigationBar = () => {
 
 
                 <nav className={styles.navigation}>
-                    <List>
+                    <List paddingX={"2"}>
                         {routes.map((route, idx) => {
 
                             return <ListItem
 
                                 height={14}
                                 key={idx}
+                                display={"block"}
+                                // borderColor={"red.700"}
+                                // borderWidth={"1px"}
+                                borderRadius={"md"}
+                                overflow="hidden"
+                                marginBottom={1}
+
 
                             >
                                 <NavLink
@@ -59,7 +66,7 @@ const NavigationBar = () => {
                                 >
 
                                     <Icon as={route.icon}
-                                        boxSize={9}
+                                        boxSize={4}
                                         display={"block"}
                                         _hover={{
                                             color: "white",
