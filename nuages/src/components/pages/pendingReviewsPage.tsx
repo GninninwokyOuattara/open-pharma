@@ -39,7 +39,7 @@ const PendingReviews = () => {
 
 
                     <Input placeholder='Search by name' display={"block"} width={"300px"} alignSelf={"flex-start"} marginLeft={"10px"}
-                        onChange={(e) => handleSearch(e.target.value)}
+                        onChange={(e) => setSearch(e.target.value)}
                     />
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -65,7 +65,7 @@ const PendingReviews = () => {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {pharmaciesPendingReview?.map((pharmacy, idx) => {
+                            {pharmaciesPendingReview && pharmaciesPendingReview.filter((pharmacy) => pharmacy.name.toLowerCase().includes(search.toLowerCase())).map((pharmacy, idx) => {
                                 console.log("pharmacy: ", pharmacy)
                                 const timeElapsedFromCreationCreation = getTimeElapsed(pharmacy.date_created)
                                 return (
