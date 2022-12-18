@@ -15,7 +15,7 @@ import useReviewActions from './useReviewActions';
 const PendingReviews = () => {
 
     // Hooks
-    const { activatePharmacy, deactivatePharmacy, pharmaciesPendingReview, pharmaciesPendingReviewStatic, fetchPharmaciesPendingReview, setPharmaciesPendingReview, search, setSearch, ordering, setOrdering, handleSearch } = useReviewActions();
+    const { activatePharmacy, deactivatePharmacy, pharmaciesPendingReview, pharmaciesPendingReviewStatic, fetchPharmaciesPendingReview, setPharmaciesPendingReview, search, setSearch, orderBy, setOrderBy, changeOrderByTo } = useReviewActions();
 
 
     useEffect(() => {
@@ -23,18 +23,13 @@ const PendingReviews = () => {
 
     }, [])
 
-    // useEffect(() => {
-    //     const results = pharmaciesPendingReviewStatic.filter(pharmacy => pharmacy.name.toLowerCase().includes(search.toLowerCase()));
-    //     setPharmaciesPendingReview(results);
-    // }, [search])
-
 
     return (
         <>
 
             <VStack gap={2} paddingTop={"15px"} height={"100%"} width={"95%"}>
 
-                <Text alignSelf={"flex-start"} fontSize='6xl'>{`${pharmaciesPendingReviewStatic.length} pending reviews`}</Text>
+                <Text alignSelf={"flex-start"} fontSize='6xl'>{`${pharmaciesPendingReview.length} pending reviews`}</Text>
                 <HStack w="full">
 
 
@@ -43,15 +38,17 @@ const PendingReviews = () => {
                     />
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                            {ordering}
+                            {orderBy}
                         </MenuButton>
                         <MenuList>
-                            <MenuItem onClick={() => setOrdering("Name")}>Name</MenuItem>
-                            <MenuItem onClick={() => setOrdering("Date")}>Date</MenuItem>
+                            <MenuItem onClick={() => changeOrderByTo("Name")}>Name</MenuItem>
+                            <MenuItem onClick={() => changeOrderByTo("Date")}>Date</MenuItem>
 
                         </MenuList>
                     </Menu>
                 </HStack>
+
+
                 <TableContainer style={{ height: "100%", width: "100%" }} overflowY={"scroll"} overflowX={"scroll"} marginTop={"30px"}>
                     <Table variant='simple' >
 
@@ -90,6 +87,9 @@ const PendingReviews = () => {
                         </Tbody>
                     </Table>
                 </TableContainer>
+
+
+
 
             </VStack>
 
