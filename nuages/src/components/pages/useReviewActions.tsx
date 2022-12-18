@@ -9,7 +9,7 @@ const useReviewActions = () => {
 
     const [pharmaciesPendingReviewStatic, setPharmaciesPendingReviewStatic] = useState<Pharmacy[] | []>([]);
     const [pharmaciesPendingReview, setPharmaciesPendingReview] = useState<Pharmacy[] | []>([]);
-    const [ordering, setOrdering] = useState<"Name" | "Date">("Name");
+    const [orderBy, setOrderBy] = useState<"Name" | "Date">("Name");
     const [search, setSearch] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -22,7 +22,21 @@ const useReviewActions = () => {
         try {
             const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/`);
             const data = await response.json();
-            setPharmaciesPendingReviewStatic(data);
+            // pre ordering
+
+            if (orderBy === "Name") {
+                data.sort((a: Pharmacy, b: Pharmacy) => a.name.localeCompare(b.name))
+            } else {
+                data.sort((a: Pharmacy, b: Pharmacy) => {
+                    const dateA = new Date(a.date_created);
+                    const dateB = new Date(b.date_updated);
+                    return dateB.getTime() - dateA.getTime()
+                })
+            }
+
+
+
+            // setPharmaciesPendingReviewStatic(data);
             setPharmaciesPendingReview(data);
         } catch (error) {
             setError("An error occured while fetching pharmacies pending review")
@@ -35,6 +49,9 @@ const useReviewActions = () => {
                 position: 'top-right'
             })
         }
+
+
+
         setIsLoading(false)
     }
 
@@ -100,26 +117,24 @@ const useReviewActions = () => {
 
     }
 
-    const handleOrderingChange = (ordering: "Name" | "Date") => {
-        setOrdering(ordering)
-        if (ordering === "Name") {
+    const changeOrderByTo = (newOrderBy: "Name" | "Date") => {
+
+        if (newOrderBy === orderBy) {
+            return
+        }
+
+        setOrderBy(newOrderBy)
+
+        if (newOrderBy === "Name") {
             setPharmaciesPendingReview([...pharmaciesPendingReview].sort((a, b) => a.name.localeCompare(b.name)))
         } else {
             setPharmaciesPendingReview([...pharmaciesPendingReview].sort((a, b) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime()))
         }
     }
 
-    const handleSearch = (search: string) => {
-        // setSearch(search)
-        if (search === "") {
-            setPharmaciesPendingReview(pharmaciesPendingReviewStatic)
-        } else {
-            setPharmaciesPendingReview(pharmaciesPendingReviewStatic.filter((pharmacy: Pharmacy) => pharmacy.name.toLowerCase().includes(search.toLowerCase())))
-        }
-    }
 
 
-    return { activatePharmacy, deactivatePharmacy, fetchPharmaciesPendingReview, pharmaciesPendingReview, setPharmaciesPendingReview, pharmaciesPendingReviewStatic, search, setSearch, error, setError, ordering, setOrdering, handleSearch }
+    return { activatePharmacy, deactivatePharmacy, fetchPharmaciesPendingReview, pharmaciesPendingReview, setPharmaciesPendingReview, pharmaciesPendingReviewStatic, search, setSearch, error, setError, orderBy, setOrderBy, changeOrderByTo }
 
 
 
