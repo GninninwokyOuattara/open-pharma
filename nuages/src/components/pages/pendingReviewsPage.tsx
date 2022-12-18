@@ -1,8 +1,8 @@
 
 
 
-import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
-import { HStack, IconButton, Input, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
+import { CheckIcon, ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
+import { Button, HStack, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { getTimeElapsed } from '../../utils/dry';
 
@@ -15,28 +15,43 @@ import useReviewActions from './useReviewActions';
 const PendingReviews = () => {
 
     // Hooks
-    const { activatePharmacy, deactivatePharmacy, pharmaciesPendingReview, pharmaciesPendingReviewStatic, fetchPharmaciesPendingReview, setPharmaciesPendingReview, search, setSearch, } = useReviewActions();
+    const { activatePharmacy, deactivatePharmacy, pharmaciesPendingReview, pharmaciesPendingReviewStatic, fetchPharmaciesPendingReview, setPharmaciesPendingReview, search, setSearch, ordering, setOrdering } = useReviewActions();
 
 
     useEffect(() => {
         fetchPharmaciesPendingReview()
 
-    }, [])
+    }, [fetchPharmaciesPendingReview])
 
     useEffect(() => {
         const results = pharmaciesPendingReviewStatic.filter(pharmacy => pharmacy.name.toLowerCase().includes(search.toLowerCase()));
         setPharmaciesPendingReview(results);
-    }, [search])
+    }, [search, setPharmaciesPendingReview, pharmaciesPendingReviewStatic])
 
 
     return (
         <>
 
             <VStack gap={2} paddingTop={"15px"} height={"100%"} width={"95%"}>
+
                 <Text alignSelf={"flex-start"} fontSize='6xl'>{`${pharmaciesPendingReviewStatic.length} pending reviews`}</Text>
-                <Input placeholder='Search by name' display={"block"} width={"300px"} alignSelf={"flex-start"} marginLeft={"10px"}
-                    value={search} onChange={(e) => setSearch(e.target.value)}
-                />
+                <HStack w="full">
+
+
+                    <Input placeholder='Search by name' display={"block"} width={"300px"} alignSelf={"flex-start"} marginLeft={"10px"}
+                        value={search} onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                            {ordering}
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem onClick={() => setOrdering("Name")}>Name</MenuItem>
+                            <MenuItem onClick={() => setOrdering("Date")}>Date</MenuItem>
+
+                        </MenuList>
+                    </Menu>
+                </HStack>
                 <TableContainer style={{ height: "100%", width: "100%" }} overflowY={"scroll"} overflowX={"scroll"} marginTop={"30px"}>
                     <Table variant='simple' >
 

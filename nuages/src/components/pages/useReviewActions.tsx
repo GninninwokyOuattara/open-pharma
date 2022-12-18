@@ -9,6 +9,7 @@ const useReviewActions = () => {
 
     const [pharmaciesPendingReviewStatic, setPharmaciesPendingReviewStatic] = useState<Pharmacy[] | []>([]);
     const [pharmaciesPendingReview, setPharmaciesPendingReview] = useState<Pharmacy[] | []>([]);
+    const [ordering, setOrdering] = useState<"Name" | "Date">("Name");
     const [search, setSearch] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -99,9 +100,17 @@ const useReviewActions = () => {
 
     }
 
+    const handleOrderingChange = (ordering: "Name" | "Date") => {
+        setOrdering(ordering)
+        if (ordering === "Name") {
+            setPharmaciesPendingReview([...pharmaciesPendingReview].sort((a, b) => a.name.localeCompare(b.name)))
+        } else {
+            setPharmaciesPendingReview([...pharmaciesPendingReview].sort((a, b) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime()))
+        }
+    }
 
 
-    return { activatePharmacy, deactivatePharmacy, fetchPharmaciesPendingReview, pharmaciesPendingReview, setPharmaciesPendingReview, pharmaciesPendingReviewStatic, search, setSearch, error, setError }
+    return { activatePharmacy, deactivatePharmacy, fetchPharmaciesPendingReview, pharmaciesPendingReview, setPharmaciesPendingReview, pharmaciesPendingReviewStatic, search, setSearch, error, setError, ordering, setOrdering }
 
 
 
