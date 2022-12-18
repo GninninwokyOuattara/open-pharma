@@ -109,8 +109,17 @@ const useReviewActions = () => {
         }
     }
 
+    const handleSearch = (search: string) => {
+        // setSearch(search)
+        if (search === "") {
+            setPharmaciesPendingReview(pharmaciesPendingReviewStatic)
+        } else {
+            setPharmaciesPendingReview(pharmaciesPendingReviewStatic.filter((pharmacy: Pharmacy) => pharmacy.name.toLowerCase().includes(search.toLowerCase())))
+        }
+    }
 
-    return { activatePharmacy, deactivatePharmacy, fetchPharmaciesPendingReview, pharmaciesPendingReview, setPharmaciesPendingReview, pharmaciesPendingReviewStatic, search, setSearch, error, setError, ordering, setOrdering }
+
+    return { activatePharmacy, deactivatePharmacy, fetchPharmaciesPendingReview, pharmaciesPendingReview, setPharmaciesPendingReview, pharmaciesPendingReviewStatic, search, setSearch, error, setError, ordering, setOrdering, handleSearch }
 
 
 

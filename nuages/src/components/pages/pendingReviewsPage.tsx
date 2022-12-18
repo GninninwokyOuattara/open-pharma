@@ -15,18 +15,18 @@ import useReviewActions from './useReviewActions';
 const PendingReviews = () => {
 
     // Hooks
-    const { activatePharmacy, deactivatePharmacy, pharmaciesPendingReview, pharmaciesPendingReviewStatic, fetchPharmaciesPendingReview, setPharmaciesPendingReview, search, setSearch, ordering, setOrdering } = useReviewActions();
+    const { activatePharmacy, deactivatePharmacy, pharmaciesPendingReview, pharmaciesPendingReviewStatic, fetchPharmaciesPendingReview, setPharmaciesPendingReview, search, setSearch, ordering, setOrdering, handleSearch } = useReviewActions();
 
 
     useEffect(() => {
         fetchPharmaciesPendingReview()
 
-    }, [fetchPharmaciesPendingReview])
+    }, [])
 
-    useEffect(() => {
-        const results = pharmaciesPendingReviewStatic.filter(pharmacy => pharmacy.name.toLowerCase().includes(search.toLowerCase()));
-        setPharmaciesPendingReview(results);
-    }, [search, setPharmaciesPendingReview, pharmaciesPendingReviewStatic])
+    // useEffect(() => {
+    //     const results = pharmaciesPendingReviewStatic.filter(pharmacy => pharmacy.name.toLowerCase().includes(search.toLowerCase()));
+    //     setPharmaciesPendingReview(results);
+    // }, [search])
 
 
     return (
@@ -39,7 +39,7 @@ const PendingReviews = () => {
 
 
                     <Input placeholder='Search by name' display={"block"} width={"300px"} alignSelf={"flex-start"} marginLeft={"10px"}
-                        value={search} onChange={(e) => setSearch(e.target.value)}
+                        onChange={(e) => handleSearch(e.target.value)}
                     />
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
