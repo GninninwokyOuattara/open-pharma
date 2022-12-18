@@ -22,7 +22,7 @@ const Layout = () => {
             <Flex height={"100%"} gap={2}>
                 <NavigationBar />
                 <Box width={"100%"} height={"100%"}
-                    borderWidth={1}
+                    // borderWidth={1}
                     // borderColor="orange.200"
                     borderRadius={5}
                 >

@@ -2,10 +2,9 @@
 
 
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
-import { HStack, IconButton, Input, Table, TableContainer, Tbody, Td, Th, Thead, Tr, VStack } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { Pharmacy } from '../../types';
-import { asyncFetchDataFromBackend } from '../../utils/dry';
+import { HStack, IconButton, Input, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { getTimeElapsed } from '../../utils/dry';
 
 
 import styles from "./../../styles/table.module.css";
@@ -15,27 +14,13 @@ import useReviewActions from './useReviewActions';
 
 const PendingReviews = () => {
 
-
-    const [pharmaciesPendingReviewStatic, setPharmaciesPendingReviewStatic] = useState<Pharmacy[] | []>([]);
-    const [pharmaciesPendingReview, setPharmaciesPendingReview] = useState<Pharmacy[] | []>([]);
-    const [search, setSearch] = useState<string>("");
-    const [error, setError] = useState<string | null>(null);
-
-
     // Hooks
-    const { activatePharmacy, deactivatePharmacy } = useReviewActions();
+    const { activatePharmacy, deactivatePharmacy, pharmaciesPendingReview, pharmaciesPendingReviewStatic, fetchPharmaciesPendingReview, setPharmaciesPendingReview, search, setSearch, } = useReviewActions();
 
 
     useEffect(() => {
-        asyncFetchDataFromBackend('http://localhost:8000/admin-api/pharmacies/?pending_review=true')
-            .then((data) => {
-                setPharmaciesPendingReview(data);
-                setPharmaciesPendingReviewStatic(data);
-                console.log(data)
-            }).catch((error) => {
-                setError(error);
-            }
-            )
+        fetchPharmaciesPendingReview()
+
     }, [])
 
     useEffect(() => {
@@ -48,16 +33,18 @@ const PendingReviews = () => {
         <>
 
             <VStack gap={2} paddingTop={"15px"} height={"100%"} width={"95%"}>
+                <Text alignSelf={"flex-start"} fontSize='6xl'>{`${pharmaciesPendingReviewStatic.length} pending reviews`}</Text>
                 <Input placeholder='Search by name' display={"block"} width={"300px"} alignSelf={"flex-start"} marginLeft={"10px"}
                     value={search} onChange={(e) => setSearch(e.target.value)}
                 />
                 <TableContainer style={{ height: "100%", width: "100%" }} overflowY={"scroll"} overflowX={"scroll"} marginTop={"30px"}>
                     <Table variant='simple' >
 
-                        <Thead>
+                        <Thead >
                             <Tr >
 
                                 <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white" }}>Name</Th>
+                                <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white" }}>Date added</Th>
                                 <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white", zIndex: 100 }}></Th>
 
                             </Tr>
@@ -65,14 +52,18 @@ const PendingReviews = () => {
                         <Tbody>
                             {pharmaciesPendingReview?.map((pharmacy, idx) => {
                                 console.log("pharmacy: ", pharmacy)
+                                const timeElapsedFromCreationCreation = getTimeElapsed(pharmacy.date_created)
                                 return (
                                     <Tr key={pharmacy.id} className={styles.tableRow}>
-                                        <Td width={"75%"}>{pharmacy.name}</Td>
+                                        <Td width={"100%"}>{pharmacy.name}</Td>
+
+                                        <Td>{timeElapsedFromCreationCreation}</Td>
+
                                         <Td className={styles.tableDataHidden}>
 
-                                            <HStack gap={2} >
-                                                <IconButton aria-label='Search database' icon={<CheckIcon />} onClick={() => activatePharmacy(pharmacy)} />
-                                                <IconButton aria-label='Search database' icon={<CloseIcon />} />
+                                            <HStack gap={2} alignSelf={"flex-end"}>
+                                                <IconButton aria-label='Activate pharmacy' icon={<CheckIcon />} onClick={() => activatePharmacy(pharmacy)} />
+                                                <IconButton aria-label='Deactivate pharmacy' icon={<CloseIcon />} onClick={() => deactivatePharmacy(pharmacy)} />
                                             </HStack>
                                         </Td>
 
