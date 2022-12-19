@@ -13,8 +13,9 @@ import styles from "./../../styles/table.module.css";
 import useReviewActions from './useReviewActions';
 
 // import FiRefreshCcw from react-icons
+import { AiOutlineFieldTime } from "react-icons/ai";
+import { BsSortAlphaDown } from "react-icons/bs";
 import { FiRefreshCcw } from "react-icons/fi";
-
 
 const PendingReviews = () => {
 
@@ -39,7 +40,6 @@ const PendingReviews = () => {
 
             const pharmacies = pharmaciesPendingReview.filter((pharmacy) => pharmacy.name.toLowerCase().includes(search.toLowerCase()))
 
-            console.log(pharmacies.length)
 
             if (pharmacies.length) {
 
@@ -92,7 +92,7 @@ const PendingReviews = () => {
 
             <VStack gap={2} paddingTop={"15px"} height={"100%"} width={"95%"}>
 
-                <Text alignSelf={"flex-start"} fontSize='6xl'>{`${pharmaciesPendingReview.length} pending reviews`}</Text>
+                <Text alignSelf={"center"} fontSize='6xl'>{`${pharmaciesPendingReview.length} pending reviews`}</Text>
                 <Flex direction={"row"} w="full" gap={3}>
 
 
@@ -100,12 +100,17 @@ const PendingReviews = () => {
                         onChange={(e) => setSearch(e.target.value)}
                     />
                     <Menu>
-                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton as={Button} leftIcon={<Icon as={orderBy == "Name" ? BsSortAlphaDown : AiOutlineFieldTime} display={"block"} />} rightIcon={<ChevronDownIcon />}>
+
                             {orderBy}
                         </MenuButton>
                         <MenuList>
-                            <MenuItem onClick={() => changeOrderByTo("Name")}>Name</MenuItem>
-                            <MenuItem onClick={() => changeOrderByTo("Date")}>Date</MenuItem>
+                            <MenuItem onClick={() => changeOrderByTo("Name")} >
+                                <Icon as={BsSortAlphaDown} display={"block"} marginRight={2} />
+                                Name</MenuItem>
+                            <MenuItem onClick={() => changeOrderByTo("Date")}>
+                                <Icon as={AiOutlineFieldTime} display={"block"} marginRight={2} />
+                                Date</MenuItem>
 
                         </MenuList>
                     </Menu>
