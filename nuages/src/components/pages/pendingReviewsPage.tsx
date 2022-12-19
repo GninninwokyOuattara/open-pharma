@@ -2,12 +2,13 @@
 
 
 import { CheckIcon, ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
-import { Button, HStack, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
+import { Button, HStack, Icon, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
 import { useCallback, useEffect } from 'react';
 import { Pharmacy } from '../../types';
 import { getTimeElapsed } from '../../utils/dry';
 
 
+import animationStyles from "../../styles/animation.module.css";
 import styles from "./../../styles/table.module.css";
 import useReviewActions from './useReviewActions';
 
@@ -37,6 +38,8 @@ const PendingReviews = () => {
         if (pharmaciesPendingReview) {
 
             const pharmacies = pharmaciesPendingReview.filter((pharmacy) => pharmacy.name.toLowerCase().includes(search.toLowerCase()))
+
+            console.log(pharmacies.length)
 
             if (pharmacies.length) {
 
@@ -80,7 +83,7 @@ const PendingReviews = () => {
 
             }
         }
-    }, [search])
+    }, [search, isLoading, pharmaciesPendingReview])
 
 
 
@@ -106,33 +109,13 @@ const PendingReviews = () => {
 
                         </MenuList>
                     </Menu>
-                    <Button colorScheme="orange" leftIcon={<FiRefreshCcw />} onClick={() => fetchPharmaciesPendingReview()}>Refresh</Button>
+                    <Button colorScheme="orange" onClick={() => fetchPharmaciesPendingReview()}>
+                        <Icon className={isLoading ? animationStyles.rotate : ""} as={FiRefreshCcw} display={"block"} marginRight={2} />Refresh</Button>
                 </HStack>
 
                 {
                     renderer()
                 }
-
-
-                {/* <TableContainer style={{ height: "100%", width: "100%" }} overflowY={"scroll"} overflowX={"scroll"} marginTop={"30px"}>
-                    <Table variant='simple' >
-
-                        <Thead >
-                            <Tr >
-
-                                <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white" }}>Name</Th>
-                                <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white" }}>Date added</Th>
-                                <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white", zIndex: 100 }}></Th>
-
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {renderer()}
-
-                        </Tbody>
-                    </Table>
-                </TableContainer> */}
-
 
 
 
