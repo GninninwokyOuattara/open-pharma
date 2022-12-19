@@ -2,7 +2,7 @@
 
 
 import { CheckIcon, ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
-import { Button, HStack, Icon, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
+import { Button, Flex, HStack, Icon, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
 import { useCallback, useEffect } from 'react';
 import { Pharmacy } from '../../types';
 import { getTimeElapsed } from '../../utils/dry';
@@ -93,7 +93,7 @@ const PendingReviews = () => {
             <VStack gap={2} paddingTop={"15px"} height={"100%"} width={"95%"}>
 
                 <Text alignSelf={"flex-start"} fontSize='6xl'>{`${pharmaciesPendingReview.length} pending reviews`}</Text>
-                <HStack w="full">
+                <Flex direction={"row"} w="full" gap={3}>
 
 
                     <Input placeholder='Search by name' display={"block"} width={"300px"} alignSelf={"flex-start"} marginLeft={"10px"}
@@ -111,7 +111,7 @@ const PendingReviews = () => {
                     </Menu>
                     <Button colorScheme="orange" onClick={() => fetchPharmaciesPendingReview()}>
                         <Icon className={isLoading ? animationStyles.rotate : ""} as={FiRefreshCcw} display={"block"} marginRight={2} />Refresh</Button>
-                </HStack>
+                </Flex>
 
                 {
                     renderer()
