@@ -134,7 +134,7 @@ const useReviewActions = () => {
 
 
 
-    return { activatePharmacy, deactivatePharmacy, fetchPharmaciesPendingReview, pharmaciesPendingReview, setPharmaciesPendingReview, pharmaciesPendingReviewStatic, search, setSearch, error, setError, orderBy, setOrderBy, changeOrderByTo }
+    return { activatePharmacy, deactivatePharmacy, fetchPharmaciesPendingReview, pharmaciesPendingReview, setPharmaciesPendingReview, pharmaciesPendingReviewStatic, search, setSearch, error, setError, orderBy, setOrderBy, changeOrderByTo, isLoading }
 
 
 
