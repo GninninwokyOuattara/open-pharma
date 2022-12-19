@@ -2,7 +2,7 @@
 
 
 import { CheckIcon, ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
-import { Box, Button, HStack, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
+import { Button, HStack, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
 import { useCallback, useEffect } from 'react';
 import { Pharmacy } from '../../types';
 import { getTimeElapsed } from '../../utils/dry';
@@ -11,12 +11,14 @@ import { getTimeElapsed } from '../../utils/dry';
 import styles from "./../../styles/table.module.css";
 import useReviewActions from './useReviewActions';
 
-// import search icon
+// import FiRefreshCcw from react-icons
+import { FiRefreshCcw } from "react-icons/fi";
+
 
 const PendingReviews = () => {
 
     // Hooks
-    const { activatePharmacy, deactivatePharmacy, pharmaciesPendingReview, pharmaciesPendingReviewStatic, fetchPharmaciesPendingReview, setPharmaciesPendingReview, search, setSearch, orderBy, setOrderBy, changeOrderByTo } = useReviewActions();
+    const { activatePharmacy, deactivatePharmacy, pharmaciesPendingReview, pharmaciesPendingReviewStatic, fetchPharmaciesPendingReview, setPharmaciesPendingReview, search, setSearch, orderBy, setOrderBy, changeOrderByTo, isLoading } = useReviewActions();
 
 
     useEffect(() => {
@@ -25,15 +27,16 @@ const PendingReviews = () => {
     }, [])
 
     const renderer = useCallback(() => {
+
+
+
+        if (!pharmaciesPendingReview) {
+            return <Text fontSize={"5xl"} color={"gray.700"}>Nothing to review yet.</Text>
+        }
+
         if (pharmaciesPendingReview) {
 
             const pharmacies = pharmaciesPendingReview.filter((pharmacy) => pharmacy.name.toLowerCase().includes(search.toLowerCase()))
-
-            // if (pharmacies ) {
-            //     pharmacies.map((pharmacy) => {
-            //         return PendingRow({ pharmacy, activatePharmacy, deactivatePharmacy })
-            //     })
-            // }
 
             if (pharmacies.length) {
 
@@ -66,19 +69,16 @@ const PendingReviews = () => {
 
             } else {
                 return (
-                    // <Box w={"full"} alignItems={"center"} justifyItems={"center"}>
+
 
                     <>
                         <Text fontSize='5xl' color={"gray.500"}>No matching pharmacies found.</Text>
                         <Text fontSize={"4xl"} color={"orange.400"}>Try adjusting your filter.</Text>
                     </>
-                    // </Box>
                 )
 
 
             }
-        } else {
-            return <Box></Box>
         }
     }, [search])
 
@@ -106,6 +106,7 @@ const PendingReviews = () => {
 
                         </MenuList>
                     </Menu>
+                    <Button colorScheme="orange" leftIcon={<FiRefreshCcw />} onClick={() => fetchPharmaciesPendingReview()}>Refresh</Button>
                 </HStack>
 
                 {
@@ -181,6 +182,8 @@ export const PendingRow = ({ pharmacy, activatePharmacy, deactivatePharmacy }: P
     )
 
 }
+
+
 
 
 
