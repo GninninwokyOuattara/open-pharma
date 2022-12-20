@@ -2,8 +2,8 @@
 
 
 import { CheckIcon, ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
-import { Button, Flex, HStack, Icon, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
-import { useCallback, useEffect } from 'react';
+import { Button, Flex, HStack, Icon, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
+import React, { useCallback, useEffect } from 'react';
 import { Pharmacy } from '../../types';
 import { getTimeElapsed } from '../../utils/dry';
 
@@ -16,6 +16,7 @@ import useReviewActions from './useReviewActions';
 import { AiOutlineFieldTime } from "react-icons/ai";
 import { BsSortAlphaDown } from "react-icons/bs";
 import { FiRefreshCcw } from "react-icons/fi";
+
 
 const PendingReviews = () => {
 
@@ -30,7 +31,26 @@ const PendingReviews = () => {
 
     const renderer = useCallback(() => {
 
+        if (isLoading) {
 
+            return (
+                <PendingTableContainer>
+
+                    <SkeletonPendingRow />
+                    <SkeletonPendingRow />
+                    <SkeletonPendingRow />
+                    <SkeletonPendingRow />
+                    <SkeletonPendingRow />
+                    <SkeletonPendingRow />
+                    <SkeletonPendingRow />
+                    <SkeletonPendingRow />
+                    <SkeletonPendingRow />
+                    <SkeletonPendingRow />
+
+                </PendingTableContainer>
+
+            )
+        }
 
         if (!pharmaciesPendingReview) {
             return <Text fontSize={"5xl"} color={"gray.700"}>Nothing to review yet.</Text>
@@ -96,15 +116,15 @@ const PendingReviews = () => {
                 <Flex direction={"row"} w="full" gap={3}>
 
 
-                    <Input placeholder='Search by name' display={"block"} width={"300px"} alignSelf={"flex-start"} marginLeft={"10px"}
+                    <Input disabled={isLoading} placeholder='Search by name' display={"block"} width={"300px"} alignSelf={"flex-start"} marginLeft={"10px"}
                         onChange={(e) => setSearch(e.target.value)}
                     />
-                    <Menu>
-                        <MenuButton as={Button} leftIcon={<Icon as={orderBy == "Name" ? BsSortAlphaDown : AiOutlineFieldTime} display={"block"} />} rightIcon={<ChevronDownIcon />}>
+                    <Menu >
+                        <MenuButton disabled={isLoading} as={Button} leftIcon={<Icon as={orderBy == "Name" ? BsSortAlphaDown : AiOutlineFieldTime} display={"block"} />} rightIcon={<ChevronDownIcon />}>
 
                             {orderBy}
                         </MenuButton>
-                        <MenuList>
+                        <MenuList >
                             <MenuItem onClick={() => changeOrderByTo("Name")} >
                                 <Icon as={BsSortAlphaDown} display={"block"} marginRight={2} />
                                 Name</MenuItem>
@@ -114,9 +134,10 @@ const PendingReviews = () => {
 
                         </MenuList>
                     </Menu>
-                    <Button colorScheme="orange" onClick={() => fetchPharmaciesPendingReview()}>
+                    <Button disabled={isLoading} colorScheme="orange" onClick={() => fetchPharmaciesPendingReview()}>
                         <Icon className={isLoading ? animationStyles.rotate : ""} as={FiRefreshCcw} display={"block"} marginRight={2} />Refresh</Button>
                 </Flex>
+
 
                 {
                     renderer()
@@ -171,6 +192,66 @@ export const PendingRow = ({ pharmacy, activatePharmacy, deactivatePharmacy }: P
 
 }
 
+export const SkeletonPendingRow = () => {
+
+    return (
+        <Tr className={styles.tableRow} w={"full"}>
+
+            <Td w={"full"}>
+                <Skeleton height={"20px"} w={"full"}>
+
+                    Hello Goat
+
+                </Skeleton>
+            </Td>
+            <Td>
+                <Skeleton height={"20px"} w={"full"} />
+            </Td>
+
+            <Td>
+                <HStack>
+
+                    <Skeleton height={"20px"} w={"10"} />
+                    <Skeleton height={"20px"} w={"10"} />
+                </HStack>
+            </Td>
+
+
+        </Tr>
+
+    )
+}
+
+
+
+export const PendingTableContainer = ({ children }: { children: React.ReactNode }) => {
+
+
+    return (
+        <TableContainer style={{ height: "100%", width: "100%" }} overflowY={"scroll"} overflowX={"scroll"} marginTop={"30px"}>
+            <Table variant='simple' >
+
+                <Thead >
+                    <Tr >
+
+                        <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white" }}>Name</Th>
+                        <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white" }}>Date added</Th>
+                        <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white", zIndex: 100 }}></Th>
+
+                    </Tr>
+                </Thead>
+                <Tbody>
+
+
+                    {children}
+
+                </Tbody>
+            </Table>
+        </TableContainer>
+
+    )
+
+}
 
 
 
