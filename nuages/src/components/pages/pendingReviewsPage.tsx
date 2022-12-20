@@ -65,28 +65,19 @@ const PendingReviews = () => {
 
                 return (
 
-                    <TableContainer style={{ height: "100%", width: "100%" }} overflowY={"scroll"} overflowX={"scroll"} marginTop={"30px"}>
-                        <Table variant='simple' >
-
-                            <Thead >
-                                <Tr >
-
-                                    <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white" }}>Name</Th>
-                                    <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white" }}>Date added</Th>
-                                    <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white", zIndex: 100 }}></Th>
-
-                                </Tr>
-                            </Thead>
-                            <Tbody>
+                    <PendingTableContainer>
 
 
-                                {pharmacies.map((pharmacy, idx) => {
-                                    return PendingRow({ pharmacy, activatePharmacy, deactivatePharmacy })
-                                })}
 
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
+
+
+
+                        {pharmacies.map((pharmacy, idx) => {
+                            return PendingRow({ pharmacy, activatePharmacy, deactivatePharmacy })
+                        })}
+
+                    </PendingTableContainer>
+
 
                 )
 
@@ -110,17 +101,17 @@ const PendingReviews = () => {
     return (
         <>
 
-            <VStack gap={2} paddingTop={"15px"} height={"100%"} width={"95%"}>
+            <VStack gap={2} paddingTop={"15px"} height={"100%"} width={"100%"} className={animationStyles.fadeInFromRight}>
 
-                <Text alignSelf={"center"} fontSize='6xl'>{`${pharmaciesPendingReview.length} pending reviews`}</Text>
-                <Flex direction={"row"} w="full" gap={3}>
+                {/* <Text alignSelf={"center"} fontSize='6xl'>{`${pharmaciesPendingReview.length} pending reviews`}</Text> */}
+                <Flex direction={"row"} w="full" gap={3} marginY={7}>
 
 
-                    <Input disabled={isLoading} placeholder='Search by name' display={"block"} width={"300px"} alignSelf={"flex-start"} marginLeft={"10px"}
+                    <Input disabled={isLoading} placeholder='Search by name' display={"block"} width={"300px"} alignSelf={"flex-start"} marginLeft={"10px"} boxShadow={"2xl"}
                         onChange={(e) => setSearch(e.target.value)}
                     />
                     <Menu >
-                        <MenuButton disabled={isLoading} as={Button} leftIcon={<Icon as={orderBy == "Name" ? BsSortAlphaDown : AiOutlineFieldTime} display={"block"} />} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton boxShadow={"2xl"} disabled={isLoading} as={Button} leftIcon={<Icon as={orderBy == "Name" ? BsSortAlphaDown : AiOutlineFieldTime} display={"block"} />} rightIcon={<ChevronDownIcon />}>
 
                             {orderBy}
                         </MenuButton>
@@ -134,7 +125,7 @@ const PendingReviews = () => {
 
                         </MenuList>
                     </Menu>
-                    <Button disabled={isLoading} colorScheme="orange" onClick={() => fetchPharmaciesPendingReview()}>
+                    <Button boxShadow={"2xl"} disabled={isLoading} colorScheme="orange" onClick={() => fetchPharmaciesPendingReview()}>
                         <Icon className={isLoading ? animationStyles.rotate : ""} as={FiRefreshCcw} display={"block"} marginRight={2} />Refresh</Button>
                 </Flex>
 
@@ -228,8 +219,8 @@ export const PendingTableContainer = ({ children }: { children: React.ReactNode 
 
 
     return (
-        <TableContainer style={{ height: "100%", width: "100%" }} overflowY={"scroll"} overflowX={"scroll"} marginTop={"30px"}>
-            <Table variant='simple' >
+        <TableContainer style={{ height: "100%", width: "100%" }} overflowY={"scroll"} overflowX={"scroll"} marginTop={"30px"} boxShadow={"dark-lg"} borderRadius={"md"}>
+            <Table variant='simple'>
 
                 <Thead >
                     <Tr >
