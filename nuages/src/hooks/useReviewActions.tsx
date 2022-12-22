@@ -1,6 +1,6 @@
 import { useToast } from "@chakra-ui/react";
 import { useState } from "react";
-import { Pharmacy } from "../../types";
+import { Pharmacy } from "../types";
 
 
 const backendUrl = process.env.REACT_APP_DJANGO_API_URL

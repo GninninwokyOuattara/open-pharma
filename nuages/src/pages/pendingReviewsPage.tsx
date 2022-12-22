@@ -1,21 +1,23 @@
 
 
 
-import { CheckIcon, ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
-import { Button, Flex, HStack, Icon, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
-import React, { useCallback, useEffect } from 'react';
-import { Pharmacy } from '../../types';
-import { getTimeElapsed } from '../../utils/dry';
+import { ChevronDownIcon } from '@chakra-ui/icons';
+import { Button, Flex, Icon, Input, Menu, MenuButton, MenuItem, MenuList, Text, VStack } from '@chakra-ui/react';
+import { useCallback, useEffect } from 'react';
 
 
-import animationStyles from "../../styles/animation.module.css";
-import styles from "./../../styles/table.module.css";
-import useReviewActions from './useReviewActions';
+import useReviewActions from '../hooks/useReviewActions';
+import animationStyles from "../styles/animation.module.css";
 
 // import FiRefreshCcw from react-icons
 import { AiOutlineFieldTime } from "react-icons/ai";
 import { BsSortAlphaDown } from "react-icons/bs";
 import { FiRefreshCcw } from "react-icons/fi";
+
+
+import { PendingRow } from '../components/pendingRow';
+import { PendingTableContainer } from "../components/pendingTableContainer";
+import { SkeletonPendingRow } from "../components/skeletonPendingRow";
 
 
 const PendingReviews = () => {
@@ -149,100 +151,11 @@ export default PendingReviews;
 
 
 
-interface PendingRowProps {
-    pharmacy: Pharmacy,
-    activatePharmacy: (pharmacy: Pharmacy) => void,
-    deactivatePharmacy: (pharmacy: Pharmacy) => void
-}
-
-export const PendingRow = ({ pharmacy, activatePharmacy, deactivatePharmacy }: PendingRowProps) => {
-
-    const timeElapsedFromCreationCreation = getTimeElapsed(pharmacy.date_created)
-
-    return (
 
 
 
 
-        <Tr key={pharmacy.id} className={styles.tableRow}>
-            <Td width={"100%"}>{pharmacy.name}</Td>
 
-            <Td>{timeElapsedFromCreationCreation}</Td>
-
-            <Td className={styles.tableDataHidden}>
-
-                <HStack gap={2} alignSelf={"flex-end"}>
-                    <IconButton aria-label='Activate pharmacy' icon={<CheckIcon />} onClick={() => activatePharmacy(pharmacy)} />
-                    <IconButton aria-label='Deactivate pharmacy' icon={<CloseIcon />} onClick={() => deactivatePharmacy(pharmacy)} />
-                </HStack>
-            </Td>
-
-        </Tr>
-
-    )
-
-}
-
-export const SkeletonPendingRow = () => {
-
-    return (
-        <Tr className={styles.tableRow} w={"full"}>
-
-            <Td w={"full"}>
-                <Skeleton height={"20px"} w={"full"}>
-
-                    Hello Goat
-
-                </Skeleton>
-            </Td>
-            <Td>
-                <Skeleton height={"20px"} w={"full"} />
-            </Td>
-
-            <Td>
-                <HStack>
-
-                    <Skeleton height={"20px"} w={"10"} />
-                    <Skeleton height={"20px"} w={"10"} />
-                </HStack>
-            </Td>
-
-
-        </Tr>
-
-    )
-}
-
-
-
-export const PendingTableContainer = ({ children }: { children: React.ReactNode }) => {
-
-
-    return (
-        <TableContainer style={{ height: "100%", width: "100%" }} overflowY={"scroll"} overflowX={"scroll"} marginTop={"30px"} boxShadow={"dark-lg"} borderRadius={"md"}>
-            <Table variant='simple'>
-
-                <Thead >
-                    <Tr >
-
-                        <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white" }}>Name</Th>
-                        <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white" }}>Date added</Th>
-                        <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white", zIndex: 100 }}></Th>
-
-                    </Tr>
-                </Thead>
-                <Tbody>
-
-
-                    {children}
-
-                </Tbody>
-            </Table>
-        </TableContainer>
-
-    )
-
-}
 
 
 

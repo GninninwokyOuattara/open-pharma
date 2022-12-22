@@ -1,7 +1,15 @@
 .tableRow {
-    background-color: "#fff";
+    background-color: #fff;
+    /* border-color: aqua; */
+    /* border-width: 2px; */
+    
 
 }
+
+.tableRow td {
+    border-bottom: red;
+}
+
 .tableDataHidden {
     visibility: "invisible";
     opacity: 0;
