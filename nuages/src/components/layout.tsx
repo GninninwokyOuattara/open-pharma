@@ -19,9 +19,10 @@ const Layout = () => {
 
         >
             {/* <VStack spacing={10}> */}
-            <Flex height={"100%"} gap={2}>
+            <Flex height={"100%"} >
                 <NavigationBar />
                 <Box width={"100%"} height={"100%"}
+                    padding={2}
                     // borderWidth={1}
                     // borderColor="orange.200"
                     borderRadius={5}
