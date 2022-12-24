@@ -104,3 +104,34 @@ class PharmaciesCurrentStateViewset(viewsets.ReadOnlyModelViewSet):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+# DATA NUMBERS
+
+class ActivePharmaciesCountViewset(viewsets.ReadOnlyModelViewSet):
+    queryset = Pharmacy.objects.filter(active=True)
+    serializer_class = PharmaciesSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response({'count': queryset.count()})
+
+
+class InactivePharmaciesCountViewset(viewsets.ReadOnlyModelViewSet):
+    queryset = Pharmacy.objects.filter(active=False)
+    serializer_class = PharmaciesSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response({'count': queryset.count()})
+
+
+class OpenPharmacyCountViewset(viewsets.ReadOnlyModelViewSet):
+    current_date = datetime.datetime.now()
+    queryset = OpenPharmacy.objects.filter(
+        open_from__lte=current_date, open_until__gte=current_date)
+    serializer_class = OpenPharmaciesListAdminSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response({'count': queryset.count()})
