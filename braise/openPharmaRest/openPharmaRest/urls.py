@@ -19,8 +19,10 @@ from django.urls import include, path
 from googleMapsScrapper.views import SearchApiView
 from openPharma.views import (OpenPharmaciesAdminViewset,
                               OpenPharmaciesViewset, PharmaciesAdminViewset,
+                              PharmaciesAllStateCountView,
                               PharmaciesCurrentStateViewset,
                               PharmaciesPendingReviewAdminViewset,
+                              PharmaciesStateAndCountViewset,
                               PharmaciesViewset)
 from openTracker.views import CurrentlyOpenPharmaciesView
 from rest_framework import routers
@@ -44,7 +46,10 @@ admin_router.register(r'pharmacies-pending-review',
 
 admin_router.register(r"open-pharmacies",
                       OpenPharmaciesAdminViewset, basename="admin-open-pharmacies")
-
+admin_router.register(r"get-pharmacies-states-count",
+                      PharmaciesAllStateCountView, basename="get-pharmacies-states-count")
+admin_router.register(r"get-pharmacies-state-and-count",
+                      PharmaciesStateAndCountViewset, basename="get-pharmacies-state-and-count")
 
 schema_view = get_swagger_view(title='OpenPharma API')
 
