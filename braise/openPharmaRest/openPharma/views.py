@@ -97,16 +97,38 @@ class OpenPharmaciesAdminViewset(viewsets.ModelViewSet):
 
 class PharmaciesCurrentStateViewset(viewsets.ReadOnlyModelViewSet):
 
+    current_date = datetime.datetime.now()
+
     serializer_class = PharmaciesOpenStateSerializer
+
     queryset = Pharmacy.objects.all()
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
+
         return Response(serializer.data)
 
 
-# DATA NUMBERS
+# DATAS COUNTERS VIEWS
+
+
+class PharmaciesAllStateCountView(viewsets.ReadOnlyModelViewSet):
+    current_date = datetime.datetime.now()
+    serializer_class = PharmaciesOpenStateSerializer
+    active_pharmacies_count = Pharmacy.objects.filter(active=True).count()
+    inactive_Pharmacies_count = Pharmacy.objects.filter(active=False).count()
+    open_pharmacies_count = OpenPharmacy.objects.filter(
+        open_from__lte=current_date, open_until__gte=current_date).count()
+
+    def list(self, request, *args, **kwargs):
+        count_summary = {
+            "active_pharmacies_count": self.active_pharmacies_count,
+            "inactive_Pharmacies_count": self.inactive_Pharmacies_count,
+            "open_pharmacies_count": self.open_pharmacies_count
+        }
+        return Response(count_summary)
+
 
 class ActivePharmaciesCountViewset(viewsets.ReadOnlyModelViewSet):
     queryset = Pharmacy.objects.filter(active=True)
@@ -135,3 +157,29 @@ class OpenPharmacyCountViewset(viewsets.ReadOnlyModelViewSet):
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         return Response({'count': queryset.count()})
+
+
+#
+
+class PharmaciesStateAndCountViewset(viewsets.ReadOnlyModelViewSet):
+    serializer_class = PharmaciesOpenStateSerializer
+    queryset = Pharmacy.objects.all()
+    current_date = datetime.datetime.now()
+    active_pharmacies_count = Pharmacy.objects.filter(active=True).count()
+    inactive_Pharmacies_count = Pharmacy.objects.filter(active=False).count()
+    open_pharmacies_count = OpenPharmacy.objects.filter(
+        open_from__lte=current_date, open_until__gte=current_date).count()
+
+    def list(self, request, *args, **kwargs):
+
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+
+        count_summary = {
+            "active_pharmacies_count": self.active_pharmacies_count,
+            "inactive_Pharmacies_count": self.inactive_Pharmacies_count,
+            "open_pharmacies_count": self.open_pharmacies_count
+        }
+
+        response = {"summary": count_summary, "datas": serializer.data}
+        return Response(response)
