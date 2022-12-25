@@ -24,6 +24,7 @@ export interface PharmacyFullState extends Pharmacy {
     open_until: string;
     date_range_string: string;
   };
+  open: boolean;
 }
 
 export interface OpenPharmacy extends Pharmacy {
