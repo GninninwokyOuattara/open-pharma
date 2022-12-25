@@ -1,28 +1,9 @@
-
-
-import {
-    Table, TableContainer, Tbody, Td, Th, Thead, Tr
-} from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
-
-// import Pagination from chakra ui
-
-// import pagination module css
+import { Box, Flex, Text, VStack } from "@chakra-ui/react";
+import { AiOutlineFieldTime } from "react-icons/ai";
 
 
 
 
-
-interface Pharmacy {
-    id: number;
-    name: string;
-    active: boolean;
-    pending_review: boolean;
-    coordinates: {
-        latitude: number;
-        longitude: number;
-    };
-}
 
 const PharmaciesPage = () => {
 
@@ -30,67 +11,15 @@ const PharmaciesPage = () => {
     const REACT_APP_DJANGO_API_URL = process.env.REACT_APP_DJANGO_API_URL;
     console.log("REACT_APP_DJANGO_API_URL: ", REACT_APP_DJANGO_API_URL);
 
-    const [pharmacies, setPharmacies] = useState<Pharmacy[] | null>(null);
-
-    // useref for pagination
-    const pageNumberRef = useRef(1);
 
 
-    // get pharmacies data from api
-    const getPharmacies = async () => {
-        const response = await fetch(`http://localhost:8000/admin-api/pharmacies/`);
-        const data = await response.json();
-        console.log("data: ", data);
-        return data
-    }
-
-
-
-    useEffect(() => {
-        getPharmacies().then((data) => {
-            setPharmacies(data);
-        })
-    }, [])
 
 
 
 
     return (
         <>
-            <TableContainer style={{ height: "100%" }} overflowY={"scroll"} overflowX={"scroll"}>
-                <Table variant='simple' >
-
-                    <Thead>
-                        <Tr>
-                            <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white" }}>#</Th>
-                            <Th style={{ position: "sticky", top: 0, overflow: "hidden", backgroundColor: "white" }}>Name</Th>
-                            <Th style={{ position: "sticky", top: 0, backgroundColor: "white" }}>Active</Th>
-                            <Th style={{ position: "sticky", top: 0, backgroundColor: "white" }}>Pending review</Th>
-
-                            <Th style={{ position: "sticky", top: 0, backgroundColor: "white" }}>Coordinates</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {pharmacies?.map((pharmacy, idx) => {
-                            console.log("pharmacy: ", pharmacy)
-                            return (
-                                <Tr key={pharmacy.id}>
-                                    <Td>{idx + 1}</Td>
-                                    <Td>{pharmacy.name}</Td>
-                                    <Td>{pharmacy.active ? "Yes" : "No"}</Td>
-                                    <Td>{pharmacy.pending_review ? "Yes" : "No"}</Td>
-
-                                    <Td>{`${pharmacy.coordinates.latitude},${pharmacy.coordinates.longitude}`}</Td>
-                                </Tr>
-                            )
-                        })
-                        }
-
-                    </Tbody>
-                </Table>
-            </TableContainer>
-
-
+            <DataRecapCard data={100} icon={<AiOutlineFieldTime size={"40px"} color={"#2B7DBF"} />} iconBg={"#E8F3FF"} header={"Pending Reviews"} width={"300px"} height={"100px"} />
 
 
         </>
@@ -98,3 +27,46 @@ const PharmaciesPage = () => {
 };
 
 export default PharmaciesPage;
+
+
+
+interface dataRecapCardProps {
+    data: Number | string,
+    header: string,
+    icon: JSX.Element,
+    iconBg?: string,
+    width?: string
+    height?: string
+}
+
+const DataRecapCard = ({ data, icon, iconBg, header, width, height }: dataRecapCardProps) => {
+
+    width = width || "300px"
+    height = height || "100px"
+    iconBg = iconBg || "#E8F3FF"
+
+
+    return (
+        <Box width={width || "300px"} height={height || "100px"} bg={"white"} shadow={"md"} borderRadius={"md"} padding={5} css={{
+            boxShadow: 'md',
+            transition: 'all 0.2s',
+            '&:hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: 'lg'
+            }
+        }}>
+            <Flex direction={"row"} gap={2} height="full" width="full">
+                <Box backgroundColor={iconBg} height={"100%"} width={"30%"} borderRadius={"md"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
+                    {icon}
+                </Box>
+                <Box width="100%" height={"100%"}>
+                    <VStack height={"100%"} overflow={"hidden"}>
+                        <Text color={"gray.600"} alignSelf={"flex-start"} margin={0}>{header || "???"}</Text>
+                        <Text fontSize={"3xl"} fontWeight={"bold"} alignSelf={"flex-start"} style={{ marginTop: 0 }}>{`${data || 0}`}</Text>
+                    </VStack>
+                </Box>
+            </Flex>
+
+        </Box>
+    )
+}
