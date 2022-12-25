@@ -165,20 +165,22 @@ class PharmaciesStateAndCountViewset(viewsets.ReadOnlyModelViewSet):
     serializer_class = PharmaciesOpenStateSerializer
     queryset = Pharmacy.objects.all()
     current_date = datetime.datetime.now()
-    active_pharmacies_count = Pharmacy.objects.filter(active=True).count()
-    inactive_Pharmacies_count = Pharmacy.objects.filter(active=False).count()
-    open_pharmacies_count = OpenPharmacy.objects.filter(
-        open_from__lte=current_date, open_until__gte=current_date).count()
 
     def list(self, request, *args, **kwargs):
 
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
 
+        active_pharmacies_count = Pharmacy.objects.filter(active=True).count()
+        inactive_Pharmacies_count = Pharmacy.objects.filter(
+            active=False).count()
+        open_pharmacies_count = OpenPharmacy.objects.filter(
+            open_from__lte=self.current_date, open_until__gte=self.current_date).count()
+
         count_summary = {
-            "active_pharmacies_count": self.active_pharmacies_count,
-            "inactive_Pharmacies_count": self.inactive_Pharmacies_count,
-            "open_pharmacies_count": self.open_pharmacies_count
+            "active_pharmacies_count": active_pharmacies_count,
+            "inactive_Pharmacies_count": inactive_Pharmacies_count,
+            "open_pharmacies_count": open_pharmacies_count
         }
 
         response = {"summary": count_summary, "pharmacies": serializer.data}
