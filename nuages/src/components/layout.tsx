@@ -16,6 +16,7 @@ const Layout = () => {
             height="100vh"
             width="100vw"
             overflow={"hidden"}
+            backgroundColor={"#F8FBFC"}
 
         >
             {/* <VStack spacing={10}> */}
