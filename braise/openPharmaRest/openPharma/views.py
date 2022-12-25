@@ -181,5 +181,5 @@ class PharmaciesStateAndCountViewset(viewsets.ReadOnlyModelViewSet):
             "open_pharmacies_count": self.open_pharmacies_count
         }
 
-        response = {"summary": count_summary, "datas": serializer.data}
+        response = {"summary": count_summary, "pharmacies": serializer.data}
         return Response(response)
