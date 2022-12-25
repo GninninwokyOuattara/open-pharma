@@ -18,6 +18,14 @@ export interface Pharmacy {
   pending_review: boolean;
 }
 
+export interface PharmacyFullState extends Pharmacy {
+  open_date_range: null | {
+    open_from: string;
+    open_until: string;
+    date_range_string: string;
+  };
+}
+
 export interface OpenPharmacy extends Pharmacy {
   // date
   open_from: string;
@@ -27,4 +35,15 @@ export interface OpenPharmacy extends Pharmacy {
 export interface PendingReviewPharmacy extends Pharmacy {
   active: false;
   pending_review: true;
+}
+
+export type PharmaciesDataSummary = {
+  active_pharmacies_count: number;
+  inactive_Pharmacies_count: number;
+  open_pharmacies_count: number;
+};
+
+export interface PharmaciesStateAndSummary {
+  pharmacies: PharmacyFullState[];
+  summary: PharmaciesDataSummary;
 }
