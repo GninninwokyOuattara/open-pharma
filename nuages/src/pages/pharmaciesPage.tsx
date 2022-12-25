@@ -12,7 +12,7 @@ import { getTags } from "../utils/dry";
 
 const PharmaciesPage = () => {
 
-    const { isLoading, summary, pharmacies, error } = usePharmacies()
+    const { isLoading, summary, pharmacies, error, applyFilters, filteredPharmacies, setSearch } = usePharmacies()
     console.log(pharmacies)
 
 
@@ -25,7 +25,7 @@ const PharmaciesPage = () => {
 
                 <RecapContainer summary={summary} isLoading={isLoading} />
                 <Box height={10}></Box>
-                <PharmaciesTableContainer pharmacies={pharmacies} isLoading={isLoading} />
+                <PharmaciesTableContainer filteredPharmacies={filteredPharmacies} isLoading={isLoading} setSearch={setSearch} />
 
             </VStack>
 
@@ -39,7 +39,7 @@ export default PharmaciesPage;
 
 
 
-const PharmaciesTableContainer = ({ pharmacies, isLoading }: { pharmacies: PharmacyFullState[], isLoading: boolean }) => {
+const PharmaciesTableContainer = ({ filteredPharmacies, isLoading, setSearch }: { filteredPharmacies: PharmacyFullState[], isLoading: boolean, setSearch: React.Dispatch<React.SetStateAction<string>> }) => {
 
 
     return (
@@ -52,6 +52,9 @@ const PharmaciesTableContainer = ({ pharmacies, isLoading }: { pharmacies: Pharm
                             width={200}
                             alignSelf={"flex-start"}
                             shadow={"md"}
+                            onChange={(e) => {
+                                setSearch(e.target.value)
+                            }}
                         />
 
 
@@ -69,7 +72,7 @@ const PharmaciesTableContainer = ({ pharmacies, isLoading }: { pharmacies: Pharm
                                 <Th>Opening</Th>
                             </Tr>
                         </Thead>
-                        <Tbody >
+                        {/* <Tbody >
 
                             {!isLoading && pharmacies.length ? pharmacies.map((pharmacy) => {
 
@@ -86,12 +89,49 @@ const PharmaciesTableContainer = ({ pharmacies, isLoading }: { pharmacies: Pharm
                                 </Tr>
                             }) : 0}
 
-                        </Tbody>
+                        </Tbody> */}
+                        <TableContent isLoading={isLoading} filteredPharmacies={filteredPharmacies} />
                     </Table>
                 </Box>
             </VStack>
 
         </TableContainer>
+    )
+}
+
+const TableContent = ({ isLoading, filteredPharmacies }: { isLoading: boolean, filteredPharmacies: PharmacyFullState[] }) => {
+
+    if (isLoading) {
+        return <Text>Loading</Text>
+    }
+
+    if (!filteredPharmacies.length) {
+        return <Text>No pharmacies found</Text>
+    }
+
+
+
+    return (
+        <Tbody >
+
+            {filteredPharmacies.map((pharmacy) => {
+
+                const tags = getTags(pharmacy)
+
+                return (<Tr>
+                    <Td>{pharmacy.name}</Td>
+                    <Td>
+
+                        <Tags tags={tags} />
+
+                    </Td>
+                    <Td >{pharmacy.open_date_range?.date_range_string || "-"}</Td>
+                </Tr>)
+            })
+            }
+
+
+        </Tbody>
     )
 }
 

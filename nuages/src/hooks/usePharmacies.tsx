@@ -1,12 +1,55 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { PharmaciesDataSummary, PharmaciesStateAndSummary, PharmacyFullState } from "../types"
+import { getTags } from "../utils/dry"
 
 
 const usePharmacies = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [summary, setSummary] = useState<PharmaciesDataSummary>()
     const [pharmacies, setPharmacies] = useState<PharmacyFullState[]>([])
+    // const [filteredPharmacies, setFilteredPharmacies] = useState<PharmacyFullState[]>([])
+
     const [error, setError] = useState(null)
+    const [search, setSearch] = useState<string>("")
+    const [activeTags, setActiveTags] = useState<string[]>(["Active", "Inactive", "Open"])
+
+    const applyFilters = () => {
+        const firstFilter = filterByTags(pharmacies)
+        const secondFilter = filterBySearch(firstFilter)
+        return secondFilter
+    }
+
+    const filterByTags = useCallback((pharmacies: PharmacyFullState[]) => {
+        if (activeTags.length === 3) {
+            return pharmacies
+        }
+
+        const filteredPharmacies = pharmacies.filter((pharmacy) => {
+            const pharmacyTags = getTags(pharmacy)
+            const intersection = pharmacyTags.filter((tag) => activeTags.includes(tag))
+            return intersection.length > 0
+        })
+
+        return filteredPharmacies
+    }, [activeTags])
+
+    const filterBySearch = useCallback((pharmacies: PharmacyFullState[]) => {
+        if (search === "") {
+            return pharmacies
+        }
+
+        const filteredPharmacies = pharmacies.filter((pharmacy) => {
+            return pharmacy.name.toLowerCase().includes(search.toLowerCase())
+        })
+
+        return filteredPharmacies
+    }, [search])
+
+    const filteredPharmacies = useMemo(() => {
+        if (!pharmacies) return []
+        const filtered = applyFilters()
+        return filtered
+    }, [pharmacies, search, activeTags])
 
     const getDatas = async () => {
         try {
@@ -36,7 +79,13 @@ const usePharmacies = () => {
     }, [])
 
 
-    return { isLoading, summary, pharmacies, error }
+
+
+
+
+
+
+    return { isLoading, summary, pharmacies, error, applyFilters, filteredPharmacies, setSearch }
 
 }
 
