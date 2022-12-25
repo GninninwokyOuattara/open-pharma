@@ -173,7 +173,7 @@ class PharmaciesStateAndCountViewset(viewsets.ReadOnlyModelViewSet):
 
         active_pharmacies_count = Pharmacy.objects.filter(active=True).count()
         inactive_Pharmacies_count = Pharmacy.objects.filter(
-            active=False).count()
+            active=False, pending_review=False).count()
         open_pharmacies_count = OpenPharmacy.objects.filter(
             open_from__lte=self.current_date, open_until__gte=self.current_date).count()
 
