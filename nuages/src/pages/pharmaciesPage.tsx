@@ -4,6 +4,7 @@ import { MdOutlineHouseSiding } from "react-icons/md";
 import { RiEyeOffLine } from "react-icons/ri";
 import usePharmacies from "../hooks/usePharmacies";
 import { PharmaciesDataSummary, PharmacyFullState } from "../types";
+import { getTags } from "../utils/dry";
 
 
 
@@ -71,24 +72,20 @@ const PharmaciesTableContainer = ({ pharmacies, isLoading }: { pharmacies: Pharm
                         <Tbody >
 
                             {!isLoading && pharmacies.length ? pharmacies.map((pharmacy) => {
+
+                                const tags = getTags(pharmacy)
+
                                 return <Tr>
                                     <Td>{pharmacy.name}</Td>
                                     <Td>
-                                        <StateTag />
-                                        <StateTag />
+
+                                        <Tags tags={tags} />
+
                                     </Td>
                                     <Td >{pharmacy.open_date_range?.date_range_string || "-"}</Td>
                                 </Tr>
                             }) : 0}
 
-                            <Tr>
-                                <Td>Pharmacy Sainte Cecile</Td>
-                                <Td>
-                                    <StateTag />
-                                    <StateTag />
-                                </Td>
-                                <Td >Decembre - Janvier</Td>
-                            </Tr>
                         </Tbody>
                     </Table>
                 </Box>
@@ -102,10 +99,42 @@ const PharmaciesTableContainer = ({ pharmacies, isLoading }: { pharmacies: Pharm
 
 
 
-const StateTag = ({ state, backgroundColor, color }: { state?: string, backgroundColor?: string, color?: string }) => {
+
+const Tags = ({ tags }: { tags: string[] }) => {
+
+    return <Flex direction={"row"} gap={2}>
+        {tags.map((tag) => {
+            return <StateTag state={tag} />
+        })}
+    </Flex>
+}
+
+
+const StateTag = ({ state, }: { state?: string }) => {
     state = state || "Unknown"
-    backgroundColor = backgroundColor || "#F2FBFF"
-    color = color || "#ACBCD3"
+    let backgroundColor = null
+    let color = null
+
+    switch (state) {
+        case "Active":
+            backgroundColor = "#E8F3FF"
+            color = "#2B7DBF"
+            break;
+        case "Inactive":
+            backgroundColor = "#F2FBFF"
+            color = "#ACBCD3"
+            break;
+        case "Open":
+            backgroundColor = "#E7FCFE"
+            color = "#18978C"
+            break;
+        default:
+            backgroundColor = "#F2FBFF"
+            color = "#ACBCD3"
+            break;
+    }
+
+
     return <Box display={"inline-block"} padding={2} borderRadius={"lg"} backgroundColor={backgroundColor} color={color}>{state}</Box>
 
 }
@@ -115,7 +144,7 @@ const StateTag = ({ state, backgroundColor, color }: { state?: string, backgroun
 const RecapContainer = ({ summary, isLoading }: { summary?: PharmaciesDataSummary, isLoading: boolean }) => {
 
     return <Flex direction={"row"} gap={2} marginTop={5}>
-        <DataRecapCard data={summary?.inactive_Pharmacies_count || 0} icon={<RiEyeOffLine size={"40px"} color={"#2B7DBF"} />} iconBg={"#E8F3FF"} header={"Inactive Pharmacies"} isLoading={isLoading} />
+        <DataRecapCard data={summary?.inactive_Pharmacies_count || 0} icon={<RiEyeOffLine size={"40px"} color={"#ACBCD3"} />} iconBg={"#F2FBFF"} header={"Inactive Pharmacies"} isLoading={isLoading} />
         <DataRecapCard data={summary?.active_pharmacies_count || 0} icon={<AiOutlineEye size={"40px"} color={"#2B7DBF"} />} iconBg={"#E8F3FF"} header={"Active Pharmacies"} isLoading={isLoading} />
         <DataRecapCard data={summary?.open_pharmacies_count || 0} icon={<MdOutlineHouseSiding size={"40px"} color={"#18978C"} />} iconBg={"#E7FCFE"} header={"Open Pharmacies"} isLoading={isLoading} />
 
