@@ -1,3 +1,5 @@
+import { PharmacyFullState } from "../types";
+
 export const asyncFetchDataFromBackend = async (url: string) => {
   try {
     const response = await fetch(url);
@@ -56,4 +58,18 @@ export const getTimeElapsed = (dateString: string) => {
   // Otherwise, return the elapsed time in years
   const elapsedTimeInYears = Math.floor(elapsedTimeInMonths / 12);
   return `${elapsedTimeInYears} year ago`;
+};
+
+export const getTags = (pharmacy: PharmacyFullState) => {
+  const tags = [];
+  if (pharmacy.active) {
+    tags.push("Active");
+  } else {
+    tags.push("Inactive");
+  }
+  if (pharmacy.open) {
+    tags.push("Open");
+  }
+
+  return tags;
 };
