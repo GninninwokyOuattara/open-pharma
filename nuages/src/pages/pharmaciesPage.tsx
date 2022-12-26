@@ -1,4 +1,5 @@
-import { Box, Flex, Input, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import { Box, Button, Checkbox, CheckboxGroup, Flex, HStack, Input, Menu, MenuButton, MenuList, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useCheckboxGroup, VStack } from "@chakra-ui/react";
 import { AiOutlineEye } from "react-icons/ai";
 import { MdOutlineHouseSiding } from "react-icons/md";
 import { RiEyeOffLine } from "react-icons/ri";
@@ -12,7 +13,7 @@ import { getTags } from "../utils/dry";
 
 const PharmaciesPage = () => {
 
-    const { isLoading, summary, pharmacies, error, applyFilters, filteredPharmacies, setSearch } = usePharmacies()
+    const { isLoading, summary, pharmacies, error, applyFilters, filteredPharmacies, setSearch, setActiveTags } = usePharmacies()
     console.log(pharmacies)
 
 
@@ -25,7 +26,7 @@ const PharmaciesPage = () => {
 
                 <RecapContainer summary={summary} isLoading={isLoading} />
                 <Box height={10}></Box>
-                <PharmaciesTableContainer filteredPharmacies={filteredPharmacies} isLoading={isLoading} setSearch={setSearch} />
+                <PharmaciesTableContainer filteredPharmacies={filteredPharmacies} isLoading={isLoading} setSearch={setSearch} setActiveTags={setActiveTags} />
 
             </VStack>
 
@@ -39,15 +40,15 @@ export default PharmaciesPage;
 
 
 
-const PharmaciesTableContainer = ({ filteredPharmacies, isLoading, setSearch }: { filteredPharmacies: PharmacyFullState[], isLoading: boolean, setSearch: React.Dispatch<React.SetStateAction<string>> }) => {
+const PharmaciesTableContainer = ({ filteredPharmacies, isLoading, setSearch, setActiveTags }: { filteredPharmacies: PharmacyFullState[], isLoading: boolean, setSearch: React.Dispatch<React.SetStateAction<string>>, setActiveTags: React.Dispatch<React.SetStateAction<string[]>> }) => {
 
 
     return (
         <TableContainer shadow={"md"} borderRadius={"md"} width="full" height="full" >
             <VStack width={"full"} height="full">
 
-                <Box width={"full"} backgroundColor={"#F8FBFC"} padding={1} top={0} position={"sticky"} zIndex={100} height={"50px"}>
-                    <VStack>
+                <Box width={"full"} backgroundColor={"#F8FBFC"} padding={1} top={0} position={"sticky"} height={"50px"} zIndex={100}>
+                    <HStack>
                         <Input placeholder='Search by name'
                             width={200}
                             alignSelf={"flex-start"}
@@ -57,15 +58,17 @@ const PharmaciesTableContainer = ({ filteredPharmacies, isLoading, setSearch }: 
                             }}
                         />
 
+                        <TagsSettingMenu setActiveTags={setActiveTags} />
 
-                    </VStack>
+
+                    </HStack>
 
                 </Box>
                 <Box overflowY={"scroll"} height={"100%"} width="full">
 
                     <Table variant='simple'>
 
-                        <Thead position={"sticky"} top={0} zIndex={100} backgroundColor={"#F8FBFC"}>
+                        <Thead position={"sticky"} top={0} backgroundColor={"#F8FBFC"}>
                             <Tr>
                                 <Th>Name</Th>
                                 <Th>State</Th>
@@ -98,6 +101,43 @@ const PharmaciesTableContainer = ({ filteredPharmacies, isLoading, setSearch }: 
         </TableContainer>
     )
 }
+
+const TagsSettingMenu = ({ setActiveTags }: { setActiveTags: React.Dispatch<React.SetStateAction<string[]>> }) => {
+
+    const { value, getCheckboxProps } = useCheckboxGroup({
+        defaultValue: ['Inactive Pharmacies', 'Active Pharmacies', 'Open Pharmacies'],
+    })
+
+
+    return (
+        <Menu>
+            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                Actions
+            </MenuButton>
+            <MenuList >
+
+                <Flex direction={"column"} width={"full"} gap={2} paddingX={5}>
+                    <CheckboxGroup defaultValue={["Inactive", "Active", "Open"]}
+                        onChange={(activeTags: string[]) => setActiveTags(activeTags)}>
+
+                        <Checkbox value={"Inactive"} alignSelf={"flex-start"} colorScheme='green' >
+                            Inactive Pharmacies
+                        </Checkbox>
+                        <Checkbox value={"Active"} alignSelf={"flex-start"} colorScheme='green' >
+                            Active Pharmacies
+                        </Checkbox>
+                        <Checkbox value={"Open"} alignSelf={"flex-start"} colorScheme='green' >
+                            Open Pharmacies
+                        </Checkbox>
+                    </CheckboxGroup>
+
+                </Flex>
+            </MenuList>
+        </Menu>
+    )
+}
+
+
 
 const TableContent = ({ isLoading, filteredPharmacies }: { isLoading: boolean, filteredPharmacies: PharmacyFullState[] }) => {
 

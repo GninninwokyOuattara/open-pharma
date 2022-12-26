@@ -11,7 +11,7 @@ const usePharmacies = () => {
 
     const [error, setError] = useState(null)
     const [search, setSearch] = useState<string>("")
-    const [activeTags, setActiveTags] = useState<string[]>(["Active", "Inactive", "Open"])
+    const [activeTags, setActiveTags] = useState<string[]>(["Inactive", "Active", "Open"])
 
     const applyFilters = () => {
         const firstFilter = filterByTags(pharmacies)
@@ -85,7 +85,7 @@ const usePharmacies = () => {
 
 
 
-    return { isLoading, summary, pharmacies, error, applyFilters, filteredPharmacies, setSearch }
+    return { isLoading, summary, pharmacies, error, applyFilters, filteredPharmacies, setSearch, setActiveTags }
 
 }
 
