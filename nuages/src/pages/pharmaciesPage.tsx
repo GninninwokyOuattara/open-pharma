@@ -1,11 +1,15 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Box, Button, Checkbox, CheckboxGroup, Flex, HStack, Input, Menu, MenuButton, MenuList, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useCheckboxGroup, VStack } from "@chakra-ui/react";
+import { SettingsIcon } from "@chakra-ui/icons";
+import { Box, Button, Checkbox, CheckboxGroup, Flex, HStack, Icon, Input, Menu, MenuButton, MenuList, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useCheckboxGroup, VStack } from "@chakra-ui/react";
 import { AiOutlineEye } from "react-icons/ai";
+import { FiRefreshCcw } from "react-icons/fi";
 import { MdOutlineHouseSiding } from "react-icons/md";
 import { RiEyeOffLine } from "react-icons/ri";
 import usePharmacies from "../hooks/usePharmacies";
 import { PharmaciesDataSummary, PharmacyFullState } from "../types";
 import { getTags } from "../utils/dry";
+
+import animationStyles from "../styles/animation.module.css";
+
 
 
 
@@ -13,7 +17,7 @@ import { getTags } from "../utils/dry";
 
 const PharmaciesPage = () => {
 
-    const { isLoading, summary, pharmacies, error, applyFilters, filteredPharmacies, setSearch, setActiveTags } = usePharmacies()
+    const { refreshDatas, isLoading, summary, pharmacies, error, applyFilters, filteredPharmacies, setSearch, setActiveTags } = usePharmacies()
     console.log(pharmacies)
 
 
@@ -26,7 +30,7 @@ const PharmaciesPage = () => {
 
                 <RecapContainer summary={summary} isLoading={isLoading} />
                 <Box height={10}></Box>
-                <PharmaciesTableContainer filteredPharmacies={filteredPharmacies} isLoading={isLoading} setSearch={setSearch} setActiveTags={setActiveTags} />
+                <PharmaciesTableContainer refreshDatas={refreshDatas} filteredPharmacies={filteredPharmacies} isLoading={isLoading} setSearch={setSearch} setActiveTags={setActiveTags} />
 
             </VStack>
 
@@ -40,7 +44,7 @@ export default PharmaciesPage;
 
 
 
-const PharmaciesTableContainer = ({ filteredPharmacies, isLoading, setSearch, setActiveTags }: { filteredPharmacies: PharmacyFullState[], isLoading: boolean, setSearch: React.Dispatch<React.SetStateAction<string>>, setActiveTags: React.Dispatch<React.SetStateAction<string[]>> }) => {
+const PharmaciesTableContainer = ({ refreshDatas, filteredPharmacies, isLoading, setSearch, setActiveTags }: { refreshDatas: () => void, filteredPharmacies: PharmacyFullState[], isLoading: boolean, setSearch: React.Dispatch<React.SetStateAction<string>>, setActiveTags: React.Dispatch<React.SetStateAction<string[]>> }) => {
 
 
     return (
@@ -59,6 +63,9 @@ const PharmaciesTableContainer = ({ filteredPharmacies, isLoading, setSearch, se
                         />
 
                         <TagsSettingMenu setActiveTags={setActiveTags} />
+
+                        <Button boxShadow={"md"} disabled={isLoading} onClick={() => refreshDatas()}>
+                            <Icon className={isLoading ? animationStyles.rotate : ""} as={FiRefreshCcw} display={"block"} marginRight={2} />Refresh</Button>
 
 
                     </HStack>
@@ -102,7 +109,7 @@ const PharmaciesTableContainer = ({ filteredPharmacies, isLoading, setSearch, se
     )
 }
 
-const TagsSettingMenu = ({ setActiveTags }: { setActiveTags: React.Dispatch<React.SetStateAction<string[]>> }) => {
+const TagsSettingMenu = ({ setActiveTags, ...otherProps }: { setActiveTags: React.Dispatch<React.SetStateAction<string[]>> }) => {
 
     const { value, getCheckboxProps } = useCheckboxGroup({
         defaultValue: ['Inactive Pharmacies', 'Active Pharmacies', 'Open Pharmacies'],
@@ -111,8 +118,8 @@ const TagsSettingMenu = ({ setActiveTags }: { setActiveTags: React.Dispatch<Reac
 
     return (
         <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                Actions
+            <MenuButton as={Button} rightIcon={<SettingsIcon />} shadow={"md"}>
+                State
             </MenuButton>
             <MenuList >
 

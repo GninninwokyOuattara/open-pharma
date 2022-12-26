@@ -61,6 +61,23 @@ const usePharmacies = () => {
         }
     }
 
+    const refreshDatas = () => {
+        setIsLoading(true)
+        getDatas().then((data) => {
+            const summary = data.summary
+            const pharmacies = data.pharmacies
+
+            setSummary(summary)
+            setPharmacies(pharmacies)
+            setIsLoading(false)
+        }).catch((error) => {
+            setError(error)
+            setIsLoading(false)
+        })
+    }
+
+
+
     useEffect(() => {
 
         setIsLoading(true)
@@ -85,7 +102,7 @@ const usePharmacies = () => {
 
 
 
-    return { isLoading, summary, pharmacies, error, applyFilters, filteredPharmacies, setSearch, setActiveTags }
+    return { refreshDatas, isLoading, summary, pharmacies, error, applyFilters, filteredPharmacies, setSearch, setActiveTags }
 
 }
 
