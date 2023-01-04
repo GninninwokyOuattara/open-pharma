@@ -1,15 +1,16 @@
-import { SearchIcon, SettingsIcon } from "@chakra-ui/icons";
+import { CheckIcon, CloseIcon, SettingsIcon } from "@chakra-ui/icons";
 import { Box, Button, Checkbox, CheckboxGroup, Flex, HStack, Icon, IconButton, Input, Menu, MenuButton, MenuList, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useCheckboxGroup, VStack } from "@chakra-ui/react";
-import { AiOutlineEye } from "react-icons/ai";
+import { AiOutlineEye, AiOutlineLoading } from "react-icons/ai";
 import { FiRefreshCcw } from "react-icons/fi";
 import { MdOutlineHouseSiding } from "react-icons/md";
 import { RiEyeOffLine } from "react-icons/ri";
 import usePharmacies from "../hooks/usePharmacies";
-import { PharmaciesDataSummary, PharmacyFullState } from "../types";
+import { PharmaciesDataSummary, Pharmacy, PharmacyFullState } from "../types";
 import { getTags } from "../utils/dry";
 
 import animationStyles from "../styles/animation.module.css";
 
+import { useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 
 
@@ -28,7 +29,7 @@ const PharmaciesPage = () => {
 
     return (
         <>
-            <VStack height={"100%"} width={"100%"}>
+            <VStack height={"100%"} width={"100%"} >
 
                 <RecapContainer summary={summary} isLoading={isLoading} />
                 <Box height={10}></Box>
@@ -46,22 +47,23 @@ export default PharmaciesPage;
 
 
 const PharmacyActionContainer = ({ pharmacy }: { pharmacy: PharmacyFullState }) => {
-    return <HStack width={20} height={5} marginLeft={5} border={"1px solid red"} visibility={"hidden"} display={"inline-block"} alignSelf={"center"} justifySelf={"center"} _groupHover={{ visibility: "visible" }}>
+    return <HStack height={5} visibility={"hidden"} display={"inline-block"} alignSelf={"center"} justifySelf={"center"} _groupHover={{ visibility: "visible" }}>
         <IconButton
             // display={"block"}
             height={"100%"}
             // width={"100%"}
-            colorScheme='orange'
+            colorScheme='blue'
             aria-label='Search database'
             icon={<MdOutlineEdit />}
         />
-        <IconButton
+        {/* <IconButton
             colorScheme='orange'
             height={"100%"}
             // width={"100%"}
             aria-label='Search database'
             icon={<SearchIcon />}
-        />
+        /> */}
+        <PharmacyActivityToggleButton pharmacy={pharmacy} />
     </HStack>
 }
 
@@ -97,31 +99,14 @@ const PharmaciesTableContainer = ({ refreshDatas, filteredPharmacies, isLoading,
 
                     <Table variant='simple'>
 
-                        <Thead position={"sticky"} top={0} backgroundColor={"#F8FBFC"}>
+                        <Thead position={"sticky"} top={0} backgroundColor={"#F8FBFC"} zIndex={1}>
                             <Tr>
                                 <Th>Name </Th>
                                 <Th>State</Th>
                                 <Th>Opening</Th>
                             </Tr>
                         </Thead>
-                        {/* <Tbody >
 
-                            {!isLoading && pharmacies.length ? pharmacies.map((pharmacy) => {
-
-                                const tags = getTags(pharmacy)
-
-                                return <Tr>
-                                    <Td>{pharmacy.name}</Td>
-                                    <Td>
-
-                                        <Tags tags={tags} />
-
-                                    </Td>
-                                    <Td >{pharmacy.open_date_range?.date_range_string || "-"}</Td>
-                                </Tr>
-                            }) : 0}
-
-                        </Tbody> */}
                         <TableContent isLoading={isLoading} filteredPharmacies={filteredPharmacies} />
                     </Table>
                 </Box>
@@ -130,6 +115,67 @@ const PharmaciesTableContainer = ({ refreshDatas, filteredPharmacies, isLoading,
         </TableContainer>
     )
 }
+
+
+
+const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: Pharmacy }) => {
+
+    const [isLoading, setIsLoading] = useState(false)
+    const icon = pharmacy.active ? <CloseIcon /> : <CheckIcon />
+
+    const toogleActivity = () => {
+        setIsLoading(true)
+
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 5000);
+    }
+
+    // pharmacy.active ?
+
+    //     <IconButton
+    //         colorScheme='gray'
+    //         height={"100%"}
+    //         aria-label='Deactivate pharmacy'
+    //         icon={<CloseIcon />}
+    //     />
+
+    //     :
+
+    //     <IconButton
+    //         colorScheme='orange'
+    //         height={"100%"}
+    //         // width={"100%"}
+    //         aria-label='Activate pharmacy'
+    //         icon={<CheckIcon />}
+    //     />
+
+    if (isLoading) {
+        return (
+            <IconButton
+                colorScheme='gray'
+                height={"100%"}
+                // width={"100%"}
+                aria-label="Loading"
+                icon={<AiOutlineLoading />}
+            />
+        )
+    }
+
+    return <IconButton
+        colorScheme='orange'
+        height={"100%"}
+        // width={"100%"}
+        aria-label={pharmacy.active ? "Deactivate pharmacy" : "Activate pharmacy"}
+        icon={icon}
+    />
+
+
+
+}
+
+
+
 
 const TagsSettingMenu = ({ setActiveTags, ...otherProps }: { setActiveTags: React.Dispatch<React.SetStateAction<string[]>> }) => {
 
@@ -187,9 +233,19 @@ const TableContent = ({ isLoading, filteredPharmacies }: { isLoading: boolean, f
 
                 const tags = getTags(pharmacy)
 
-                return (<Tr _hover={{ "backgroundColor": "gray.100" }} role="group">
-                    <Td>{pharmacy.name}
-                        <PharmacyActionContainer pharmacy={pharmacy} />
+                return (<Tr _hover={{ "backgroundColor": "gray.100" }} role="group" >
+                    <Td width={"100%"}>
+                        <HStack
+                            justifyContent={"space-between"}>
+
+                            <Box display={"inline-block"}>
+                                {pharmacy.name}
+
+                            </Box>
+
+
+                            <PharmacyActionContainer pharmacy={pharmacy} />
+                        </HStack>
 
                     </Td>
                     <Td>

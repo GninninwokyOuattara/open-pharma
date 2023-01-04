@@ -27,7 +27,7 @@ export const PendingRow = ({ pharmacy, activatePharmacy, deactivatePharmacy }: P
 
             <Td>{timeElapsedFromCreationCreation}</Td>
 
-            <Td className={styles.tableDataHidden}>
+            <Td className={styles.tableDataHidden} >
 
                 <HStack gap={2} alignSelf={"flex-end"}>
                     <IconButton aria-label='Activate pharmacy' icon={<CheckIcon />} onClick={() => activatePharmacy(pharmacy)} />
@@ -40,3 +40,4 @@ export const PendingRow = ({ pharmacy, activatePharmacy, deactivatePharmacy }: P
     )
 
 }
+
