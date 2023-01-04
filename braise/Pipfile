@@ -12,6 +12,7 @@ bs4 = "0.0.1"
 django-crontab = "0.7.1"
 python-dotenv = "*"
 django-rest-swagger = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 autopep8 = "*"

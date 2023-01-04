@@ -1,5 +1,5 @@
-import { SettingsIcon } from "@chakra-ui/icons";
-import { Box, Button, Checkbox, CheckboxGroup, Flex, HStack, Icon, Input, Menu, MenuButton, MenuList, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useCheckboxGroup, VStack } from "@chakra-ui/react";
+import { SearchIcon, SettingsIcon } from "@chakra-ui/icons";
+import { Box, Button, Checkbox, CheckboxGroup, Flex, HStack, Icon, IconButton, Input, Menu, MenuButton, MenuList, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useCheckboxGroup, VStack } from "@chakra-ui/react";
 import { AiOutlineEye } from "react-icons/ai";
 import { FiRefreshCcw } from "react-icons/fi";
 import { MdOutlineHouseSiding } from "react-icons/md";
@@ -9,6 +9,8 @@ import { PharmaciesDataSummary, PharmacyFullState } from "../types";
 import { getTags } from "../utils/dry";
 
 import animationStyles from "../styles/animation.module.css";
+
+import { MdOutlineEdit } from "react-icons/md";
 
 
 
@@ -43,15 +45,35 @@ export default PharmaciesPage;
 
 
 
+const PharmacyActionContainer = ({ pharmacy }: { pharmacy: PharmacyFullState }) => {
+    return <HStack width={20} height={5} marginLeft={5} border={"1px solid red"} visibility={"hidden"} display={"inline-block"} alignSelf={"center"} justifySelf={"center"} _groupHover={{ visibility: "visible" }}>
+        <IconButton
+            // display={"block"}
+            height={"100%"}
+            // width={"100%"}
+            colorScheme='orange'
+            aria-label='Search database'
+            icon={<MdOutlineEdit />}
+        />
+        <IconButton
+            colorScheme='orange'
+            height={"100%"}
+            // width={"100%"}
+            aria-label='Search database'
+            icon={<SearchIcon />}
+        />
+    </HStack>
+}
+
 
 const PharmaciesTableContainer = ({ refreshDatas, filteredPharmacies, isLoading, setSearch, setActiveTags }: { refreshDatas: () => void, filteredPharmacies: PharmacyFullState[], isLoading: boolean, setSearch: React.Dispatch<React.SetStateAction<string>>, setActiveTags: React.Dispatch<React.SetStateAction<string[]>> }) => {
 
 
     return (
-        <TableContainer shadow={"md"} borderRadius={"md"} width="full" height="full" >
+        <TableContainer shadow={"md"} borderRadius={"md"} width="full" height="full" backgroundColor={"white"}>
             <VStack width={"full"} height="full">
 
-                <Box width={"full"} backgroundColor={"#F8FBFC"} padding={1} top={0} position={"sticky"} height={"50px"} zIndex={100}>
+                <Box width={"full"} padding={1} top={0} position={"sticky"} height={"50px"} zIndex={100}>
                     <HStack>
                         <Input placeholder='Search by name'
                             width={200}
@@ -77,7 +99,7 @@ const PharmaciesTableContainer = ({ refreshDatas, filteredPharmacies, isLoading,
 
                         <Thead position={"sticky"} top={0} backgroundColor={"#F8FBFC"}>
                             <Tr>
-                                <Th>Name</Th>
+                                <Th>Name </Th>
                                 <Th>State</Th>
                                 <Th>Opening</Th>
                             </Tr>
@@ -165,8 +187,11 @@ const TableContent = ({ isLoading, filteredPharmacies }: { isLoading: boolean, f
 
                 const tags = getTags(pharmacy)
 
-                return (<Tr>
-                    <Td>{pharmacy.name}</Td>
+                return (<Tr _hover={{ "backgroundColor": "gray.100" }} role="group">
+                    <Td>{pharmacy.name}
+                        <PharmacyActionContainer pharmacy={pharmacy} />
+
+                    </Td>
                     <Td>
 
                         <Tags tags={tags} />

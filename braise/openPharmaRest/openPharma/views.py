@@ -163,7 +163,9 @@ class OpenPharmacyCountViewset(viewsets.ReadOnlyModelViewSet):
 
 class PharmaciesStateAndCountViewset(viewsets.ReadOnlyModelViewSet):
     serializer_class = PharmaciesOpenStateSerializer
-    queryset = Pharmacy.objects.all()
+    # queryset = Pharmacy.objects.all()
+    # only take those that are not pending review
+    queryset = Pharmacy.objects.filter(pending_review=False)
     current_date = datetime.datetime.now()
 
     def list(self, request, *args, **kwargs):

@@ -56,9 +56,17 @@ const usePharmacies = () => {
             const response = await fetch("http://localhost:8000//admin-api/get-pharmacies-state-and-count/")
             const data: PharmaciesStateAndSummary = await response.json()
             return data
-        } catch (error) {
+        } catch (error: any) {
+            cleanDatas()
+            setError(error)
             throw error
         }
+    }
+
+    const cleanDatas = () => {
+        setSummary(undefined)
+        setPharmacies([])
+
     }
 
     const refreshDatas = () => {
