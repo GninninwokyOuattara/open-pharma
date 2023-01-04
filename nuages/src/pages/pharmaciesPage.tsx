@@ -123,7 +123,7 @@ const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: Pharmacy }) => {
     const [isLoading, setIsLoading] = useState(false)
     const icon = pharmacy.active ? <CloseIcon /> : <CheckIcon />
 
-    const toogleActivity = () => {
+    const toggleActivity = () => {
         setIsLoading(true)
 
         setTimeout(() => {
@@ -131,33 +131,17 @@ const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: Pharmacy }) => {
         }, 5000);
     }
 
-    // pharmacy.active ?
-
-    //     <IconButton
-    //         colorScheme='gray'
-    //         height={"100%"}
-    //         aria-label='Deactivate pharmacy'
-    //         icon={<CloseIcon />}
-    //     />
-
-    //     :
-
-    //     <IconButton
-    //         colorScheme='orange'
-    //         height={"100%"}
-    //         // width={"100%"}
-    //         aria-label='Activate pharmacy'
-    //         icon={<CheckIcon />}
-    //     />
-
     if (isLoading) {
         return (
             <IconButton
+                disabled={true}
                 colorScheme='gray'
                 height={"100%"}
                 // width={"100%"}
                 aria-label="Loading"
                 icon={<AiOutlineLoading />}
+                visibility={"visible"}
+                backgroundColor={"white"}
             />
         )
     }
@@ -168,6 +152,7 @@ const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: Pharmacy }) => {
         // width={"100%"}
         aria-label={pharmacy.active ? "Deactivate pharmacy" : "Activate pharmacy"}
         icon={icon}
+        onClick={toggleActivity}
     />
 
 
