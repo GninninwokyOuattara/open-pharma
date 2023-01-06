@@ -75,7 +75,7 @@ const PharmaciesTableContainer = ({ refreshDatas, filteredPharmacies, isLoading,
         <TableContainer shadow={"md"} borderRadius={"md"} width="full" height="full" backgroundColor={"white"}>
             <VStack width={"full"} height="full">
 
-                <Box width={"full"} padding={1} top={0} position={"sticky"} height={"50px"} zIndex={100}>
+                <Box width={"full"} padding={1} height={"50px"} >
                     <HStack>
                         <Input placeholder='Search by name'
                             width={200}
@@ -91,6 +91,8 @@ const PharmaciesTableContainer = ({ refreshDatas, filteredPharmacies, isLoading,
                         <Button boxShadow={"md"} disabled={isLoading} onClick={() => refreshDatas()}>
                             <Icon className={isLoading ? animationStyles.rotate : ""} as={FiRefreshCcw} display={"block"} marginRight={2} />Refresh</Button>
 
+
+                        <DataRecapCardLight />
 
                     </HStack>
 
@@ -304,6 +306,15 @@ const RecapContainer = ({ summary, isLoading }: { summary?: PharmaciesDataSummar
 
     </Flex>
 
+}
+
+
+const DataRecapCardLight = () => {
+
+
+    return (
+        <Box>Hello</Box>
+    )
 }
 
 
