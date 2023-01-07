@@ -36,6 +36,14 @@ class PharmaciesAdminViewset(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
+    @action(detail=True, methods=["post"])
+    def activate(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.active = True
+        instance.save()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
 
 class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
     queryset = Pharmacy.objects.filter(pending_review=True)
