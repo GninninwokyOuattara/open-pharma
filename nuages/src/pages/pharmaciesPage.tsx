@@ -33,7 +33,7 @@ const PharmaciesPage = () => {
 
                 <RecapContainer summary={summary} isLoading={isLoading} />
                 <Box height={10}></Box>
-                <PharmaciesTableContainer refreshDatas={refreshDatas} filteredPharmacies={filteredPharmacies} isLoading={isLoading} setSearch={setSearch} setActiveTags={setActiveTags} />
+                <PharmaciesTableContainer refreshDatas={refreshDatas} filteredPharmacies={filteredPharmacies} isLoading={isLoading} setSearch={setSearch} setActiveTags={setActiveTags} summary={summary} />
 
             </VStack>
 
@@ -68,15 +68,15 @@ const PharmacyActionContainer = ({ pharmacy }: { pharmacy: PharmacyFullState }) 
 }
 
 
-const PharmaciesTableContainer = ({ refreshDatas, filteredPharmacies, isLoading, setSearch, setActiveTags }: { refreshDatas: () => void, filteredPharmacies: PharmacyFullState[], isLoading: boolean, setSearch: React.Dispatch<React.SetStateAction<string>>, setActiveTags: React.Dispatch<React.SetStateAction<string[]>> }) => {
+const PharmaciesTableContainer = ({ refreshDatas, filteredPharmacies, isLoading, setSearch, setActiveTags, summary }: { refreshDatas: () => void, filteredPharmacies: PharmacyFullState[], isLoading: boolean, setSearch: React.Dispatch<React.SetStateAction<string>>, setActiveTags: React.Dispatch<React.SetStateAction<string[]>>, summary: PharmaciesDataSummary | undefined }) => {
 
 
     return (
         <TableContainer shadow={"md"} borderRadius={"md"} width="full" height="full" backgroundColor={"white"}>
             <VStack width={"full"} height="full">
 
-                <Box width={"full"} padding={1} height={"50px"} >
-                    <HStack>
+                <Box width={"full"} padding={1} height={"50px"} zIndex={10} >
+                    <HStack w={"full"} h={"full"}>
                         <Input placeholder='Search by name'
                             width={200}
                             alignSelf={"flex-start"}
@@ -88,11 +88,15 @@ const PharmaciesTableContainer = ({ refreshDatas, filteredPharmacies, isLoading,
 
                         <TagsSettingMenu setActiveTags={setActiveTags} />
 
-                        <Button boxShadow={"md"} disabled={isLoading} onClick={() => refreshDatas()}>
-                            <Icon className={isLoading ? animationStyles.rotate : ""} as={FiRefreshCcw} display={"block"} marginRight={2} />Refresh</Button>
+                        <Box>
+
+                            <Button boxShadow={"md"} disabled={isLoading} onClick={() => refreshDatas()}>
+                                <Icon className={isLoading ? animationStyles.rotate : ""} as={FiRefreshCcw} display={"block"} marginRight={2} />Refresh</Button>
+                        </Box>
 
 
-                        <DataRecapCardLight />
+
+                        <DatasRecapLightContainer summary={summary} isLoading={isLoading} />
 
                     </HStack>
 
@@ -173,9 +177,12 @@ const TagsSettingMenu = ({ setActiveTags, ...otherProps }: { setActiveTags: Reac
 
     return (
         <Menu>
-            <MenuButton as={Button} rightIcon={<SettingsIcon />} shadow={"md"}>
-                State
-            </MenuButton>
+            <Box>
+                <MenuButton as={Button} rightIcon={<SettingsIcon />} shadow={"md"} >
+                    State
+                </MenuButton>
+
+            </Box>
             <MenuList >
 
                 <Flex direction={"column"} width={"full"} gap={2} paddingX={5}>
@@ -309,11 +316,53 @@ const RecapContainer = ({ summary, isLoading }: { summary?: PharmaciesDataSummar
 }
 
 
-const DataRecapCardLight = () => {
+const DatasRecapLightContainer = ({ summary, isLoading }: { summary?: PharmaciesDataSummary, isLoading: boolean }) => {
+
+
 
 
     return (
-        <Box>Hello</Box>
+        <Box h={"full"} w={"full"} display={"flex"} alignItems={"center"} justifyContent={"flex-end"} gap={2} paddingRight={5}>
+            <DataRecapCardLight data={summary?.inactive_Pharmacies_count || 0} isLoading={isLoading} icon={<RiEyeOffLine size={"35px"} color={"#ACBCD3"} />} iconBg={"#F2FBFF"} header={"Inactives"} />
+            <DataRecapCardLight data={summary?.active_pharmacies_count || 0} isLoading={isLoading} icon={<AiOutlineEye size={"35px"} color={"#2B7DBF"} />} iconBg={"#E8F3FF"} header={"Actives"} />
+            <DataRecapCardLight data={summary?.open_pharmacies_count || 0} isLoading={isLoading} icon={<MdOutlineHouseSiding size={"35px"} color={"#18978C"} />} iconBg={"#E7FCFE"} header={"Opens"} />
+
+        </Box>
+    )
+}
+
+
+const DataRecapCardLight = ({ data, icon, iconBg, isLoading, header }: dataRecapCardProps) => {
+
+
+    if (isLoading) {
+        return <Skeleton height="full" width={28} borderRadius="md" />
+    }
+
+
+    iconBg = iconBg || "#E8F3FF"
+
+    return (
+        <Box height="full" boxShadow='md' borderRadius={"md"}
+            css={{
+                boxShadow: 'md',
+                transition: 'all 0.2s',
+                '&:hover': {
+                    transform: 'translateY(-2px)',
+                    boxShadow: 'lg'
+                }
+            }}
+        >
+            <HStack padding={1} alignItems={"center"}>
+                <Box backgroundColor={iconBg} >
+
+                    {icon}
+                </Box>
+                <Box fontWeight={"bold"}>
+                    {`${data || 0} ${header}`}
+                </Box>
+            </HStack>
+        </Box>
     )
 }
 
@@ -322,7 +371,7 @@ const DataRecapCardLight = () => {
 
 interface dataRecapCardProps {
     data: Number | string,
-    header: string,
+    header?: string,
     icon: JSX.Element,
     iconBg?: string,
     width?: string
