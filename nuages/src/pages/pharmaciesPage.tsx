@@ -29,7 +29,7 @@ const PharmaciesPage = () => {
 
     return (
         <>
-            <VStack height={"100%"} width={"100%"} >
+            <VStack height={"full"} width={"full"} >
 
                 <RecapContainer summary={summary} isLoading={isLoading} />
                 <Box height={10}></Box>
@@ -73,12 +73,12 @@ const PharmaciesTableContainer = ({ refreshDatas, filteredPharmacies, isLoading,
 
     return (
         <TableContainer shadow={"md"} borderRadius={"md"} width="full" height="full" backgroundColor={"white"}>
-            <VStack width={"full"} height="full">
+            <VStack width={"full"} maxW={"full"} height="full">
 
                 <Box width={"full"} padding={1} height={"50px"} zIndex={10} >
                     <HStack w={"full"} h={"full"}>
                         <Input placeholder='Search by name'
-                            width={200}
+                            width={300}
                             alignSelf={"flex-start"}
                             shadow={"md"}
                             onChange={(e) => {
@@ -105,7 +105,7 @@ const PharmaciesTableContainer = ({ refreshDatas, filteredPharmacies, isLoading,
 
                     <Table variant='simple'>
 
-                        <Thead position={"sticky"} top={0} backgroundColor={"#F8FBFC"} zIndex={1}>
+                        <Thead position={"sticky"} top={0} backgroundColor={"white"} zIndex={1}>
                             <Tr>
                                 <Th>Name </Th>
                                 <Th>State</Th>
@@ -343,7 +343,7 @@ const DataRecapCardLight = ({ data, icon, iconBg, isLoading, header }: dataRecap
     iconBg = iconBg || "#E8F3FF"
 
     return (
-        <Box height="full" boxShadow='md' borderRadius={"md"}
+        <Box height="full" boxShadow='xs' borderRadius={"md"}
             css={{
                 boxShadow: 'md',
                 transition: 'all 0.2s',
@@ -354,7 +354,7 @@ const DataRecapCardLight = ({ data, icon, iconBg, isLoading, header }: dataRecap
             }}
         >
             <HStack padding={1} alignItems={"center"}>
-                <Box backgroundColor={iconBg} >
+                <Box backgroundColor={iconBg} borderRadius={"md"}>
 
                     {icon}
                 </Box>
