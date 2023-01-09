@@ -28,12 +28,7 @@ const PharmaciesPage = () => {
         refreshDatas,
         isLoading,
         summary,
-        pharmacies,
-        error,
-        applyFilters,
-        filteredPharmacies,
-        setSearch,
-        setActiveTags
+
     } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
 
@@ -46,7 +41,7 @@ const PharmaciesPage = () => {
 
                 <RecapContainer summary={summary} isLoading={isLoading} />
                 <Box height={10}></Box>
-                <PharmaciesTableContainer refreshDatas={refreshDatas} filteredPharmacies={filteredPharmacies} isLoading={isLoading} setSearch={setSearch} setActiveTags={setActiveTags} summary={summary} />
+                <PharmaciesTableContainer />
 
             </VStack>
 
@@ -81,7 +76,12 @@ const PharmacyActionContainer = ({ pharmacy }: { pharmacy: PharmacyFullState }) 
 }
 
 
-const PharmaciesTableContainer = ({ refreshDatas, filteredPharmacies, isLoading, setSearch, setActiveTags, summary }: { refreshDatas: () => void, filteredPharmacies: PharmacyFullState[], isLoading: boolean, setSearch: React.Dispatch<React.SetStateAction<string>>, setActiveTags: React.Dispatch<React.SetStateAction<string[]>>, summary: PharmaciesDataSummary | undefined }) => {
+const PharmaciesTableContainer = () => {
+
+
+
+    // get the necessary context values
+    const { refreshDatas, isLoading, summary, filteredPharmacies, setSearch, setActiveTags } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
 
     return (
