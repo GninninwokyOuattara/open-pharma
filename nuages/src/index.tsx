@@ -8,6 +8,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 
 import { RouterProvider } from 'react-router-dom';
 
+import { PharmaciesContextProvider } from './contexts/pharmaciesContext';
 import appRouting from './router';
 
 const root = ReactDOM.createRoot(
@@ -19,7 +20,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ChakraProvider>
-      <RouterProvider router={appRouting} />
+      <PharmaciesContextProvider>
+
+        <RouterProvider router={appRouting} />
+      </PharmaciesContextProvider>
     </ChakraProvider>
   </React.StrictMode>
 );
