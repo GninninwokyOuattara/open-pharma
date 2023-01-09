@@ -4,24 +4,37 @@ import { AiOutlineEye, AiOutlineLoading } from "react-icons/ai";
 import { FiRefreshCcw } from "react-icons/fi";
 import { MdOutlineHouseSiding } from "react-icons/md";
 import { RiEyeOffLine } from "react-icons/ri";
-import usePharmacies from "../hooks/usePharmacies";
 import { PharmaciesDataSummary, Pharmacy, PharmacyFullState } from "../types";
 import { getTags } from "../utils/dry";
 
 import animationStyles from "../styles/animation.module.css";
 
-import { useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
+import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
 
 
 
+const backendUrl = process.env.REACT_APP_DJANGO_API_URL
 
 
 
 const PharmaciesPage = () => {
 
-    const { refreshDatas, isLoading, summary, pharmacies, error, applyFilters, filteredPharmacies, setSearch, setActiveTags } = usePharmacies()
-    console.log(pharmacies)
+    // const { refreshDatas, isLoading, summary, pharmacies, error, applyFilters, filteredPharmacies, setSearch, setActiveTags } = usePharmacies()
+    // console.log(pharmacies)
+
+    const {
+        refreshDatas,
+        isLoading,
+        summary,
+        pharmacies,
+        error,
+        applyFilters,
+        filteredPharmacies,
+        setSearch,
+        setActiveTags
+    } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
 
 
@@ -124,18 +137,32 @@ const PharmaciesTableContainer = ({ refreshDatas, filteredPharmacies, isLoading,
 
 
 
+
 const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: Pharmacy }) => {
 
     const [isLoading, setIsLoading] = useState(false)
     const icon = pharmacy.active ? <CloseIcon /> : <CheckIcon />
 
-    const toggleActivity = () => {
+    const toggleActivity = useCallback(async () => {
+        console.log("Toggle activity to", !pharmacy.active)
         setIsLoading(true)
 
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 5000);
-    }
+        try {
+            const response = await fetch(`${backendUrl}/admin-api/pharmacies/${pharmacy.id}/${pharmacy.active ? "deactivate" : "activate"}/`, {
+                method: "POST"
+            })
+
+            const res = await response.json()
+            console.log(res)
+
+
+        } catch (error) {
+            console.log(error)
+        }
+
+        setIsLoading(false)
+
+    }, [pharmacy])
 
     if (isLoading) {
         return (
