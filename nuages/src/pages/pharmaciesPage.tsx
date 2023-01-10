@@ -1,6 +1,6 @@
 import { CheckIcon, CloseIcon, SettingsIcon } from "@chakra-ui/icons";
-import { Box, Button, Checkbox, CheckboxGroup, Flex, HStack, Icon, IconButton, Input, Menu, MenuButton, MenuList, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useCheckboxGroup, VStack } from "@chakra-ui/react";
-import { AiOutlineEye, AiOutlineLoading } from "react-icons/ai";
+import { Box, Button, Checkbox, CheckboxGroup, Flex, HStack, Icon, IconButton, Input, Menu, MenuButton, MenuList, Skeleton, Spinner, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useCheckboxGroup, VStack } from "@chakra-ui/react";
+import { AiOutlineEye } from "react-icons/ai";
 import { FiRefreshCcw } from "react-icons/fi";
 import { MdOutlineHouseSiding } from "react-icons/md";
 import { RiEyeOffLine } from "react-icons/ri";
@@ -81,7 +81,7 @@ const PharmaciesTableContainer = () => {
 
 
     // get the necessary context values
-    const { refreshDatas, isLoading, summary, filteredPharmacies, setSearch, setActiveTags } = useContext(PharmaciesContext) as PharmaciesContextInterface
+    const { refreshDatas, isLoading, summary, setSearch, setActiveTags } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
 
     return (
@@ -126,7 +126,7 @@ const PharmaciesTableContainer = () => {
                             </Tr>
                         </Thead>
 
-                        <TableContent isLoading={isLoading} filteredPharmacies={filteredPharmacies} />
+                        <TableContent />
                     </Table>
                 </Box>
             </VStack>
@@ -141,27 +141,40 @@ const PharmaciesTableContainer = () => {
 const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: Pharmacy }) => {
 
     const [isLoading, setIsLoading] = useState(false)
+
+    const { toggleActivity } = useContext(PharmaciesContext) as PharmaciesContextInterface
+
     const icon = pharmacy.active ? <CloseIcon /> : <CheckIcon />
 
-    const toggleActivity = useCallback(async () => {
-        console.log("Toggle activity to", !pharmacy.active)
+    // const toggleActivity = useCallback(async () => {
+    //     console.log("Toggle activity to", !pharmacy.active)
+    //     setIsLoading(true)
+
+    //     try {
+    //         const response = await fetch(`${backendUrl}/admin-api/pharmacies/${pharmacy.id}/${pharmacy.active ? "deactivate" : "activate"}/`, {
+    //             method: "POST"
+    //         })
+
+    //         const res = await response.json()
+    //         console.log(res)
+
+
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+
+    //     setIsLoading(false)
+
+    // }, [pharmacy])
+
+    const handleToggleActivity = useCallback(async () => {
         setIsLoading(true)
+        setTimeout(async () => {
 
-        try {
-            const response = await fetch(`${backendUrl}/admin-api/pharmacies/${pharmacy.id}/${pharmacy.active ? "deactivate" : "activate"}/`, {
-                method: "POST"
-            })
+            pharmacy = await toggleActivity(pharmacy)
 
-            const res = await response.json()
-            console.log(res)
-
-
-        } catch (error) {
-            console.log(error)
-        }
-
-        setIsLoading(false)
-
+            setIsLoading(false)
+        }, 3000);
     }, [pharmacy])
 
     if (isLoading) {
@@ -172,7 +185,7 @@ const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: Pharmacy }) => {
                 height={"100%"}
                 // width={"100%"}
                 aria-label="Loading"
-                icon={<AiOutlineLoading />}
+                icon={<Spinner />}
                 visibility={"visible"}
                 backgroundColor={"white"}
             />
@@ -185,7 +198,7 @@ const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: Pharmacy }) => {
         // width={"100%"}
         aria-label={pharmacy.active ? "Deactivate pharmacy" : "Activate pharmacy"}
         icon={icon}
-        onClick={toggleActivity}
+        onClick={handleToggleActivity}
     />
 
 
@@ -235,7 +248,15 @@ const TagsSettingMenu = ({ setActiveTags, ...otherProps }: { setActiveTags: Reac
 
 
 
-const TableContent = ({ isLoading, filteredPharmacies }: { isLoading: boolean, filteredPharmacies: PharmacyFullState[] }) => {
+const TableContent = () => {
+
+    // get isLoading and filteredPharmacies from context
+
+
+    const { isLoading, filteredPharmacies } = useContext(PharmaciesContext) as PharmaciesContextInterface
+
+
+
 
     if (isLoading) {
         return <Text>Loading</Text>
@@ -292,8 +313,8 @@ const TableContent = ({ isLoading, filteredPharmacies }: { isLoading: boolean, f
 const Tags = ({ tags }: { tags: string[] }) => {
 
     return <Flex direction={"row"} gap={2}>
-        {tags.map((tag) => {
-            return <StateTag state={tag} />
+        {tags.map((tag, idx) => {
+            return <StateTag key={idx} state={tag} />
         })}
     </Flex>
 }

@@ -4,6 +4,8 @@ import { PharmaciesDataSummary, PharmaciesStateAndSummary, Pharmacy, PharmacyFul
 import { getTags } from '../utils/dry';
 
 
+const backendUrl = process.env.REACT_APP_DJANGO_API_URL
+
 
 export interface PharmaciesContextInterface {
     isLoading: boolean;
@@ -25,6 +27,7 @@ export interface PharmaciesContextInterface {
     getDatas: () => Promise<PharmaciesStateAndSummary>;
     cleanDatas: () => void;
     refreshDatas: () => void;
+    toggleActivity: (pharmacy: Pharmacy) => Promise<Pharmacy>;
 
 
 }
@@ -115,6 +118,40 @@ export const PharmaciesContextProvider = ({ children }: any) => {
             setIsLoading(false)
         })
     }
+
+    const toggleActivity = async (pharmacy: Pharmacy) => {
+        try {
+
+            const response = await fetch(`${backendUrl}/admin-api/pharmacies/${pharmacy.id}/${pharmacy.active ? "deactivate" : "activate"}/`, {
+                method: "POST"
+            })
+
+            const res = await response.json()
+
+            setPharmacies((prev) => {
+                const newPharmacies = prev.map((pharmacy) => {
+                    if (pharmacy.id === res.id) {
+                        return res
+                    }
+                    return pharmacy
+                })
+                return newPharmacies
+            })
+
+
+
+
+
+
+            return res as Pharmacy
+        } catch (error: any) {
+            throw error
+        }
+
+
+
+    }
+
     // MEMO
 
     const filteredPharmacies = useMemo(() => {
@@ -163,7 +200,8 @@ export const PharmaciesContextProvider = ({ children }: any) => {
             filteredPharmacies,
             getDatas,
             cleanDatas,
-            refreshDatas
+            refreshDatas,
+            toggleActivity
 
         }}>
             {children}
