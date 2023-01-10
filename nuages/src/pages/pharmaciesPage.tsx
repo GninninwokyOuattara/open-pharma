@@ -169,12 +169,10 @@ const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: Pharmacy }) => {
 
     const handleToggleActivity = useCallback(async () => {
         setIsLoading(true)
-        setTimeout(async () => {
 
-            pharmacy = await toggleActivity(pharmacy)
+        pharmacy = await toggleActivity(pharmacy)
 
-            setIsLoading(false)
-        }, 3000);
+        setIsLoading(false)
     }, [pharmacy])
 
     if (isLoading) {
