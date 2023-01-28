@@ -15,9 +15,11 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "framer-motion": "^7.6.19",
+    "leaflet": "^1.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
+    "react-leaflet": "^4.2.0",
     "react-native-web": "^0.18.10",
     "react-router-dom": "^6.4.4",
     "react-scripts": "5.0.1",
@@ -47,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.0"
   }
 }
