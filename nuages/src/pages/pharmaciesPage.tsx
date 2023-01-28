@@ -120,7 +120,7 @@ const PharmaciesTableContainer = () => {
 
                         <Thead position={"sticky"} top={0} backgroundColor={"white"} zIndex={1}>
                             <Tr>
-                                <Th>Name </Th>
+                                <Th>Name</Th>
                                 <Th>State</Th>
                                 <Th>Opening</Th>
                             </Tr>
@@ -217,7 +217,7 @@ const TagsSettingMenu = ({ setActiveTags, ...otherProps }: { setActiveTags: Reac
         <Menu>
             <Box>
                 <MenuButton as={Button} rightIcon={<SettingsIcon />} shadow={"md"} >
-                    State
+                    Filter
                 </MenuButton>
 
             </Box>
@@ -269,11 +269,11 @@ const TableContent = () => {
     return (
         <Tbody >
 
-            {filteredPharmacies.map((pharmacy) => {
+            {filteredPharmacies.map((pharmacy, idx) => {
 
                 const tags = getTags(pharmacy)
 
-                return (<Tr _hover={{ "backgroundColor": "gray.100" }} role="group" >
+                return (<Tr key={idx} _hover={{ "backgroundColor": "gray.100" }} role="group" >
                     <Td width={"100%"}>
                         <HStack
                             justifyContent={"space-between"}>
