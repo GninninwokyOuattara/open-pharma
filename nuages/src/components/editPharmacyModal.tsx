@@ -1,6 +1,7 @@
-import { Box, Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
+import { PharmacyFullState } from "../types";
 
 // import Lorem component
 
@@ -24,26 +25,11 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
 
 
 
-    const [pharmacyForm, setPharmacyForm] = useState({
-        name: pharmacyInEditMode?.name || "",
-        description: pharmacyInEditMode?.description || "",
-        addresses: pharmacyInEditMode?.addresses || "",
-        phones: pharmacyInEditMode?.phones || "",
-        director: pharmacyInEditMode?.director || "",
-        coordinates: pharmacyInEditMode?.coordinates || { latitude: 0, longitude: 0 }
-
-    })
+    const [pharmacyForm, setPharmacyForm] = useState<PharmacyFullState>(pharmacyInEditMode as PharmacyFullState)
 
     useEffect(() => {
         if (pharmacyInEditMode) {
-            setPharmacyForm({
-                name: pharmacyInEditMode?.name,
-                description: pharmacyInEditMode?.description,
-                addresses: pharmacyInEditMode?.addresses,
-                phones: pharmacyInEditMode?.phones,
-                director: pharmacyInEditMode?.director,
-                coordinates: pharmacyInEditMode?.coordinates,
-            })
+            setPharmacyForm(pharmacyInEditMode)
         }
 
     }, [pharmacyInEditMode])
@@ -95,49 +81,55 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
                 <ModalHeader>Modal Title</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
+                    {
+                        pharmacyForm && (
+                            <>
+                                <FormControl>
+                                    <FormLabel>Name</FormLabel>
+                                    <Input placeholder={`${pharmacyInEditMode?.name}`} value={pharmacyForm.name}
+                                        onChange={(e) => handleFormChange(
+                                            { name: e.target.value }
+                                        )} />
+                                </FormControl>
 
-                    <FormControl>
-                        <FormLabel>Name</FormLabel>
-                        <Input placeholder={`${pharmacyInEditMode?.name}`} value={pharmacyForm.name}
-                            onChange={(e) => handleFormChange(
-                                { name: e.target.value }
-                            )} />
-                    </FormControl>
+                                <FormControl>
+                                    <FormLabel>Description</FormLabel>
+                                    <Textarea placeholder={`${pharmacyInEditMode?.description}`} value={pharmacyForm.description}
+                                        onChange={(e) => handleFormChange(
+                                            { description: e.target.value }
+                                        )} />
+                                </FormControl>
 
-                    <FormControl>
-                        <FormLabel>Description</FormLabel>
-                        <Input placeholder={`${pharmacyInEditMode?.description}`} value={pharmacyForm.description}
-                            onChange={(e) => handleFormChange(
-                                { description: e.target.value }
-                            )} />
-                    </FormControl>
+                                <FormControl>
+                                    <FormLabel>Coordinates</FormLabel>
+                                    <Box display={"flex"} gap={1}>
+                                        <Input
+                                            placeholder={`${pharmacyInEditMode?.coordinates.latitude}`}
+                                            value={pharmacyForm.coordinates!.latitude}
+                                            onChange={(e) => handleFormChange(
+                                                { latitude: e.target.value }
+                                            )} />
+                                        <Input placeholder={`${pharmacyInEditMode?.coordinates.longitude}`} value={pharmacyForm.coordinates!.longitude}
+                                            onChange={(e) => handleFormChange(
+                                                { longitude: e.target.value }
+                                            )} />
 
-                    <FormControl>
-                        <FormLabel>Coordinates</FormLabel>
-                        <Box display={"flex"} gap={1}>
-                            <Input
-                                placeholder={`${pharmacyInEditMode?.coordinates.latitude}`}
-                                value={pharmacyForm.coordinates!.latitude}
-                                onChange={(e) => handleFormChange(
-                                    { latitude: e.target.value }
-                                )} />
-                            <Input placeholder={`${pharmacyInEditMode?.coordinates.longitude}`} value={pharmacyForm.coordinates!.longitude}
-                                onChange={(e) => handleFormChange(
-                                    { longitude: e.target.value }
-                                )} />
-
-                        </Box>
-                    </FormControl>
+                                    </Box>
+                                </FormControl>
 
 
-                    {/* <Lorem count={2} /> */}
+                            </>
+                        )
+                    }
+
+
                 </ModalBody>
 
-                <ModalFooter>
-                    <Button colorScheme='blue' mr={3} onClick={onClose}>
-                        Close
+                <ModalFooter >
+                    <Button colorScheme='orange' mr={3} onClick={onClose} alignSelf={"center"}>
+                        Confirm
                     </Button>
-                    <Button variant='ghost'>Secondary Action</Button>
+                    {/* <Button variant='ghost'>Secondary Action</Button> */}
                 </ModalFooter>
             </ModalContent>
         </Modal>
