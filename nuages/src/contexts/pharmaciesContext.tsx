@@ -1,4 +1,5 @@
 
+import { useDisclosure } from '@chakra-ui/react';
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import { PharmaciesDataSummary, PharmaciesStateAndSummary, Pharmacy, PharmacyFullState } from '../types';
 import { getTags } from '../utils/dry';
@@ -28,6 +29,9 @@ export interface PharmaciesContextInterface {
     cleanDatas: () => void;
     refreshDatas: () => void;
     toggleActivity: (pharmacy: Pharmacy) => Promise<Pharmacy>;
+    isOpen: boolean;
+    onOpen: () => void;
+    onClose: () => void;
 
 
 }
@@ -46,6 +50,9 @@ export const PharmaciesContextProvider = ({ children }: any) => {
     const [error, setError] = useState("")
     const [search, setSearch] = useState<string>("")
     const [activeTags, setActiveTags] = useState<string[]>(["Inactive", "Active", "Open"])
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
 
     // METHODS 
 
@@ -201,7 +208,10 @@ export const PharmaciesContextProvider = ({ children }: any) => {
             getDatas,
             cleanDatas,
             refreshDatas,
-            toggleActivity
+            toggleActivity,
+            isOpen,
+            onOpen,
+            onClose
 
         }}>
             {children}

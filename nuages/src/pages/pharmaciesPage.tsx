@@ -12,6 +12,7 @@ import animationStyles from "../styles/animation.module.css";
 import { useCallback, useContext, useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import EditPharmacyModal from "../components/editPharmacyModal";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
 
 
@@ -29,8 +30,12 @@ const PharmaciesPage = () => {
         refreshDatas,
         isLoading,
         summary,
+        isOpen,
+        onOpen,
+        onClose,
 
     } = useContext(PharmaciesContext) as PharmaciesContextInterface
+
 
 
 
@@ -40,6 +45,9 @@ const PharmaciesPage = () => {
         <>
 
             <Box borderRadius={"md"} overflow={"hidden"} height={"200px"}>
+                <Button onClick={onOpen}>Open Drawer</Button>
+
+
 
                 <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}
 
@@ -71,6 +79,9 @@ const PharmaciesPage = () => {
 
             </VStack>
 
+
+            <EditPharmacyModal isOpen={isOpen} onClose={onClose} />
+
         </>
     );
 };
@@ -81,14 +92,18 @@ export default PharmaciesPage;
 
 
 const PharmacyActionContainer = ({ pharmacy }: { pharmacy: PharmacyFullState }) => {
+
+    const { onOpen } = useContext(PharmaciesContext) as PharmaciesContextInterface
+
     return <HStack height={5} visibility={"hidden"} display={"inline-block"} alignSelf={"center"} justifySelf={"center"} _groupHover={{ visibility: "visible" }}>
         <IconButton
             // display={"block"}
             height={"100%"}
             // width={"100%"}
             colorScheme='blue'
-            aria-label='Search database'
+            aria-label='Edit pharmacy'
             icon={<MdOutlineEdit />}
+            onClick={onOpen}
         />
         {/* <IconButton
             colorScheme='orange'
