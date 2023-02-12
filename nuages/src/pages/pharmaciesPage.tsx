@@ -14,6 +14,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import EditPharmacyModal from "../components/editPharmacyModal";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
+import { ToastContext, ToastContextInterface } from "../contexts/toast";
 
 
 
@@ -94,24 +95,42 @@ const PharmacyActionContainer = ({ pharmacy }: { pharmacy: PharmacyFullState }) 
 
     const { openEditingPharmacyModal } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
-    return <HStack height={5} visibility={"hidden"} display={"inline-block"} alignSelf={"center"} justifySelf={"center"} _groupHover={{ visibility: "visible" }}>
-        <IconButton
-            // display={"block"}
-            height={"100%"}
-            // width={"100%"}
-            colorScheme='blue'
-            aria-label='Edit pharmacy'
-            icon={<MdOutlineEdit />}
-            onClick={() => openEditingPharmacyModal(pharmacy)}
-        />
-        {/* <IconButton
+    return <HStack height={"100%"} visibility={"hidden"} display={"inline-block"} alignSelf={"center"} justifySelf={"center"} _groupHover={{ visibility: "visible" }} >
+        <Box display={"flex"} alignItems={"center"}>
+
+            {/* <IconButton
+                // display={"block"}
+                height={"100%"}
+                // width={"100%"}
+                variant={"outline"}
+                colorScheme='blue'
+                aria-label='Edit pharmacy'
+                icon={<MdOutlineEdit />}
+
+                onClick={() => openEditingPharmacyModal(pharmacy)}
+            /> */}
+            <Button
+
+                variant={"outline"}
+                rightIcon={<MdOutlineEdit />}
+                marginX={1}
+                colorScheme='blue'
+                height={"20px"}
+                onClick={() => openEditingPharmacyModal(pharmacy)}
+
+            >
+                Edit
+            </Button>
+
+            {/* <IconButton
             colorScheme='orange'
             height={"100%"}
             // width={"100%"}
             aria-label='Search database'
             icon={<SearchIcon />}
         /> */}
-        <PharmacyActivityToggleButton pharmacy={pharmacy} />
+            <PharmacyActivityToggleButton pharmacy={pharmacy} />
+        </Box>
     </HStack>
 }
 
@@ -183,6 +202,7 @@ const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: Pharmacy }) => {
     const [isLoading, setIsLoading] = useState(false)
 
     const { toggleActivity } = useContext(PharmaciesContext) as PharmaciesContextInterface
+    const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
 
     const icon = pharmacy.active ? <CloseIcon /> : <CheckIcon />
 
@@ -210,7 +230,20 @@ const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: Pharmacy }) => {
     const handleToggleActivity = useCallback(async () => {
         setIsLoading(true)
 
-        pharmacy = await toggleActivity(pharmacy)
+        try {
+
+            pharmacy = await toggleActivity(pharmacy)
+            successToast(
+                "Success",
+                `Pharmacy ${pharmacy.name} is now ${pharmacy.active ? "active" : "inactive"}`
+            )
+        } catch (error) {
+            errorToast(
+                "Error",
+                `An error occured while trying to ${pharmacy.active ? "deactivate" : "activate"} pharmacy ${pharmacy.name}`
+            )
+
+        }
 
         setIsLoading(false)
     }, [pharmacy])
@@ -227,18 +260,32 @@ const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: Pharmacy }) => {
                 visibility={"visible"}
                 backgroundColor={"white"}
             />
+
+
         )
     }
 
-    return <IconButton
-        colorScheme='orange'
-        height={"100%"}
-        // width={"100%"}
-        aria-label={pharmacy.active ? "Deactivate pharmacy" : "Activate pharmacy"}
-        icon={icon}
-        onClick={handleToggleActivity}
-    />
+    // return <IconButton
+    //     colorScheme='orange'
+    //     height={"100%"}
+    //     // width={"100%"}
+    //     aria-label={pharmacy.active ? "Deactivate pharmacy" : "Activate pharmacy"}
+    //     icon={icon}
+    //     onClick={handleToggleActivity}
+    // />
 
+    return <Button
+
+        variant={"outline"}
+        // rightIcon={icon}
+        marginX={1}
+        colorScheme={pharmacy.active ? "red" : "green"}
+        height={"20px"}
+        onClick={handleToggleActivity}
+
+    >
+        {pharmacy.active ? "Deactivate" : "Activate"}
+    </Button>
 
 
 }
@@ -313,12 +360,16 @@ const TableContent = () => {
 
                 const tags = getTags(pharmacy)
 
-                return (<Tr key={idx} _hover={{ "backgroundColor": "gray.100" }} role="group" >
-                    <Td width={"100%"}>
+                return (<Tr key={idx} _hover={{ "backgroundColor": "gray.100" }} role="group" height={"75px"}>
+                    <Td width={"100%"} paddingY={0}>
                         <HStack
-                            justifyContent={"space-between"}>
+                            justifyContent={"space-between"}
+                        // height={"75px"}
+                        // alignItems={"center"}
 
-                            <Box display={"inline-block"}>
+                        >
+
+                            <Box display={"inline-block"} height={"100%"}>
                                 {pharmacy.name}
 
                             </Box>
