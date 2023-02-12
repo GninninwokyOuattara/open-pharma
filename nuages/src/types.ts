@@ -1,6 +1,7 @@
 export interface Pharmacy {
   id: string;
   name: string;
+  description: string;
   director: string;
   addresses: string[];
   phones: string[];
