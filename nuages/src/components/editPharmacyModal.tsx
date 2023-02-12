@@ -1,4 +1,6 @@
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
+import { useContext } from "react";
+import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
 
 // import Lorem component
 
@@ -16,9 +18,18 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
 
     // const { isOpen, onOpen, onClose } = useDisclosure()
 
+    // get pharmacyInEditMode from context
+
+    const { pharmacyInEditMode, closeEditingPharmacyModal } = useContext(PharmaciesContext) as PharmaciesContextInterface
+
+    console.log(pharmacyInEditMode)
+
+
+
+
 
     return (
-        <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+        <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={() => closeEditingPharmacyModal()}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>Modal Title</ModalHeader>

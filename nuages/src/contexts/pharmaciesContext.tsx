@@ -32,6 +32,10 @@ export interface PharmaciesContextInterface {
     isOpen: boolean;
     onOpen: () => void;
     onClose: () => void;
+    pharmacyInEditMode: PharmacyFullState | null;
+    setPharmacyInEditMode: React.Dispatch<React.SetStateAction<PharmacyFullState | null>>;
+    openEditingPharmacyModal: (pharmacy: PharmacyFullState) => void;
+    closeEditingPharmacyModal: () => void;
 
 
 }
@@ -46,6 +50,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [summary, setSummary] = useState<PharmaciesDataSummary>()
     const [pharmacies, setPharmacies] = useState<PharmacyFullState[]>([])
+    const [pharmacyInEditMode, setPharmacyInEditMode] = useState<PharmacyFullState | null>(null)
 
     const [error, setError] = useState("")
     const [search, setSearch] = useState<string>("")
@@ -159,6 +164,19 @@ export const PharmaciesContextProvider = ({ children }: any) => {
 
     }
 
+
+    // MODAL STUFF
+
+    const openEditingPharmacyModal = (pharmacy: PharmacyFullState) => {
+        setPharmacyInEditMode(pharmacy)
+        onOpen()
+    }
+
+    const closeEditingPharmacyModal = () => {
+        setPharmacyInEditMode(null)
+        onClose()
+    }
+
     // MEMO
 
     const filteredPharmacies = useMemo(() => {
@@ -211,7 +229,11 @@ export const PharmaciesContextProvider = ({ children }: any) => {
             toggleActivity,
             isOpen,
             onOpen,
-            onClose
+            onClose,
+            pharmacyInEditMode,
+            setPharmacyInEditMode,
+            openEditingPharmacyModal,
+            closeEditingPharmacyModal,
 
         }}>
             {children}

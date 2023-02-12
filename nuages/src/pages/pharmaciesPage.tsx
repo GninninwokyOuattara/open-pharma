@@ -93,7 +93,7 @@ export default PharmaciesPage;
 
 const PharmacyActionContainer = ({ pharmacy }: { pharmacy: PharmacyFullState }) => {
 
-    const { onOpen } = useContext(PharmaciesContext) as PharmaciesContextInterface
+    const { openEditingPharmacyModal } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
     return <HStack height={5} visibility={"hidden"} display={"inline-block"} alignSelf={"center"} justifySelf={"center"} _groupHover={{ visibility: "visible" }}>
         <IconButton
@@ -103,7 +103,7 @@ const PharmacyActionContainer = ({ pharmacy }: { pharmacy: PharmacyFullState }) 
             colorScheme='blue'
             aria-label='Edit pharmacy'
             icon={<MdOutlineEdit />}
-            onClick={onOpen}
+            onClick={() => openEditingPharmacyModal(pharmacy)}
         />
         {/* <IconButton
             colorScheme='orange'
