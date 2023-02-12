@@ -36,6 +36,7 @@ export interface PharmaciesContextInterface {
     setPharmacyInEditMode: React.Dispatch<React.SetStateAction<PharmacyFullState | null>>;
     openEditingPharmacyModal: (pharmacy: PharmacyFullState) => void;
     closeEditingPharmacyModal: () => void;
+    updatePharmacyInPharmacies: (pharmacy: PharmacyFullState) => void;
 
 
 }
@@ -164,6 +165,17 @@ export const PharmaciesContextProvider = ({ children }: any) => {
 
     }
 
+    const updatePharmacyInPharmacies = (update: PharmacyFullState) => {
+        setPharmacies((prev) => {
+            const newPharmacies = prev.map((pharmacy) => {
+                if (pharmacy.id === update.id) {
+                    return update
+                }
+                return pharmacy
+            })
+            return newPharmacies
+        })
+    }
 
     // MODAL STUFF
 
@@ -234,6 +246,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
             setPharmacyInEditMode,
             openEditingPharmacyModal,
             closeEditingPharmacyModal,
+            updatePharmacyInPharmacies
 
         }}>
             {children}
