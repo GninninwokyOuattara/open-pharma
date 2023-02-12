@@ -45,7 +45,6 @@ const PharmaciesPage = () => {
         <>
 
             <Box borderRadius={"md"} overflow={"hidden"} height={"200px"}>
-                <Button onClick={onOpen}>Open Drawer</Button>
 
 
 
