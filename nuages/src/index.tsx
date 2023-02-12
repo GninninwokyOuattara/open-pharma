@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 
 
 import { ChakraProvider } from '@chakra-ui/react';
+import { ToastProvider } from './contexts/toast';
 
 import { RouterProvider } from 'react-router-dom';
 
@@ -20,10 +21,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ChakraProvider>
-      <PharmaciesContextProvider>
+      <ToastProvider>
 
-        <RouterProvider router={appRouting} />
-      </PharmaciesContextProvider>
+        <PharmaciesContextProvider>
+
+          <RouterProvider router={appRouting} />
+        </PharmaciesContextProvider>
+      </ToastProvider>
     </ChakraProvider>
   </React.StrictMode>
 );
