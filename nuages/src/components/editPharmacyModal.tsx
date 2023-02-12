@@ -1,6 +1,7 @@
 import { Box, Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
+import { ToastContext, ToastContextInterface } from "../contexts/toast";
 import { PharmacyFullState } from "../types";
 
 // import Lorem component
@@ -21,11 +22,17 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
 
     // TODO : Add a loader for when data is not ready. Maybe ?
 
-    const { pharmacyInEditMode, closeEditingPharmacyModal } = useContext(PharmaciesContext) as PharmaciesContextInterface
+    const { pharmacyInEditMode, closeEditingPharmacyModal, updatePharmacyInPharmacies } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
+    // get successToast and errorToast from context
 
+    const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
+
+    const backendUrl = process.env.REACT_APP_DJANGO_API_URL;
 
     const [pharmacyForm, setPharmacyForm] = useState<PharmacyFullState>(pharmacyInEditMode as PharmacyFullState)
+
+
 
     useEffect(() => {
         if (pharmacyInEditMode) {
@@ -68,6 +75,32 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
         }
     }
 
+    const updatePharmacy = useCallback(async () => {
+        // Put request to update pharmacy
+
+        const options = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(pharmacyForm)
+        }
+
+        try {
+            const response = await fetch(`${backendUrl}/admin-api/pharmacies/${pharmacyForm.id}/`, options)
+            const data = await response.json()
+            updatePharmacyInPharmacies(data)
+            successToast("Sucess", "Pharmacy updated successfully")
+            closeEditingPharmacyModal()
+        }
+        catch (error) {
+
+            errorToast("Error", "Something went wrong")
+        }
+
+
+
+    }, [pharmacyForm, backendUrl, successToast, errorToast])
 
 
 
@@ -126,7 +159,12 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
                 </ModalBody>
 
                 <ModalFooter >
-                    <Button colorScheme='orange' mr={3} onClick={onClose} alignSelf={"center"}>
+                    <Button
+                        colorScheme='orange'
+                        mr={3}
+                        // onClick={onClose}
+                        onClick={() => updatePharmacy()}
+                    >
                         Confirm
                     </Button>
                     {/* <Button variant='ghost'>Secondary Action</Button> */}
