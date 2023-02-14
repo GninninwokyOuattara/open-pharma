@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { useContext, useEffect } from "react";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
 
 
@@ -43,7 +43,25 @@ const LeafletMap = () => {
             </Marker>
         })
         }
+
+        <MapInteractionHandler />
     </MapContainer>
+}
+
+
+
+function MapInteractionHandler() {
+    const map = useMap()
+    const { pharmacyFocusedOnMap } = useContext(PharmaciesContext) as PharmaciesContextInterface
+
+    useEffect(() => {
+        if (pharmacyFocusedOnMap) {
+            map.setView([pharmacyFocusedOnMap.coordinates.latitude, pharmacyFocusedOnMap.coordinates.longitude], 15, { animate: true })
+        }
+    }, [pharmacyFocusedOnMap])
+    console.log('map center:', map.getCenter())
+
+    return null
 }
 
 
