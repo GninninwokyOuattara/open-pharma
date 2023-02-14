@@ -9,6 +9,8 @@ export interface Pharmacy {
   website: string;
   images: string[];
   google_maps_link: string;
+  latitude: number;
+  longitude: number;
   coordinates: {
     latitude: number;
     longitude: number;
