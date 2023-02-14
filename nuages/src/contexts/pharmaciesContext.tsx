@@ -37,6 +37,8 @@ export interface PharmaciesContextInterface {
     openEditingPharmacyModal: (pharmacy: PharmacyFullState) => void;
     closeEditingPharmacyModal: () => void;
     updatePharmacyInPharmacies: (pharmacy: PharmacyFullState) => void;
+    pharmacyFocusedOnMap: PharmacyFullState | null;
+    setPharmacyFocusedOnMap: React.Dispatch<React.SetStateAction<PharmacyFullState | null>>;
 
 
 }
@@ -52,6 +54,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
     const [summary, setSummary] = useState<PharmaciesDataSummary>()
     const [pharmacies, setPharmacies] = useState<PharmacyFullState[]>([])
     const [pharmacyInEditMode, setPharmacyInEditMode] = useState<PharmacyFullState | null>(null)
+    const [pharmacyFocusedOnMap, setPharmacyFocusedOnMap] = useState<PharmacyFullState | null>(null)
 
     const [error, setError] = useState("")
     const [search, setSearch] = useState<string>("")
@@ -246,7 +249,9 @@ export const PharmaciesContextProvider = ({ children }: any) => {
             setPharmacyInEditMode,
             openEditingPharmacyModal,
             closeEditingPharmacyModal,
-            updatePharmacyInPharmacies
+            updatePharmacyInPharmacies,
+            pharmacyFocusedOnMap,
+            setPharmacyFocusedOnMap
 
         }}>
             {children}
