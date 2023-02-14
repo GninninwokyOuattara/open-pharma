@@ -77,7 +77,7 @@ export default PharmaciesPage;
 
 const PharmacyActionContainer = ({ pharmacy }: { pharmacy: PharmacyFullState }) => {
 
-    const { openEditingPharmacyModal } = useContext(PharmaciesContext) as PharmaciesContextInterface
+    const { openEditingPharmacyModal, setPharmacyFocusedOnMap } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
     return <HStack height={"100%"} visibility={"hidden"} display={"inline-block"} alignSelf={"center"} justifySelf={"center"} _groupHover={{ visibility: "visible" }} >
         <Box display={"flex"} alignItems={"center"}>
@@ -104,6 +104,19 @@ const PharmacyActionContainer = ({ pharmacy }: { pharmacy: PharmacyFullState }) 
 
             >
                 Edit
+            </Button>
+
+            <Button
+
+                variant={"outline"}
+                rightIcon={<MdOutlineEdit />}
+                marginX={1}
+                colorScheme='blue'
+                height={"20px"}
+                onClick={() => setPharmacyFocusedOnMap(pharmacy)}
+
+            >
+                On map
             </Button>
 
             {/* <IconButton
