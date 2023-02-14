@@ -15,7 +15,7 @@ export interface PharmaciesContextInterface {
     setError: React.Dispatch<React.SetStateAction<string>>;
     summary: PharmaciesDataSummary | undefined;
     setSummary: React.Dispatch<React.SetStateAction<PharmaciesDataSummary | undefined>>;
-    pharmacies: Pharmacy[];
+    pharmacies: PharmacyFullState[];
     setPharmacies: React.Dispatch<React.SetStateAction<PharmacyFullState[]>>;
     search: string;
     setSearch: React.Dispatch<React.SetStateAction<string>>;
