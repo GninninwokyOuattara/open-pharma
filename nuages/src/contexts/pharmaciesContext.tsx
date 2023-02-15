@@ -1,7 +1,7 @@
 
 import { useDisclosure } from '@chakra-ui/react';
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
-import { PharmaciesDataSummary, PharmaciesStateAndSummary, Pharmacy, PharmacyFullState } from '../types';
+import { PharmaciesDataSummary, PharmaciesStateAndSummary, PharmacyFullState } from '../types';
 import { getTags } from '../utils/dry';
 
 
@@ -28,7 +28,7 @@ export interface PharmaciesContextInterface {
     getDatas: () => Promise<PharmaciesStateAndSummary>;
     cleanDatas: () => void;
     refreshDatas: () => void;
-    toggleActivity: (pharmacy: Pharmacy) => Promise<Pharmacy>;
+    toggleActivity: (pharmacy: PharmacyFullState) => Promise<PharmacyFullState>;
     isOpen: boolean;
     onOpen: () => void;
     onClose: () => void;
@@ -135,7 +135,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
         })
     }
 
-    const toggleActivity = async (pharmacy: Pharmacy) => {
+    const toggleActivity = async (pharmacy: PharmacyFullState) => {
         try {
 
             const response = await fetch(`${backendUrl}/admin-api/pharmacies/${pharmacy.id}/${pharmacy.active ? "deactivate" : "activate"}/`, {
@@ -145,7 +145,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
             const res = await response.json()
 
             setPharmacies((prev) => {
-                const newPharmacies = prev.map((pharmacy) => {
+                const newPharmacies: PharmacyFullState[] = prev.map((pharmacy) => {
                     if (pharmacy.id === res.id) {
                         return res
                     }
@@ -154,12 +154,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
                 return newPharmacies
             })
 
-
-
-
-
-
-            return res as Pharmacy
+            return res as PharmacyFullState
         } catch (error: any) {
             throw error
         }
