@@ -14,6 +14,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import EditPharmacyModal from "../components/editPharmacyModal";
 import LeafletMap from "../components/leafletMap";
 import PharmaciesTableRenderer from "../components/pharmaciesTableRenderer";
+import SearchBar from "../components/searchBar";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
 import { ToastContext, ToastContextInterface } from "../contexts/toast";
 
@@ -28,6 +29,7 @@ const PharmaciesPage = () => {
     const {
         isOpen,
         onClose,
+        setSearch
 
     } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
@@ -46,16 +48,22 @@ const PharmaciesPage = () => {
             >
 
                 <Box borderRadius={"md"} overflow={"hidden"} height={"200px"} width={"100%"} shadow={"md"}>
-
-
-
                     <LeafletMap />
                 </Box>
 
+                <Box
+                    height={"100px"}
+                    width={"100%"}
+                    border={"1px solid #e2e8f0"}
+                    display={"flex"}
+                    alignItems={"center"}
+                    paddingX={2}
+                >
+                    <SearchBar onChange={setSearch} />
+
+                </Box>
+
                 <Box borderRadius={"md"} overflow={"hidden"} height={"full"} width={"full"} shadow={"lg"} >
-
-
-
                     <PharmaciesTableRenderer />
                 </Box>
 
