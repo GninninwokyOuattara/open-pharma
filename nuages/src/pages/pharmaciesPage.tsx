@@ -4,7 +4,7 @@ import { AiOutlineEye } from "react-icons/ai";
 import { FiRefreshCcw } from "react-icons/fi";
 import { MdOutlineHouseSiding } from "react-icons/md";
 import { RiEyeOffLine } from "react-icons/ri";
-import { PharmaciesDataSummary, Pharmacy, PharmacyFullState } from "../types";
+import { PharmaciesDataSummary, PharmacyFullState } from "../types";
 import { getTags } from "../utils/dry";
 
 import animationStyles from "../styles/animation.module.css";
@@ -13,6 +13,7 @@ import { useCallback, useContext, useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 import EditPharmacyModal from "../components/editPharmacyModal";
 import LeafletMap from "../components/leafletMap";
+import PharmaciesTableRenderer from "../components/pharmaciesTableRenderer";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
 import { ToastContext, ToastContextInterface } from "../contexts/toast";
 
@@ -45,25 +46,28 @@ const PharmaciesPage = () => {
     return (
         <>
 
-            <Box borderRadius={"md"} overflow={"hidden"} height={"200px"}>
+            <VStack
+                height={"full"}
+                width={"full"}
+                gap={1}
+            >
+
+                <Box borderRadius={"md"} overflow={"hidden"} height={"200px"} width={"100%"} shadow={"md"}>
 
 
 
-                <LeafletMap />
-            </Box>
-            <VStack height={"full"} width={"full"} >
+                    <LeafletMap />
+                </Box>
 
-                {/* <RecapContainer summary={summary} isLoading={isLoading} /> */}
-
+                <Box borderRadius={"md"} overflow={"hidden"} height={"full"} width={"full"} shadow={"lg"} >
 
 
 
-                <Box height={10}></Box>
-                <PharmaciesTableContainer />
+                    <PharmaciesTableRenderer />
+                </Box>
+
 
             </VStack>
-
-
             <EditPharmacyModal isOpen={isOpen} onClose={onClose} />
 
         </>
@@ -194,7 +198,7 @@ const PharmaciesTableContainer = () => {
 
 
 
-const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: Pharmacy }) => {
+const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: PharmacyFullState }) => {
 
     const [isLoading, setIsLoading] = useState(false)
 
