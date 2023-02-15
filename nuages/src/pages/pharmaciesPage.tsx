@@ -25,15 +25,8 @@ const backendUrl = process.env.REACT_APP_DJANGO_API_URL
 
 const PharmaciesPage = () => {
 
-    // const { refreshDatas, isLoading, summary, pharmacies, error, applyFilters, filteredPharmacies, setSearch, setActiveTags } = usePharmacies()
-    // console.log(pharmacies)
-
     const {
-        refreshDatas,
-        isLoading,
-        summary,
         isOpen,
-        onOpen,
         onClose,
 
     } = useContext(PharmaciesContext) as PharmaciesContextInterface
