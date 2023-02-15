@@ -1,5 +1,6 @@
 import { SearchIcon } from "@chakra-ui/icons";
 import { Box, Icon, Input } from "@chakra-ui/react";
+import { useRef } from "react";
 
 
 interface SearchBarProps {
@@ -8,6 +9,17 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ onChange }) => {
 
+    const delayedSearchId = useRef<any>(null)
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (delayedSearchId.current) {
+            clearTimeout(delayedSearchId.current)
+        }
+        delayedSearchId.current = setTimeout(() => {
+            onChange(value)
+        }, 500)
+    }
 
 
     return (
@@ -34,7 +46,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onChange }) => {
                 placeholder={"Search a pharmacy"}
                 outline={"none"}
                 _focus={{ boxShadow: "none", }}
-                onChange={(e) => { }}
+                onChange={(e) => { handleSearch(e) }}
 
             ></Input>
         </Box>
