@@ -14,7 +14,7 @@ import { ToastContext, ToastContextInterface } from "../contexts/toast"
 
 const PharmaciesTableBody = () => {
 
-    const { pharmacies } = useContext(PharmaciesContext) as PharmaciesContextInterface
+    const { filteredPharmacies } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
     return (
 
@@ -22,7 +22,7 @@ const PharmaciesTableBody = () => {
         >
 
             {
-                pharmacies.map((pharmacy) => {
+                filteredPharmacies.map((pharmacy) => {
                     return <PharmaciesTableRow pharmacy={pharmacy} />
                 })
             }
