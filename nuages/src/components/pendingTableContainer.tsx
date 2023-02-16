@@ -5,7 +5,7 @@ export const PendingTableContainer = ({ children }: { children: React.ReactNode 
 
 
     return (
-        <TableContainer style={{ height: "100%", width: "100%" }} overflowY={"scroll"} overflowX={"scroll"} marginTop={"30px"} boxShadow={"dark-lg"} borderRadius={"md"}>
+        <TableContainer >
             <Table variant='simple'>
 
                 <Thead >
