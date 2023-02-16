@@ -136,7 +136,7 @@ const StateTag = ({ state, }: { state?: string }) => {
     }
 
 
-    return <Box display={"inline-block"} padding={2} borderRadius={"lg"} backgroundColor={backgroundColor} color={color}>{state}</Box>
+    return <Box display={"inline-block"} paddingX={3} borderRadius={"lg"} backgroundColor={backgroundColor} color={color}>{state}</Box>
 
 }
 
