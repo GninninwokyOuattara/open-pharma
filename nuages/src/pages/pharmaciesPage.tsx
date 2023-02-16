@@ -14,6 +14,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import EditPharmacyModal from "../components/editPharmacyModal";
 import LeafletMap from "../components/leafletMap";
 import PharmaciesTableRenderer from "../components/pharmaciesTableRenderer";
+import RefreshButton from "../components/refreshButton";
 import SearchBar from "../components/searchBar";
 import TagsFilterMenu from "../components/tagsFilterMenu";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
@@ -30,7 +31,9 @@ const PharmaciesPage = () => {
     const {
         isOpen,
         onClose,
-        setSearch
+        setSearch,
+        isLoading,
+        refreshDatas
 
     } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
@@ -60,7 +63,9 @@ const PharmaciesPage = () => {
                     alignItems={"center"}
                     paddingX={2}
                     zIndex={10}
+                    justifyContent={"space-between"}
                 >
+                    <RefreshButton isLoading={isLoading} onClick={refreshDatas} />
                     <TagsFilterMenu />
                     <SearchBar onChange={setSearch} />
 
