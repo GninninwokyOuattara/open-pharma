@@ -61,7 +61,7 @@ const PharmaciesPage = () => {
                     width={"100%"}
                     borderTop={"1px solid"}
                     borderBottom={"1px solid "}
-                    borderColor={palette.orange.havePersonnalityWithTransparency}
+                    borderColor={palette.colorHuntTheme.lightGreen}
                     display={"flex"}
                     alignItems={"center"}
                     paddingX={2}
@@ -77,7 +77,7 @@ const PharmaciesPage = () => {
 
                 </Box>
 
-                <Box borderRadius={"md"} overflow={"hidden"} height={"full"} width={"full"} shadow={"lg"} >
+                <Box borderRadius={"md"} overflowY={"hidden"} height={"full"} width={"full"} shadow={"lg"} >
                     <PharmaciesTableRenderer />
                 </Box>
 
@@ -138,13 +138,7 @@ const PharmacyActionContainer = ({ pharmacy }: { pharmacy: PharmacyFullState }) 
                 On map
             </Button>
 
-            {/* <IconButton
-            colorScheme='orange'
-            height={"100%"}
-            // width={"100%"}
-            aria-label='Search database'
-            icon={<SearchIcon />}
-        /> */}
+
             <PharmacyActivityToggleButton pharmacy={pharmacy} />
         </Box>
     </HStack>
@@ -155,7 +149,6 @@ const PharmaciesTableContainer = () => {
 
 
 
-    // get the necessary context values
     const { refreshDatas, isLoading, summary, setSearch, setActiveTags } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
 
@@ -222,27 +215,6 @@ const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: PharmacyFullStat
 
     const icon = pharmacy.active ? <CloseIcon /> : <CheckIcon />
 
-    // const toggleActivity = useCallback(async () => {
-    //     console.log("Toggle activity to", !pharmacy.active)
-    //     setIsLoading(true)
-
-    //     try {
-    //         const response = await fetch(`${backendUrl}/admin-api/pharmacies/${pharmacy.id}/${pharmacy.active ? "deactivate" : "activate"}/`, {
-    //             method: "POST"
-    //         })
-
-    //         const res = await response.json()
-    //         console.log(res)
-
-
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-
-    //     setIsLoading(false)
-
-    // }, [pharmacy])
-
     const handleToggleActivity = useCallback(async () => {
         setIsLoading(true)
 
@@ -280,15 +252,6 @@ const PharmacyActivityToggleButton = ({ pharmacy }: { pharmacy: PharmacyFullStat
 
         )
     }
-
-    // return <IconButton
-    //     colorScheme='orange'
-    //     height={"100%"}
-    //     // width={"100%"}
-    //     aria-label={pharmacy.active ? "Deactivate pharmacy" : "Activate pharmacy"}
-    //     icon={icon}
-    //     onClick={handleToggleActivity}
-    // />
 
     return <Button
 
