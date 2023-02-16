@@ -17,6 +17,8 @@ const PharmaciesTableBody = () => {
 
     const { filteredPharmacies } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
+
+
     return (
 
         <Tbody
@@ -45,6 +47,11 @@ const PharmaciesTableRow: React.FC<{ pharmacy: PharmacyFullState }> = (
 
     return (
         <Tr
+            _hover={{
+                backgroundColor: "orange.50",
+                transform: "scale(1.01)",
+                transition: "all 0.2s ease-in-out"
+            }}
         >
             <TableData
             >
@@ -85,7 +92,7 @@ const TableData: React.FC<TableCellProps> = (props) => {
     return (
         <Td
             {...props}
-            borderColor={palette.orange.havePersonnalityWithTransparency}
+            borderColor={palette.colorHuntTheme.lightOrange}
         >
             <Skeleton isLoaded={!isLoading}>
 
@@ -156,9 +163,6 @@ const EditButton: React.FC<{ pharmacy: PharmacyFullState }> = ({ pharmacy }) => 
 
 
 const PointPharmacyOnMapButton: React.FC<{ pharmacy: PharmacyFullState }> = ({ pharmacy }) => {
-    // An icon button with the edit icon
-
-    // from pharmacyContext import openEditingPharmacyModal
 
     const { setPharmacyFocusedOnMap }
         = useContext(PharmaciesContext) as PharmaciesContextInterface
