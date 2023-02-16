@@ -11,6 +11,7 @@ import animationStyles from "../styles/animation.module.css";
 
 import { useCallback, useContext, useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
+import { palette } from "../colorPalette";
 import EditPharmacyModal from "../components/editPharmacyModal";
 import LeafletMap from "../components/leafletMap";
 import PharmaciesTableRenderer from "../components/pharmaciesTableRenderer";
@@ -58,15 +59,20 @@ const PharmaciesPage = () => {
                 <Box
                     height={"100px"}
                     width={"100%"}
-                    border={"1px solid #e2e8f0"}
+                    borderTop={"1px solid"}
+                    borderBottom={"1px solid "}
+                    borderColor={palette.orange.havePersonnalityWithTransparency}
                     display={"flex"}
                     alignItems={"center"}
                     paddingX={2}
                     zIndex={10}
                     justifyContent={"space-between"}
                 >
-                    <RefreshButton isLoading={isLoading} onClick={refreshDatas} />
-                    <TagsFilterMenu />
+                    <HStack >
+
+                        <RefreshButton isLoading={isLoading} onClick={refreshDatas} />
+                        <TagsFilterMenu />
+                    </HStack>
                     <SearchBar onChange={setSearch} />
 
                 </Box>

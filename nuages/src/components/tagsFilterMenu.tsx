@@ -3,6 +3,7 @@ import { useContext } from "react"
 
 
 import { IoFilter } from "react-icons/io5"
+import { palette } from "../colorPalette"
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext"
 
 const TagsFilterMenu = () => {
@@ -17,7 +18,18 @@ const TagsFilterMenu = () => {
     return (
         <Menu>
             <Box>
-                <MenuButton as={Button} rightIcon={<IoFilter />} shadow={"md"} >
+                <MenuButton
+                    as={Button}
+                    rightIcon={<IoFilter />}
+                    shadow={"xs"}
+                    border={"1px solid"}
+                    backgroundColor={"whiteAlpha.100"}
+                    _hover={{
+                        border: "1px solid",
+                        borderColor: palette.orange.havePersonality,
+                        color: palette.orange.havePersonality
+                    }}
+                >
                     Filter
                 </MenuButton>
 

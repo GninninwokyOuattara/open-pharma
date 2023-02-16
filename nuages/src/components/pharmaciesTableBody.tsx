@@ -9,6 +9,7 @@ import { getTags } from "../utils/dry"
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 import { BsFillPinMapFill } from "react-icons/bs"
 import { GrEdit } from "react-icons/gr"
+import { palette } from "../colorPalette"
 import { ToastContext, ToastContextInterface } from "../contexts/toast"
 
 
@@ -43,21 +44,23 @@ const PharmaciesTableRow: React.FC<{ pharmacy: PharmacyFullState }> = (
     const tags = getTags(pharmacy)
 
     return (
-        <Tr >
-            <Td>{pharmacy.name}</Td>
-            <Td>
+        <Tr
+        >
+            <Td
+                borderColor={palette.orange.havePersonnalityWithTransparency}>{pharmacy.name}</Td>
+            <Td borderColor={palette.orange.havePersonnalityWithTransparency}>
                 <Tags tags={tags} />
             </Td>
-            <Td textAlign={"center"}>{pharmacyDateRange ? pharmacyDateRange.open_from : "-"}</Td>
-            <Td textAlign={"center"}>{pharmacyDateRange ? pharmacyDateRange.open_until : "-"}</Td>
-            <Td padding={0} >
+            <Td borderColor={palette.orange.havePersonnalityWithTransparency} textAlign={"center"}>{pharmacyDateRange ? pharmacyDateRange.open_from : "-"}</Td>
+            <Td borderColor={palette.orange.havePersonnalityWithTransparency} textAlign={"center"}>{pharmacyDateRange ? pharmacyDateRange.open_until : "-"}</Td>
+            <Td borderColor={palette.orange.havePersonnalityWithTransparency} padding={0} >
                 <ToggleActibityButton pharmacy={pharmacy} />
             </Td>
-            <Td padding={0} >
+            <Td borderColor={palette.orange.havePersonnalityWithTransparency} padding={0} >
                 <EditButton pharmacy={pharmacy} />
 
             </Td>
-            <Td padding={0} >
+            <Td borderColor={palette.orange.havePersonnalityWithTransparency} padding={0} >
                 <PointPharmacyOnMapButton pharmacy={pharmacy} />
             </Td>
         </Tr>

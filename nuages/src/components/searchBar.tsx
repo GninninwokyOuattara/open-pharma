@@ -26,8 +26,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ onChange }) => {
         <Box
             width={"300px"}
             height={"40px"}
-            border={"1px solid #E2E8F0"}
+            border={"1px solid"}
+            shadow={"sm"}
             borderRadius={"md"}
+
             display={"flex"}
             flexDirection={"row"}
             alignItems={"center"}

@@ -1,7 +1,9 @@
 import { Button } from "@chakra-ui/react";
 import { FiRefreshCcw } from "react-icons/fi";
+import { palette } from "../colorPalette";
 import animationStyles from "../styles/animation.module.css";
 
+// import colorPalette
 
 
 interface RefreshButtonProps {
@@ -17,7 +19,15 @@ const RefreshButton: React.FC<RefreshButtonProps> = ({ isLoading, onClick }) => 
         <Button
             title="Refresh"
 
-            boxShadow={"md"}
+            boxShadow={"xs"}
+            backgroundColor={"whiteAlpha.100"}
+            border={"1px solid"}
+            // borderColor={palette.orange.havePersonality}
+            _hover={{
+                border: "1px solid",
+                borderColor: palette.orange.havePersonality,
+                color: palette.orange.havePersonality
+            }}
             disabled={isLoading}
             onClick={onClick}
             rightIcon={<FiRefreshCcw
