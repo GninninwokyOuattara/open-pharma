@@ -15,6 +15,7 @@ import EditPharmacyModal from "../components/editPharmacyModal";
 import LeafletMap from "../components/leafletMap";
 import PharmaciesTableRenderer from "../components/pharmaciesTableRenderer";
 import SearchBar from "../components/searchBar";
+import TagsFilterMenu from "../components/tagsFilterMenu";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
 import { ToastContext, ToastContextInterface } from "../contexts/toast";
 
@@ -58,7 +59,9 @@ const PharmaciesPage = () => {
                     display={"flex"}
                     alignItems={"center"}
                     paddingX={2}
+                    zIndex={10}
                 >
+                    <TagsFilterMenu />
                     <SearchBar onChange={setSearch} />
 
                 </Box>
