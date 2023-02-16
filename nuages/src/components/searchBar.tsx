@@ -1,6 +1,7 @@
 import { SearchIcon } from "@chakra-ui/icons";
 import { Box, Icon, Input } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { palette } from "../colorPalette";
 
 
 interface SearchBarProps {
@@ -9,6 +10,7 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ onChange }) => {
 
+    const [isFocused, setIsFocused] = useState<boolean>(false);
     const delayedSearchId = useRef<any>(null)
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,19 +29,25 @@ const SearchBar: React.FC<SearchBarProps> = ({ onChange }) => {
             width={"300px"}
             height={"40px"}
             border={"1px solid"}
-            shadow={"sm"}
+            shadow={"xs"}
             borderRadius={"md"}
 
             display={"flex"}
             flexDirection={"row"}
             alignItems={"center"}
             paddingLeft={"10px"}
+            backgroundColor={"whiteAlpha.100"}
+            _hover={{
+                border: "1px solid orange",
+
+            }}
+            borderColor={isFocused ? palette.orange.sexy : ""}
 
         >
 
             <Icon
                 as={SearchIcon}
-                color={"gray.400"}
+                color={"black"}
             />
             <Input
                 width={"full"}
@@ -49,6 +57,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onChange }) => {
                 outline={"none"}
                 _focus={{ boxShadow: "none", }}
                 onChange={(e) => { handleSearch(e) }}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
 
             ></Input>
         </Box>
