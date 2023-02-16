@@ -1,4 +1,4 @@
-import { Box, Flex, IconButton, Spinner, Tbody, Td, Tr } from "@chakra-ui/react"
+import { Box, Flex, IconButton, Skeleton, Spinner, TableCellProps, Tbody, Td, Tr } from "@chakra-ui/react"
 import { useCallback, useContext, useState } from "react"
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext"
 import { PharmacyFullState } from "../types"
@@ -46,26 +46,53 @@ const PharmaciesTableRow: React.FC<{ pharmacy: PharmacyFullState }> = (
     return (
         <Tr
         >
-            <Td
-                borderColor={palette.orange.havePersonnalityWithTransparency}>{pharmacy.name}</Td>
-            <Td borderColor={palette.orange.havePersonnalityWithTransparency}>
+            <TableData
+            >
+
+                {pharmacy.name}
+
+            </TableData>
+            <TableData >
                 <Tags tags={tags} />
-            </Td>
-            <Td borderColor={palette.orange.havePersonnalityWithTransparency} textAlign={"center"}>{pharmacyDateRange ? pharmacyDateRange.open_from : "-"}</Td>
-            <Td borderColor={palette.orange.havePersonnalityWithTransparency} textAlign={"center"}>{pharmacyDateRange ? pharmacyDateRange.open_until : "-"}</Td>
-            <Td borderColor={palette.orange.havePersonnalityWithTransparency} padding={0} >
+            </TableData>
+            <TableData textAlign={"center"}>{pharmacyDateRange ? pharmacyDateRange.open_from : "-"}</TableData>
+            <TableData textAlign={"center"}>{pharmacyDateRange ? pharmacyDateRange.open_until : "-"}</TableData>
+            <TableData padding={0} >
+
                 <ToggleActibityButton pharmacy={pharmacy} />
-            </Td>
-            <Td borderColor={palette.orange.havePersonnalityWithTransparency} padding={0} >
+            </TableData>
+            <TableData paddingX={1} >
+
+
                 <EditButton pharmacy={pharmacy} />
 
-            </Td>
-            <Td borderColor={palette.orange.havePersonnalityWithTransparency} padding={0} >
+            </TableData>
+            <TableData padding={0} paddingRight={2}>
+
                 <PointPharmacyOnMapButton pharmacy={pharmacy} />
-            </Td>
+            </TableData>
+
         </Tr>
     )
 
+}
+
+
+const TableData: React.FC<TableCellProps> = (props) => {
+
+    const { isLoading } = useContext(PharmaciesContext) as PharmaciesContextInterface
+
+    return (
+        <Td
+            {...props}
+            borderColor={palette.orange.havePersonnalityWithTransparency}
+        >
+            <Skeleton isLoaded={!isLoading}>
+
+                {props.children}
+            </Skeleton>
+        </Td>
+    )
 }
 
 const Tags = ({ tags }: { tags: string[] }) => {
@@ -137,15 +164,21 @@ const PointPharmacyOnMapButton: React.FC<{ pharmacy: PharmacyFullState }> = ({ p
         = useContext(PharmaciesContext) as PharmaciesContextInterface
 
 
-    return <IconButton
+    return (
 
-        aria-label="Edit"
-        icon={<BsFillPinMapFill />}
-        size="sm"
-        variant="ghost"
 
-        onClick={() => setPharmacyFocusedOnMap(pharmacy)}
-    />
+
+
+        <IconButton
+
+            aria-label="Edit"
+            icon={<BsFillPinMapFill />}
+            size="sm"
+            variant="ghost"
+
+            onClick={() => setPharmacyFocusedOnMap(pharmacy)}
+        />
+    )
 
 }
 
