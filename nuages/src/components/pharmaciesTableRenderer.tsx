@@ -1,4 +1,5 @@
 import { Box, Table, TableContainer, Th, Thead, Tr } from "@chakra-ui/react"
+import { palette } from "../colorPalette"
 import PharmaciesTableBody from "./pharmaciesTableBody"
 
 
@@ -36,7 +37,7 @@ const PharmaciesTableHeaders = () => {
 
     return (
         <Thead
-            backgroundColor={"gray.100"}
+            backgroundColor={palette.colorHuntTheme.lightOrange}
             fontWeight={"bold"}
             position={"sticky"} top={0} zIndex={1}
 
