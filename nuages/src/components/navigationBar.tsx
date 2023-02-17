@@ -1,40 +1,46 @@
 // Navigation bar component
 
-import { Box, HStack, Icon, List, ListItem, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, HStack, Icon, List, ListItem, Text, VStack } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 
 
 // import Link from router
 import routes from "../routes";
 
-import { IoIosAddCircleOutline } from "react-icons/io";
 
 
 // styles
+import { palette } from "../colorPalette";
 import styles from "../styles/navigation.module.css";
+
+// import HiOutlineExternalLink
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 
 const NavigationBar = () => {
     return (
 
         <Box
-            backgroundColor="black"
+            backgroundColor="whiteAlpha.100"
             // padding={10}
             height="100%"
             // width={"100px"}
             minWidth={"52"}
             paddingY={5}
             // borderRadius="md"
+            paddingX={"2"}
             overflow={"hidden"}
             display={"flex"}
             flexDirection={"column"}
             alignItems={"center"}
+            borderRight={"1px solid"}
+            borderColor={palette.colorHuntTheme.strongOrange}
 
         >
 
             <Box h={10} w="full" alignItems={"center"} justifyContent={"center"} display={"flex"} marginBottom={20}>
 
-                <Icon as={routes[0].icon} color="white" display={"block"} />
+                <Icon as={routes[0].icon} color="black" display={"block"} />
 
 
 
@@ -44,12 +50,12 @@ const NavigationBar = () => {
 
 
                 <nav className={styles.navigation}>
-                    <List paddingX={"2"}>
+                    <List >
                         {routes.map((route, idx) => {
 
                             return <ListItem
 
-                                height={14}
+                                height={10}
                                 key={idx}
                                 display={"block"}
                                 // borderColor={"red.700"}
@@ -62,6 +68,7 @@ const NavigationBar = () => {
                             >
                                 <NavLink
                                     to={route.path}
+
                                     className={({ isActive }) => isActive ? styles.navigationLinkActive : styles.navigationLink}
 
                                 >
@@ -70,7 +77,7 @@ const NavigationBar = () => {
                                     <HStack w={"full"} paddingLeft={4}>
 
                                         <Icon as={route.icon}
-                                            boxSize={4}
+                                            boxSize={6}
                                             display={"block"}
                                         />
                                         <Text>{route.name}</Text>
@@ -89,12 +96,41 @@ const NavigationBar = () => {
 
             </VStack>
 
-            <Box h={10} w="full" alignItems={"center"} justifyContent={"center"} display={"flex"}>
+            {/* <Box h={10} w="full" alignItems={"center"} justifyContent={"center"} display={"flex"} borderRadius={"md"} backgroundColor={palette.colorHuntTheme.tameOrange} shadow={"md"}>
 
-                <Icon as={IoIosAddCircleOutline} color="white" display={"block"} boxSize={10} />
+              
 
+                <Text
+                    color={"white"}
+                    fontSize={"24px"}
+                >Go To App</Text>
 
-            </Box>
+            </Box> */}
+            <a
+                href="https://google.ci"
+                style={{
+                    width: "100%",
+
+                }}
+            >
+
+                <Button
+                    w={"full"}
+                    h={16}
+                    backgroundColor={palette.colorHuntTheme.lightOrange}
+                    rightIcon={<HiOutlineExternalLink />}
+                    color={"white"}
+                    fontSize={"24px"}
+
+                    _hover={{
+                        backgroundColor: palette.colorHuntTheme.strongOrange
+                    }}
+
+                >
+                    App
+                </Button>
+            </a>
+
         </Box >
     );
 };

@@ -9,12 +9,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color : #8F8F8F
+    color : #7a7a7a;
+    font-weight: bolder;
 }
 
 .navigationLink:hover {
-    color: #ffffff;
-    background-color: #2F2F2F;
+    /* color: #ffffff; */
+    background-color: #ffdda93e;
 }
 
 
@@ -24,8 +25,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color :#ff9502;
-    background-color: #474747;
+    color :#ffa200;
+    font-weight: bolder;
+    background-color: #ffdda969;
 
 }
 
