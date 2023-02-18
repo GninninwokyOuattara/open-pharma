@@ -30,82 +30,82 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
     // METHODS
 
-    const fetchPharmaciesPendingReview = async () => {
+    // const fetchPharmaciesPendingReview = async () => {
 
-        // This whole stuff need some serious rewrite
-        setIsLoading(true)
-        try {
-            const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/`);
-            const data = await response.json();
-            // pre ordering
+    //     // This whole stuff need some serious rewrite
+    //     setIsLoading(true)
+    //     try {
+    //         const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/`);
+    //         const data = await response.json();
+    //         // pre ordering
 
-            if (orderBy === "Name") {
-                data.sort((a: Pharmacy, b: Pharmacy) => a.name.localeCompare(b.name))
-            } else {
-                data.sort((a: Pharmacy, b: Pharmacy) => {
-                    const dateA = new Date(a.date_created);
-                    const dateB = new Date(b.date_updated);
-                    return dateB.getTime() - dateA.getTime()
-                })
-            }
-
-
-
-            // setPharmaciesPendingReviewStatic(data);
-            setPharmaciesPendingReview(data);
-        } catch (error) {
-            setError("An error occured while fetching pharmacies pending review")
-            toast({
-                title: 'Error.',
-                description: `An error occured while fetching pharmacies pending review!`,
-                status: "error",
-                duration: 2000,
-                isClosable: true,
-                position: 'top-right'
-            })
-        }
+    //         if (orderBy === "Name") {
+    //             data.sort((a: Pharmacy, b: Pharmacy) => a.name.localeCompare(b.name))
+    //         } else {
+    //             data.sort((a: Pharmacy, b: Pharmacy) => {
+    //                 const dateA = new Date(a.date_created);
+    //                 const dateB = new Date(b.date_updated);
+    //                 return dateB.getTime() - dateA.getTime()
+    //             })
+    //         }
 
 
-        setIsLoading(false)
-    }
 
-    const activatePharmacy = (pharmacy: Pharmacy) => {
-        fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/activate/`, {
-            method: "POST",
-        }).then((response) => {
-            console.log(response)
+    //         // setPharmaciesPendingReviewStatic(data);
+    //         setPharmaciesPendingReview(data);
+    //     } catch (error) {
+    //         setError("An error occured while fetching pharmacies pending review")
+    //         toast({
+    //             title: 'Error.',
+    //             description: `An error occured while fetching pharmacies pending review!`,
+    //             status: "error",
+    //             duration: 2000,
+    //             isClosable: true,
+    //             position: 'top-right'
+    //         })
+    //     }
 
-        }).catch((error) => {
-            console.log(error)
-        })
-    }
 
-    const deactivatePharmacy = (pharmacy: Pharmacy) => {
-        fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/deactivate/`, {
-            method: "POST",
-        }).then((response) => {
-            console.log(response)
+    //     setIsLoading(false)
+    // }
 
-        }).catch((error) => {
-            console.log(error)
-        })
+    // const activatePharmacy = (pharmacy: Pharmacy) => {
+    //     fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/activate/`, {
+    //         method: "POST",
+    //     }).then((response) => {
+    //         console.log(response)
 
-    }
+    //     }).catch((error) => {
+    //         console.log(error)
+    //     })
+    // }
 
-    const changeOrderByTo = (newOrderBy: "Name" | "Date") => {
+    // const deactivatePharmacy = (pharmacy: Pharmacy) => {
+    //     fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/deactivate/`, {
+    //         method: "POST",
+    //     }).then((response) => {
+    //         console.log(response)
 
-        if (newOrderBy === orderBy) {
-            return
-        }
+    //     }).catch((error) => {
+    //         console.log(error)
+    //     })
 
-        setOrderBy(newOrderBy)
+    // }
 
-        if (newOrderBy === "Name") {
-            setPharmaciesPendingReview([...pharmaciesPendingReview].sort((a, b) => a.name.localeCompare(b.name)))
-        } else {
-            setPharmaciesPendingReview([...pharmaciesPendingReview].sort((a, b) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime()))
-        }
-    }
+    // const changeOrderByTo = (newOrderBy: "Name" | "Date") => {
+
+    //     if (newOrderBy === orderBy) {
+    //         return
+    //     }
+
+    //     setOrderBy(newOrderBy)
+
+    //     if (newOrderBy === "Name") {
+    //         setPharmaciesPendingReview([...pharmaciesPendingReview].sort((a, b) => a.name.localeCompare(b.name)))
+    //     } else {
+    //         setPharmaciesPendingReview([...pharmaciesPendingReview].sort((a, b) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime()))
+    //     }
+    // }
 
     // New METHODS
 
