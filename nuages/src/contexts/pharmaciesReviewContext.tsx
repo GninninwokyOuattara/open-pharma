@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import { PendingReviewPharmacy, Pharmacy } from "../types";
 import { getTimeElapsed } from "../utils/dry";
 
@@ -10,7 +10,8 @@ export interface PharmaciesReviewContextInterface {
     isLoading: boolean;
     refreshDatas: () => void;
     pendingReviewPharmacies: PendingReviewPharmacy[];
-
+    filteredPendingReviewPharmacies: PendingReviewPharmacy[];
+    setSearch: React.Dispatch<React.SetStateAction<string>>;
 
 }
 
@@ -24,10 +25,16 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
     const [pharmaciesPendingReviewStatic, setPharmaciesPendingReviewStatic] = useState<Pharmacy[] | []>([]);
     const [pharmaciesPendingReview, setPharmaciesPendingReview] = useState<PendingReviewPharmacy[] | []>([]);
-    const [orderBy, setOrderBy] = useState<"Name" | "Date">("Name");
     const [search, setSearch] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+
+    const filteredPendingReviewPharmacies = useMemo(() => {
+        if (!pharmaciesPendingReview) return []
+        return pharmaciesPendingReview.filter((pharmacy: PendingReviewPharmacy) => {
+            return pharmacy.name.toLowerCase().includes(search.toLowerCase())
+        })
+    }, [pharmaciesPendingReview, search])
 
 
     // METHODS
@@ -116,8 +123,15 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         try {
 
             const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/`);
-            const data = await response.json();
-            return data;
+            const datas = await response.json();
+            // sort datas by date
+            datas.sort((a: PendingReviewPharmacy, b: PendingReviewPharmacy) => {
+                const dateA = new Date(a.date_created);
+                const dateB = new Date(b.date_updated);
+                return dateB.getTime() - dateA.getTime()
+            })
+
+            return datas;
         } catch (error: any) {
             setPharmaciesPendingReview([]);
             setError(error)
@@ -130,6 +144,7 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         setIsLoading(true)
         try {
             const pharmacies = await getPendingReviewPharmacies()
+            console.log(pharmacies.splice(0, 3))
             pharmacies.map((pharmacy: PendingReviewPharmacy) => {
                 pharmacy["time_elapsed"] = getTimeElapsed(pharmacy.date_created)
             })
@@ -145,6 +160,9 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         setError(null)
     }
 
+
+
+
     // USE EFFECTS
 
     useEffect(() => {
@@ -155,12 +173,16 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
     }, [])
 
 
+
+
     return (
         <PharmaciesReviewContext.Provider
             value={{
                 isLoading,
                 refreshDatas,
-                pendingReviewPharmacies: pharmaciesPendingReview
+                pendingReviewPharmacies: pharmaciesPendingReview,
+                filteredPendingReviewPharmacies,
+                setSearch,
 
 
             }}>

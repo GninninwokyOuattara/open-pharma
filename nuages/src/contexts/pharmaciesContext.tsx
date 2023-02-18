@@ -190,6 +190,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
     // MEMO
 
     const filteredPharmacies = useMemo(() => {
+        console.log("SEARCH")
         if (!pharmacies) return []
         const filtered = applyFilters()
         return filtered
