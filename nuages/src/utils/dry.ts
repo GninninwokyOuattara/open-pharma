@@ -1,4 +1,4 @@
-import { PharmacyFullState } from "../types";
+import { Pharmacy, PharmacyFullState } from "../types";
 
 export const asyncFetchDataFromBackend = async (url: string) => {
   try {
@@ -72,4 +72,18 @@ export const getTags = (pharmacy: PharmacyFullState) => {
   }
 
   return tags;
+};
+
+export const orderBy = (by: "Name" | "Date", data: Pharmacy[]) => {
+  if (by === "Name") {
+    return data.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+  } else {
+    return data.sort((a, b) => {
+      return (
+        new Date(a.date_created).getTime() - new Date(b.date_created).getTime()
+      );
+    });
+  }
 };
