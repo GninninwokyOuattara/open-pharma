@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-import { Pharmacy } from "../types";
+import { PendingReviewPharmacy, Pharmacy } from "../types";
+import { getTimeElapsed } from "../utils/dry";
 
 const backendUrl = process.env.REACT_APP_DJANGO_API_URL;
 
@@ -8,6 +9,7 @@ const backendUrl = process.env.REACT_APP_DJANGO_API_URL;
 export interface PharmaciesReviewContextInterface {
     isLoading: boolean;
     refreshDatas: () => void;
+    pendingReviewPharmacies: PendingReviewPharmacy[];
 
 
 }
@@ -21,7 +23,7 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
     // STATES
 
     const [pharmaciesPendingReviewStatic, setPharmaciesPendingReviewStatic] = useState<Pharmacy[] | []>([]);
-    const [pharmaciesPendingReview, setPharmaciesPendingReview] = useState<Pharmacy[] | []>([]);
+    const [pharmaciesPendingReview, setPharmaciesPendingReview] = useState<PendingReviewPharmacy[] | []>([]);
     const [orderBy, setOrderBy] = useState<"Name" | "Date">("Name");
     const [search, setSearch] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -127,7 +129,11 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
     const refreshDatas = async () => {
         setIsLoading(true)
         try {
-            setPharmaciesPendingReview(await getPendingReviewPharmacies())
+            const pharmacies = await getPendingReviewPharmacies()
+            pharmacies.map((pharmacy: PendingReviewPharmacy) => {
+                pharmacy["time_elapsed"] = getTimeElapsed(pharmacy.date_created)
+            })
+            setPharmaciesPendingReview(pharmacies)
         } catch (error: any) {
             setError(error)
         };
@@ -153,7 +159,8 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         <PharmaciesReviewContext.Provider
             value={{
                 isLoading,
-                refreshDatas
+                refreshDatas,
+                pendingReviewPharmacies: pharmaciesPendingReview
 
 
             }}>
