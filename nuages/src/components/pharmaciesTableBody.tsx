@@ -15,7 +15,17 @@ import { ToastContext, ToastContextInterface } from "../contexts/toast"
 
 const PharmaciesTableBody = () => {
 
-    const { filteredPharmacies } = useContext(PharmaciesContext) as PharmaciesContextInterface
+    const { filteredPharmacies, isLoading } = useContext(PharmaciesContext) as PharmaciesContextInterface
+
+    // if there is no pharmacies and loading is false, return a message that spans all columns saying "No pharmacies found"
+
+    if (filteredPharmacies.length === 0 && !isLoading) {
+        return <Tbody>
+            <Tr>
+                <Td colSpan={7} textAlign={"center"}>No pharmacies found</Td>
+            </Tr>
+        </Tbody>
+    }
 
 
 
