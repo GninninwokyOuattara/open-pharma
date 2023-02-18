@@ -39,6 +39,7 @@ export interface OpenPharmacy extends Pharmacy {
 export interface PendingReviewPharmacy extends Pharmacy {
   active: false;
   pending_review: true;
+  time_elapsed: string;
 }
 
 export type PharmaciesDataSummary = {
