@@ -12,6 +12,8 @@ export interface PharmaciesReviewContextInterface {
     pendingReviewPharmacies: PendingReviewPharmacy[];
     filteredPendingReviewPharmacies: PendingReviewPharmacy[];
     setSearch: React.Dispatch<React.SetStateAction<string>>;
+    acceptPharmacy: (pharmacy: PendingReviewPharmacy) => Promise<boolean>
+    rejectPharmacy: (pharmacy: PendingReviewPharmacy) => Promise<boolean>;
 
 }
 
@@ -161,6 +163,42 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
     }
 
 
+    // Reviews action
+
+    const acceptPharmacy = async (pharmacy: PendingReviewPharmacy) => {
+        try {
+            const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/activate/`, {
+                method: "POST",
+            });
+            const data = await response.json();
+            console.log(data)
+            return true
+            // refreshDatas()
+        } catch (error: any) {
+            setError(error)
+            throw error
+        }
+    }
+
+    const rejectPharmacy = async (pharmacy: PendingReviewPharmacy) => {
+        try {
+            const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/deactivate/`, {
+                method: "POST",
+            });
+            const data = await response.json();
+            console.log(data)
+            return true
+            // refreshDatas()
+        } catch (error: any) {
+            setError(error)
+            throw error
+        }
+    }
+
+    const linkPharmacy = async () => {
+        // SOON
+        console.log("TO BE DONE")
+    }
 
 
     // USE EFFECTS
@@ -183,6 +221,8 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
                 pendingReviewPharmacies: pharmaciesPendingReview,
                 filteredPendingReviewPharmacies,
                 setSearch,
+                acceptPharmacy,
+                rejectPharmacy,
 
 
             }}>
