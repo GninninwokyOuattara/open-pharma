@@ -7,21 +7,7 @@ const backendUrl = process.env.REACT_APP_DJANGO_API_URL;
 
 export interface PharmaciesReviewContextInterface {
     isLoading: boolean;
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-    error: string | null;
-    setError: React.Dispatch<React.SetStateAction<string | null>>;
-    pharmaciesPendingReviewStatic: Pharmacy[] | [];
-    setPharmaciesPendingReviewStatic: React.Dispatch<React.SetStateAction<Pharmacy[] | []>>;
-    pharmaciesPendingReview: Pharmacy[] | [];
-    setPharmaciesPendingReview: React.Dispatch<React.SetStateAction<Pharmacy[] | []>>;
-    orderBy: "Name" | "Date";
-    setOrderBy: React.Dispatch<React.SetStateAction<"Name" | "Date">>;
-    search: string;
-    setSearch: React.Dispatch<React.SetStateAction<string>>;
-    fetchPharmaciesPendingReview: () => void;
-    activatePharmacy: (pharmacy: Pharmacy) => void;
-    deactivatePharmacy: (pharmacy: Pharmacy) => void;
-    changeOrderByTo: (orderBy: "Name" | "Date") => void;
+    refreshDatas: () => void;
 
 
 }
@@ -121,19 +107,44 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         }
     }
 
+    // New METHODS
+
+    const getPendingReviewPharmacies = async () => {
+
+        try {
+
+            const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/`);
+            const data = await response.json();
+            return data;
+        } catch (error: any) {
+            setPharmaciesPendingReview([]);
+            setError(error)
+            throw error
+        }
+
+    }
+
+    const refreshDatas = async () => {
+        setIsLoading(true)
+        try {
+            setPharmaciesPendingReview(await getPendingReviewPharmacies())
+        } catch (error: any) {
+            setError(error)
+        };
+        setIsLoading(false)
+    }
+
+    const cleanDatas = () => {
+        setPharmaciesPendingReview([])
+        setError(null)
+    }
 
     // USE EFFECTS
 
     useEffect(() => {
-        setIsLoading(true)
-        fetchPharmaciesPendingReview().then(() => {
-            setIsLoading(false)
-
-        }).catch((error) => {
-            setIsLoading(false)
-            setError("An error occured while fetching pharmacies pending review")
-            console.log("Error")
-        })
+        (async () => {
+            await refreshDatas()
+        })()
 
     }, [])
 
@@ -142,21 +153,8 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         <PharmaciesReviewContext.Provider
             value={{
                 isLoading,
-                setIsLoading,
-                error,
-                setError,
-                pharmaciesPendingReviewStatic,
-                setPharmaciesPendingReviewStatic,
-                pharmaciesPendingReview,
-                setPharmaciesPendingReview,
-                orderBy,
-                setOrderBy,
-                search,
-                setSearch,
-                fetchPharmaciesPendingReview,
-                activatePharmacy,
-                deactivatePharmacy,
-                changeOrderByTo
+                refreshDatas
+
 
             }}>
             {children}
@@ -164,8 +162,4 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
     )
 
 
-}
-
-function toast(arg0: { title: string; description: string; status: string; duration: number; isClosable: boolean; position: string; }) {
-    throw new Error("Function not implemented.");
 }
