@@ -10,6 +10,7 @@ import { ToastProvider } from './contexts/toast';
 import { RouterProvider } from 'react-router-dom';
 
 import { PharmaciesContextProvider } from './contexts/pharmaciesContext';
+import { PharmaciesReviewContextProvider } from './contexts/pharmaciesReviewContext';
 import appRouting from './router';
 
 const root = ReactDOM.createRoot(
@@ -24,8 +25,11 @@ root.render(
       <ToastProvider>
 
         <PharmaciesContextProvider>
+          <PharmaciesReviewContextProvider>
 
-          <RouterProvider router={appRouting} />
+            <RouterProvider router={appRouting} />
+          </PharmaciesReviewContextProvider>
+
         </PharmaciesContextProvider>
       </ToastProvider>
     </ChakraProvider>
