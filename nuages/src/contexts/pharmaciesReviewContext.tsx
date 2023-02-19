@@ -171,7 +171,7 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
                 method: "POST",
             });
             const data = await response.json();
-            console.log(data)
+            await removePharmacyInPharmacies(data)
             return true
             // refreshDatas()
         } catch (error: any) {
@@ -186,7 +186,7 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
                 method: "POST",
             });
             const data = await response.json();
-            console.log(data)
+            removePharmacyInPharmacies(data)
             return true
             // refreshDatas()
         } catch (error: any) {
@@ -199,6 +199,17 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         // SOON
         console.log("TO BE DONE")
     }
+
+
+    const removePharmacyInPharmacies = (update: PendingReviewPharmacy) => {
+
+        setPharmaciesPendingReview((prev) => {
+            return prev.filter((pharmacy: PendingReviewPharmacy) => pharmacy.id !== update.id)
+        })
+
+    }
+
+
 
 
     // USE EFFECTS
