@@ -1,5 +1,5 @@
 
-import { useDisclosure } from '@chakra-ui/react';
+import { useDisclosure, useToast } from '@chakra-ui/react';
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import { PharmaciesDataSummary, PharmaciesStateAndSummary, PharmacyFullState } from '../types';
 import { getTags } from '../utils/dry';
@@ -61,6 +61,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
     const [activeTags, setActiveTags] = useState<string[]>(["Inactive", "Active", "Open"])
 
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const toast = useToast()
 
 
     // METHODS 
@@ -107,7 +108,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
             return data
         } catch (error: any) {
             cleanDatas()
-            setError(error)
+            // setError(error.message)
             throw error
         }
     }
@@ -130,7 +131,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
             setPharmacies(pharmacies)
             setIsLoading(false)
         }).catch((error) => {
-            setError(error)
+            setError(error.message)
             setIsLoading(false)
         })
     }
@@ -199,20 +200,22 @@ export const PharmaciesContextProvider = ({ children }: any) => {
 
     useEffect(() => {
 
-        setIsLoading(true)
-        getDatas().then((data) => {
-            const summary = data.summary
-            const pharmacies = data.pharmacies
-
-            setSummary(summary)
-            setPharmacies(pharmacies)
-        }).catch((error) => {
-            console.log(error)
-        })
-
-
-        setIsLoading(false)
+        refreshDatas()
     }, [])
+
+    useEffect(() => {
+        if (error) {
+            toast({
+                title: error,
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "top"
+            })
+
+            setError("")
+        }
+    }, [error])
 
 
     return (
