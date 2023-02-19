@@ -29,6 +29,24 @@ export const PendingReviewSkeletonLoader: React.FC<{ firstTenPharmacies: Pending
     )
 }
 
+export const SingleRowSkeletonLoader: React.FC<{ pharmacy: PendingReviewPharmacy }> = ({ pharmacy }) => {
+    return (
+        <Tr>
+            <LoadingRowData >{pharmacy.name}</LoadingRowData>
+            <LoadingRowData>{pharmacy.time_elapsed}</LoadingRowData>
+            <LoadingRowData padding={0} w={0} >
+                <ReviewButton for={"validate"} onClick={() => { }} />
+            </LoadingRowData>
+            <LoadingRowData paddingX={1} w={0} >
+                <ReviewButton for={"validate"} onClick={() => { }} />
+            </LoadingRowData>
+            <LoadingRowData padding={0} paddingRight={2} w={0} >
+                <ReviewButton for={"validate"} onClick={() => { }} />
+            </LoadingRowData>
+        </Tr>
+    )
+}
+
 const LoadingRowData: React.FC<TableCellProps> = (props) => {
 
     return (
