@@ -1,5 +1,7 @@
+import { Center, Spinner, Text } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import { palette } from "../colorPalette";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
 
 
@@ -7,11 +9,20 @@ const LeafletMap = () => {
 
     // get pharmacies from context
 
-    const { pharmacies } = useContext(PharmaciesContext) as PharmaciesContextInterface
+    const { pharmacies, isLoading } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
 
+    if (isLoading) return <LoadinLeafletMap />
 
-    if (!pharmacies.length) return (<div>Loading...</div>)
+    if (!pharmacies.length) {
+        return (<Center h={"100%"} bg={palette.colorHuntTheme.lightGreen}>
+            <Text fontSize={"2xl"} fontWeight={"bold"} color={"black"}>
+                No Pharmacies to display on the map.
+            </Text>
+
+        </Center>)
+
+    }
 
 
     return <MapContainer
@@ -62,6 +73,16 @@ function MapInteractionHandler() {
     console.log('map center:', map.getCenter())
 
     return null
+}
+
+
+const LoadinLeafletMap = () => {
+    return (
+
+        <Center height={"full"} bg={palette.colorHuntTheme.lightGreen}>
+            <Spinner size={"lg"} />
+        </Center>
+    )
 }
 
 
