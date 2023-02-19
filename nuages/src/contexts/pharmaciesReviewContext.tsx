@@ -1,3 +1,4 @@
+import { useToast } from "@chakra-ui/react";
 import { createContext, useEffect, useMemo, useState } from "react";
 import { PendingReviewPharmacy, Pharmacy } from "../types";
 import { getTimeElapsed } from "../utils/dry";
@@ -30,6 +31,8 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
     const [search, setSearch] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+
+    const toast = useToast();
 
     const filteredPendingReviewPharmacies = useMemo(() => {
         if (!pharmaciesPendingReview) return []
@@ -135,8 +138,8 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
             return datas;
         } catch (error: any) {
-            setPharmaciesPendingReview([]);
-            setError(error)
+            // setPharmaciesPendingReview([]);
+            // setError(error)
             throw error
         }
 
@@ -152,7 +155,13 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
             })
             setPharmaciesPendingReview(pharmacies)
         } catch (error: any) {
-            setError(error)
+            if (error.message === "Failed to fetch") {
+
+                setError("Connection error, please check your internet connection.")
+            } else {
+                setError("Something went wrong")
+            }
+
         };
         setIsLoading(false)
     }
@@ -214,12 +223,26 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
     // USE EFFECTS
 
-    useEffect(() => {
-        (async () => {
-            await refreshDatas()
-        })()
+    // useEffect(() => {
+    //     (async () => {
+    //         await refreshDatas()
+    //     })()
 
-    }, [])
+    // }, [])
+
+    useEffect(() => {
+        if (error) {
+            toast({
+                title: error,
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "top"
+            })
+
+            setError("")
+        }
+    }, [error])
 
 
 
