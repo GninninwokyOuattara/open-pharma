@@ -1,4 +1,4 @@
-import { Box, Flex, IconButton, Skeleton, Spinner, TableCellProps, Tbody, Td, Tr } from "@chakra-ui/react"
+import { Box, Flex, Icon, IconButton, Skeleton, Spinner, TableCellProps, Tbody, Td, Text, Tr } from "@chakra-ui/react"
 import { useCallback, useContext, useState } from "react"
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext"
 import { PharmacyFullState } from "../types"
@@ -9,6 +9,7 @@ import { getTags } from "../utils/dry"
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 import { BsFillPinMapFill } from "react-icons/bs"
 import { GrEdit } from "react-icons/gr"
+import { TbMoodEmpty } from "react-icons/tb"
 import { palette } from "../colorPalette"
 import { ToastContext, ToastContextInterface } from "../contexts/toast"
 
@@ -22,7 +23,11 @@ const PharmaciesTableBody = () => {
     if (filteredPharmacies.length === 0 && !isLoading) {
         return <Tbody>
             <Tr>
-                <Td colSpan={7} textAlign={"center"}>No pharmacies found</Td>
+                <Td colSpan={7} rowSpan={5} textAlign={"center"} height={"400px"} border={"none"}>
+                    <Text color={"gray.400"} fontSize={"3xl"}>Such Emptyness</Text>
+                    <Box height={"10px"} />
+                    <Icon as={TbMoodEmpty} boxSize={32} color={"gray.400"} />
+                </Td>
             </Tr>
         </Tbody>
     }
