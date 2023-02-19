@@ -131,7 +131,13 @@ export const PharmaciesContextProvider = ({ children }: any) => {
             setPharmacies(pharmacies)
             setIsLoading(false)
         }).catch((error) => {
-            setError(error.message)
+            if (error.message === "Failed to fetch") {
+
+                setError("Connection error, please check your internet connection.")
+            } else {
+                setError("Something went wrong")
+            }
+
             setIsLoading(false)
         })
     }
