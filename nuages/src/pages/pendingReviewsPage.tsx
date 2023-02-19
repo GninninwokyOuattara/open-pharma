@@ -7,7 +7,7 @@
 // import FiRefreshCcw from react-icons
 
 import { Box, HStack, VStack } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { palette } from "../colorPalette";
 import RefreshButton from "../components/refreshButton";
 import SearchBar from "../components/searchBar";
@@ -22,6 +22,13 @@ import { PendingReviewPageTable } from "../components/pendingReviewTable";
 const PendingReviewsPage = () => {
 
     // Hooks
+    const { refreshDatas } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+
+    useEffect(() => {
+        refreshDatas()
+    }, [])
+
+
 
     return (
         <VStack

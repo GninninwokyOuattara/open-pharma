@@ -1,6 +1,6 @@
 
 import { useDisclosure, useToast } from '@chakra-ui/react';
-import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useMemo, useState } from 'react';
 import { PharmaciesDataSummary, PharmaciesStateAndSummary, PharmacyFullState } from '../types';
 import { getTags } from '../utils/dry';
 
@@ -25,7 +25,7 @@ export interface PharmaciesContextInterface {
     filterByTags: (pharmacies: PharmacyFullState[]) => PharmacyFullState[]
     filterBySearch: (pharmacies: PharmacyFullState[]) => PharmacyFullState[];
     filteredPharmacies: PharmacyFullState[];
-    getDatas: () => Promise<PharmaciesStateAndSummary>;
+    getDatas: () => Promise<void>;
     cleanDatas: () => void;
     refreshDatas: () => void;
     toggleActivity: (pharmacy: PharmacyFullState) => Promise<PharmacyFullState>;
@@ -105,11 +105,37 @@ export const PharmaciesContextProvider = ({ children }: any) => {
         try {
             const response = await fetch("http://localhost:8000//admin-api/get-pharmacies-state-and-count/")
             const data: PharmaciesStateAndSummary = await response.json()
-            return data
+            setSummary(data.summary)
+            setPharmacies(data.pharmacies)
+            // return data
         } catch (error: any) {
-            cleanDatas()
+            // cleanDatas()
             // setError(error.message)
-            throw error
+            // throw error
+            handleError(error)
+        }
+    }
+
+    const handleError = (error: any) => {
+
+        if (error.message === "Failed to fetch") {
+            toast({
+                title: "Connection error, please check your internet connection",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "top"
+            })
+
+        } else {
+            toast({
+                title: "An error occured, please try again later",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "top"
+            })
+
         }
     }
 
@@ -121,25 +147,11 @@ export const PharmaciesContextProvider = ({ children }: any) => {
     }
 
 
-    const refreshDatas = () => {
+    const refreshDatas = async () => {
         setIsLoading(true)
-        getDatas().then((data) => {
-            const summary = data.summary
-            const pharmacies = data.pharmacies
+        await getDatas()
+        setIsLoading(false)
 
-            setSummary(summary)
-            setPharmacies(pharmacies)
-            setIsLoading(false)
-        }).catch((error) => {
-            if (error.message === "Failed to fetch") {
-
-                setError("Connection error, please check your internet connection.")
-            } else {
-                setError("Something went wrong")
-            }
-
-            setIsLoading(false)
-        })
     }
 
     const toggleActivity = async (pharmacy: PharmacyFullState) => {
@@ -204,24 +216,24 @@ export const PharmaciesContextProvider = ({ children }: any) => {
 
     // USE EFFECTS
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        refreshDatas()
-    }, [])
+    //     refreshDatas()
+    // }, [])
 
-    useEffect(() => {
-        if (error) {
-            toast({
-                title: error,
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-                position: "top"
-            })
+    // useEffect(() => {
+    //     if (error) {
+    //         toast({
+    //             title: error,
+    //             status: "error",
+    //             duration: 3000,
+    //             isClosable: true,
+    //             position: "top"
+    //         })
 
-            setError("")
-        }
-    }, [error])
+    //         setError("")
+    //     }
+    // }, [error])
 
 
     return (

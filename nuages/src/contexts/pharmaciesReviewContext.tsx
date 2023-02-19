@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/react";
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 import { PendingReviewPharmacy, Pharmacy } from "../types";
 import { getTimeElapsed } from "../utils/dry";
 
@@ -136,33 +136,42 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
                 return dateB.getTime() - dateA.getTime()
             })
 
-            return datas;
+            datas.map((pharmacy: PendingReviewPharmacy) => {
+                pharmacy["time_elapsed"] = getTimeElapsed(pharmacy.date_created)
+            })
+            setPharmaciesPendingReview(datas)
+
         } catch (error: any) {
-            // setPharmaciesPendingReview([]);
-            // setError(error)
-            throw error
+            handleError(error)
         }
 
     }
 
+    const handleError = (error: any) => {
+        if (error.message === "Failed to fetch") {
+            toast({
+                title: "Connection error, please check your internet connection",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "top"
+            })
+
+        } else {
+            toast({
+                title: "An error occured, please try again later",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "top"
+            })
+
+        }
+    }
+
     const refreshDatas = async () => {
         setIsLoading(true)
-        try {
-            const pharmacies = await getPendingReviewPharmacies()
-            console.log(pharmacies.splice(0, 3))
-            pharmacies.map((pharmacy: PendingReviewPharmacy) => {
-                pharmacy["time_elapsed"] = getTimeElapsed(pharmacy.date_created)
-            })
-            setPharmaciesPendingReview(pharmacies)
-        } catch (error: any) {
-            if (error.message === "Failed to fetch") {
-
-                setError("Connection error, please check your internet connection.")
-            } else {
-                setError("Something went wrong")
-            }
-
-        };
+        await getPendingReviewPharmacies()
         setIsLoading(false)
     }
 
@@ -230,19 +239,19 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
     // }, [])
 
-    useEffect(() => {
-        if (error) {
-            toast({
-                title: error,
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-                position: "top"
-            })
+    // useEffect(() => {
+    //     if (error) {
+    //         toast({
+    //             title: error,
+    //             status: "error",
+    //             duration: 3000,
+    //             isClosable: true,
+    //             position: "top"
+    //         })
 
-            setError("")
-        }
-    }, [error])
+    //         setError("")
+    //     }
+    // }, [error])
 
 
 

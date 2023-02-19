@@ -9,7 +9,7 @@ import { getTags } from "../utils/dry";
 
 import animationStyles from "../styles/animation.module.css";
 
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 import { palette } from "../colorPalette";
 import EditPharmacyModal from "../components/editPharmacyModal";
@@ -41,7 +41,11 @@ const PharmaciesPage = () => {
 
 
 
+    useEffect(() => {
 
+        console.log("Fired !")
+        refreshDatas()
+    }, [])
 
     return (
         <>
