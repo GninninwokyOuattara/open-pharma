@@ -1,14 +1,9 @@
-import {
-    View,
-    Text,
-    StyleSheet,
-    TouchableNativeFeedbackBase,
-    ScrollView,
-} from "react-native";
-import React from "react";
-import Pulse from "../../utility-components/Pulse";
-import ShadowAround from "../../utility-components/ShadowAround";
 import { TouchableWithoutFeedback } from "@gorhom/bottom-sheet";
+import React from "react";
+import {
+    StyleSheet, Text, View
+} from "react-native";
+import ShadowAround from "../../utility-components/ShadowAround";
 
 interface Data {
     id: string;
@@ -31,7 +26,7 @@ const PharmaItemLite: React.FC<Props> = ({ data, onPress }) => {
         >
             <TouchableWithoutFeedback onPress={() => onPress && onPress()}>
                 <View style={styles.container}>
-                    <View style={styles.pulseContainer}>
+                    {/* <View style={styles.pulseContainer}>
                         <Pulse
                             color={
                                 data.status == "Ouvert"
@@ -41,7 +36,7 @@ const PharmaItemLite: React.FC<Props> = ({ data, onPress }) => {
                                     : "orange"
                             }
                         />
-                    </View>
+                    </View> */}
                     <View style={[styles.contentContainer]}>
                         <Text style={styles.title}>{data.pharmacyName}</Text>
                     </View>

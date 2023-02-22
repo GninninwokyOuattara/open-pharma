@@ -1,5 +1,5 @@
 from sqlite3 import Date
-from pharmacy import Pharmacy
+from classes.pharmacy import Pharmacy
 
 # class OpenPharmacy(Pharmacy):
     

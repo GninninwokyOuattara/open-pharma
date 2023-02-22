@@ -153,3 +153,6 @@ web-build/
 .env
 local_data.json
 _temp/
+
+
+charbon/ignore/

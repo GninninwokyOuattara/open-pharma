@@ -1,0 +1,32 @@
+name: "Update open pharmacies datas"
+on:
+    schedule:
+        - cron: "0 0/12 * * *"
+    push:
+jobs:
+    build:
+        runs-on: "macos-latest"
+        environment: Environnment
+        steps:
+            - name: "Set up Python"
+              uses: actions/setup-python@v2
+              with:
+                  python-version: 3.9
+            - name: "Set up Check out"
+              uses: actions/checkout@v3
+              with:
+                  ref: main
+            - name: "Install dependencies"
+              run: |
+                  cd charbon
+                  python -m pip install --upgrade pip
+                  sudo pip install wheel
+                  pip install -r requirements.txt
+
+            - name: "Run script"
+              env:
+                  OPEN_PHARMA_FIREBASE_CREDENTIALS: ${{ secrets.OPEN_PHARMA_FIREBASE_CREDENTIALS }}
+                  OPEN_PHARMA_DATABASE_URL: ${{ secrets.OPEN_PHARMA_DATABASE_URL }}
+              run: |
+                  cd charbon
+                  python update_open_pharmacies.py

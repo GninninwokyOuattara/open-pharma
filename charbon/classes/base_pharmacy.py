@@ -20,7 +20,7 @@ normalizer = str.maketrans(normalMap)
 
 
 class BasePharmacy:
-    stringsToreplace = {"phcie" : "pharmacie", "(grde)" : "", "(nvlle)" : "", "(gde)" : "", "(nlle)" : "", "(grande)" : "", "(nouvelle)" : "", "ii" : "2", "iii" : "3"}
+    stringsToreplace = {"phcie" : "pharmacie", "(grde)" : "", "(nvlle)" : "", "(gde)" : "", "(nlle)" : "", "(grande)" : "", "(nouvelle)" : "", "ii" : "2", "iii" : "3", "/" : "", "#" : "", "$" : "", "." : "", "[" : "", "]" : "", "gde" : ""}
 
     
     def __init__(self, name : str):
@@ -30,9 +30,11 @@ class BasePharmacy:
         self._name_safe = self._name.replace(".", "")
         
     def __sanitize(self, name : str) -> str:
-        out_name = name
+        out_name = name.strip()
+        
         for key in self.stringsToreplace.keys():
             if key in name:
                 out_name : str = out_name.replace(key, self.stringsToreplace[key])
+        out_name = " ".join([sub_string for sub_string in out_name.split(" ") if sub_string != ""])
         return out_name
     

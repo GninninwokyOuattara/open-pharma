@@ -1,13 +1,13 @@
-const calculateDistance = (pos1: string, pos2: string): number => {
-    const parseLatLon = (pos: string): number[] => {
-        return pos
-            .trim()
-            .split(",")
-            .map((e) => parseFloat(e));
-    };
+const calculateDistance = (pos1: [number, number], pos2: [number, number]): number => {
+    // const parseLatLon = (pos: string): number[] => {
+    //     return pos
+    //         .trim()
+    //         .split(",")
+    //         .map((e) => parseFloat(e));
+    // };
 
-    const [lat1, lon1] = parseLatLon(pos1);
-    const [lat2, lon2] = parseLatLon(pos2);
+    const [lat1, lon1] = pos1;
+    const [lat2, lon2] = pos2;
 
     const R = 6371e3; // metres
     const φ1 = (lat1 * Math.PI) / 180; // φ, λ in radians
