@@ -1,1 +1,1 @@
-PHARMA_CONSULTS_URL = "https://pharma-consults.net/pharmacies-garde"
+PHARMA_CONSULTS_URL = "https://pharma-consults.net/pharmacies-gardes"
