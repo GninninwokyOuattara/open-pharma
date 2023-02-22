@@ -1,4 +1,4 @@
-import { TableCellProps, Td, Tr } from "@chakra-ui/react"
+import { Checkbox, HStack, TableCellProps, Td, Text, Tr } from "@chakra-ui/react"
 import { useContext, useState } from "react"
 import { palette } from "../colorPalette"
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
@@ -51,7 +51,14 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
                 transition: "all 0.2s ease-in-out"
             }}>
             <PendingPharmaciesTableData>
-                {pharmacyPendingReview.name}
+                <HStack gap={2} >
+                    <Checkbox colorScheme={"orange"} />
+                    <Text>
+
+                        {pharmacyPendingReview.name}
+                    </Text>
+
+                </HStack>
             </PendingPharmaciesTableData>
             {/* <PendingPharmaciesTableData>{pharmacyPendingReview.date_created}</PendingPharmaciesTableData> */}
             <PendingPharmaciesTableData>

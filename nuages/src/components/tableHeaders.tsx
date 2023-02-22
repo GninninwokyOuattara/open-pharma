@@ -1,7 +1,8 @@
-import { Spinner, Text, Th, Thead, Tr } from "@chakra-ui/react"
+import { Checkbox, HStack, Spinner, Text, Th, Thead, Tr } from "@chakra-ui/react"
 import { useContext } from "react"
 import { palette } from "../colorPalette"
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
+
 
 
 export const PendingReviewPageTableHeaders = () => {
@@ -20,15 +21,27 @@ export const PendingReviewPageTableHeaders = () => {
             height={"70px"}
 
         >
-            <Tr>
-                <Th colSpan={7}>
-                    <Text
-                        fontSize={"xl"}
-                        color={"gray.600"}
-                    >
-                        {filteredPendingReviewPharmacies.length} pharmacies pending review
 
-                    </Text>
+            <Tr>
+                {/* <Th colSpan={1}>
+                    <Checkbox />
+                </Th> */}
+                <Th colSpan={6}>
+                    <HStack gap={3}>
+                        <Checkbox
+                            colorScheme={"orange"}
+                            borderColor={"gray.600"}
+                            size={"lg"}
+                        />
+
+                        <Text
+                            fontSize={"xl"}
+                            color={"gray.600"}
+                        >
+                            {filteredPendingReviewPharmacies.length} pharmacies pending review
+
+                        </Text>
+                    </HStack>
 
                 </Th>
             </Tr>
