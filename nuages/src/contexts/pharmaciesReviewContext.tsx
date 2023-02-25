@@ -13,8 +13,12 @@ export interface PharmaciesReviewContextInterface {
     pendingReviewPharmacies: PendingReviewPharmacy[];
     filteredPendingReviewPharmacies: PendingReviewPharmacy[];
     setSearch: React.Dispatch<React.SetStateAction<string>>;
-    acceptPharmacy: (pharmacy: PendingReviewPharmacy) => Promise<boolean>
+    acceptPharmacy: (pharmacy: PendingReviewPharmacy) => Promise<boolean>;
     rejectPharmacy: (pharmacy: PendingReviewPharmacy) => Promise<boolean>;
+    addPharmacyRowToCheckedList: (pharmacy: PendingReviewPharmacy) => void
+    removePharmacyRowFromCheckedList: (pharmacy: PendingReviewPharmacy) => void;
+    checkAllRows: () => void
+    uncheckAllRows: () => void
 
 }
 
@@ -31,6 +35,8 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
     const [search, setSearch] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [rowsChecked, setRowsChecked] = useState<string[]>([]);
+    let checkedPharmaciesList: PendingReviewPharmacy[] = []
 
     const toast = useToast();
 
@@ -43,85 +49,6 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
 
     // METHODS
-
-    // const fetchPharmaciesPendingReview = async () => {
-
-    //     // This whole stuff need some serious rewrite
-    //     setIsLoading(true)
-    //     try {
-    //         const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/`);
-    //         const data = await response.json();
-    //         // pre ordering
-
-    //         if (orderBy === "Name") {
-    //             data.sort((a: Pharmacy, b: Pharmacy) => a.name.localeCompare(b.name))
-    //         } else {
-    //             data.sort((a: Pharmacy, b: Pharmacy) => {
-    //                 const dateA = new Date(a.date_created);
-    //                 const dateB = new Date(b.date_updated);
-    //                 return dateB.getTime() - dateA.getTime()
-    //             })
-    //         }
-
-
-
-    //         // setPharmaciesPendingReviewStatic(data);
-    //         setPharmaciesPendingReview(data);
-    //     } catch (error) {
-    //         setError("An error occured while fetching pharmacies pending review")
-    //         toast({
-    //             title: 'Error.',
-    //             description: `An error occured while fetching pharmacies pending review!`,
-    //             status: "error",
-    //             duration: 2000,
-    //             isClosable: true,
-    //             position: 'top-right'
-    //         })
-    //     }
-
-
-    //     setIsLoading(false)
-    // }
-
-    // const activatePharmacy = (pharmacy: Pharmacy) => {
-    //     fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/activate/`, {
-    //         method: "POST",
-    //     }).then((response) => {
-    //         console.log(response)
-
-    //     }).catch((error) => {
-    //         console.log(error)
-    //     })
-    // }
-
-    // const deactivatePharmacy = (pharmacy: Pharmacy) => {
-    //     fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/deactivate/`, {
-    //         method: "POST",
-    //     }).then((response) => {
-    //         console.log(response)
-
-    //     }).catch((error) => {
-    //         console.log(error)
-    //     })
-
-    // }
-
-    // const changeOrderByTo = (newOrderBy: "Name" | "Date") => {
-
-    //     if (newOrderBy === orderBy) {
-    //         return
-    //     }
-
-    //     setOrderBy(newOrderBy)
-
-    //     if (newOrderBy === "Name") {
-    //         setPharmaciesPendingReview([...pharmaciesPendingReview].sort((a, b) => a.name.localeCompare(b.name)))
-    //     } else {
-    //         setPharmaciesPendingReview([...pharmaciesPendingReview].sort((a, b) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime()))
-    //     }
-    // }
-
-    // New METHODS
 
     const getPendingReviewPharmacies = async () => {
 
@@ -180,6 +107,61 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         setError(null)
     }
 
+
+    // Review tables actions
+
+    const addPharmacyRowToCheckedList = (pharmacy: PendingReviewPharmacy) => {
+        pharmacy.is_checked = true
+
+        // setTimeout(() => {
+        //     // pharmacy.is_loading = true
+        //     // console.log("loading")
+        //     console.log("Timer")
+        //     setPharmaciesPendingReview((prev) => {
+        //         let newPending = prev.map((pharmacyPend) => {
+        //             if (pharmacyPend.id === pharmacy.id) {
+        //                 console.log("Found")
+        //                 pharmacy.is_loading = true
+        //                 return pharmacy
+        //             }
+        //             return pharmacyPend
+        //         })
+        //         return newPending
+        //     }
+        //     )
+        // }, 5000);
+
+    }
+
+    const removePharmacyRowFromCheckedList = (pharmacy: PendingReviewPharmacy) => {
+
+        pharmacy.is_checked = false
+        collectCheckedPharmacies()
+    }
+
+    const checkAllRows = () => {
+        // const newPharmacies = pharmaciesPendingReview.map((pharmacy: PendingReviewPharmacy) => {
+        //     pharmacy.is_checked = true
+        //     return pharmacy
+        // })
+        // setPharmaciesPendingReview(newPharmacies)
+
+    }
+
+    const uncheckAllRows = () => {
+        const newPharmacies = pharmaciesPendingReview.map((pharmacy: PendingReviewPharmacy) => {
+            pharmacy.is_checked = false
+            return pharmacy
+        })
+        setPharmaciesPendingReview(newPharmacies)
+    }
+
+
+    const collectCheckedPharmacies = () => {
+        const checkedPharmacies = pharmaciesPendingReview.filter((pharmacy: PendingReviewPharmacy) => pharmacy.is_checked)
+        console.log(checkedPharmacies)
+        return checkedPharmacies
+    }
 
     // Reviews action
 
@@ -266,6 +248,11 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
                 setSearch,
                 acceptPharmacy,
                 rejectPharmacy,
+
+                addPharmacyRowToCheckedList,
+                removePharmacyRowFromCheckedList,
+                checkAllRows,
+                uncheckAllRows,
 
 
             }}>

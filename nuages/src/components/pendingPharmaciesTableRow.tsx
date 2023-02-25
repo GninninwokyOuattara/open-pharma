@@ -10,11 +10,26 @@ import { SingleRowSkeletonLoader } from "./rowsLoader"
 export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: PendingReviewPharmacy }> = ({ pharmacyPendingReview }) => {
 
     const [isLoading, setIsLoading] = useState(false)
+    // const [isChecked, setIsChecked] = useState(false)
 
     const { acceptPharmacy, rejectPharmacy } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
     // import toast from context 
     const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
+
+    const { addPharmacyRowToCheckedList, removePharmacyRowFromCheckedList } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+
+    const handleCheckboxChange = () => {
+        console.log('handleCheckboxChange', pharmacyPendingReview)
+        if (!pharmacyPendingReview.is_checked) {
+            pharmacyPendingReview.is_checked = true
+            // addPharmacyRowToCheckedList(pharmacyPendingReview)
+        } else {
+            pharmacyPendingReview.is_checked = false
+            // removePharmacyRowFromCheckedList(pharmacyPendingReview)
+        }
+
+    }
 
     const accept = async (pharmacy: PendingReviewPharmacy) => {
         setIsLoading(true)
@@ -39,12 +54,13 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
     }
 
 
-    if (isLoading) {
+    if (isLoading || pharmacyPendingReview.is_loading) {
         return <SingleRowSkeletonLoader pharmacy={pharmacyPendingReview} />
     }
 
     return (
         <Tr
+            backgroundColor={pharmacyPendingReview.is_checked ? "orange.50" : "white"}
             _hover={{
                 backgroundColor: "orange.50",
                 transform: "scale(1.01)",
@@ -52,7 +68,7 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
             }}>
             <PendingPharmaciesTableData>
                 <HStack gap={2} >
-                    <Checkbox colorScheme={"orange"} />
+                    <Checkbox colorScheme={"orange"} onChange={() => handleCheckboxChange()} isChecked={pharmacyPendingReview.is_checked} />
                     <Text>
 
                         {pharmacyPendingReview.name}
