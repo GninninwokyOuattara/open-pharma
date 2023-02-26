@@ -40,7 +40,7 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
     const toast = useToast();
 
-    const filteredPendingReviewPharmacies = useMemo(() => {
+    let filteredPendingReviewPharmacies = useMemo(() => {
         if (!pharmaciesPendingReview) return []
         return pharmaciesPendingReview.filter((pharmacy: PendingReviewPharmacy) => {
             return pharmacy.name.toLowerCase().includes(search.toLowerCase())
@@ -110,33 +110,39 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
     // Review tables actions
 
-    const addPharmacyRowToCheckedList = (pharmacy: PendingReviewPharmacy) => {
-        pharmacy.is_checked = true
+    const addPharmacyRowToCheckedList = (checkedPharmacy: PendingReviewPharmacy) => {
+        console.log("TRiggered")
 
-        // setTimeout(() => {
-        //     // pharmacy.is_loading = true
-        //     // console.log("loading")
-        //     console.log("Timer")
-        //     setPharmaciesPendingReview((prev) => {
-        //         let newPending = prev.map((pharmacyPend) => {
-        //             if (pharmacyPend.id === pharmacy.id) {
-        //                 console.log("Found")
-        //                 pharmacy.is_loading = true
-        //                 return pharmacy
-        //             }
-        //             return pharmacyPend
-        //         })
-        //         return newPending
-        //     }
-        //     )
-        // }, 5000);
+        setTimeout(() => {
+            let n = collectCheckedPharmacies()
+            console.log("n", n)
+        }, 2000)
+
 
     }
 
-    const removePharmacyRowFromCheckedList = (pharmacy: PendingReviewPharmacy) => {
+    const removePharmacyRowFromCheckedList = (uncheckedPharmacy: PendingReviewPharmacy) => {
 
-        pharmacy.is_checked = false
-        collectCheckedPharmacies()
+        // setPharmaciesPendingReview((prev) => {
+        //     const updatedList = prev.map((pharmacy: PendingReviewPharmacy) => {
+        //         if (uncheckedPharmacy.id === pharmacy.id) {
+        //             pharmacy.is_checked = false
+        //         }
+        //         return pharmacy
+        //     })
+        //     return updatedList
+        // })
+
+        const updatedList = pharmaciesPendingReview.map((pharmacy: PendingReviewPharmacy) => {
+            if (uncheckedPharmacy.id === pharmacy.id) {
+                pharmacy.is_checked = false
+            }
+            return pharmacy
+        }
+
+        )
+        // filteredPendingReviewPharmacies = updatedList
+        setPharmaciesPendingReview(() => updatedList)
     }
 
     const checkAllRows = () => {
@@ -146,22 +152,37 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         // })
         // setPharmaciesPendingReview(newPharmacies)
 
+        const updatedList = filteredPendingReviewPharmacies.map((pharmacy: PendingReviewPharmacy) => {
+            pharmacy.is_checked = true
+            return pharmacy
+        }
+
+        )
+
+
     }
 
     const uncheckAllRows = () => {
-        const newPharmacies = pharmaciesPendingReview.map((pharmacy: PendingReviewPharmacy) => {
+        // const newPharmacies = pharmaciesPendingReview.map((pharmacy: PendingReviewPharmacy) => {
+        //     pharmacy.is_checked = false
+        //     return pharmacy
+        // })
+        // setPharmaciesPendingReview(newPharmacies)
+        const updatedList = filteredPendingReviewPharmacies.map((pharmacy: PendingReviewPharmacy) => {
             pharmacy.is_checked = false
             return pharmacy
-        })
-        setPharmaciesPendingReview(newPharmacies)
+        }
+        )
     }
 
 
     const collectCheckedPharmacies = () => {
-        const checkedPharmacies = pharmaciesPendingReview.filter((pharmacy: PendingReviewPharmacy) => pharmacy.is_checked)
+        const checkedPharmacies = filteredPendingReviewPharmacies.filter((pharmacy: PendingReviewPharmacy) => pharmacy.is_checked)
         console.log(checkedPharmacies)
         return checkedPharmacies
     }
+
+
 
     // Reviews action
 

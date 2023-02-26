@@ -23,10 +23,10 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
         console.log('handleCheckboxChange', pharmacyPendingReview)
         if (!pharmacyPendingReview.is_checked) {
             pharmacyPendingReview.is_checked = true
-            // addPharmacyRowToCheckedList(pharmacyPendingReview)
+
         } else {
             pharmacyPendingReview.is_checked = false
-            // removePharmacyRowFromCheckedList(pharmacyPendingReview)
+
         }
 
     }
@@ -54,9 +54,11 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
     }
 
 
-    if (isLoading || pharmacyPendingReview.is_loading) {
+    if (pharmacyPendingReview.is_loading) {
         return <SingleRowSkeletonLoader pharmacy={pharmacyPendingReview} />
     }
+
+
 
     return (
         <Tr
@@ -68,7 +70,9 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
             }}>
             <PendingPharmaciesTableData>
                 <HStack gap={2} >
-                    <Checkbox colorScheme={"orange"} onChange={() => handleCheckboxChange()} isChecked={pharmacyPendingReview.is_checked} />
+                    <Checkbox colorScheme={"orange"}
+                        onChange={() => handleCheckboxChange()}
+                        isChecked={pharmacyPendingReview.is_checked} />
                     <Text>
 
                         {pharmacyPendingReview.name}

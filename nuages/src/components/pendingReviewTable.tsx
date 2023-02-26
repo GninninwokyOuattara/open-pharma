@@ -48,9 +48,11 @@ const PendingReviewPageTableBody = () => {
 
         return (
             <Tbody>
-                {filteredPendingReviewPharmacies.map((pharmacyPendingReview: PendingReviewPharmacy) => {
+                {filteredPendingReviewPharmacies.map((pharmacyPendingReview: PendingReviewPharmacy, idx) => {
                     return (
-                        <PendingPharmaciesTableRow pharmacyPendingReview={pharmacyPendingReview} />
+                        <PendingPharmaciesTableRow
+                            key={pharmacyPendingReview.id}
+                            pharmacyPendingReview={pharmacyPendingReview} />
                     )
                 })}
 

@@ -1,5 +1,5 @@
 import { Checkbox, HStack, Spinner, Text, Th, Thead, Tr } from "@chakra-ui/react"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { palette } from "../colorPalette"
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
 
@@ -7,7 +7,24 @@ import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../co
 
 export const PendingReviewPageTableHeaders = () => {
 
-    const { filteredPendingReviewPharmacies, isLoading } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+    const { filteredPendingReviewPharmacies, isLoading, checkAllRows, uncheckAllRows } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+
+    const [isChecked, setIsChecked] = useState(false)
+
+    const handleCheckboxChange = () => {
+        if (!isChecked) {
+            setIsChecked(true)
+            // checkAllRows()
+            // const firstPharmacy = filteredPendingReviewPharmacies[0]
+            // firstPharmacy.is_checked = true
+            console.log(filteredPendingReviewPharmacies[0].is_checked)
+        } else {
+            setIsChecked(false)
+            // uncheckAllRows()
+            const firstPharmacy = filteredPendingReviewPharmacies[0]
+            firstPharmacy.is_checked = false
+        }
+    }
 
     if (isLoading) {
         return <LoadingHeader />
@@ -32,6 +49,9 @@ export const PendingReviewPageTableHeaders = () => {
                             colorScheme={"orange"}
                             borderColor={"gray.600"}
                             size={"lg"}
+
+                            isChecked={isChecked}
+                            onChange={() => { handleCheckboxChange() }}
                         />
 
                         <Text
