@@ -48,7 +48,7 @@ const PendingReviewsPage = () => {
 
 const PendingReviewPageHeader = () => {
 
-    const { refreshDatas, setSearch } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+    const { refreshDatas, setSearch, handleSearch } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
     return (
         <Box
@@ -67,7 +67,7 @@ const PendingReviewPageHeader = () => {
 
                 <RefreshButton isLoading={false} onClick={() => refreshDatas()} />
             </HStack>
-            <SearchBar onChange={setSearch} />
+            <SearchBar onChange={handleSearch} />
 
         </Box>
     )

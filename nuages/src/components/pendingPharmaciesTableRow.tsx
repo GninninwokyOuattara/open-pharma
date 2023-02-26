@@ -11,7 +11,10 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const { acceptPharmacy, rejectPharmacy } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+
+
+
+    const { acceptPharmacy, rejectPharmacy, checkOnePharmacy, uncheckOnePharmacy } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
     // import toast from context 
     const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
@@ -38,6 +41,14 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
         setIsLoading(false)
     }
 
+    const handleCheck = () => {
+        if (pharmacyPendingReview.is_checked) {
+            uncheckOnePharmacy(pharmacyPendingReview)
+        } else {
+            checkOnePharmacy(pharmacyPendingReview)
+        }
+    }
+
 
     if (isLoading) {
         return <SingleRowSkeletonLoader pharmacy={pharmacyPendingReview} />
@@ -52,7 +63,11 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
             }}>
             <PendingPharmaciesTableData>
                 <HStack gap={2} >
-                    <Checkbox colorScheme={"orange"} />
+                    <Checkbox
+                        colorScheme={"orange"}
+                        isChecked={pharmacyPendingReview.is_checked || false}
+                        onChange={handleCheck}
+                    />
                     <Text>
 
                         {pharmacyPendingReview.name}
