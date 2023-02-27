@@ -17,7 +17,9 @@ export interface PharmaciesReviewContextInterface {
     rejectPharmacy: (pharmacy: PendingReviewPharmacy) => Promise<boolean>;
     handleSearch: (search: string) => void;
     checkOnePharmacy: (checkedPharmacy: PendingReviewPharmacy) => void;
-    uncheckOnePharmacy: (checkedPharmacy: PendingReviewPharmacy) => void
+    uncheckOnePharmacy: (checkedPharmacy: PendingReviewPharmacy) => void;
+    checkAllPharmacies: () => void;
+    uncheckAllPharmacies: () => void;
 
 }
 
@@ -64,7 +66,7 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
             datas.map((pharmacy: PendingReviewPharmacy) => {
                 pharmacy["time_elapsed"] = getTimeElapsed(pharmacy.date_created)
             })
-            setPharmaciesPendingReview(datas.splice(0, 50))
+            setPharmaciesPendingReview(datas)
             cachedPharmacies.current = datas // cache datas
 
         } catch (error: any) {
@@ -189,6 +191,26 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         })
     }
 
+    const checkAllPharmacies = () => {
+        setPharmaciesPendingReview((prev) => {
+            return prev.map((pharmacy: PendingReviewPharmacy) => {
+                pharmacy.is_checked = true
+                return pharmacy
+            })
+        })
+
+    }
+
+    const uncheckAllPharmacies = () => {
+        setPharmaciesPendingReview((prev) => {
+            return prev.map((pharmacy: PendingReviewPharmacy) => {
+                pharmacy.is_checked = false
+                return pharmacy
+            })
+        })
+    }
+
+
 
 
 
@@ -231,6 +253,8 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
                 handleSearch,
                 checkOnePharmacy,
                 uncheckOnePharmacy,
+                checkAllPharmacies,
+                uncheckAllPharmacies,
 
 
             }}>
