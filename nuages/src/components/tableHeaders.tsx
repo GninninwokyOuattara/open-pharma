@@ -1,4 +1,4 @@
-import { Checkbox, HStack, Spinner, Text, Th, Thead, Tr } from "@chakra-ui/react"
+import { Box, Button, Checkbox, HStack, Spinner, Text, Th, Thead, Tr } from "@chakra-ui/react"
 import { useContext, useState } from "react"
 import { palette } from "../colorPalette"
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
@@ -7,7 +7,7 @@ import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../co
 
 export const PendingReviewPageTableHeaders = () => {
 
-    const { filteredPendingReviewPharmacies, isLoading, checkAllPharmacies, uncheckAllPharmacies } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+    const { filteredPendingReviewPharmacies, isLoading, checkAllPharmacies, uncheckAllPharmacies, numberOfCheckedPharmacies } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
     const [isChecked, setIsChecked] = useState(false)
 
@@ -45,14 +45,19 @@ export const PendingReviewPageTableHeaders = () => {
                                 }
                             }}
                         />
+                        {
+                            numberOfCheckedPharmacies > 0
+                                ? <CheckModeHeader numberOfCheckedPharmacies={numberOfCheckedPharmacies} />
+                                : <Text
+                                    fontSize={"xl"}
+                                    color={"gray.600"}
+                                >
+                                    {filteredPendingReviewPharmacies.length} pharmacies pending review
 
-                        <Text
-                            fontSize={"xl"}
-                            color={"gray.600"}
-                        >
-                            {filteredPendingReviewPharmacies.length} pharmacies pending review
+                                </Text>
+                        }
 
-                        </Text>
+
                     </HStack>
 
                 </Th>
@@ -81,5 +86,70 @@ const LoadingHeader = () => {
                 </Th>
             </Tr>
         </Thead>
+    )
+}
+
+
+const CheckModeHeader: React.FC<{ numberOfCheckedPharmacies: number }> = ({ numberOfCheckedPharmacies }) => {
+
+    const { acceptSelectedPharmacies, rejectSelectedPharmacies } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+
+
+
+    return (
+        <Box
+            display={"flex"}
+            flexDirection={"row"}
+            justifyContent={"space-between"}
+            height={"100%"}
+            width={"100%"}
+            alignItems={"center"}
+        >
+
+            <Text
+                fontSize={"xl"}
+                color={"gray.600"}
+            >
+                {numberOfCheckedPharmacies} pharmacies selected
+
+            </Text>
+
+            <HStack gap={2}>
+                <ReviewSelectedButton title="Accept" onClick={acceptSelectedPharmacies} />
+                <ReviewSelectedButton title="Reject" onClick={rejectSelectedPharmacies} />
+
+
+            </HStack>
+        </Box>
+    )
+
+}
+
+
+interface ReviewSelectedButtonProps {
+    title: string
+    onClick?: () => void
+}
+
+const ReviewSelectedButton: React.FC<ReviewSelectedButtonProps> = ({ title, onClick }) => {
+
+    return (
+        <Button
+            title={title}
+
+            boxShadow={"xs"}
+            backgroundColor={"whiteAlpha.100"}
+            border={"1px solid"}
+            // borderColor={palette.orange.havePersonality}
+            _hover={{
+                border: "1px solid",
+                borderColor: palette.orange.havePersonality,
+                color: palette.orange.havePersonality
+            }}
+
+            onClick={onClick}
+        >
+            {title}
+        </Button>
     )
 }
