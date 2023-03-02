@@ -20,7 +20,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onChange }) => {
         }
         delayedSearchId.current = setTimeout(() => {
             onChange(value)
-        }, 500)
+        }, 300)
     }
 
 
