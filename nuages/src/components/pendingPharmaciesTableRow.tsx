@@ -1,8 +1,7 @@
-import { TableCellProps, Td, Tr } from "@chakra-ui/react"
+import { Checkbox, HStack, TableCellProps, Td, Text, Tr } from "@chakra-ui/react"
 import { useContext, useState } from "react"
 import { palette } from "../colorPalette"
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
-import { ToastContext, ToastContextInterface } from "../contexts/toast"
 import { PendingReviewPharmacy } from "../types"
 import { ReviewButton } from "./actionButtons"
 import { SingleRowSkeletonLoader } from "./rowsLoader"
@@ -11,47 +10,47 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const { acceptPharmacy, rejectPharmacy } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
-    // import toast from context 
-    const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
+    const { acceptPharmacy, rejectPharmacy, checkOnePharmacy, uncheckOnePharmacy } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
-    const accept = async (pharmacy: PendingReviewPharmacy) => {
-        setIsLoading(true)
-        try {
-            await acceptPharmacy(pharmacyPendingReview)
-            successToast("", `${pharmacyPendingReview.name} is now active`)
-        } catch (error) {
-            errorToast("Review Failed", "An error occurred while validating the pharmacy")
+
+
+    const handleCheck = () => {
+        if (pharmacyPendingReview.is_checked) {
+            uncheckOnePharmacy(pharmacyPendingReview)
+        } else {
+            checkOnePharmacy(pharmacyPendingReview)
         }
-        setIsLoading(false)
-    }
-
-    const reject = async (pharmacy: PendingReviewPharmacy) => {
-        setIsLoading(true)
-        try {
-            await rejectPharmacy(pharmacyPendingReview)
-            successToast("", `${pharmacyPendingReview.name} is has been rejected. It will appear as inactive.`)
-        } catch (error) {
-            errorToast("Review Failed", "An error occurred while rejecting the pharmacy")
-        }
-        setIsLoading(false)
     }
 
 
-    if (isLoading) {
+    if (pharmacyPendingReview.is_loading) {
         return <SingleRowSkeletonLoader pharmacy={pharmacyPendingReview} />
     }
 
+
+
     return (
         <Tr
+            backgroundColor={pharmacyPendingReview.is_checked ? "orange.50" : "white"}
             _hover={{
                 backgroundColor: "orange.50",
                 transform: "scale(1.01)",
                 transition: "all 0.2s ease-in-out"
             }}>
             <PendingPharmaciesTableData>
-                {pharmacyPendingReview.name}
+                <HStack gap={2} >
+                    <Checkbox
+                        colorScheme={"orange"}
+                        isChecked={pharmacyPendingReview.is_checked || false}
+                        onChange={handleCheck}
+                    />
+                    <Text>
+
+                        {pharmacyPendingReview.name}
+                    </Text>
+
+                </HStack>
             </PendingPharmaciesTableData>
             {/* <PendingPharmaciesTableData>{pharmacyPendingReview.date_created}</PendingPharmaciesTableData> */}
             <PendingPharmaciesTableData>
@@ -60,10 +59,10 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
 
             {/* Button section */}
             <PendingPharmaciesTableData padding={0}>
-                <ReviewButton onClick={() => accept(pharmacyPendingReview)} for={"validate"} />
+                <ReviewButton onClick={() => acceptPharmacy(pharmacyPendingReview)} for={"validate"} />
             </PendingPharmaciesTableData>
             <PendingPharmaciesTableData paddingX={1}>
-                <ReviewButton onClick={() => reject(pharmacyPendingReview)} for={"invalidate"} />
+                <ReviewButton onClick={() => rejectPharmacy(pharmacyPendingReview)} for={"invalidate"} />
             </PendingPharmaciesTableData>
             <PendingPharmaciesTableData padding={0} paddingRight={2}>
                 <ReviewButton onClick={() => console.log("link")} for={"link"} />

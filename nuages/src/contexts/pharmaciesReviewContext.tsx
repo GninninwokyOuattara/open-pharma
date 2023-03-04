@@ -1,7 +1,8 @@
 import { useToast } from "@chakra-ui/react";
-import { createContext, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useRef, useState } from "react";
 import { PendingReviewPharmacy, Pharmacy } from "../types";
 import { getTimeElapsed } from "../utils/dry";
+import { ToastContext, ToastContextInterface } from "./toast";
 
 const backendUrl = process.env.REACT_APP_DJANGO_API_URL;
 
@@ -13,8 +14,16 @@ export interface PharmaciesReviewContextInterface {
     pendingReviewPharmacies: PendingReviewPharmacy[];
     filteredPendingReviewPharmacies: PendingReviewPharmacy[];
     setSearch: React.Dispatch<React.SetStateAction<string>>;
-    acceptPharmacy: (pharmacy: PendingReviewPharmacy) => Promise<boolean>
-    rejectPharmacy: (pharmacy: PendingReviewPharmacy) => Promise<boolean>;
+    acceptPharmacy: (pharmacy: PendingReviewPharmacy) => Promise<void>;
+    rejectPharmacy: (pharmacy: PendingReviewPharmacy) => Promise<void>;
+    handleSearch: (search: string) => void;
+    checkOnePharmacy: (checkedPharmacy: PendingReviewPharmacy) => void;
+    uncheckOnePharmacy: (checkedPharmacy: PendingReviewPharmacy) => void;
+    checkAllPharmacies: () => void;
+    uncheckAllPharmacies: () => void;
+    numberOfCheckedPharmacies: number;
+    acceptSelectedPharmacies: () => Promise<void>;
+    rejectSelectedPharmacies: () => Promise<void>;
 
 }
 
@@ -24,6 +33,11 @@ export const PharmaciesReviewContext = createContext<PharmaciesReviewContextInte
 
 export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
+    // Context 
+
+    const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
+
+
     // STATES
 
     const [pharmaciesPendingReviewStatic, setPharmaciesPendingReviewStatic] = useState<Pharmacy[] | []>([]);
@@ -31,98 +45,24 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
     const [search, setSearch] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [rowsChecked, setRowsChecked] = useState<string[]>([]);
+    let checkedPharmaciesList: PendingReviewPharmacy[] = []
 
     const toast = useToast();
 
-    const filteredPendingReviewPharmacies = useMemo(() => {
+    let filteredPendingReviewPharmacies = useMemo(() => {
         if (!pharmaciesPendingReview) return []
         return pharmaciesPendingReview.filter((pharmacy: PendingReviewPharmacy) => {
             return pharmacy.name.toLowerCase().includes(search.toLowerCase())
         })
     }, [pharmaciesPendingReview, search])
 
+    const cachedPharmacies = useRef<PendingReviewPharmacy[]>([])
+
+    const [numberOfCheckedPharmacies, setNumberOfCheckedPharmacies] = useState<number>(0);
+
 
     // METHODS
-
-    // const fetchPharmaciesPendingReview = async () => {
-
-    //     // This whole stuff need some serious rewrite
-    //     setIsLoading(true)
-    //     try {
-    //         const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/`);
-    //         const data = await response.json();
-    //         // pre ordering
-
-    //         if (orderBy === "Name") {
-    //             data.sort((a: Pharmacy, b: Pharmacy) => a.name.localeCompare(b.name))
-    //         } else {
-    //             data.sort((a: Pharmacy, b: Pharmacy) => {
-    //                 const dateA = new Date(a.date_created);
-    //                 const dateB = new Date(b.date_updated);
-    //                 return dateB.getTime() - dateA.getTime()
-    //             })
-    //         }
-
-
-
-    //         // setPharmaciesPendingReviewStatic(data);
-    //         setPharmaciesPendingReview(data);
-    //     } catch (error) {
-    //         setError("An error occured while fetching pharmacies pending review")
-    //         toast({
-    //             title: 'Error.',
-    //             description: `An error occured while fetching pharmacies pending review!`,
-    //             status: "error",
-    //             duration: 2000,
-    //             isClosable: true,
-    //             position: 'top-right'
-    //         })
-    //     }
-
-
-    //     setIsLoading(false)
-    // }
-
-    // const activatePharmacy = (pharmacy: Pharmacy) => {
-    //     fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/activate/`, {
-    //         method: "POST",
-    //     }).then((response) => {
-    //         console.log(response)
-
-    //     }).catch((error) => {
-    //         console.log(error)
-    //     })
-    // }
-
-    // const deactivatePharmacy = (pharmacy: Pharmacy) => {
-    //     fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/deactivate/`, {
-    //         method: "POST",
-    //     }).then((response) => {
-    //         console.log(response)
-
-    //     }).catch((error) => {
-    //         console.log(error)
-    //     })
-
-    // }
-
-    // const changeOrderByTo = (newOrderBy: "Name" | "Date") => {
-
-    //     if (newOrderBy === orderBy) {
-    //         return
-    //     }
-
-    //     setOrderBy(newOrderBy)
-
-    //     if (newOrderBy === "Name") {
-    //         setPharmaciesPendingReview([...pharmaciesPendingReview].sort((a, b) => a.name.localeCompare(b.name)))
-    //     } else {
-    //         setPharmaciesPendingReview([...pharmaciesPendingReview].sort((a, b) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime()))
-    //     }
-    // }
-
-    // New METHODS
-
     const getPendingReviewPharmacies = async () => {
 
         try {
@@ -140,6 +80,7 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
                 pharmacy["time_elapsed"] = getTimeElapsed(pharmacy.date_created)
             })
             setPharmaciesPendingReview(datas)
+            cachedPharmacies.current = datas // cache datas
 
         } catch (error: any) {
             handleError(error)
@@ -169,8 +110,20 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         }
     }
 
+    const handleSearch = (search: string) => {
+        if (search) {
+            setPharmaciesPendingReview(cachedPharmacies.current.filter((pharmacy: PendingReviewPharmacy) => {
+                return pharmacy.name.toLowerCase().includes(search.toLowerCase())
+            }
+            ))
+        } else {
+            setPharmaciesPendingReview(cachedPharmacies.current)
+        }
+    }
+
     const refreshDatas = async () => {
         setIsLoading(true)
+        cleanDatas()
         await getPendingReviewPharmacies()
         setIsLoading(false)
     }
@@ -178,7 +131,12 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
     const cleanDatas = () => {
         setPharmaciesPendingReview([])
         setError(null)
+        setNumberOfCheckedPharmacies(0)
+        setSearch("")
+
     }
+
+
 
 
     // Reviews action
@@ -189,14 +147,20 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
                 method: "POST",
             });
             const data = await response.json();
-            await removePharmacyInPharmacies(data)
-            return true
+            // await removePharmacyInPharmacies(data)
+            successToast("", `${pharmacy.name} is now active`)
+
+            // return true
             // refreshDatas()
         } catch (error: any) {
-            setError(error)
-            throw error
+            // setError(error)
+            // throw error
+            errorToast("", `An error occurred while validating ${pharmacy.name}`)
+
         }
     }
+
+
 
     const rejectPharmacy = async (pharmacy: PendingReviewPharmacy) => {
         try {
@@ -204,12 +168,15 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
                 method: "POST",
             });
             const data = await response.json();
-            removePharmacyInPharmacies(data)
-            return true
+            successToast("", `${pharmacy.name} is now inactive`)
+
+            // removePharmacyInPharmacies(data)
+            // return true
             // refreshDatas()
         } catch (error: any) {
-            setError(error)
-            throw error
+            // setError(error)
+            // throw error
+            errorToast("", `An error occurred while validating ${pharmacy.name}`)
         }
     }
 
@@ -227,6 +194,77 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
     }
 
+
+    // Checkboxes actions
+
+    const checkOnePharmacy = (checkedPharmacy: PendingReviewPharmacy) => {
+        setPharmaciesPendingReview((prev) => {
+            return prev.map((pharmacy: PendingReviewPharmacy) => {
+                if (checkedPharmacy.id === pharmacy.id) {
+                    pharmacy.is_checked = true
+                }
+                return pharmacy
+            })
+        })
+
+        setNumberOfCheckedPharmacies((prev) => prev + 1)
+    }
+
+    const uncheckOnePharmacy = (uncheckedPharmacy: PendingReviewPharmacy) => {
+        setPharmaciesPendingReview((prev) => {
+            return prev.map((pharmacy: PendingReviewPharmacy) => {
+                if (uncheckedPharmacy.id === pharmacy.id) {
+                    pharmacy.is_checked = false
+                }
+                return pharmacy
+            })
+        })
+
+        setNumberOfCheckedPharmacies((prev) => prev - 1)
+    }
+
+    const checkAllPharmacies = () => {
+        setPharmaciesPendingReview((prev) => {
+            return prev.map((pharmacy: PendingReviewPharmacy) => {
+                pharmacy.is_checked = true
+                return pharmacy
+            })
+        })
+
+        setNumberOfCheckedPharmacies((prev) => pharmaciesPendingReview.length)
+
+    }
+
+    const uncheckAllPharmacies = () => {
+        setPharmaciesPendingReview((prev) => {
+            return prev.map((pharmacy: PendingReviewPharmacy) => {
+                pharmacy.is_checked = false
+                return pharmacy
+            })
+        })
+
+        setNumberOfCheckedPharmacies(0)
+    }
+
+    const acceptSelectedPharmacies = async () => {
+
+        const selectedPharmacies = pharmaciesPendingReview.filter((pharmacy: PendingReviewPharmacy) => pharmacy.is_checked)
+        const promises = selectedPharmacies.map((pharmacy: PendingReviewPharmacy) => acceptPharmacy(pharmacy))
+        await Promise.all(promises)
+        // uncheckAllPharmacies()
+        refreshDatas()
+    }
+
+
+    const rejectSelectedPharmacies = async () => {
+
+        const selectedPharmacies = pharmaciesPendingReview.filter((pharmacy: PendingReviewPharmacy) => pharmacy.is_checked)
+        const promises = selectedPharmacies.map((pharmacy: PendingReviewPharmacy) => rejectPharmacy(pharmacy))
+        await Promise.all(promises)
+        // uncheckAllPharmacies()
+        refreshDatas()
+
+    }
 
 
 
@@ -266,7 +304,14 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
                 setSearch,
                 acceptPharmacy,
                 rejectPharmacy,
-
+                handleSearch,
+                checkOnePharmacy,
+                uncheckOnePharmacy,
+                checkAllPharmacies,
+                uncheckAllPharmacies,
+                numberOfCheckedPharmacies,
+                acceptSelectedPharmacies,
+                rejectSelectedPharmacies,
 
             }}>
             {children}

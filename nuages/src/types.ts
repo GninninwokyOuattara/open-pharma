@@ -19,6 +19,8 @@ export interface Pharmacy {
   date_updated: string;
   active: boolean;
   pending_review: boolean;
+  is_checked: boolean;
+  is_loading: boolean;
 }
 
 export interface PharmacyFullState extends Pharmacy {

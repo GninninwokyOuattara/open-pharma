@@ -35,22 +35,24 @@ export const PendingReviewPageTable = () => {
 
 const PendingReviewPageTableBody = () => {
 
-    const { filteredPendingReviewPharmacies, isLoading } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+    const { pendingReviewPharmacies, isLoading } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
 
     if (isLoading) {
-        const firstTenPharmacies = filteredPendingReviewPharmacies.slice(0, 10)
+        const firstTenPharmacies = pendingReviewPharmacies.slice(0, 10)
 
         return <PendingReviewSkeletonLoader firstTenPharmacies={firstTenPharmacies} />
     }
 
-    if (filteredPendingReviewPharmacies.length && !isLoading) {
+    if (pendingReviewPharmacies.length && !isLoading) {
 
         return (
             <Tbody>
-                {filteredPendingReviewPharmacies.map((pharmacyPendingReview: PendingReviewPharmacy) => {
+                {pendingReviewPharmacies.map((pharmacyPendingReview: PendingReviewPharmacy) => {
                     return (
-                        <PendingPharmaciesTableRow pharmacyPendingReview={pharmacyPendingReview} />
+                        <PendingPharmaciesTableRow
+                            key={pharmacyPendingReview.id}
+                            pharmacyPendingReview={pharmacyPendingReview} />
                     )
                 })}
 
