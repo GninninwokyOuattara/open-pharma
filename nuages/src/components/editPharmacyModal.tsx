@@ -2,7 +2,7 @@ import { Box, Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalClos
 import { useCallback, useContext, useEffect, useState } from "react";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
 import { ToastContext, ToastContextInterface } from "../contexts/toast";
-import { PharmacyFullState } from "../types";
+import { PharmacyFullStateEdit } from "../types";
 
 // import Lorem component
 
@@ -30,7 +30,7 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
 
     const backendUrl = process.env.REACT_APP_DJANGO_API_URL;
 
-    const [pharmacyForm, setPharmacyForm] = useState<PharmacyFullState>(pharmacyInEditMode as PharmacyFullState)
+    const [pharmacyForm, setPharmacyForm] = useState<PharmacyFullStateEdit>(pharmacyInEditMode as PharmacyFullStateEdit)
 
 
 
@@ -45,33 +45,24 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
 
         // get key and value from change
 
-        const key = Object.keys(change)[0]
-        let value = Object.values(change)[0]
+        const key: "latitude" | "longitude" | string = Object.keys(change)[0]
+        let value: string = Object.values(change)[0]
 
-        if (key === "latitude") {
-            let latitude = parseFloat(value)
-            const coordinates = { ...pharmacyForm.coordinates, latitude: latitude }
+        console.log("Key", key)
+        if (["latitude", "longitude"].includes(key)) {
+            let coordinateKey: "latitude" | "longitude" = key as "latitude" | "longitude"
+            console.log("Value", value)
+            value = value.replace(",", ".")
             setPharmacyForm((prevFormState) => {
 
-                return { ...prevFormState, coordinates: { ...coordinates } }
+                return { ...prevFormState, coordinates: { ...prevFormState.coordinates, [key]: value } }
+            }
+            )
 
-            })
-
-        } else if (key === "longitude") {
-            let longitude = parseFloat(value)
-            const coordinates = { ...pharmacyForm.coordinates, longitude: longitude }
-            setPharmacyForm((prevFormState) => {
-                return { ...prevFormState, coordinates: { ...coordinates } }
-            })
         } else {
-
-
             setPharmacyForm((prevFormState) => {
                 return { ...prevFormState, [key]: value }
             })
-
-
-
         }
     }
 
@@ -137,12 +128,12 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
                                     <FormLabel>Coordinates</FormLabel>
                                     <Box display={"flex"} gap={1}>
                                         <Input
-                                            placeholder={`${pharmacyInEditMode?.coordinates.latitude}`}
+                                            placeholder={`Latitude`}
                                             value={pharmacyForm.coordinates!.latitude}
                                             onChange={(e) => handleFormChange(
                                                 { latitude: e.target.value }
                                             )} />
-                                        <Input placeholder={`${pharmacyInEditMode?.coordinates.longitude}`} value={pharmacyForm.coordinates!.longitude}
+                                        <Input placeholder={`Longitude`} value={pharmacyForm.coordinates!.longitude}
                                             onChange={(e) => handleFormChange(
                                                 { longitude: e.target.value }
                                             )} />
