@@ -52,3 +52,11 @@ export interface PharmaciesStateAndSummary {
   pharmacies: PharmacyFullState[];
   summary: PharmaciesDataSummary;
 }
+
+export interface PharmacyFullStateEdit
+  extends Omit<PharmacyFullState, "coordinates"> {
+  coordinates: {
+    latitude: string | number;
+    longitude: string | number;
+  };
+}
