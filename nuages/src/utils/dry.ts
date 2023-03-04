@@ -87,3 +87,16 @@ export const orderBy = (by: "Name" | "Date", data: Pharmacy[]) => {
     });
   }
 };
+
+export const isValidFloatNumber = (value: string | number) => {
+  if (typeof value === "number") {
+    return true;
+  }
+  const regex = /^-?\d*(\.\d+)?$/;
+  return regex.test(value);
+};
+
+// Function to check if a value is a valid latitude
+export const isValidCoordinateValue = (value: string | number) => {
+  return -90 <= value && value <= 90;
+};
