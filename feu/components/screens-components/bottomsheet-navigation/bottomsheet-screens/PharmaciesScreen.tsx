@@ -15,8 +15,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
         return state.pharmacies.pharmacies;
     });
-    const { mapRef, setSelectedMarker, mapSetting } = useContext(MapContext);
-    const { isFetching } = useContext(MapContext)
+    const { mapRef, setSelectedMarker, mapSetting, isFetching } = useContext(MapContext);
 
     const renderPharmaciesItems =
         ({ item }: { item: PharmacyFullState }) => {
@@ -28,6 +27,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                     onPress={() => {
                         setSelectedMarker && setSelectedMarker(item.id);
 
+                        const { latitude, longitude } = item;
                         // const [latitude, longitude] = item.Position.split(
                         //     ","
                         // ).map((coord) => +coord);
@@ -36,12 +36,12 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                         // navigation.navigate("Information", {
                         //     pharmacy: item,
                         // });
-                        // mapRef?.current?.animateToRegion({
-                        //     latitude: +lat - mapSetting.lat,
-                        //     longitude: +lng - mapSetting.lng,
-                        //     latitudeDelta: mapSetting.latDelta,
-                        //     longitudeDelta: mapSetting.lngDelta,
-                        // });
+                        mapRef?.current?.animateToRegion({
+                            latitude: latitude,
+                            longitude: longitude,
+                            latitudeDelta: mapSetting.latDelta,
+                            longitudeDelta: mapSetting.lngDelta,
+                        });
 
                     }}
                 />
