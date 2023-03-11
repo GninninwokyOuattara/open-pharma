@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { FlatList, StyleSheet, Text } from "react-native";
 import { useSelector } from "react-redux";
 import { MapContext } from "../../../../contexts/MapContext";
-import { Pharmacy, RootReducerType } from "../../../../types/dataTypes";
+import { PharmacyFullState, RootReducerType } from "../../../../types/dataTypes";
 import { PharmaciesScreenType } from "../../../../types/screenTypes";
 import SkeletonContentLoader from "../../../utility-components/SkeletonContentLoader";
 import PharmaItemExtended from "../../bottomsheet-components/PharmaItemExtended";
@@ -13,13 +13,13 @@ import PharmaItemExtended from "../../bottomsheet-components/PharmaItemExtended"
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     const pharmaciesDatas = useSelector((state: RootReducerType) => {
-        return state.pharmacies.toDisplayInBottomSheet;
+        return state.pharmacies.pharmacies;
     });
     const { mapRef, setSelectedMarker, mapSetting } = useContext(MapContext);
     const { isFetching } = useContext(MapContext)
 
     const renderPharmaciesItems =
-        ({ item }: { item: Pharmacy }) => {
+        ({ item }: { item: PharmacyFullState }) => {
             // console.log(item.phid);
             return (
                 <PharmaItemExtended
@@ -31,17 +31,17 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                         // const [latitude, longitude] = item.Position.split(
                         //     ","
                         // ).map((coord) => +coord);
-                        const { lat, lng } = item.coordinates;
+                        // const { lat, lng } = item.coordinates;
                         // Navigate to second screen
                         // navigation.navigate("Information", {
                         //     pharmacy: item,
                         // });
-                        mapRef?.current?.animateToRegion({
-                            latitude: +lat - mapSetting.lat,
-                            longitude: +lng - mapSetting.lng,
-                            latitudeDelta: mapSetting.latDelta,
-                            longitudeDelta: mapSetting.lngDelta,
-                        });
+                        // mapRef?.current?.animateToRegion({
+                        //     latitude: +lat - mapSetting.lat,
+                        //     longitude: +lng - mapSetting.lng,
+                        //     latitudeDelta: mapSetting.latDelta,
+                        //     longitudeDelta: mapSetting.lngDelta,
+                        // });
 
                     }}
                 />
