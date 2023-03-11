@@ -1,10 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { SearchBar } from "react-native-elements";
 import { SearchBarBaseProps } from "react-native-elements/dist/searchbar/SearchBar";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { BottomSheetRefContext } from "../../../contexts/BottomSheetRefContext";
-import { applyFilter } from "../../../stores/pharmaciesActions";
-import { RootReducerType } from "../../../types/dataTypes";
 import ShadowAround from "../../utility-components/ShadowAround";
 
 const SafeSearchBar = SearchBar as unknown as React.FC<
@@ -13,23 +11,26 @@ const SafeSearchBar = SearchBar as unknown as React.FC<
 
 const CustomSearchBar = () => {
     const dispatch = useDispatch();
-    const pharmaciesDatas = useSelector((state: RootReducerType) => {
-        return state.pharmacies.toDisplay;
-    });
+
     const [search, setSearch] = useState("");
     const { bottomSheetRef } = useContext(BottomSheetRefContext)
+    const timeoutId = useRef<number | null>(null);
+
 
 
     const handleChange = (searchString: string) => {
         setSearch(searchString);
-        // dispatch({type : "FILTER", data : searchString})
+        if (timeoutId.current) {
+            clearTimeout(timeoutId.current)
+        }
+        timeoutId.current = setTimeout(() => {
+            dispatch({
+                type: "SEARCH_PHARMACIES",
+                data: searchString
+            })
+        }, 500)
     };
 
-    useEffect(() => {
-        if (pharmaciesDatas) {
-            dispatch(applyFilter(search));
-        }
-    }, [search]);
 
     return (
         <ShadowAround>
