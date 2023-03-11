@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { StyleSheet } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { PROVIDER_DEFAULT } from "react-native-maps";
 
 import { useDispatch, useSelector } from "react-redux";
 import { MapContext } from "../../contexts/MapContext";
 import { UserLocationContext } from "../../contexts/UserLocationContext";
 import { RootReducerType } from "../../types/dataTypes";
+import CustomMarker from "../CustomMarker";
 // import { fetchLocalPharmaciesData } from "../../stores/pharmaciesActions";
 
 interface props {
@@ -18,11 +19,11 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
 
 
     const dispatch = useDispatch();
-    const pharmaciesDatas = useSelector((state: RootReducerType) => {
-        return state.pharmacies.toDisplayInMap;
+    const pharmacies = useSelector((state: RootReducerType) => {
+        return state.pharmacies.pharmacies;
     });
 
-    // console.log(pharmaciesDatas.splice(100, 200))
+    // console.log(pharmacies.splice(100, 200))
 
 
     // if (location) {
@@ -52,19 +53,19 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
                         longitudeDelta: mapSetting.lngDelta,
                     }
                 } else {
-                    if (pharmaciesDatas.length) {
+                    if (pharmacies.length) {
 
-                        const pharmacy = pharmaciesDatas[0]
+                        const pharmacy = pharmacies[0]
                         return {
-                            latitude: +pharmacy.coordinates.lat - mapSetting.lat,
-                            longitude: +pharmacy.coordinates.lng - mapSetting.lng,
+                            latitude: +pharmacy.latitude - mapSetting.lat,
+                            longitude: +pharmacy.coordinates.longitude - mapSetting.lng,
                             latitudeDelta: mapSetting.latDelta,
                             longitudeDelta: mapSetting.lngDelta,
                         }
                     }
                 }
             })()}
-            provider={PROVIDER_GOOGLE}
+            provider={PROVIDER_DEFAULT}
             showsUserLocation={true}
             // mapPadding={{ ...mapPadding }}
             // mapType={"mutedStandard"}
@@ -74,27 +75,28 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
         // mapPadding={{ top: 0, right: 0, bottom: 50, left: 0 }}
         >
 
-            {(!isFetching && pharmaciesDatas) &&
-                pharmaciesDatas.map((pharmacyData, index) => {
-                    const { lat, lng } = pharmacyData.coordinates;
+            {(!isFetching && pharmacies) &&
+                pharmacies.map((pharmacyData, index) => {
+                    const { latitude, longitude } = pharmacyData;
                     return (
-                        <Marker
-                            key={index}
-                            coordinate={{
-                                latitude: +lat,
-                                longitude: +lng,
-                            }}
-                            pinColor={pharmacyData.open ? "#a0f20c" : "red"}
-
-                        />
-                        // <CustomMarker
-                        //     id={index}
+                        // <Marker
+                        //     key={index}
                         //     coordinate={{
-                        //         latitude: +lat,
-                        //         longitude: +lng,
+                        //         latitude: +latitude,
+                        //         longitude: +longitude,
                         //     }}
-                        //     open={pharmacyData.open}
+                        //     pinColor={pharmacyData.open ? "#a0f20c" : "red"}
+
                         // />
+                        <CustomMarker
+                            key={index}
+                            id={index}
+                            coordinate={{
+                                latitude: latitude,
+                                longitude: longitude,
+                            }}
+                            open={pharmacyData.open}
+                        />
                     );
                 })}
 
