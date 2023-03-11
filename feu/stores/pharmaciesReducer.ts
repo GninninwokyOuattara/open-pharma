@@ -1,9 +1,13 @@
-import { Pharmacy, PharmacyFullState } from "../types/dataTypes";
 import {
-  APPLY_FILTER,
+  Pharmacy,
+  PharmacyFullState,
+  RootReducerType,
+} from "../types/dataTypes";
+import {
   CHANGE_DISPLAY_MODE,
   CHANGE_ORDER,
   GET_OPH_CURRENT_STATE,
+  SEARCH_PHARMACIES,
   UPDATE_RELATIVE_DISTANCES,
 } from "./actions";
 
@@ -11,12 +15,12 @@ interface PharmaciesState {
   all: Pharmacy[];
   open: Pharmacy[];
   toDisplay: Pharmacy[];
-  toDisplayInBottomSheet: Pharmacy[];
+  toDisplayInBottomSheet: PharmacyFullState[];
   toDisplayInMap: Pharmacy[];
   pharmacies: PharmacyFullState[];
 }
 
-const pharmaciesState: PharmaciesState = {
+const pharmaciesState: RootReducerType["pharmacies"] = {
   all: [],
   open: [],
   toDisplay: [],
@@ -48,6 +52,7 @@ export default (state: PharmaciesState = pharmaciesState, action: any) => {
       return {
         ...state,
         pharmacies: action.data,
+        toDisplayInBottomSheet: action.data,
       };
     case UPDATE_RELATIVE_DISTANCES:
       let obj = {
@@ -57,23 +62,34 @@ export default (state: PharmaciesState = pharmaciesState, action: any) => {
         toDisplayInBottomSheet: action.orderedPharmaciesWithDistances,
       };
       return obj;
-    case APPLY_FILTER:
-      const filter: string = action.data.toLowerCase();
-      if (!filter) {
-        return {
-          ...state,
-          toDisplay: state.all,
-          toDisplayInBottomSheet: state.all,
-        };
-      }
-      const filtered = state.all.filter((pharmacy) => {
-        return pharmacy.flat_name.toLowerCase().includes(filter);
+
+    case SEARCH_PHARMACIES:
+      let search_query = action.data.toLowerCase();
+      let pharmaciesThatMatch = state.pharmacies.filter((pharmacy) => {
+        return pharmacy.name.toLowerCase().includes(search_query);
       });
       return {
         ...state,
-        toDisplay: filtered,
-        toDisplayInBottomSheet: filtered,
+        toDisplayInBottomSheet: pharmaciesThatMatch,
       };
+    // case APPLY_FILTER:
+    //   const filter: string = action.data.toLowerCase();
+    //   if (!filter) {
+    //     return {
+    //       ...state,
+    //       toDisplay: state.all,
+    //       toDisplayInBottomSheet: state.all,
+    //     };
+    //   }
+    //   const filtered = state.all.filter((pharmacy) => {
+    //     return pharmacy.flat_name.toLowerCase().includes(filter);
+    //   });
+    //   return {
+    //     ...state,
+    //     toDisplay: filtered,
+    //     toDisplayInBottomSheet: filtered,
+    //   };
+
     case CHANGE_DISPLAY_MODE:
       const mode = action.data;
       if (mode == "All") {
