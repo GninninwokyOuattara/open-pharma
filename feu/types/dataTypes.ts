@@ -52,7 +52,7 @@ export interface RootReducerType {
     all: Pharmacy[];
     open: Pharmacy[];
     toDisplay: Pharmacy[];
-    toDisplayInBottomSheet: Pharmacy[];
+    toDisplayInBottomSheet: PharmacyFullState[];
     toDisplayInMap: Pharmacy[];
     pharmacies: PharmacyFullState[];
   };
