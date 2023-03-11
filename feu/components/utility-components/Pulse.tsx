@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, Animated, Easing, Button } from "react-native";
 import React, { useEffect } from "react";
+import { Animated, Easing, StyleSheet, View } from "react-native";
 
 interface PulseProps {
     color?: "string";
@@ -14,7 +14,7 @@ const Pulse: React.FC<{ color?: string }> = ({ color }) => {
 
     const size = opacity.interpolate({
         inputRange: [0, 1],
-        outputRange: [50, 0],
+        outputRange: [30, 0],
     });
 
     const animatedStyles = [
@@ -33,7 +33,7 @@ const Pulse: React.FC<{ color?: string }> = ({ color }) => {
             Animated.timing(opacity, {
                 useNativeDriver: false,
                 toValue: 0,
-                duration: 500,
+                duration: 1000,
                 easing: Easing.ease,
             })
         ).start();
@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
         width: 20,
     },
     dot: {
-        width: 20,
-        height: 20,
+        width: 10,
+        height: 10,
         // backgroundColor: "blue",
         borderRadius: 50,
         position: "absolute",
