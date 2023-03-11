@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import ShadowAround from '../../utility-components/ShadowAround'
 
 import { PharmacyFullState } from '../../../types/dataTypes'
-import OpenPharmacyItemSticker from './OpenPharmacyItemSticker'
+import Pulse from '../../utility-components/Pulse'
 
 
 
@@ -36,11 +36,19 @@ const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
                             </View>
                         } */}
 
+                        {
+                            pharmacyData.open && <View>
+                                <Pulse color='#28a745' />
+                            </View>
+
+                        }
+
                     </View>
-                    {
+                    {/* {
 
                         pharmacyData.open && <OpenPharmacyItemSticker state='open' title="Pharmacie de garde" />
-                    }
+                    } */}
+
 
 
                 </View>
@@ -63,9 +71,11 @@ const styles = StyleSheet.create({
     },
     primaryContainer: {
         width: "100%",
+        // height: "100%",
         // borderWidth: 1,
         flexDirection: "row",
         marginBottom: 10,
+        alignItems: "center",
     },
     pharmacyInfoContainer: {
         flexDirection: "column",
