@@ -10,9 +10,8 @@ import AppLoading from 'expo-app-loading';
 import { MapContextProvider } from "./contexts/MapContext";
 import { UserLocationProvider } from "./contexts/UserLocationContext";
 
-import { useEffect } from "react";
 import { BottomSheetRefContextProvider } from "./contexts/BottomSheetRefContext";
-import { initDatabase, initUpdateTable } from "./database/db";
+import { getOpenPharmaPharmaciesDatas } from "./stores/pharmaciesActions";
 
 
 const Main = () => {
@@ -21,22 +20,35 @@ const Main = () => {
     // React.useState<Location.LocationObject | null>(null);
 
     const [isReady, setIsReady] = React.useState(false);
-    useEffect(() => {
-        (async () => {
-            try {
-                // await dropPharmaciesTable()
-                const initDbRes = await initDatabase();
-                const initUpdateDbRes = await initUpdateTable();
+    // useEffect(() => {
+    //     (async () => {
 
-                console.log(initDbRes);
-                console.log(initUpdateDbRes)
-            } catch (error) {
-                console.log(error);
-            }
-        })()
-    }, [])
+    //         try {
+    //             let response = await axios.get<PharmacyFullState[]>(
+    //                 `http://localhost:8000/api/open-pharmacies/`
+    //             );
+    //             console.log("REQUEST ", response.data.length);
+
+    //             // return response.data as string;
+    //         } catch (error) {
+    //             throw error;
+    //         }
+
+    //         // try {
+    //         //     // await dropPharmaciesTable()
+    //         //     const initDbRes = await initDatabase();
+    //         //     const initUpdateDbRes = await initUpdateTable();
+
+    //         //     console.log(initDbRes);
+    //         //     console.log(initUpdateDbRes)
+    //         // } catch (error) {
+    //         //     console.log(error);
+    //         // }
+    //     })()
+    // }, [])
 
     const dispatch = useDispatch();
+
 
     const getLocationPermission = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -51,6 +63,12 @@ const Main = () => {
         // setLocation(location);
         // setIsReady(true);
     };
+
+    React.useEffect(() => {
+        console.log("Dispatch fetch current state")
+        dispatch(getOpenPharmaPharmaciesDatas())
+    }, [])
+
 
     if (!isReady) {
         return (
