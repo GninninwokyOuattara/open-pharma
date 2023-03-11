@@ -58,7 +58,7 @@ export default (state = pharmaciesState, action: any) => {
       let userLocation = action.data;
       let pharmaciesWithDistance: PharmacyFullState[] =
         state.toDisplayInBottomSheet.map((pharmacy) => {
-          let distanceToUser = convertToReadableDistance(
+          let distanceToUserReadable = convertToReadableDistance(
             calculateDistance(
               [userLocation.coords.latitude, userLocation.coords.longitude],
               [+pharmacy.coordinates.latitude, +pharmacy.coordinates.longitude]
@@ -66,7 +66,7 @@ export default (state = pharmaciesState, action: any) => {
           );
           return {
             ...pharmacy,
-            distanceToUser: distanceToUser,
+            distanceToUserReadable: distanceToUserReadable,
           };
         });
 

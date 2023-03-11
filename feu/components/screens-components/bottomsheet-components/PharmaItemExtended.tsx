@@ -36,7 +36,7 @@ const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
                             </View>
                         } */}
 
-                        <Text style={styles.pharmacyDistance}>{pharmacyData.distanceToUser}</Text>
+                        <Text style={styles.pharmacyDistance}>{pharmacyData.distanceToUserReadable}</Text>
 
                         {
                             pharmacyData.open && <View>

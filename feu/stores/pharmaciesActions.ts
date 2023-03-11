@@ -87,14 +87,14 @@ export const fetchAllPharmacies = (location?: LocationObject) => {
 //     if (!userCoordinate || !pharmacies) return;
 
 //     pharmacies = pharmacies.map((pharmacy) => {
-//       let distanceToUser = calculateDistance(
+//       let distanceToUserReadable = calculateDistance(
 //         [userCoordinate.coords.latitude, userCoordinate.coords.longitude],
 //         [+pharmacy.coordinates.lat, +pharmacy.coordinates.lng]
 //       );
 //       return {
 //         ...pharmacy,
-//         distance: convertToReadableDistance(distanceToUser),
-//         distanceRaw: distanceToUser,
+//         distance: convertToReadableDistance(distanceToUserReadable),
+//         distanceRaw: distanceToUserReadable,
 //       };
 //     });
 
@@ -203,7 +203,7 @@ export const calculatePharmaciesRelativeProximityToUser = (
   userLocation: any
 ) => {
   const pharmaciesWithDistance = pharmacies.map((pharmacy) => {
-    let distanceToUser = convertToReadableDistance(
+    let distanceToUserReadable = convertToReadableDistance(
       calculateDistance(
         [userLocation.coords.latitude, userLocation.coords.longitude],
         [+pharmacy.coordinates.latitude, +pharmacy.coordinates.longitude]

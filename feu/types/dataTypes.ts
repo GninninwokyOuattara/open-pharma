@@ -98,7 +98,7 @@ export interface PharmacyFullState extends Pharmacy {
     date_range_string: string;
   };
   open: boolean;
-  distanceToUser?: string;
+  distanceToUserReadable?: string;
 }
 
 export interface OpenPharmacy extends Pharmacy {
