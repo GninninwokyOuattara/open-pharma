@@ -1,9 +1,10 @@
-import { PHARMACIES, PROJECT_ENDPOINT, UPDATE } from "@env";
+import { BACKEND_ADDRESS, PHARMACIES, PROJECT_ENDPOINT, UPDATE } from "@env";
 import axios, { AxiosResponse } from "axios";
 import {
   DBPharmacy,
   FireBaseResponseObject,
   Pharmacies,
+  PharmacyFullState,
 } from "../types/dataTypes";
 import {
   APPLY_FILTER,
@@ -151,5 +152,44 @@ export const changePharmacyDisplayOrder = (
       type: CHANGE_ORDER,
       data: orderedPharmacies,
     });
+  };
+};
+
+export const getOpenPharmacies = () => {
+  // REtrieve the list of currently open pharmacies from django backend
+  // url : http://localhost:8000/api/open-pharmacies/
+
+  return async (dispatch: any) => {
+    try {
+      let response: any = await axios.get(
+        `http://localhost:8000/api/open-pharmacies/`
+      );
+      console.log("Pharmacies ", response.data);
+      dispatch({
+        type: "FETCH_ALL_PHARMACIES",
+        data: response.data,
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+};
+
+export const getOpenPharmaPharmaciesDatas = () => {
+  // This function is used to fetch from the oph backend the list complete list of pharmacies and their states (open or closed).
+
+  return async (dispatch: any) => {
+    try {
+      let response = await axios.get<PharmacyFullState[]>(
+        `${BACKEND_ADDRESS}/api/pharmacies-current-state/`
+      );
+      console.log("Pharmacies ", response.data.length);
+      dispatch({
+        type: "GET_OPH_CURRENT_STATE",
+        data: response.data,
+      });
+    } catch (error) {
+      throw error;
+    }
   };
 };
