@@ -1,16 +1,15 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import BottomBar from "../components/screens-components/BottomBar";
-import MainBottomSheet from "../components/screens-components/BottomSheet";
 import { UserLocationContext } from "../contexts/UserLocationContext";
-import { calculatePharmaciesProximityToUser } from "../stores/pharmaciesActions";
 import { RootReducerType } from "../types/dataTypes";
 
 
+import MainBottomSheet from "../components/screens-components/BottomSheet";
 import Map from "../components/screens-components/Map";
 import ToolBar from "../components/ToolBar";
 import { MapContext } from "../contexts/MapContext";
@@ -31,46 +30,46 @@ const MainScreen = () => {
     const { init } = useInitializer()
 
     // On launch, retrieve data from database if exist otherwise from firebase
-    useEffect(() => {
-        // if(setIsFetching){}
-        (async () => {
-            await init()
-        }
-        )()
-    }, [])
+    // useEffect(() => {
+    //     // if(setIsFetching){}
+    //     (async () => {
+    //         await init()
+    //     }
+    //     )()
+    // }, [])
 
 
-    const proximityCalculationDispatcher = useCallback(() => {
+    // const proximityCalculationDispatcher = useCallback(() => {
 
-        let intervalId = setInterval(() => {
-            dispatch(calculatePharmaciesProximityToUser(location, pharmaciesDatas, isProximityMode))
+    //     let intervalId = setInterval(() => {
+    //         dispatch(calculatePharmaciesProximityToUser(location, pharmaciesDatas, isProximityMode))
 
-        }, 5000)
+    //     }, 5000)
 
-        return intervalId
-    }, [location, pharmaciesDatas, isProximityMode])
+    //     return intervalId
+    // }, [location, pharmaciesDatas, isProximityMode])
 
 
 
     // Location Updater
-    useEffect(() => {
-        // let intervalId: number
-        // if (location) {
-        //     intervalId = setInterval(() => {
-        //         dispatch(calculatePharmaciesProximityToUser(location, pharmaciesDatas))
-        //     }, 5000)
-        // }
+    // useEffect(() => {
+    //     // let intervalId: number
+    //     // if (location) {
+    //     //     intervalId = setInterval(() => {
+    //     //         dispatch(calculatePharmaciesProximityToUser(location, pharmaciesDatas))
+    //     //     }, 5000)
+    //     // }
 
-        // return () => {
-        //     if (intervalId) clearInterval(intervalId)
-        // }
+    //     // return () => {
+    //     //     if (intervalId) clearInterval(intervalId)
+    //     // }
 
-        const intervalId = proximityCalculationDispatcher()
+    //     const intervalId = proximityCalculationDispatcher()
 
-        return () => clearInterval(intervalId)
+    //     return () => clearInterval(intervalId)
 
 
-    }, [proximityCalculationDispatcher])
+    // }, [proximityCalculationDispatcher])
 
 
 
