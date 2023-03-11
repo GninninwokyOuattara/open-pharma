@@ -8,6 +8,7 @@ import {
   CHANGE_ORDER,
   GET_OPH_CURRENT_STATE,
   SEARCH_PHARMACIES,
+  SET_LOADING_STATE,
   UPDATE_RELATIVE_DISTANCES,
 } from "./actions";
 
@@ -21,6 +22,7 @@ interface PharmaciesState {
 }
 
 const pharmaciesState: RootReducerType["pharmacies"] = {
+  isLoading: false,
   all: [],
   open: [],
   toDisplay: [],
@@ -53,6 +55,7 @@ export default (state: PharmaciesState = pharmaciesState, action: any) => {
         ...state,
         pharmacies: action.data,
         toDisplayInBottomSheet: action.data,
+        isLoading: false,
       };
     case UPDATE_RELATIVE_DISTANCES:
       let obj = {
@@ -115,6 +118,14 @@ export default (state: PharmaciesState = pharmaciesState, action: any) => {
         toDisplay: pharmacies,
         toDisplayInBottomSheet: pharmacies,
       };
+
+    case SET_LOADING_STATE:
+      let desired_loading_state = action.data;
+      return {
+        ...state,
+        isLoading: desired_loading_state,
+      };
+
     default:
       return { ...state };
   }

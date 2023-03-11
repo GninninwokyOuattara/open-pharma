@@ -179,12 +179,16 @@ export const getOpenPharmaPharmaciesDatas = () => {
   // This function is used to fetch from the oph backend the list complete list of pharmacies and their states (open or closed).
 
   return async (dispatch: any) => {
+    dispatch({
+      type: "SET_LOADING_STATE",
+      data: true,
+    });
     try {
       let response = await axios.get<PharmacyFullState[]>(
         `${BACKEND_ADDRESS}/api/pharmacies-current-state/`
       );
       console.log("Pharmacies ", response.data.length);
-      dispatch({
+      return dispatch({
         type: "GET_OPH_CURRENT_STATE",
         data: response.data,
       });
