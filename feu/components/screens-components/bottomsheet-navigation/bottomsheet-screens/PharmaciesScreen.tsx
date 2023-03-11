@@ -12,8 +12,8 @@ import PharmaItemExtended from "../../bottomsheet-components/PharmaItemExtended"
 
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
-    const pharmaciesDatas = useSelector((state: RootReducerType) => {
-        return state.pharmacies.pharmacies;
+    const pharmacies = useSelector((state: RootReducerType) => {
+        return state.pharmacies.toDisplayInBottomSheet;
     });
     const { mapRef, setSelectedMarker, mapSetting, isFetching } = useContext(MapContext);
 
@@ -47,7 +47,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                 />
             );
         }
-    //     [pharmaciesDatas]
+    //     [pharmacies]
     // );
 
 
@@ -56,7 +56,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
 
     }
 
-    if (!isFetching && !pharmaciesDatas.length) {
+    if (!isFetching && !pharmacies.length) {
         return <Text>Yup something went horribly wrong...</Text>
     }
 
@@ -65,7 +65,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
 
             <FlatList
                 // ListHeaderComponent={<CustomSearchBar />}
-                data={pharmaciesDatas}
+                data={pharmacies}
                 keyExtractor={(item) => item.id}
                 maxToRenderPerBatch={10}
                 initialNumToRender={10}
