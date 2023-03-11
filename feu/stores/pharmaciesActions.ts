@@ -77,37 +77,37 @@ export const fetchAllPharmacies = (location?: LocationObject) => {
 
 // Calculate user proximity to pharmacies
 // If isProximityMode is se to True, the resulting array will be sorted by order of proximity
-export const calculatePharmaciesProximityToUser = (
-  userCoordinate: any,
-  pharmacies: Pharmacies,
-  isProximityMode: boolean
-) => {
-  return async (dispatch: any) => {
-    // Calculate the distance between the user and the location of each pharmacies
-    if (!userCoordinate || !pharmacies) return;
+// export const calculatePharmaciesProximityToUser = (
+//   userCoordinate: any,
+//   pharmacies: Pharmacies,
+//   isProximityMode: boolean
+// ) => {
+//   return async (dispatch: any) => {
+//     // Calculate the distance between the user and the location of each pharmacies
+//     if (!userCoordinate || !pharmacies) return;
 
-    pharmacies = pharmacies.map((pharmacy) => {
-      let distanceToUser = calculateDistance(
-        [userCoordinate.coords.latitude, userCoordinate.coords.longitude],
-        [+pharmacy.coordinates.lat, +pharmacy.coordinates.lng]
-      );
-      return {
-        ...pharmacy,
-        distance: convertToReadableDistance(distanceToUser),
-        distanceRaw: distanceToUser,
-      };
-    });
+//     pharmacies = pharmacies.map((pharmacy) => {
+//       let distanceToUser = calculateDistance(
+//         [userCoordinate.coords.latitude, userCoordinate.coords.longitude],
+//         [+pharmacy.coordinates.lat, +pharmacy.coordinates.lng]
+//       );
+//       return {
+//         ...pharmacy,
+//         distance: convertToReadableDistance(distanceToUser),
+//         distanceRaw: distanceToUser,
+//       };
+//     });
 
-    // Sort by distance ASC if proximityMode is true
-    if (isProximityMode) pharmacies = _.sortBy(pharmacies, ["distanceRaw"]);
+//     // Sort by distance ASC if proximityMode is true
+//     if (isProximityMode) pharmacies = _.sortBy(pharmacies, ["distanceRaw"]);
 
-    //Dispatch Action
-    dispatch({
-      type: UPDATE_RELATIVE_DISTANCES,
-      orderedPharmaciesWithDistances: pharmacies,
-    });
-  };
-};
+//     //Dispatch Action
+//     dispatch({
+//       type: UPDATE_RELATIVE_DISTANCES,
+//       orderedPharmaciesWithDistances: pharmacies,
+//     });
+//   };
+// };
 
 // Used for search, filter pharmacies based on entered string
 export const applyFilter = (filter: string) => {
@@ -195,5 +195,26 @@ export const getOpenPharmaPharmaciesDatas = () => {
     } catch (error) {
       throw error;
     }
+  };
+};
+
+export const calculatePharmaciesRelativeProximityToUser = (
+  pharmacies: PharmacyFullState[],
+  userLocation: any
+) => {
+  const pharmaciesWithDistance = pharmacies.map((pharmacy) => {
+    let distanceToUser = convertToReadableDistance(
+      calculateDistance(
+        [userLocation.coords.latitude, userLocation.coords.longitude],
+        [+pharmacy.coordinates.latitude, +pharmacy.coordinates.longitude]
+      )
+    );
+  });
+
+  return (dispatch: any) => {
+    dispatch({
+      type: UPDATE_RELATIVE_DISTANCES,
+      data: pharmaciesWithDistance,
+    });
   };
 };

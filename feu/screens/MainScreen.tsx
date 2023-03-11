@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 
@@ -14,6 +14,7 @@ import Map from "../components/screens-components/Map";
 import ToolBar from "../components/ToolBar";
 import { MapContext } from "../contexts/MapContext";
 import useInitializer from "../hooks/useInitializer";
+import { UPDATE_RELATIVE_DISTANCES } from "../stores/actions";
 
 
 const MainScreen = () => {
@@ -22,12 +23,14 @@ const MainScreen = () => {
     const dispatch = useDispatch();
     const { location } = useContext(UserLocationContext)
     const { setIsFetching } = useContext(MapContext)
-    const pharmaciesDatas = useSelector((state: RootReducerType) => {
-        return state.pharmacies.toDisplay;
+    const pharmacies = useSelector((state: RootReducerType) => {
+        return state.pharmacies.toDisplayInBottomSheet;
     });
     const [isProximityMode, setIsProximityMode] = useState<boolean>(false);
+    const distanceCalculatorIntervalId = useRef<number | null>(null)
 
     const { init } = useInitializer()
+
 
     // On launch, retrieve data from database if exist otherwise from firebase
     // useEffect(() => {
@@ -70,6 +73,26 @@ const MainScreen = () => {
 
 
     // }, [proximityCalculationDispatcher])
+
+    useEffect(() => {
+        if (location && pharmacies) {
+
+            distanceCalculatorIntervalId.current = setInterval(() => {
+                dispatch({
+                    type: UPDATE_RELATIVE_DISTANCES,
+                    data: location
+                })
+            }, 5000);
+
+        }
+
+        return () => {
+            if (distanceCalculatorIntervalId) {
+                clearTimeout(distanceCalculatorIntervalId.current!)
+            }
+        }
+    }, [pharmacies, location])
+
 
 
 

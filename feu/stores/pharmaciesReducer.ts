@@ -3,6 +3,8 @@ import {
   PharmacyFullState,
   RootReducerType,
 } from "../types/dataTypes";
+import { calculateDistance } from "../utils/calculateDistance";
+import { convertToReadableDistance } from "../utils/convertToReadableDistance";
 import {
   CHANGE_ORDER,
   GET_OPH_CURRENT_STATE,
@@ -53,13 +55,25 @@ export default (state = pharmaciesState, action: any) => {
         isLoading: false,
       };
     case UPDATE_RELATIVE_DISTANCES:
-      let obj = {
+      let userLocation = action.data;
+      let pharmaciesWithDistance: PharmacyFullState[] =
+        state.toDisplayInBottomSheet.map((pharmacy) => {
+          let distanceToUser = convertToReadableDistance(
+            calculateDistance(
+              [userLocation.coords.latitude, userLocation.coords.longitude],
+              [+pharmacy.coordinates.latitude, +pharmacy.coordinates.longitude]
+            )
+          );
+          return {
+            ...pharmacy,
+            distanceToUser: distanceToUser,
+          };
+        });
+
+      return {
         ...state,
-        // all : action.orderedPharmaciesWithDistances,
-        toDisplay: action.orderedPharmaciesWithDistances,
-        toDisplayInBottomSheet: action.orderedPharmaciesWithDistances,
+        toDisplayInBottomSheet: pharmaciesWithDistance,
       };
-      return obj;
 
     case SEARCH_PHARMACIES:
       // Search pharmacies corresponding to the query
