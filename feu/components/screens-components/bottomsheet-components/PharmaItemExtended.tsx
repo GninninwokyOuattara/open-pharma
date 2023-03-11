@@ -2,13 +2,13 @@ import React, { memo } from 'react'
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import ShadowAround from '../../utility-components/ShadowAround'
 
-import { Pharmacy } from '../../../types/dataTypes'
+import { PharmacyFullState } from '../../../types/dataTypes'
 import OpenPharmacyItemSticker from './OpenPharmacyItemSticker'
 
 
 
 interface Props {
-    pharmacyData: Pharmacy,
+    pharmacyData: PharmacyFullState,
     onPress?: () => void
 }
 
@@ -26,15 +26,15 @@ const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
                     <View style={styles.primaryContainer}>
                         <View style={styles.pharmacyInfoContainer}>
 
-                            <Text style={styles.pharmacyHeader}>{pharmacyData.flat_name}</Text>
-                            <Text style={styles.pharmacyPosition}>{pharmacyData.geographical_position}</Text>
+                            <Text style={styles.pharmacyHeader}>{pharmacyData.name}</Text>
+                            {/* <Text style={styles.pharmacyPosition}>{pharmacyData.}</Text> */}
                         </View>
-                        {
+                        {/* {
                             pharmacyData.distance && <View style={styles.pharmacyDistanceContainer}>
 
                                 <Text style={styles.pharmacyDistance}>{pharmacyData.distance}</Text>
                             </View>
-                        }
+                        } */}
 
                     </View>
                     {
