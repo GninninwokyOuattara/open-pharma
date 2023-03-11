@@ -12,8 +12,11 @@ import PharmaItemExtended from "../../bottomsheet-components/PharmaItemExtended"
 
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
-    const pharmacies = useSelector((state: RootReducerType) => {
-        return state.pharmacies.toDisplayInBottomSheet;
+    const { pharmacies, isLoading } = useSelector((state: RootReducerType) => {
+        return {
+            pharmacies: state.pharmacies.toDisplayInBottomSheet,
+            isLoading: state.pharmacies.isLoading
+        }
     });
     const { mapRef, setSelectedMarker, mapSetting, isFetching } = useContext(MapContext);
 
@@ -51,7 +54,8 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     // );
 
 
-    if (isFetching) {
+    if (isLoading) {
+        console.log("Is Currently Loading");
         return <SkeletonContentLoader />
 
     }
