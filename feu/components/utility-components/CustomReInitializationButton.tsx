@@ -2,8 +2,10 @@ import React, { useContext, useEffect } from 'react';
 import { Animated, Easing, StyleSheet, TouchableOpacity } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useDispatch } from 'react-redux';
 import { MapContext } from '../../contexts/MapContext';
 import useInitializer from '../../hooks/useInitializer';
+import { getOpenPharmaPharmaciesDatas } from '../../stores/pharmaciesActions';
 
 
 
@@ -11,6 +13,7 @@ import useInitializer from '../../hooks/useInitializer';
 const CustomReInitializationButton = () => {
 
     // Hooks
+    const dispatch = useDispatch()
     const { init } = useInitializer()
     const { isFetching } = useContext(MapContext)
 
@@ -44,10 +47,8 @@ const CustomReInitializationButton = () => {
     return (
 
         <TouchableOpacity
-            onPress={async () => {
-                console.log("Reinitialization")
-                await init();
-            }}
+            onPress={() => dispatch(getOpenPharmaPharmaciesDatas())
+            }
             disabled={!!isFetching}
         >
             <Animated.View style={{ ...styles.iconContainer, transform: [{ rotate: spin }], backgroundColor: isFetching ? "gray" : "white" }}>
