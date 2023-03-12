@@ -1,3 +1,4 @@
+import _ from "lodash";
 import {
   Pharmacy,
   PharmacyFullState,
@@ -26,6 +27,7 @@ interface PharmaciesState {
 const pharmaciesState: RootReducerType["pharmacies"] = {
   isLoading: false,
   displayMode: "OpenOnly",
+  sortMode: "Proximity",
   all: [],
   open: [],
   toDisplay: [],
@@ -62,6 +64,8 @@ export default (state = pharmaciesState, action: any) => {
             [userLocation.coords.latitude, userLocation.coords.longitude],
             [+pharmacy.coordinates.latitude, +pharmacy.coordinates.longitude]
           );
+
+        
           return {
             ...pharmacy,
             distanceToUser: distanceToUser,
@@ -69,6 +73,10 @@ export default (state = pharmaciesState, action: any) => {
           };
         });
 
+
+      if(state.sortMode = "Proximity"){
+        pharmaciesWithDistance = _.sortBy(pharmaciesWithDistance, ["distanceToUser"]);
+      } 
       return {
         ...state,
         toDisplayInBottomSheet: pharmaciesWithDistance,

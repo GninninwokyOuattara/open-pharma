@@ -218,3 +218,15 @@ export const calculatePharmaciesRelativeProximityToUser = (
     });
   };
 };
+
+////////////////////////
+/// UTILITY METHODS ////
+////////////////////////
+
+export const sortByProxmity = (pharmacies: PharmacyFullState) => {
+  return _.sortBy(pharmacies, ["distanceToUser"]);
+};
+
+export const sortAlphabetically = (pharmacies: PharmacyFullState) => {
+  return _.sortBy(pharmacies, ["name"]);
+};
