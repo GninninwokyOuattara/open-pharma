@@ -11,7 +11,6 @@ import {
   CHANGE_DISPLAY_MODE,
   CHANGE_ORDER,
   FETCH_ALL_PHARMACIES,
-  UPDATE_RELATIVE_DISTANCES,
 } from "./actions";
 
 import { LocationObject } from "expo-location";
@@ -198,35 +197,23 @@ export const getOpenPharmaPharmaciesDatas = () => {
   };
 };
 
-export const calculatePharmaciesRelativeProximityToUser = (
-  pharmacies: PharmacyFullState[],
-  userLocation: any
-) => {
-  const pharmaciesWithDistance = pharmacies.map((pharmacy) => {
-    let distanceToUserReadable = convertToReadableDistance(
-      calculateDistance(
-        [userLocation.coords.latitude, userLocation.coords.longitude],
-        [+pharmacy.coordinates.latitude, +pharmacy.coordinates.longitude]
-      )
-    );
-  });
-
-  return (dispatch: any) => {
-    dispatch({
-      type: UPDATE_RELATIVE_DISTANCES,
-      data: pharmaciesWithDistance,
-    });
-  };
-};
-
 ////////////////////////
 /// UTILITY METHODS ////
 ////////////////////////
 
-export const sortByProxmity = (pharmacies: PharmacyFullState) => {
-  return _.sortBy(pharmacies, ["distanceToUser"]);
-};
-
-export const sortAlphabetically = (pharmacies: PharmacyFullState) => {
-  return _.sortBy(pharmacies, ["name"]);
+export const calculateDistanceToUser = (
+  pharmacies: PharmacyFullState[],
+  userLocation: LocationObject
+) => {
+  return pharmacies.map((pharmacy) => {
+    let distanceToUserReadable = calculateDistance(
+      [userLocation.coords.latitude, userLocation.coords.longitude],
+      [+pharmacy.coordinates.latitude, +pharmacy.coordinates.longitude]
+    );
+    return {
+      ...pharmacy,
+      distanceToUser: convertToReadableDistance(distanceToUserReadable),
+      distanceToUserRaw: distanceToUserReadable,
+    };
+  });
 };
