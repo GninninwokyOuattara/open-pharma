@@ -99,6 +99,7 @@ export interface PharmacyFullState extends Pharmacy {
   };
   open: boolean;
   distanceToUserReadable?: string;
+  distanceToUser?: number;
 }
 
 export interface OpenPharmacy extends Pharmacy {
