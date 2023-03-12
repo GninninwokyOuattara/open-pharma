@@ -40,14 +40,12 @@ export default (state = pharmaciesState, action: any) => {
   switch (action.type) {
     case GET_OPH_CURRENT_STATE:
       // Retrieve the most recent data from the server
+
       let ophCurrentState: PharmacyFullState[] = action.data;
       // If i have to do something with the data, i do it here
-      console.log("Current display mode: ", state.displayMode);
       if (state.displayMode === "OpenOnly") {
         // Filter to retrive only open pharmacies
-        console.log("Length before filter: ", ophCurrentState.length);
         ophCurrentState = ophCurrentState.filter((pharmacy) => pharmacy.open);
-        console.log("Length after filter: ", ophCurrentState.length);
       }
 
       return {
@@ -65,7 +63,6 @@ export default (state = pharmaciesState, action: any) => {
             [+pharmacy.coordinates.latitude, +pharmacy.coordinates.longitude]
           );
 
-        
           return {
             ...pharmacy,
             distanceToUser: distanceToUser,
@@ -73,10 +70,11 @@ export default (state = pharmaciesState, action: any) => {
           };
         });
 
-
-      if(state.sortMode = "Proximity"){
-        pharmaciesWithDistance = _.sortBy(pharmaciesWithDistance, ["distanceToUser"]);
-      } 
+      if ((state.sortMode = "Proximity")) {
+        pharmaciesWithDistance = _.sortBy(pharmaciesWithDistance, [
+          "distanceToUser",
+        ]);
+      }
       return {
         ...state,
         toDisplayInBottomSheet: pharmaciesWithDistance,
