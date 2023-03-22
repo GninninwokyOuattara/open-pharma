@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import ShadowAround from '../../utility-components/ShadowAround'
 
 import { PharmacyFullState } from '../../../types/dataTypes'
@@ -24,11 +24,15 @@ const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
                 <View style={styles.container}>
 
                     <View style={styles.primaryContainer}>
-                        <View style={styles.pharmacyInfoContainer}>
+                        <ScrollView
+                            style={styles.pharmacyInfoContainer}
+                            horizontal
+                            showsHorizontalScrollIndicator
+                        >
 
                             <Text style={styles.pharmacyHeader}>{pharmacyData.name}</Text>
                             {/* <Text style={styles.pharmacyPosition}>{pharmacyData.}</Text> */}
-                        </View>
+                        </ScrollView>
                         {/* {
                             pharmacyData.distance && <View style={styles.pharmacyDistanceContainer}>
 
@@ -36,14 +40,21 @@ const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
                             </View>
                         } */}
 
-                        <Text style={styles.pharmacyDistance}>{pharmacyData.distanceToUserReadable}</Text>
+                        <View style={styles.pharmacyMetaContainer}>
+                            <View>
 
-                        {
-                            pharmacyData.open && <View>
-                                <Pulse color='#28a745' />
+                                <Text style={styles.pharmacyDistance}>{pharmacyData.distanceToUserReadable}</Text>
                             </View>
 
-                        }
+                            {
+                                pharmacyData.open &&
+                                <Pulse color='#28a745' />
+
+
+                            }
+                        </View>
+
+
 
                     </View>
                     {/* {
@@ -65,8 +76,8 @@ const styles = StyleSheet.create({
         flex: 0,
         flexDirection: 'column',
         backgroundColor: "#FDF2E3",
-        borderRadius: 15,
-        padding: 10,
+        borderRadius: 10,
+        paddingHorizontal: 10,
         marginBottom: 10,
         height: 50,
         // borderWidth: 1,
@@ -74,16 +85,30 @@ const styles = StyleSheet.create({
     },
     primaryContainer: {
         width: "100%",
-        // height: "100%",
+        height: "100%",
         // borderWidth: 1,
         flexDirection: "row",
         marginBottom: 10,
         alignItems: "center",
     },
     pharmacyInfoContainer: {
-        flexDirection: "column",
+        flexDirection: "row",
         // width: "80%",
         flex: 1,
+        marginRight: 10,
+        // borderWidth: 1,
+    },
+    pharmacyMetaContainer: {
+        flexDirection: "row",
+
+        // borderWidth: 1,
+        // borderColor: "red",
+        height: "100%",
+        // width: 70,
+        justifyContent: "space-between",
+        alignItems: "center",
+        // padding: 0,
+        // space
     },
     pharmacyHeader: {
         fontSize: 15,
@@ -112,7 +137,7 @@ const styles = StyleSheet.create({
         // width: 100,
     },
     pharmacyState: {
-        borderRadius: 15,
+        borderRadius: 5,
         borderWidth: 1,
         alignSelf: "flex-start",
         paddingVertical: 2,
