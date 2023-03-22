@@ -31,14 +31,9 @@ const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
                         >
 
                             <Text style={styles.pharmacyHeader}>{pharmacyData.name}</Text>
-                            {/* <Text style={styles.pharmacyPosition}>{pharmacyData.}</Text> */}
-                        </ScrollView>
-                        {/* {
-                            pharmacyData.distance && <View style={styles.pharmacyDistanceContainer}>
 
-                                <Text style={styles.pharmacyDistance}>{pharmacyData.distance}</Text>
-                            </View>
-                        } */}
+                        </ScrollView>
+
 
                         <View style={styles.pharmacyMetaContainer}>
                             <View>
@@ -57,10 +52,6 @@ const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
 
 
                     </View>
-                    {/* {
-
-                        pharmacyData.open && <OpenPharmacyItemSticker state='open' title="Pharmacie de garde" />
-                    } */}
 
 
 
