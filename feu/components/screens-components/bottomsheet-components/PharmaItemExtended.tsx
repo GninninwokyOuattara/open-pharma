@@ -27,7 +27,7 @@ const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
                         <ScrollView
                             style={styles.pharmacyInfoContainer}
                             horizontal
-                            showsHorizontalScrollIndicator
+                            showsHorizontalScrollIndicator={false}
                         >
 
                             <Text style={styles.pharmacyHeader}>{pharmacyData.name}</Text>
