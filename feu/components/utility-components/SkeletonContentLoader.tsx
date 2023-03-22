@@ -1,9 +1,9 @@
 
-import ContentLoader, { Circle, Rect } from 'react-content-loader/native';
+import ContentLoader, { Rect } from 'react-content-loader/native';
 
 
 import React from 'react';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 
 const SkeletonContentLoader = () => {
 
@@ -11,25 +11,45 @@ const SkeletonContentLoader = () => {
   const deviceHeight = Dimensions.get('window').height;
 
   const MyLoader = () => (
-    <ContentLoader viewBox={`0 0 ${deviceWidth} 100`}>
-      <Circle cx="30" cy="35" r="10" />
-      <Rect x="60" y="17" rx="4" ry="4" width="150" height="15" />
-      <Rect x="60" y="40" rx="3" ry="3" width="200" height="10" />
-      <Rect x="300" y="24" rx="4" ry="3" width="60" height="20" />
+    <ContentLoader
+      viewBox="0 0 100 100%"
+      speed={2}
+      // backgroundColor='#F5EBEB'
+      foregroundColor='#F4B183'
 
-      <Rect x="20" y="60" rx="4" ry="3" width="350" height="1" />
-
-      <Circle cx="30" cy="77" r="10" />
-      <Rect x="60" y="67" rx="4" ry="4" width="150" height="15" />
-      <Rect x="60" y="90" rx="3" ry="3" width="200" height="10" />
-      <Rect x="300" y="74" rx="4" ry="3" width="60" height="20" />
+    >
+      {/* Only SVG shapes */}
+      <Rect x="0" y="0" rx="5" ry="5" width="100%" height="50" />
+      <Rect x="0" y="60" rx="5" ry="5" width="100%" height="50" />
+      <Rect x="0" y="120" rx="5" ry="5" width="100%" height="50" />
+      <Rect x="0" y="180" rx="5" ry="5" width="100%" height="50" />
+      <Rect x="0" y="240" rx="5" ry="5" width="100%" height="50" />
     </ContentLoader>
   )
   return (
-    <View style={{ height: 150 }}>
+    <View style={styles.container}>
       <MyLoader />
     </View >
   )
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    height: 300,
+    paddingHorizontal: 10,
+    // paddingTop: 10,
+    borderRadius: 10,
+    // alignItems: "flex-start"
+    // width: "100%",
+    // overflow: "hidden",
+    // borderWidth: 1,
+    // borderColor: "red",
+
+  }
+})
+
+
+
 
 export default SkeletonContentLoader
