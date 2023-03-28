@@ -55,7 +55,6 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
 
 
     if (isLoading) {
-        console.log("Is Currently Loading");
         return <SkeletonContentLoader />
 
     }
