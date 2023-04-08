@@ -1,4 +1,5 @@
 import React from 'react'
+import { Image } from 'react-native'
 import { Marker } from 'react-native-maps'
 
 interface Props {
@@ -27,7 +28,11 @@ let CustomMarker: React.FC<Props> = ({ id, coordinate, open }) => {
             }}
             pinColor={open ? "#a0f20c" : "red"}
 
-        />
+        >
+
+            <Image source={require("../assets/open.png")} style={{ height: 40, width: 20 }} />
+
+        </Marker>
 
     )
 }
