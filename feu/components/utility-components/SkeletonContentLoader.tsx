@@ -17,16 +17,16 @@ const SkeletonContentLoader = () => {
     <ContentLoader viewBox={`0 0 ${deviceWidth} ${deviceHeight}`}
 
     >
-      <Rect x="10" y="0" rx="4" ry="4" width={deviceWidth - 20} height="50" />
-      <Rect x="10" y="60" rx="4" ry="4" width={deviceWidth - 20} height="50" />
-      <Rect x="10" y="120" rx="4" ry="4" width={deviceWidth - 20} height="50" />
-      <Rect x="10" y="180" rx="4" ry="4" width={deviceWidth - 20} height="50" />
-      <Rect x="10" y="240" rx="4" ry="4" width={deviceWidth - 20} height="50" />
-      <Rect x="10" y="300" rx="4" ry="4" width={deviceWidth - 20} height="50" />
-      <Rect x="10" y="360" rx="4" ry="4" width={deviceWidth - 20} height="50" />
-      <Rect x="10" y="420" rx="4" ry="4" width={deviceWidth - 20} height="50" />
-      <Rect x="10" y="480" rx="4" ry="4" width={deviceWidth - 20} height="50" />
-      <Rect x="10" y="540" rx="4" ry="4" width={deviceWidth - 20} height="50" />
+      <Rect x="10" y="0" rx="10" ry="10" width={deviceWidth - 20} height="50" />
+      <Rect x="10" y="60" rx="10" ry="10" width={deviceWidth - 20} height="50" />
+      <Rect x="10" y="120" rx="10" ry="10" width={deviceWidth - 20} height="50" />
+      <Rect x="10" y="180" rx="10" ry="10" width={deviceWidth - 20} height="50" />
+      <Rect x="10" y="240" rx="10" ry="10" width={deviceWidth - 20} height="50" />
+      <Rect x="10" y="300" rx="10" ry="10" width={deviceWidth - 20} height="50" />
+      <Rect x="10" y="360" rx="10" ry="10" width={deviceWidth - 20} height="50" />
+      <Rect x="10" y="420" rx="10" ry="10" width={deviceWidth - 20} height="50" />
+      <Rect x="10" y="480" rx="10" ry="10" width={deviceWidth - 20} height="50" />
+      <Rect x="10" y="540" rx="10" ry="10" width={deviceWidth - 20} height="50" />
     </ContentLoader>
   )
   return (
