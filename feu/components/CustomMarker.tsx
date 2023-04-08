@@ -13,6 +13,24 @@ interface Props {
 
 let CustomMarker: React.FC<Props> = ({ id, coordinate, open }) => {
 
+    if (open) {
+        return (
+            <Marker
+                key={id}
+                coordinate={{
+                    latitude: +coordinate.latitude,
+                    longitude: +coordinate.longitude,
+                }}
+                pinColor={open ? "#a0f20c" : "red"}
+
+            >
+
+                <Image source={require("../assets/markerGreen.png")} style={{ height: 45, width: 20 }} />
+
+            </Marker>
+        )
+    }
+
     return (
         // <Marker
         //     key={id}
@@ -30,7 +48,7 @@ let CustomMarker: React.FC<Props> = ({ id, coordinate, open }) => {
 
         >
 
-            <Image source={require("../assets/open.png")} style={{ height: 40, width: 20 }} />
+            <Image source={require("../assets/markerOrange.png")} style={{ height: 45, width: 20 }} />
 
         </Marker>
 
