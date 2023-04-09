@@ -28,6 +28,7 @@ interface PharmaciesState {
 
 const pharmaciesState: RootReducerType["pharmacies"] = {
   isLocationPermissionGranted: false,
+  isSearchingPharmacy: false,
   isLoading: false,
   displayMode: "OpenOnly",
   sortMode: "Proximity",
@@ -103,6 +104,8 @@ export default (state = pharmaciesState, action: any) => {
       return {
         ...state,
         toDisplayInBottomSheet: pharmaciesThatMatch,
+        isSearchingPharmacy: search_query.length > 0,
+        isLoading: false,
       };
     // case APPLY_FILTER:
     //   const filter: string = action.data.toLowerCase();

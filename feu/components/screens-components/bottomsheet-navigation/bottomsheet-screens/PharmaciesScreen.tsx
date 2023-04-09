@@ -13,12 +13,13 @@ import PharmaItemExtended from "../../bottomsheet-components/PharmaItemExtended"
 
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
-    const { pharmacies, isLoading, displayMode, sortMode } = useSelector((state: RootReducerType) => {
+    const { pharmacies, isLoading, displayMode, sortMode, isSearchingPharmacy } = useSelector((state: RootReducerType) => {
         return {
             pharmacies: state.pharmacies.toDisplayInBottomSheet,
             isLoading: state.pharmacies.isLoading,
             displayMode: state.pharmacies.displayMode,
             sortMode: state.pharmacies.sortMode,
+            isSearchingPharmacy: state.pharmacies.isSearchingPharmacy,
         }
     });
     const lastSortMode = React.useRef(sortMode);
@@ -77,7 +78,34 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
 
     if (isLoading) {
         return <SkeletonContentLoader />
+    }
 
+    if (!isLoading && isSearchingPharmacy && !pharmaciesToDisplay.length) {
+        return (
+            <View style={{
+                flex: 1,
+                // justifyContent: "center",
+                alignItems: "center",
+                paddingTop: 20,
+
+            }}>
+                <Text
+                    style={{
+                        color: "grey",
+                        fontWeight: "bold",
+                        fontSize: 20,
+                    }}
+                >Aucune pharmacie trouvé.</Text>
+                <Text
+                    style={{
+                        color: "grey",
+                        fontWeight: "bold",
+                        fontSize: 20,
+                        textAlign: "center",
+                    }}
+                >Essayer de modifier votre recherche.</Text>
+            </View>
+        )
     }
 
     if (!isLoading && !pharmaciesToDisplay.length) {

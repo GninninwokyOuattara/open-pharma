@@ -3,6 +3,7 @@ import { SearchBar } from "react-native-elements";
 import { SearchBarBaseProps } from "react-native-elements/dist/searchbar/SearchBar";
 import { useDispatch } from "react-redux";
 import { BottomSheetRefContext } from "../../../contexts/BottomSheetRefContext";
+import { SET_LOADING_STATE } from "../../../stores/actions";
 import ShadowAround from "../../utility-components/ShadowAround";
 
 const SafeSearchBar = SearchBar as unknown as React.FC<
@@ -24,6 +25,12 @@ const CustomSearchBar = () => {
             clearTimeout(timeoutId.current)
         }
         timeoutId.current = setTimeout(() => {
+
+            dispatch({
+                type: SET_LOADING_STATE,
+                data: true
+            })
+
             dispatch({
                 type: "SEARCH_PHARMACIES",
                 data: searchString
