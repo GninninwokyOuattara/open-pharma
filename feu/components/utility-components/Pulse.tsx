@@ -3,9 +3,10 @@ import { Animated, Easing, StyleSheet, View } from "react-native";
 
 interface PulseProps {
     color?: "string";
+    size?: number;
 }
 
-const Pulse: React.FC<{ color?: string }> = ({ color }) => {
+const Pulse: React.FC<{ color?: string, dotSize?: number }> = ({ color, dotSize }) => {
     let opacity = new Animated.Value(1);
 
     // const animate = () => {
@@ -46,7 +47,7 @@ const Pulse: React.FC<{ color?: string }> = ({ color }) => {
             <View style={styles.container}>
                 <Animated.View style={animatedStyles} />
                 <View
-                    style={{ ...styles.dot, backgroundColor: color || "blue" }}
+                    style={{ ...styles.dot, backgroundColor: color || "blue", height: dotSize || 10, width: dotSize || 10 }}
                 ></View>
             </View>
         </>
