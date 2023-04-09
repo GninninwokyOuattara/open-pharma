@@ -24,13 +24,10 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     const lastSortMode = React.useRef(sortMode);
     const { mapRef, setSelectedMarker, mapSetting, isFetching } = useContext(MapContext);
 
-    console.log("DISPLAY MODE", displayMode)
-    console.log("PHARMACIES LENGTH BEFORE", pharmacies.length)
     let pharmaciesToDisplay = pharmacies;
     if (displayMode === "OpenOnly") {
         // Filter to display only open pharmacies
         pharmaciesToDisplay = pharmacies.filter(pharmacy => pharmacy.open)
-        console.log("PHARMACIES LENGTH AFTER", pharmacies.length)
 
     }
 

@@ -101,11 +101,9 @@ const MainScreen = () => {
 
 
     React.useEffect(() => {
-        console.log("Dispatch fetch current state")
 
         if (isLococationPermissionGranted) {
             Location.getCurrentPositionAsync({}).then((location) => {
-                console.log("currentLocation is : ", location)
                 dispatch(getOpenPharmaPharmaciesDatas(location))
 
             });

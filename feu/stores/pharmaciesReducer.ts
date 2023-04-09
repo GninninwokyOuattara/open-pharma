@@ -142,7 +142,6 @@ export default (state = pharmaciesState, action: any) => {
 
     case SET_IS_LOCATION_PERMISSION_GRANTED:
       // Manage the location permission state
-      console.log("Changing location permission state to", action.data);
       let is_permitted = action.data;
       return {
         ...state,

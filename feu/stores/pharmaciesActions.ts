@@ -162,7 +162,6 @@ export const getOpenPharmacies = () => {
       let response: any = await axios.get(
         `http://localhost:8000/api/open-pharmacies/`
       );
-      console.log("Pharmacies ", response.data);
       dispatch({
         type: "FETCH_ALL_PHARMACIES",
         data: response.data,
@@ -188,7 +187,6 @@ export const getOpenPharmaPharmaciesDatas = (
       let response = await axios.get<PharmacyFullState[]>(
         `${BACKEND_ADDRESS}/api/pharmacies-current-state/`
       );
-      console.log("Pharmacies ", response.data.length);
       return dispatch({
         type: GET_OPH_CURRENT_STATE,
         data: { pharmacies: response.data, location: location },

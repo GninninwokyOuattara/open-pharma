@@ -55,14 +55,12 @@ const Main = () => {
         // setIsReady(true);
         if (status !== "granted") {
             // setErrorMsg("Permission to access location was denied");
-            console.log("Location permission denied")
             dispatch({
                 type: SET_IS_LOCATION_PERMISSION_GRANTED,
                 data: false
             })
 
         } else {
-            console.log("Location permission granted")
             dispatch({
                 type: SET_IS_LOCATION_PERMISSION_GRANTED,
                 data: true
