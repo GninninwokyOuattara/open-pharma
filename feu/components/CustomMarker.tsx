@@ -10,13 +10,15 @@ interface Props {
         longitude: number
     },
     open: boolean,
+    title: string
 }
 
-let CustomMarker: React.FC<Props> = ({ id, coordinate, open }) => {
+let CustomMarker: React.FC<Props> = ({ id, coordinate, open, title }) => {
 
     if (open) {
         return (
             <Marker
+                title={title}
                 key={id}
                 coordinate={{
                     latitude: +coordinate.latitude,
