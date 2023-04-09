@@ -15,12 +15,6 @@ interface Props {
 }
 
 let CustomMarker: React.FC<Props> = ({ id, coordinate, open, title, selected }) => {
-    // const { selectedMarker } = useContext(MapContext);
-
-    // if (selectedMarker && selectedMarker === id) {
-    //     console.log("Selected Marker", selectedMarker),
-    //         console.log("IT IS I", title)
-    // }
 
     if (selected) {
 
