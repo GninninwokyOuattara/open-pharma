@@ -1,4 +1,5 @@
 import { BottomSheetView } from "@gorhom/bottom-sheet";
+import _ from "lodash";
 import React, { useContext } from "react";
 import { FlatList, StyleSheet, Text } from "react-native";
 import { useSelector } from "react-redux";
@@ -12,13 +13,15 @@ import PharmaItemExtended from "../../bottomsheet-components/PharmaItemExtended"
 
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
-    const { pharmacies, isLoading, displayMode } = useSelector((state: RootReducerType) => {
+    const { pharmacies, isLoading, displayMode, sortMode } = useSelector((state: RootReducerType) => {
         return {
             pharmacies: state.pharmacies.toDisplayInBottomSheet,
             isLoading: state.pharmacies.isLoading,
             displayMode: state.pharmacies.displayMode,
+            sortMode: state.pharmacies.sortMode,
         }
     });
+    const lastSortMode = React.useRef(sortMode);
     const { mapRef, setSelectedMarker, mapSetting, isFetching } = useContext(MapContext);
 
     console.log("DISPLAY MODE", displayMode)
@@ -29,6 +32,16 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
         pharmaciesToDisplay = pharmacies.filter(pharmacy => pharmacy.open)
         console.log("PHARMACIES LENGTH AFTER", pharmacies.length)
 
+    }
+
+    if (lastSortMode.current !== sortMode) {
+        if (sortMode == "Alphabetical") {
+            pharmaciesToDisplay = _.sortBy(pharmaciesToDisplay, ["name"]);
+        }
+        else if (sortMode == "Proximity") {
+            pharmaciesToDisplay = _.sortBy(pharmaciesToDisplay, ["distanceToUser"]);
+        }
+        lastSortMode.current = sortMode;
     }
 
     const renderPharmaciesItems =

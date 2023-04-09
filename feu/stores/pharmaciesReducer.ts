@@ -7,12 +7,12 @@ import {
 import { calculateDistance } from "../utils/calculateDistance";
 import { convertToReadableDistance } from "../utils/convertToReadableDistance";
 import {
-  CHANGE_ORDER,
   GET_OPH_CURRENT_STATE,
   SEARCH_PHARMACIES,
   SET_DISPLAY_MODE,
   SET_IS_LOCATION_PERMISSION_GRANTED,
   SET_LOADING_STATE,
+  SET_SORT_MODE,
   UPDATE_RELATIVE_DISTANCES,
 } from "./actions";
 import { calculateDistanceToUser } from "./pharmaciesActions";
@@ -122,13 +122,11 @@ export default (state = pharmaciesState, action: any) => {
     //     toDisplayInBottomSheet: filtered,
     //   };
 
-    case CHANGE_ORDER:
-      const pharmacies = action.data;
+    case SET_SORT_MODE:
+      const order = action.data;
       return {
         ...state,
-        all: pharmacies,
-        toDisplay: pharmacies,
-        toDisplayInBottomSheet: pharmacies,
+        sortMode: order,
       };
 
     ////////////////////////////
@@ -158,22 +156,6 @@ export default (state = pharmaciesState, action: any) => {
         ...state,
         displayMode: display_mode,
       };
-    // if (display_mode == "OpenOnly") {
-    //   let openPharmacies = state.pharmacies.filter(
-    //     (pharmacy) => pharmacy.open
-    //   );
-    //   return {
-    //     ...state,
-    //     displayMode: display_mode,
-    //     toDisplayInBottomSheet: openPharmacies,
-    //   };
-    // }
-
-    // return {
-    //   ...state,
-    //   displayMode: display_mode,
-    //   toDisplayInBottomSheet: state.pharmacies,
-    // };
 
     default:
       return { ...state };
