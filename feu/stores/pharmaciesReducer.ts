@@ -15,6 +15,7 @@ import {
   SET_LOADING_STATE,
   UPDATE_RELATIVE_DISTANCES,
 } from "./actions";
+import { calculateDistanceToUser } from "./pharmaciesActions";
 
 interface PharmaciesState {
   all: Pharmacy[];
@@ -43,8 +44,19 @@ export default (state = pharmaciesState, action: any) => {
     case GET_OPH_CURRENT_STATE:
       // Retrieve the most recent data from the server
 
-      let ophCurrentState: PharmacyFullState[] = action.data;
+      let ophCurrentState: PharmacyFullState[] = action.data.pharmacies;
+      let location = action.data.location;
       // If i have to do something with the data, i do it here
+      if (location) {
+        // If the user has given his location, we calculate the distance to the user for each pharmacy
+        ophCurrentState = calculateDistanceToUser(ophCurrentState, location);
+      }
+
+      if (state.isLocationPermissionGranted && state.sortMode === "Proximity") {
+        // sort by distance
+        ophCurrentState = _.sortBy(ophCurrentState, ["distanceToUser"]);
+      }
+
       if (state.displayMode === "OpenOnly") {
         // Filter to retrive only open pharmacies
         ophCurrentState = ophCurrentState.filter((pharmacy) => pharmacy.open);
@@ -52,7 +64,7 @@ export default (state = pharmaciesState, action: any) => {
 
       return {
         ...state,
-        pharmacies: action.data,
+        pharmacies: action.data.pharmacies,
         toDisplayInBottomSheet: ophCurrentState,
         isLoading: false,
       };

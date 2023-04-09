@@ -8,12 +8,16 @@ import BottomBar from "../components/screens-components/BottomBar";
 import { UserLocationContext } from "../contexts/UserLocationContext";
 import { RootReducerType } from "../types/dataTypes";
 
+import Map from "../components/screens-components/Map";
 
 import MainBottomSheet from "../components/screens-components/BottomSheet";
-import Map from "../components/screens-components/Map";
 import ToolBar from "../components/ToolBar";
 import { MapContext } from "../contexts/MapContext";
 import useInitializer from "../hooks/useInitializer";
+import { getOpenPharmaPharmaciesDatas } from "../stores/pharmaciesActions";
+
+import * as Location from "expo-location";
+
 
 
 const MainScreen = () => {
@@ -24,6 +28,9 @@ const MainScreen = () => {
     const { setIsFetching } = useContext(MapContext)
     const pharmacies = useSelector((state: RootReducerType) => {
         return state.pharmacies.toDisplayInBottomSheet;
+    });
+    const isLococationPermissionGranted = useSelector((state: RootReducerType) => {
+        return state.pharmacies.isLocationPermissionGranted;
     });
     const [isProximityMode, setIsProximityMode] = useState<boolean>(false);
     const distanceCalculatorIntervalId = useRef<number | null>(null)
@@ -93,7 +100,23 @@ const MainScreen = () => {
     // }, [pharmacies, location])
 
 
+    React.useEffect(() => {
+        console.log("Dispatch fetch current state")
 
+        if (isLococationPermissionGranted) {
+            Location.getCurrentPositionAsync({}).then((location) => {
+                console.log("currentLocation is : ", location)
+                dispatch(getOpenPharmaPharmaciesDatas(location))
+
+            });
+
+        } else {
+            dispatch(getOpenPharmaPharmaciesDatas(null))
+        }
+
+
+
+    }, [])
 
 
     return (

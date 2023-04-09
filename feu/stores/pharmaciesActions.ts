@@ -11,6 +11,8 @@ import {
   CHANGE_DISPLAY_MODE,
   CHANGE_ORDER,
   FETCH_ALL_PHARMACIES,
+  GET_OPH_CURRENT_STATE,
+  SET_LOADING_STATE,
 } from "./actions";
 
 import { LocationObject } from "expo-location";
@@ -174,22 +176,25 @@ export const getOpenPharmacies = () => {
   };
 };
 
-export const getOpenPharmaPharmaciesDatas = () => {
+export const getOpenPharmaPharmaciesDatas = (
+  location: LocationObject | null
+) => {
   // This function is used to fetch from the oph backend the list complete list of pharmacies and their states (open or closed).
 
   return async (dispatch: any) => {
     dispatch({
-      type: "SET_LOADING_STATE",
+      type: SET_LOADING_STATE,
       data: true,
     });
+
     try {
       let response = await axios.get<PharmacyFullState[]>(
         `${BACKEND_ADDRESS}/api/pharmacies-current-state/`
       );
       console.log("Pharmacies ", response.data.length);
       return dispatch({
-        type: "GET_OPH_CURRENT_STATE",
-        data: response.data,
+        type: GET_OPH_CURRENT_STATE,
+        data: { pharmacies: response.data, location: location },
       });
     } catch (error) {
       throw error;
@@ -206,14 +211,14 @@ export const calculateDistanceToUser = (
   userLocation: LocationObject
 ) => {
   return pharmacies.map((pharmacy) => {
-    let distanceToUserReadable = calculateDistance(
+    let distanceToUser = calculateDistance(
       [userLocation.coords.latitude, userLocation.coords.longitude],
       [+pharmacy.coordinates.latitude, +pharmacy.coordinates.longitude]
     );
     return {
       ...pharmacy,
-      distanceToUser: convertToReadableDistance(distanceToUserReadable),
-      distanceToUserRaw: distanceToUserReadable,
+      distanceToUser: distanceToUser,
+      distanceToUserReadable: convertToReadableDistance(distanceToUser),
     };
   });
 };
