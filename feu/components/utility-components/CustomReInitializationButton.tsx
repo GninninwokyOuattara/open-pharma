@@ -25,8 +25,8 @@ const CustomReInitializationButton = () => {
 
     const handleClick = useCallback(() => {
         if (isLocationPermissionGranted) {
-            Location.getCurrentPositionAsync({}).then((location) => {
-
+            return Location.getCurrentPositionAsync({}).then((location) => {
+                return dispatch(getOpenPharmaPharmaciesDatas(location))
             })
         }
         return dispatch(getOpenPharmaPharmaciesDatas(null));
