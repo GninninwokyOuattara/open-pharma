@@ -98,7 +98,7 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
 
                         // />
                         <CustomMarker
-                            key={index}
+                            key={pharmacyData.id}
                             id={index}
                             coordinate={{
                                 latitude: latitude,
