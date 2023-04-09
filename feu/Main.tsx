@@ -12,7 +12,6 @@ import { UserLocationProvider } from "./contexts/UserLocationContext";
 
 import { BottomSheetRefContextProvider } from "./contexts/BottomSheetRefContext";
 import { SET_IS_LOCATION_PERMISSION_GRANTED } from "./stores/actions";
-import { getOpenPharmaPharmaciesDatas } from "./stores/pharmaciesActions";
 
 
 const Main = () => {
@@ -75,10 +74,7 @@ const Main = () => {
         // setIsReady(true);
     };
 
-    React.useEffect(() => {
-        console.log("Dispatch fetch current state")
-        dispatch(getOpenPharmaPharmaciesDatas())
-    }, [])
+
 
 
     if (!isReady) {
