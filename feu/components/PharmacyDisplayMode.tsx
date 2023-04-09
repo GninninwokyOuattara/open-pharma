@@ -14,6 +14,7 @@ const PharmacyDisplayMode = () => {
         return state.pharmacies.displayMode;
     });
 
+    const textColor = displayMode === "All" ? "black" : COLOR_SCHEME.MEDIIUM_GREEN
 
     const toggledisplayMode = () => {
 
@@ -34,9 +35,10 @@ const PharmacyDisplayMode = () => {
                     alignSelf: "flex-start",
                     padding: 5,
                     marginRight: 5,
-                    borderRadius: 5
+                    borderRadius: 5,
+
                 }}>
-                    <Text style={{ fontWeight: "500" }}>{displayMode == "All" ? "Toutes les pharmacies" : "Pharmacies de garde"}</Text>
+                    <Text style={{ fontWeight: "500", color: textColor }}>{displayMode == "All" ? "Toutes les pharmacies" : "Pharmacies de garde"}</Text>
                 </View>
             </TouchableOpacity>
         </ShadowAround>
