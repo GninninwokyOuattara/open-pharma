@@ -49,6 +49,7 @@ export type Pharmacies = Pharmacy[];
 
 export interface RootReducerType {
   pharmacies: {
+    isLocationPermissionGranted: boolean;
     isLoading: boolean;
     sortMode: "Proximity" | "Alphabetical";
     displayMode: "All" | "OpenOnly";

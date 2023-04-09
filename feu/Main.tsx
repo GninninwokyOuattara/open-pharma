@@ -11,6 +11,7 @@ import { MapContextProvider } from "./contexts/MapContext";
 import { UserLocationProvider } from "./contexts/UserLocationContext";
 
 import { BottomSheetRefContextProvider } from "./contexts/BottomSheetRefContext";
+import { SET_IS_LOCATION_PERMISSION_GRANTED } from "./stores/actions";
 import { getOpenPharmaPharmaciesDatas } from "./stores/pharmaciesActions";
 
 
@@ -53,11 +54,21 @@ const Main = () => {
     const getLocationPermission = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         // setIsReady(true);
-        // if (status !== "granted") {
-        // setErrorMsg("Permission to access location was denied");
+        if (status !== "granted") {
+            // setErrorMsg("Permission to access location was denied");
+            console.log("Location permission denied")
+            dispatch({
+                type: SET_IS_LOCATION_PERMISSION_GRANTED,
+                data: false
+            })
 
-        // return;
-        // }
+        } else {
+            console.log("Location permission granted")
+            dispatch({
+                type: SET_IS_LOCATION_PERMISSION_GRANTED,
+                data: true
+            })
+        }
 
         // let location = await Location.getCurrentPositionAsync({});
         // setLocation(location);

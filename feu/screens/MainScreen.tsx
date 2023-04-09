@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 
@@ -14,7 +14,6 @@ import Map from "../components/screens-components/Map";
 import ToolBar from "../components/ToolBar";
 import { MapContext } from "../contexts/MapContext";
 import useInitializer from "../hooks/useInitializer";
-import { UPDATE_RELATIVE_DISTANCES } from "../stores/actions";
 
 
 const MainScreen = () => {
@@ -74,24 +73,24 @@ const MainScreen = () => {
 
     // }, [proximityCalculationDispatcher])
 
-    useEffect(() => {
-        if (location && pharmacies) {
+    // useEffect(() => {
+    //     if (location && pharmacies) {
 
-            distanceCalculatorIntervalId.current = setInterval(() => {
-                dispatch({
-                    type: UPDATE_RELATIVE_DISTANCES,
-                    data: location
-                })
-            }, 5000);
+    //         distanceCalculatorIntervalId.current = setInterval(() => {
+    //             dispatch({
+    //                 type: UPDATE_RELATIVE_DISTANCES,
+    //                 data: location
+    //             })
+    //         }, 5000);
 
-        }
+    //     }
 
-        return () => {
-            if (distanceCalculatorIntervalId) {
-                clearTimeout(distanceCalculatorIntervalId.current!)
-            }
-        }
-    }, [pharmacies, location])
+    //     return () => {
+    //         if (distanceCalculatorIntervalId) {
+    //             clearTimeout(distanceCalculatorIntervalId.current!)
+    //         }
+    //     }
+    // }, [pharmacies, location])
 
 
 

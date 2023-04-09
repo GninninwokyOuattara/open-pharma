@@ -11,6 +11,7 @@ import {
   GET_OPH_CURRENT_STATE,
   SEARCH_PHARMACIES,
   SET_DISPLAY_MODE,
+  SET_IS_LOCATION_PERMISSION_GRANTED,
   SET_LOADING_STATE,
   UPDATE_RELATIVE_DISTANCES,
 } from "./actions";
@@ -25,6 +26,7 @@ interface PharmaciesState {
 }
 
 const pharmaciesState: RootReducerType["pharmacies"] = {
+  isLocationPermissionGranted: false,
   isLoading: false,
   displayMode: "OpenOnly",
   sortMode: "Proximity",
@@ -126,6 +128,15 @@ export default (state = pharmaciesState, action: any) => {
       return {
         ...state,
         isLoading: desired_loading_state,
+      };
+
+    case SET_IS_LOCATION_PERMISSION_GRANTED:
+      // Manage the location permission state
+      console.log("Changing location permission state to", action.data);
+      let is_permitted = action.data;
+      return {
+        ...state,
+        isLocationPermissionGranted: is_permitted,
       };
 
     case SET_DISPLAY_MODE:
