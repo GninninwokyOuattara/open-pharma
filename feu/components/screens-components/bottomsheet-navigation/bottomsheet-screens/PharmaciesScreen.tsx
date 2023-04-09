@@ -12,13 +12,24 @@ import PharmaItemExtended from "../../bottomsheet-components/PharmaItemExtended"
 
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
-    const { pharmacies, isLoading } = useSelector((state: RootReducerType) => {
+    const { pharmacies, isLoading, displayMode } = useSelector((state: RootReducerType) => {
         return {
             pharmacies: state.pharmacies.toDisplayInBottomSheet,
-            isLoading: state.pharmacies.isLoading
+            isLoading: state.pharmacies.isLoading,
+            displayMode: state.pharmacies.displayMode,
         }
     });
     const { mapRef, setSelectedMarker, mapSetting, isFetching } = useContext(MapContext);
+
+    console.log("DISPLAY MODE", displayMode)
+    console.log("PHARMACIES LENGTH BEFORE", pharmacies.length)
+    let pharmaciesToDisplay = pharmacies;
+    if (displayMode === "OpenOnly") {
+        // Filter to display only open pharmacies
+        pharmaciesToDisplay = pharmacies.filter(pharmacy => pharmacy.open)
+        console.log("PHARMACIES LENGTH AFTER", pharmacies.length)
+
+    }
 
     const renderPharmaciesItems =
         ({ item }: { item: PharmacyFullState }) => {
@@ -59,7 +70,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
 
     }
 
-    if (!isFetching && !pharmacies.length) {
+    if (!isFetching && !pharmaciesToDisplay.length) {
         return <Text>Yup something went horribly wrong...</Text>
     }
 
@@ -68,7 +79,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
 
             <FlatList
                 // ListHeaderComponent={<CustomSearchBar />}
-                data={pharmacies}
+                data={pharmaciesToDisplay}
                 keyExtractor={(item) => item.id}
                 maxToRenderPerBatch={10}
                 initialNumToRender={10}

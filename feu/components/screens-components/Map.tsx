@@ -22,6 +22,15 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
     const pharmacies = useSelector((state: RootReducerType) => {
         return state.pharmacies.pharmacies;
     });
+    const displayMode = useSelector((state: RootReducerType) => {
+        return state.pharmacies.displayMode;
+    });
+
+    let pharmaciesToDisplay = pharmacies
+    if (displayMode === "OpenOnly") {
+        // Filter to display only open pharmacies
+        pharmaciesToDisplay = pharmacies.filter(pharmacy => pharmacy.open)
+    }
 
     // console.log(pharmacies.splice(100, 200))
 
@@ -53,7 +62,7 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
                         longitudeDelta: mapSetting.lngDelta,
                     }
                 } else {
-                    if (pharmacies.length) {
+                    if (pharmaciesToDisplay.length) {
 
                         const pharmacy = pharmacies[0]
                         return {
@@ -75,8 +84,8 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
         // mapPadding={{ top: 0, right: 0, bottom: 50, left: 0 }}
         >
 
-            {(!isFetching && pharmacies) &&
-                pharmacies.map((pharmacyData, index) => {
+            {(!isFetching && pharmaciesToDisplay) &&
+                pharmaciesToDisplay.map((pharmacyData, index) => {
                     const { latitude, longitude } = pharmacyData;
                     return (
                         // <Marker
