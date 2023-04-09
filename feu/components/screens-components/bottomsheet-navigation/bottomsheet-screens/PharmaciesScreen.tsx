@@ -1,7 +1,7 @@
 import { BottomSheetView } from "@gorhom/bottom-sheet";
 import _ from "lodash";
 import React, { useContext } from "react";
-import { FlatList, StyleSheet, Text } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { MapContext } from "../../../../contexts/MapContext";
 import { PharmacyFullState, RootReducerType } from "../../../../types/dataTypes";
@@ -80,8 +80,32 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
 
     }
 
-    if (!isFetching && !pharmaciesToDisplay.length) {
-        return <Text>Yup something went horribly wrong...</Text>
+    if (!isLoading && !pharmaciesToDisplay.length) {
+        return (
+            <View style={{
+                flex: 1,
+                // justifyContent: "center",
+                alignItems: "center",
+                paddingTop: 20,
+
+            }}>
+                <Text
+                    style={{
+                        color: "grey",
+                        fontWeight: "bold",
+                        fontSize: 20,
+                    }}
+                >Aucune pharmacie trouvé.</Text>
+                <Text
+                    style={{
+                        color: "grey",
+                        fontWeight: "bold",
+                        fontSize: 20,
+                        textAlign: "center",
+                    }}
+                >Veuillez Patienter un moment avant de refraichir.</Text>
+            </View>
+        )
     }
 
     return (
