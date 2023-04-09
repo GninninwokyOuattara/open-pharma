@@ -57,8 +57,8 @@ const PharmacyListOrder: React.FC<Props> = ({ setIsProximityMode }) => {
           {/* <Text style={{ fontWeight: "500" }}>{orderMode}</Text> */}
           {
             sortMode == "Proximity"
-              ? <Image source={require("../assets/distanceIcon.png")} style={{ height: 20, width: 20 }} />
-              : <Image source={require("../assets/orderIcon.png")} style={{ height: 15, width: 20 }} />
+              ? <Image source={require("../assets/distanceIconOrange.png")} style={{ height: 20, width: 20 }} />
+              : <Image source={require("../assets/orderIconOrange.png")} style={{ height: 15, width: 20 }} />
           }
 
         </View>
