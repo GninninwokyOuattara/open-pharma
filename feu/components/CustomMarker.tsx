@@ -10,10 +10,38 @@ interface Props {
         longitude: number
     },
     open: boolean,
-    title: string
+    title: string,
+    selected?: boolean
 }
 
-let CustomMarker: React.FC<Props> = ({ id, coordinate, open, title }) => {
+let CustomMarker: React.FC<Props> = ({ id, coordinate, open, title, selected }) => {
+    // const { selectedMarker } = useContext(MapContext);
+
+    // if (selectedMarker && selectedMarker === id) {
+    //     console.log("Selected Marker", selectedMarker),
+    //         console.log("IT IS I", title)
+    // }
+
+    if (selected) {
+
+        return (
+            <Marker
+                title={title}
+                key={id}
+                coordinate={{
+                    latitude: +coordinate.latitude,
+                    longitude: +coordinate.longitude,
+                }}
+
+            >
+
+                {/* <Image source={require("../assets/markerGreen.png")} style={{ height: 45, width: 20 }} /> */}
+                <Pulse color='blue' dotSize={15} />
+
+            </Marker>
+        )
+    }
+
 
     if (open) {
         return (
@@ -36,12 +64,7 @@ let CustomMarker: React.FC<Props> = ({ id, coordinate, open, title }) => {
     }
 
     return (
-        // <Marker
-        //     key={id}
-        //     coordinate={coordinate}
-        //     pinColor={open ? "#a0f20c" : "red"}
-        //     tracksViewChanges={false}
-        // />
+
         <Marker
             key={id}
             coordinate={{

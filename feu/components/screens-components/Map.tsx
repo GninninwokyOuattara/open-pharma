@@ -7,7 +7,6 @@ import { MapContext } from "../../contexts/MapContext";
 import { UserLocationContext } from "../../contexts/UserLocationContext";
 import { RootReducerType } from "../../types/dataTypes";
 import CustomMarker from "../CustomMarker";
-// import { fetchLocalPharmaciesData } from "../../stores/pharmaciesActions";
 
 interface props {
     setIsMapLoaded: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,25 +31,13 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
         pharmaciesToDisplay = pharmacies.filter(pharmacy => pharmacy.open)
     }
 
-    // console.log(pharmacies.splice(100, 200))
 
-
-    // if (location) {
-
-    // }
     return (
         <MapView
             ref={mapRef}
             onMapLoaded={() => setIsMapLoaded(true)}
-            // onUserLocationChange={(locationEvent) => console.log(locationEvent.nativeEvent.coordinate)}
-            // onRegionChange={(region) => console.log("Region", region)}
             style={styles.map}
-            // initialRegion={{
-            //     latitude: location?.coords.latitude || 5.393620594067611,
-            //     longitude: location?.coords.longitude || -4.005658558941592,
-            //     latitudeDelta: 0.0922,
-            //     longitudeDelta: 0.0421,
-            // }}
+
             initialRegion={(() => {
 
                 if (location) {
@@ -88,30 +75,21 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
                 pharmaciesToDisplay.map((pharmacyData, index) => {
                     const { latitude, longitude } = pharmacyData;
                     return (
-                        // <Marker
-                        //     key={index}
-                        //     coordinate={{
-                        //         latitude: +latitude,
-                        //         longitude: +longitude,
-                        //     }}
-                        //     pinColor={pharmacyData.open ? "#a0f20c" : "red"}
 
-                        // />
                         <CustomMarker
                             key={pharmacyData.id}
                             title={pharmacyData.name}
-                            id={index}
+                            id={pharmacyData.id}
                             coordinate={{
                                 latitude: latitude,
                                 longitude: longitude,
                             }}
                             open={pharmacyData.open}
+                            selected={selectedMarker === pharmacyData.id}
                         />
                     );
                 })}
 
-            {/* Button to point map on user position */}
-            {/* {location && <CustomShowsMyLocationButton />} */}
 
         </MapView>
     );
@@ -131,5 +109,3 @@ const styles = StyleSheet.create({
 
 export default Map;
 
-//  Bottomsheet component should use new data format
-//  Pharma item should display something please
