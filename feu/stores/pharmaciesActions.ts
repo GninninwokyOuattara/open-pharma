@@ -8,15 +8,12 @@ import {
 } from "../types/dataTypes";
 import {
   APPLY_FILTER,
-  CHANGE_DISPLAY_MODE,
-  CHANGE_ORDER,
   FETCH_ALL_PHARMACIES,
   GET_OPH_CURRENT_STATE,
   SET_LOADING_STATE,
 } from "./actions";
 
 import { LocationObject } from "expo-location";
-import _ from "lodash";
 import { getAllPharmacies, insertPharmacie } from "../database/db";
 import { calculateDistance } from "../utils/calculateDistance";
 import { convertToReadableDistance } from "../utils/convertToReadableDistance";
@@ -123,38 +120,38 @@ export const applyFilter = (filter: string) => {
 // Change display mode
 // All -> Display everything
 // OpenOnly -> Display only open pharmacies
-export const changeDisplayMode = (mode: "All" | "OpenOnly") => {
-  return async (dispatch: any) => {
-    dispatch({
-      type: CHANGE_DISPLAY_MODE,
-      data: mode,
-    });
-  };
-};
+// export const changeDisplayMode = (mode: "All" | "OpenOnly") => {
+//   return async (dispatch: any) => {
+//     dispatch({
+//       type: CHANGE_DISPLAY_MODE,
+//       data: mode,
+//     });
+//   };
+// };
 
 // Change pharmacies display order in bottomsheet
-export const changePharmacyDisplayOrder = (
-  pharmacies: Pharmacies,
-  mode: "Ascendant" | "Descendant" | "A proximité"
-) => {
-  return async (dispatch: any) => {
-    let orderedPharmacies: Pharmacies;
+// export const changePharmacyDisplayOrder = (
+//   pharmacies: Pharmacies,
+//   mode: "Ascendant" | "Descendant" | "A proximité"
+// ) => {
+//   return async (dispatch: any) => {
+//     let orderedPharmacies: Pharmacies;
 
-    if (mode === "Ascendant") {
-      orderedPharmacies = _.orderBy(pharmacies, "name", "asc");
-    } else if (mode === "Descendant") {
-      orderedPharmacies = _.orderBy(pharmacies, "name", "desc");
-    } else if (mode === "A proximité") {
-      orderedPharmacies = _.orderBy(pharmacies, ["distanceRaw"]);
-    } else {
-      throw new Error("Invalid mode");
-    }
-    dispatch({
-      type: CHANGE_ORDER,
-      data: orderedPharmacies,
-    });
-  };
-};
+//     if (mode === "Ascendant") {
+//       orderedPharmacies = _.orderBy(pharmacies, "name", "asc");
+//     } else if (mode === "Descendant") {
+//       orderedPharmacies = _.orderBy(pharmacies, "name", "desc");
+//     } else if (mode === "A proximité") {
+//       orderedPharmacies = _.orderBy(pharmacies, ["distanceRaw"]);
+//     } else {
+//       throw new Error("Invalid mode");
+//     }
+//     dispatch({
+//       type: CHANGE_ORDER,
+//       data: orderedPharmacies,
+//     });
+//   };
+// };
 
 export const getOpenPharmacies = () => {
   // REtrieve the list of currently open pharmacies from django backend
