@@ -57,14 +57,14 @@ export default (state = pharmaciesState, action: any) => {
         ophCurrentState = _.sortBy(ophCurrentState, ["distanceToUser"]);
       }
 
-      if (state.displayMode === "OpenOnly") {
-        // Filter to retrive only open pharmacies
-        ophCurrentState = ophCurrentState.filter((pharmacy) => pharmacy.open);
-      }
+      // if (state.displayMode === "OpenOnly") {
+      //   // Filter to retrive only open pharmacies
+      //   ophCurrentState = ophCurrentState.filter((pharmacy) => pharmacy.open);
+      // }
 
       return {
         ...state,
-        pharmacies: action.data.pharmacies,
+        pharmacies: ophCurrentState,
         toDisplayInBottomSheet: ophCurrentState,
         isLoading: false,
       };
@@ -154,22 +154,26 @@ export default (state = pharmaciesState, action: any) => {
     case SET_DISPLAY_MODE:
       // Manage the display mode
       let display_mode = action.data;
-      if (display_mode == "OpenOnly") {
-        let openPharmacies = state.pharmacies.filter(
-          (pharmacy) => pharmacy.open
-        );
-        return {
-          ...state,
-          displayMode: display_mode,
-          toDisplayInBottomSheet: openPharmacies,
-        };
-      }
-
       return {
         ...state,
         displayMode: display_mode,
-        toDisplayInBottomSheet: state.pharmacies,
       };
+    // if (display_mode == "OpenOnly") {
+    //   let openPharmacies = state.pharmacies.filter(
+    //     (pharmacy) => pharmacy.open
+    //   );
+    //   return {
+    //     ...state,
+    //     displayMode: display_mode,
+    //     toDisplayInBottomSheet: openPharmacies,
+    //   };
+    // }
+
+    // return {
+    //   ...state,
+    //   displayMode: display_mode,
+    //   toDisplayInBottomSheet: state.pharmacies,
+    // };
 
     default:
       return { ...state };
