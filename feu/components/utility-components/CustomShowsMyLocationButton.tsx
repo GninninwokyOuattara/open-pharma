@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { MaterialIcons } from "@expo/vector-icons";
+import { COLOR_SCHEME } from '../../constants/colorSchemes';
 import { MapContext, MapContextType } from "../../contexts/MapContext";
 import { UserContextType, UserLocationContext } from '../../contexts/UserLocationContext';
 
@@ -23,7 +24,7 @@ const CustomShowsMyLocationButton = () => {
       latitudeDelta: mapSetting.latDelta,
       longitudeDelta: mapSetting.lngDelta,
     })}>
-      <View style={styles.iconContainer}>
+      <View style={{ ...styles.iconContainer, backgroundColor: COLOR_SCHEME.LIGHT_ORANGE }}>
 
         <MaterialIcons
           style={styles.myLocationIcon}
