@@ -1,6 +1,7 @@
 import React from 'react'
 import { Image } from 'react-native'
 import { Marker } from 'react-native-maps'
+import Pulse from './utility-components/Pulse'
 
 interface Props {
     id: any,
@@ -25,7 +26,8 @@ let CustomMarker: React.FC<Props> = ({ id, coordinate, open }) => {
 
             >
 
-                <Image source={require("../assets/markerGreen.png")} style={{ height: 45, width: 20 }} />
+                {/* <Image source={require("../assets/markerGreen.png")} style={{ height: 45, width: 20 }} /> */}
+                <Pulse color='green' dotSize={15} />
 
             </Marker>
         )
