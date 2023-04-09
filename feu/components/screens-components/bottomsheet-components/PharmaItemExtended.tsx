@@ -1,6 +1,5 @@
 import React, { memo } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
-import ShadowAround from '../../utility-components/ShadowAround'
 
 import { PharmacyFullState } from '../../../types/dataTypes'
 import Pulse from '../../utility-components/Pulse'
@@ -14,50 +13,46 @@ interface Props {
 
 const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
     return (
-        <ShadowAround
-            shadowStyles={{
-                shadowColor: "#C0AF96",
-                shadowOffset: { width: 0, height: 0 },
-            }}
-        >
-            <TouchableWithoutFeedback onPress={() => onPress && onPress()}>
-                <View style={styles.container}>
-
-                    <View style={styles.primaryContainer}>
-                        <ScrollView
-                            style={styles.pharmacyInfoContainer}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                        >
-
-                            <Text style={styles.pharmacyHeader}>{pharmacyData.name}</Text>
-
-                        </ScrollView>
 
 
-                        <View style={styles.pharmacyMetaContainer}>
-                            <View>
+        <TouchableWithoutFeedback onPress={() => onPress && onPress()}>
+            <View style={styles.container}>
 
-                                <Text style={styles.pharmacyDistance}>{pharmacyData.distanceToUserReadable}</Text>
-                            </View>
+                <View style={styles.primaryContainer}>
+                    <ScrollView
+                        style={styles.pharmacyInfoContainer}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                    >
 
-                            {
-                                pharmacyData.open &&
-                                <Pulse color='#28a745' />
+                        <Text style={styles.pharmacyHeader}>{pharmacyData.name}</Text>
+
+                    </ScrollView>
 
 
-                            }
+                    <View style={styles.pharmacyMetaContainer}>
+                        <View>
+
+                            <Text style={styles.pharmacyDistance}>{pharmacyData.distanceToUserReadable}</Text>
                         </View>
 
+                        {
+                            pharmacyData.open &&
+                            <Pulse color='#28a745' />
 
 
+                        }
                     </View>
 
 
 
                 </View>
-            </TouchableWithoutFeedback>
-        </ShadowAround>
+
+
+
+            </View>
+        </TouchableWithoutFeedback>
+
     )
 }
 
@@ -72,7 +67,17 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         height: 50,
         // borderWidth: 1,
-        // borderColor: "red"
+        // borderColor: "red",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 5.46,
+
+        elevation: 9,
+
     },
     primaryContainer: {
         width: "100%",
