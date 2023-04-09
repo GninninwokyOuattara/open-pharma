@@ -4,8 +4,6 @@ import {
   PharmacyFullState,
   RootReducerType,
 } from "../types/dataTypes";
-import { calculateDistance } from "../utils/calculateDistance";
-import { convertToReadableDistance } from "../utils/convertToReadableDistance";
 import {
   GET_OPH_CURRENT_STATE,
   SEARCH_PHARMACIES,
@@ -71,28 +69,25 @@ export default (state = pharmaciesState, action: any) => {
       };
     case UPDATE_RELATIVE_DISTANCES:
       let userLocation = action.data;
-      let pharmaciesWithDistance: PharmacyFullState[] =
-        state.toDisplayInBottomSheet.map((pharmacy) => {
-          let distanceToUser = calculateDistance(
-            [userLocation.coords.latitude, userLocation.coords.longitude],
-            [+pharmacy.coordinates.latitude, +pharmacy.coordinates.longitude]
-          );
-
-          return {
-            ...pharmacy,
-            distanceToUser: distanceToUser,
-            distanceToUserReadable: convertToReadableDistance(distanceToUser),
-          };
-        });
-
-      if ((state.sortMode = "Proximity")) {
-        pharmaciesWithDistance = _.sortBy(pharmaciesWithDistance, [
-          "distanceToUser",
-        ]);
+      let pharmaciesWithUpdatedDistances: PharmacyFullState[] =
+        calculateDistanceToUser(state.pharmacies, userLocation);
+      if (state.isLocationPermissionGranted && state.sortMode === "Proximity") {
+        // sort by distance
+        pharmaciesWithUpdatedDistances = _.sortBy(
+          pharmaciesWithUpdatedDistances,
+          ["distanceToUser"]
+        );
       }
+
+      // if ((state.sortMode = "Proximity")) {
+      //   pharmaciesWithDistance = _.sortBy(pharmaciesWithDistance, [
+      //     "distanceToUser",
+      //   ]);
+      // }
       return {
         ...state,
-        toDisplayInBottomSheet: pharmaciesWithDistance,
+        toDisplayInBottomSheet: pharmaciesWithUpdatedDistances,
+        pharmacies: pharmaciesWithUpdatedDistances,
       };
 
     case SEARCH_PHARMACIES:

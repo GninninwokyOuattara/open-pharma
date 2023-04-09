@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 
@@ -17,87 +17,47 @@ import useInitializer from "../hooks/useInitializer";
 import { getOpenPharmaPharmaciesDatas } from "../stores/pharmaciesActions";
 
 import * as Location from "expo-location";
+import { UPDATE_RELATIVE_DISTANCES } from "../stores/actions";
 
 
 
 const MainScreen = () => {
-    const [isMapLoaded, setIsMapLoaded] = useState(false);
     const insets = useSafeAreaInsets();
+
+    const [isMapLoaded, setIsMapLoaded] = useState(false);
+    const [isProximityMode, setIsProximityMode] = useState<boolean>(false);
+
+    const updatePharmaciesDistancesIntervalId = useRef<number | null>(null)
+
+
     const dispatch = useDispatch();
-    const { location } = useContext(UserLocationContext)
-    const { setIsFetching } = useContext(MapContext)
     const pharmacies = useSelector((state: RootReducerType) => {
         return state.pharmacies.toDisplayInBottomSheet;
     });
     const isLococationPermissionGranted = useSelector((state: RootReducerType) => {
         return state.pharmacies.isLocationPermissionGranted;
     });
-    const [isProximityMode, setIsProximityMode] = useState<boolean>(false);
-    const distanceCalculatorIntervalId = useRef<number | null>(null)
+
+    const { location } = useContext(UserLocationContext)
+    const { setIsFetching } = useContext(MapContext)
 
     const { init } = useInitializer()
 
 
-    // On launch, retrieve data from database if exist otherwise from firebase
-    // useEffect(() => {
-    //     // if(setIsFetching){}
-    //     (async () => {
-    //         await init()
-    //     }
-    //     )()
-    // }, [])
 
 
-    // const proximityCalculationDispatcher = useCallback(() => {
+    const dispatchUpdatePharmaciesDistancestoUser = useCallback(() => {
+        if (!isLococationPermissionGranted) {
+            return
+        }
 
-    //     let intervalId = setInterval(() => {
-    //         dispatch(calculatePharmaciesProximityToUser(location, pharmaciesDatas, isProximityMode))
-
-    //     }, 5000)
-
-    //     return intervalId
-    // }, [location, pharmaciesDatas, isProximityMode])
-
-
-
-    // Location Updater
-    // useEffect(() => {
-    //     // let intervalId: number
-    //     // if (location) {
-    //     //     intervalId = setInterval(() => {
-    //     //         dispatch(calculatePharmaciesProximityToUser(location, pharmaciesDatas))
-    //     //     }, 5000)
-    //     // }
-
-    //     // return () => {
-    //     //     if (intervalId) clearInterval(intervalId)
-    //     // }
-
-    //     const intervalId = proximityCalculationDispatcher()
-
-    //     return () => clearInterval(intervalId)
-
-
-    // }, [proximityCalculationDispatcher])
-
-    // useEffect(() => {
-    //     if (location && pharmacies) {
-
-    //         distanceCalculatorIntervalId.current = setInterval(() => {
-    //             dispatch({
-    //                 type: UPDATE_RELATIVE_DISTANCES,
-    //                 data: location
-    //             })
-    //         }, 5000);
-
-    //     }
-
-    //     return () => {
-    //         if (distanceCalculatorIntervalId) {
-    //             clearTimeout(distanceCalculatorIntervalId.current!)
-    //         }
-    //     }
-    // }, [pharmacies, location])
+        Location.getCurrentPositionAsync({}).then((location) => {
+            dispatch({
+                type: UPDATE_RELATIVE_DISTANCES,
+                data: location
+            })
+        })
+    }, [isLococationPermissionGranted, dispatch])
 
 
     React.useEffect(() => {
@@ -116,6 +76,25 @@ const MainScreen = () => {
 
     }, [])
 
+    useEffect(() => {
+        if (isLococationPermissionGranted) {
+            updatePharmaciesDistancesIntervalId.current = setInterval(() => {
+
+                dispatchUpdatePharmaciesDistancestoUser()
+
+            }, 10000)
+        }
+
+        return () => {
+            if (updatePharmaciesDistancesIntervalId.current) {
+                clearInterval(updatePharmaciesDistancesIntervalId.current)
+            }
+        }
+
+    }, [isLococationPermissionGranted, dispatchUpdatePharmaciesDistancestoUser])
+
+
+
 
     return (
 
@@ -124,14 +103,12 @@ const MainScreen = () => {
                 flex: 1,
             }}
         >
-            {/* <Map setIsMapLoaded={setIsMapLoaded} />
-            {isMapLoaded ? <MainBottomSheet /> : null} */}
+
             <Map setIsMapLoaded={setIsMapLoaded} />
 
             <MainBottomSheet />
             <BottomBar />
 
-            {/* SearchBar */}
             <ToolBar {...{ setIsProximityMode }} />
 
 
