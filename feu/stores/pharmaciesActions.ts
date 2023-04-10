@@ -176,7 +176,6 @@ export const getOpenPharmaPharmaciesDatas = (
   location: LocationObject | null
 ) => {
   // This function is used to fetch from the oph backend the list complete list of pharmacies and their states (open or closed).
-
   return async (dispatch: any) => {
     dispatch({
       type: SET_LOADING_STATE,
@@ -192,7 +191,11 @@ export const getOpenPharmaPharmaciesDatas = (
         data: { pharmacies: response.data, location: location },
       });
     } catch (error) {
-      throw error;
+      // throw error;
+      dispatch({
+        type: SET_LOADING_STATE,
+        data: false,
+      });
     }
   };
 };
