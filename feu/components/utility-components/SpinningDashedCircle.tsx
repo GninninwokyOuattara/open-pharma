@@ -33,33 +33,6 @@ const SpinningDashedCircle: React.FC<props> = ({ color }) => {
     }, [])
 
 
-
-
-    // let rotation = new Animated.Value(200);
-    // let rotate = rotation.interpolate({
-    //     inputRange: [0, 1],
-    //     outputRange: [360, 0]
-    // })
-
-    // const animatedStyle = [{
-    //     transform: [{ rotateZ: `${rotate}deg` }]
-    // }]
-
-
-    // useEffect(() => {
-
-    //     Animated.loop(Animated.timing(
-    //         rotation,
-    //         {
-    //             toValue: 0,
-    //             duration: 3000,
-    //             easing: Easing.linear,
-    //             useNativeDriver: true
-    //         }
-    //     )).start()
-    // }, [rotation])
-
-
     return (
         <>
             <Animated.View style={[animatedStyle]}>
