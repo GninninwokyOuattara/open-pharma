@@ -1,5 +1,5 @@
-version : '3.1'
-name:  open-pharma-app
+version: '3.1'
+name: open-pharma-app
 services:
   db:
     image: postgres:14.5-alpine
@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_DB: openpharmarest
     volumes:
       - postgresdb:/var/lib/postgresql/data
 
@@ -26,7 +26,7 @@ services:
       DB_PASSWORD: postgres
       DB_HOST: db
       DB_PORT: 5432
-  
+
   django_app_cron:
     depends_on:
       - django_app
@@ -43,7 +43,7 @@ services:
   react_app:
     depends_on:
       - django_app_cron
-    build :
+    build:
       context: ./nuages
     ports:
       - "3000:3000"
