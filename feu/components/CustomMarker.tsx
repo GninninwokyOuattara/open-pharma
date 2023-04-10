@@ -18,6 +18,7 @@ interface Props {
 let CustomMarker: React.FC<Props> = ({ id, coordinate, open, title, selected }) => {
 
     if (selected) {
+        let color: "green" | "orange" = open ? "green" : "orange"
 
         return (
             <Marker
@@ -31,7 +32,7 @@ let CustomMarker: React.FC<Props> = ({ id, coordinate, open, title, selected }) 
             >
 
                 {/* <Pulse color='blue' dotSize={15} /> */}
-                <SpinningDashedCircle />
+                <SpinningDashedCircle color={color} />
 
 
             </Marker>
@@ -63,6 +64,7 @@ let CustomMarker: React.FC<Props> = ({ id, coordinate, open, title, selected }) 
 
         <Marker
             key={id}
+            title={title}
             coordinate={{
                 latitude: +coordinate.latitude,
                 longitude: +coordinate.longitude,
@@ -71,7 +73,7 @@ let CustomMarker: React.FC<Props> = ({ id, coordinate, open, title, selected }) 
 
         >
 
-            <Image source={require("../assets/markerOrange.png")} style={{ height: 45, width: 20 }} />
+            <Image source={require("../assets/markerOrange.png")} />
 
         </Marker>
 

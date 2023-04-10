@@ -3,7 +3,18 @@ import { Image } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 
 
-const SpinningDashedCircle = () => {
+interface props {
+    color?: "default" | "orange" | "green"
+}
+
+const SpinningDashedCircle: React.FC<props> = ({ color }) => {
+
+    color = color || "default"
+    const imgSource = color === "default"
+        ? require("../../assets/dashedCircle.png")
+        : color === "orange"
+            ? require("../../assets/dashedCircleOrange.png")
+            : require("../../assets/dashedCircleGreen.png")
     const rotation = useSharedValue(0);
     const animatedStyle = useAnimatedStyle(() => {
         return {
@@ -53,7 +64,7 @@ const SpinningDashedCircle = () => {
         <>
             <Animated.View style={[animatedStyle]}>
 
-                <Image source={require("../../assets/dashedCircle.png")} />
+                <Image source={imgSource} />
 
             </Animated.View>
         </>
