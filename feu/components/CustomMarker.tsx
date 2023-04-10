@@ -2,6 +2,7 @@ import React from 'react'
 import { Image } from 'react-native'
 import { Marker } from 'react-native-maps'
 import Pulse from './utility-components/Pulse'
+import SpinningDashedCircle from './utility-components/SpinningDashedCircle'
 
 interface Props {
     id: any,
@@ -29,8 +30,9 @@ let CustomMarker: React.FC<Props> = ({ id, coordinate, open, title, selected }) 
 
             >
 
-                {/* <Image source={require("../assets/markerGreen.png")} style={{ height: 45, width: 20 }} /> */}
-                <Pulse color='blue' dotSize={15} />
+                {/* <Pulse color='blue' dotSize={15} /> */}
+                <SpinningDashedCircle />
+
 
             </Marker>
         )
