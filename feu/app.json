@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "feu",
-    "slug": "feu",
+    "name": "OpenPharma",
+    "slug": "OpenPhama",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
