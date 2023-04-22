@@ -122,7 +122,6 @@ class PharmaciesCurrentStateViewset(viewsets.ReadOnlyModelViewSet):
 
 
 class PharmaciesAllStateCountView(viewsets.ReadOnlyModelViewSet):
-    current_date = datetime.datetime.now()
     serializer_class = PharmaciesOpenStateSerializer
 
     def list(self, request, *args, **kwargs):
