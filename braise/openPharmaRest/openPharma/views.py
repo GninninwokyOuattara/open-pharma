@@ -184,14 +184,14 @@ class PharmaciesStateAndCountViewset(viewsets.ReadOnlyModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
 
         active_pharmacies_count = Pharmacy.objects.filter(active=True).count()
-        inactive_Pharmacies_count = Pharmacy.objects.filter(
+        inactive_pharmacies_count = Pharmacy.objects.filter(
             active=False, pending_review=False).count()
         open_pharmacies_count = OpenPharmacy.objects.filter(
             open_from__lte=self.current_date, open_until__gte=self.current_date).count()
 
         count_summary = {
             "active_pharmacies_count": active_pharmacies_count,
-            "inactive_Pharmacies_count": inactive_Pharmacies_count,
+            "inactive_Pharmacies_count": inactive_pharmacies_count,
             "open_pharmacies_count": open_pharmacies_count
         }
 
