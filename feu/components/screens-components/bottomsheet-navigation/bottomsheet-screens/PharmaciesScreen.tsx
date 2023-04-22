@@ -1,9 +1,10 @@
 import { BottomSheetView } from "@gorhom/bottom-sheet";
+import _ from "lodash";
 import React, { useContext } from "react";
-import { FlatList, StyleSheet, Text } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { MapContext } from "../../../../contexts/MapContext";
-import { Pharmacy, RootReducerType } from "../../../../types/dataTypes";
+import { PharmacyFullState, RootReducerType } from "../../../../types/dataTypes";
 import { PharmaciesScreenType } from "../../../../types/screenTypes";
 import SkeletonContentLoader from "../../../utility-components/SkeletonContentLoader";
 import PharmaItemExtended from "../../bottomsheet-components/PharmaItemExtended";
@@ -12,14 +13,37 @@ import PharmaItemExtended from "../../bottomsheet-components/PharmaItemExtended"
 
 
 const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
-    const pharmaciesDatas = useSelector((state: RootReducerType) => {
-        return state.pharmacies.toDisplayInBottomSheet;
+    const { pharmacies, isLoading, displayMode, sortMode, isSearchingPharmacy } = useSelector((state: RootReducerType) => {
+        return {
+            pharmacies: state.pharmacies.toDisplayInBottomSheet,
+            isLoading: state.pharmacies.isLoading,
+            displayMode: state.pharmacies.displayMode,
+            sortMode: state.pharmacies.sortMode,
+            isSearchingPharmacy: state.pharmacies.isSearchingPharmacy,
+        }
     });
-    const { mapRef, setSelectedMarker, mapSetting } = useContext(MapContext);
-    const { isFetching } = useContext(MapContext)
+    const lastSortMode = React.useRef(sortMode);
+    const { mapRef, setSelectedMarker, mapSetting, isFetching } = useContext(MapContext);
+
+    let pharmaciesToDisplay = pharmacies;
+    if (displayMode === "OpenOnly") {
+        // Filter to display only open pharmacies
+        pharmaciesToDisplay = pharmacies.filter(pharmacy => pharmacy.open)
+
+    }
+
+    if (lastSortMode.current !== sortMode) {
+        if (sortMode == "Alphabetical") {
+            pharmaciesToDisplay = _.sortBy(pharmaciesToDisplay, ["name"]);
+        }
+        else if (sortMode == "Proximity") {
+            pharmaciesToDisplay = _.sortBy(pharmaciesToDisplay, ["distanceToUser"]);
+        }
+        lastSortMode.current = sortMode;
+    }
 
     const renderPharmaciesItems =
-        ({ item }: { item: Pharmacy }) => {
+        ({ item }: { item: PharmacyFullState }) => {
             // console.log(item.phid);
             return (
                 <PharmaItemExtended
@@ -28,17 +52,18 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                     onPress={() => {
                         setSelectedMarker && setSelectedMarker(item.id);
 
+                        const { latitude, longitude } = item;
                         // const [latitude, longitude] = item.Position.split(
                         //     ","
                         // ).map((coord) => +coord);
-                        const { lat, lng } = item.coordinates;
+                        // const { lat, lng } = item.coordinates;
                         // Navigate to second screen
                         // navigation.navigate("Information", {
                         //     pharmacy: item,
                         // });
                         mapRef?.current?.animateToRegion({
-                            latitude: +lat - mapSetting.lat,
-                            longitude: +lng - mapSetting.lng,
+                            latitude: latitude,
+                            longitude: longitude,
                             latitudeDelta: mapSetting.latDelta,
                             longitudeDelta: mapSetting.lngDelta,
                         });
@@ -47,17 +72,68 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                 />
             );
         }
-    //     [pharmaciesDatas]
+    //     [pharmacies]
     // );
 
 
-    if (isFetching) {
+    if (isLoading) {
         return <SkeletonContentLoader />
-
     }
 
-    if (!isFetching && !pharmaciesDatas.length) {
-        return <Text>Yup something went horribly wrong...</Text>
+    if (!isLoading && isSearchingPharmacy && !pharmaciesToDisplay.length) {
+        return (
+            <View style={{
+                flex: 1,
+                // justifyContent: "center",
+                alignItems: "center",
+                paddingTop: 20,
+
+            }}>
+                <Text
+                    style={{
+                        color: "grey",
+                        fontWeight: "bold",
+                        fontSize: 20,
+                    }}
+                >Aucune pharmacie trouvé.</Text>
+                <Text
+                    style={{
+                        color: "grey",
+                        fontWeight: "bold",
+                        fontSize: 20,
+                        textAlign: "center",
+                    }}
+                >Essayer de modifier votre recherche.</Text>
+            </View>
+        )
+    }
+
+    if (!isLoading && !pharmaciesToDisplay.length) {
+        return (
+            <View style={{
+                flex: 1,
+                // justifyContent: "center",
+                alignItems: "center",
+                paddingTop: 20,
+
+            }}>
+                <Text
+                    style={{
+                        color: "grey",
+                        fontWeight: "bold",
+                        fontSize: 20,
+                    }}
+                >Aucune pharmacie trouvé.</Text>
+                <Text
+                    style={{
+                        color: "grey",
+                        fontWeight: "bold",
+                        fontSize: 20,
+                        textAlign: "center",
+                    }}
+                >Veuillez Patienter un moment avant de refraichir.</Text>
+            </View>
+        )
     }
 
     return (
@@ -65,7 +141,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
 
             <FlatList
                 // ListHeaderComponent={<CustomSearchBar />}
-                data={pharmaciesDatas}
+                data={pharmaciesToDisplay}
                 keyExtractor={(item) => item.id}
                 maxToRenderPerBatch={10}
                 initialNumToRender={10}

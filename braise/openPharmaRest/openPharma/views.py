@@ -125,17 +125,17 @@ class PharmaciesAllStateCountView(viewsets.ReadOnlyModelViewSet):
     serializer_class = PharmaciesOpenStateSerializer
 
     def list(self, request, *args, **kwargs):
-        current_date = datetime.datetime.now()
+
         active_pharmacies_count = Pharmacy.objects.filter(active=True).count()
         inactive_Pharmacies_count = Pharmacy.objects.filter(
             active=False).count()
         open_pharmacies_count = OpenPharmacy.objects.filter(
-            open_from__lte=current_date, open_until__gte=current_date).count()
+            open_from__lte=self.current_date, open_until__gte=self.current_date).count()
 
         count_summary = {
-            "active_pharmacies_count": self.active_pharmacies_count,
-            "inactive_Pharmacies_count": self.inactive_Pharmacies_count,
-            "open_pharmacies_count": self.open_pharmacies_count
+            "active_pharmacies_count": active_pharmacies_count,
+            "inactive_Pharmacies_count": inactive_Pharmacies_count,
+            "open_pharmacies_count": open_pharmacies_count
         }
         return Response(count_summary)
 

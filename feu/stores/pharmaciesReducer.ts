@@ -1,95 +1,159 @@
-import { Pharmacy } from "../types/dataTypes";
+import _ from "lodash";
 import {
-  APPLY_FILTER,
-  CHANGE_DISPLAY_MODE,
-  CHANGE_ORDER,
-  FETCH_ALL_PHARMACIES,
+  Pharmacy,
+  PharmacyFullState,
+  RootReducerType,
+} from "../types/dataTypes";
+import {
+  GET_OPH_CURRENT_STATE,
+  SEARCH_PHARMACIES,
+  SET_DISPLAY_MODE,
+  SET_IS_LOCATION_PERMISSION_GRANTED,
+  SET_LOADING_STATE,
+  SET_SORT_MODE,
   UPDATE_RELATIVE_DISTANCES,
 } from "./actions";
+import { calculateDistanceToUser } from "./pharmaciesActions";
 
 interface PharmaciesState {
   all: Pharmacy[];
   open: Pharmacy[];
   toDisplay: Pharmacy[];
-  toDisplayInBottomSheet: Pharmacy[];
+  toDisplayInBottomSheet: PharmacyFullState[];
   toDisplayInMap: Pharmacy[];
+  pharmacies: PharmacyFullState[];
 }
 
-const pharmaciesState: PharmaciesState = {
+const pharmaciesState: RootReducerType["pharmacies"] = {
+  isLocationPermissionGranted: false,
+  isSearchingPharmacy: false,
+  isLoading: false,
+  displayMode: "OpenOnly",
+  sortMode: "Proximity",
   all: [],
   open: [],
   toDisplay: [],
   toDisplayInBottomSheet: [],
   toDisplayInMap: [],
+  pharmacies: [],
 };
 
-export default (state: PharmaciesState = pharmaciesState, action: any) => {
+export default (state = pharmaciesState, action: any) => {
   switch (action.type) {
-    case FETCH_ALL_PHARMACIES:
-      // Filter open pharmacies
-      const openPharmacies = action.pharmaciesDatas.filter(
-        (pharmacy: Pharmacy) => pharmacy.open
-      );
+    case GET_OPH_CURRENT_STATE:
+      // Retrieve the most recent data from the server
+
+      let ophCurrentState: PharmacyFullState[] = action.data.pharmacies;
+      let location = action.data.location;
+      // If i have to do something with the data, i do it here
+      if (location) {
+        // If the user has given his location, we calculate the distance to the user for each pharmacy
+        ophCurrentState = calculateDistanceToUser(ophCurrentState, location);
+      }
+
+      if (state.isLocationPermissionGranted && state.sortMode === "Proximity") {
+        // sort by distance
+        ophCurrentState = _.sortBy(ophCurrentState, ["distanceToUser"]);
+      }
+
+      // if (state.displayMode === "OpenOnly") {
+      //   // Filter to retrive only open pharmacies
+      //   ophCurrentState = ophCurrentState.filter((pharmacy) => pharmacy.open);
+      // }
 
       return {
         ...state,
-        all: action.pharmaciesDatas,
-        open: openPharmacies,
-        toDisplay: action.pharmaciesDatas,
-        toDisplayInBottomSheet: action.pharmaciesDatas,
-        toDisplayInMap: action.pharmaciesDatas,
+        pharmacies: ophCurrentState,
+        toDisplayInBottomSheet: ophCurrentState,
+        isLoading: false,
+      };
+    case UPDATE_RELATIVE_DISTANCES:
+      let userLocation = action.data;
+      let pharmaciesWithUpdatedDistances: PharmacyFullState[] =
+        calculateDistanceToUser(state.pharmacies, userLocation);
+      if (state.isLocationPermissionGranted && state.sortMode === "Proximity") {
+        // sort by distance
+        pharmaciesWithUpdatedDistances = _.sortBy(
+          pharmaciesWithUpdatedDistances,
+          ["distanceToUser"]
+        );
+      }
+
+      // if ((state.sortMode = "Proximity")) {
+      //   pharmaciesWithDistance = _.sortBy(pharmaciesWithDistance, [
+      //     "distanceToUser",
+      //   ]);
+      // }
+      return {
+        ...state,
+        toDisplayInBottomSheet: pharmaciesWithUpdatedDistances,
+        pharmacies: pharmaciesWithUpdatedDistances,
       };
 
-    case UPDATE_RELATIVE_DISTANCES:
-      let obj = {
-        ...state,
-        // all : action.orderedPharmaciesWithDistances,
-        toDisplay: action.orderedPharmaciesWithDistances,
-        toDisplayInBottomSheet: action.orderedPharmaciesWithDistances,
-      };
-      return obj;
-    case APPLY_FILTER:
-      const filter: string = action.data.toLowerCase();
-      if (!filter) {
-        return {
-          ...state,
-          toDisplay: state.all,
-          toDisplayInBottomSheet: state.all,
-        };
-      }
-      const filtered = state.all.filter((pharmacy) => {
-        return pharmacy.flat_name.toLowerCase().includes(filter);
+    case SEARCH_PHARMACIES:
+      // Search pharmacies corresponding to the query
+      let search_query = action.data.toLowerCase();
+      let pharmaciesThatMatch = state.pharmacies.filter((pharmacy) => {
+        return pharmacy.name.toLowerCase().includes(search_query);
       });
       return {
         ...state,
-        toDisplay: filtered,
-        toDisplayInBottomSheet: filtered,
+        toDisplayInBottomSheet: pharmaciesThatMatch,
+        isSearchingPharmacy: search_query.length > 0,
+        isLoading: false,
       };
-    case CHANGE_DISPLAY_MODE:
-      const mode = action.data;
-      if (mode == "All") {
-        return {
-          ...state,
-          toDisplay: state.all,
-          toDisplayInBottomSheet: state.all,
-          toDisplayInMap: state.all,
-        };
-      } else {
-        return {
-          ...state,
-          toDisplay: state.open,
-          toDisplayInBottomSheet: state.open,
-          toDisplayInMap: state.open,
-        };
-      }
-    case CHANGE_ORDER:
-      const pharmacies = action.data;
+    // case APPLY_FILTER:
+    //   const filter: string = action.data.toLowerCase();
+    //   if (!filter) {
+    //     return {
+    //       ...state,
+    //       toDisplay: state.all,
+    //       toDisplayInBottomSheet: state.all,
+    //     };
+    //   }
+    //   const filtered = state.all.filter((pharmacy) => {
+    //     return pharmacy.flat_name.toLowerCase().includes(filter);
+    //   });
+    //   return {
+    //     ...state,
+    //     toDisplay: filtered,
+    //     toDisplayInBottomSheet: filtered,
+    //   };
+
+    case SET_SORT_MODE:
+      const order = action.data;
       return {
         ...state,
-        all: pharmacies,
-        toDisplay: pharmacies,
-        toDisplayInBottomSheet: pharmacies,
+        sortMode: order,
       };
+
+    ////////////////////////////
+    // CASE RELATED TO STATES
+    ////////////////////////////
+    case SET_LOADING_STATE:
+      // Manage the loading state
+      let desired_loading_state = action.data;
+      return {
+        ...state,
+        isLoading: desired_loading_state,
+      };
+
+    case SET_IS_LOCATION_PERMISSION_GRANTED:
+      // Manage the location permission state
+      let is_permitted = action.data;
+      return {
+        ...state,
+        isLocationPermissionGranted: is_permitted,
+      };
+
+    case SET_DISPLAY_MODE:
+      // Manage the display mode
+      let display_mode = action.data;
+      return {
+        ...state,
+        displayMode: display_mode,
+      };
+
     default:
       return { ...state };
   }

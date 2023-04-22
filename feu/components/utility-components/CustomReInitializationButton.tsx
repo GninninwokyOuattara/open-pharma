@@ -1,9 +1,14 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Animated, Easing, StyleSheet, TouchableOpacity } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as Location from "expo-location";
+import { useDispatch, useSelector } from 'react-redux';
+import { COLOR_SCHEME } from '../../constants/colorSchemes';
 import { MapContext } from '../../contexts/MapContext';
 import useInitializer from '../../hooks/useInitializer';
+import { getOpenPharmaPharmaciesDatas } from '../../stores/pharmaciesActions';
+import { RootReducerType } from '../../types/dataTypes';
 
 
 
@@ -11,8 +16,21 @@ import useInitializer from '../../hooks/useInitializer';
 const CustomReInitializationButton = () => {
 
     // Hooks
+    const dispatch = useDispatch()
     const { init } = useInitializer()
     const { isFetching } = useContext(MapContext)
+    const isLocationPermissionGranted = useSelector((state: RootReducerType) => state.pharmacies.isLocationPermissionGranted)
+    const isLoading = useSelector((state: RootReducerType) => state.pharmacies.isLoading)
+
+
+    const handleClick = useCallback(() => {
+        if (isLocationPermissionGranted) {
+            return Location.getCurrentPositionAsync({}).then((location) => {
+                return dispatch(getOpenPharmaPharmaciesDatas(location))
+            })
+        }
+        return dispatch(getOpenPharmaPharmaciesDatas(null));
+    }, [isLocationPermissionGranted, dispatch])
 
 
     let spinValue = new Animated.Value(0);
@@ -32,25 +50,21 @@ const CustomReInitializationButton = () => {
         outputRange: ['0deg', '360deg']
     })
 
-    useEffect(() => {
-        if (isFetching) {
-            spinningAnimation.start()
-        } else {
-            spinningAnimation.stop()
-        }
-    }, [isFetching, spinningAnimation])
+    if (isLoading) {
+        spinningAnimation.start()
+    } else {
+        spinningAnimation.stop()
+    }
 
 
     return (
 
         <TouchableOpacity
-            onPress={async () => {
-                console.log("Reinitialization")
-                await init();
-            }}
-            disabled={!!isFetching}
+            onPress={() => handleClick()
+            }
+            disabled={!!isLoading}
         >
-            <Animated.View style={{ ...styles.iconContainer, transform: [{ rotate: spin }], backgroundColor: isFetching ? "gray" : "white" }}>
+            <Animated.View style={{ ...styles.iconContainer, transform: [{ rotate: spin }], backgroundColor: isLoading ? "gray" : COLOR_SCHEME.LIGHT_ORANGE }}>
 
                 <MaterialCommunityIcons
                     style={styles.myLocationIcon}

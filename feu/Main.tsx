@@ -10,9 +10,8 @@ import AppLoading from 'expo-app-loading';
 import { MapContextProvider } from "./contexts/MapContext";
 import { UserLocationProvider } from "./contexts/UserLocationContext";
 
-import { useEffect } from "react";
 import { BottomSheetRefContextProvider } from "./contexts/BottomSheetRefContext";
-import { initDatabase, initUpdateTable } from "./database/db";
+import { SET_IS_LOCATION_PERMISSION_GRANTED } from "./stores/actions";
 
 
 const Main = () => {
@@ -21,36 +20,60 @@ const Main = () => {
     // React.useState<Location.LocationObject | null>(null);
 
     const [isReady, setIsReady] = React.useState(false);
-    useEffect(() => {
-        (async () => {
-            try {
-                // await dropPharmaciesTable()
-                const initDbRes = await initDatabase();
-                const initUpdateDbRes = await initUpdateTable();
+    // useEffect(() => {
+    //     (async () => {
 
-                console.log(initDbRes);
-                console.log(initUpdateDbRes)
-            } catch (error) {
-                console.log(error);
-            }
-        })()
-    }, [])
+    //         try {
+    //             let response = await axios.get<PharmacyFullState[]>(
+    //                 `http://localhost:8000/api/open-pharmacies/`
+    //             );
+    //             console.log("REQUEST ", response.data.length);
+
+    //             // return response.data as string;
+    //         } catch (error) {
+    //             throw error;
+    //         }
+
+    //         // try {
+    //         //     // await dropPharmaciesTable()
+    //         //     const initDbRes = await initDatabase();
+    //         //     const initUpdateDbRes = await initUpdateTable();
+
+    //         //     console.log(initDbRes);
+    //         //     console.log(initUpdateDbRes)
+    //         // } catch (error) {
+    //         //     console.log(error);
+    //         // }
+    //     })()
+    // }, [])
 
     const dispatch = useDispatch();
+
 
     const getLocationPermission = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         // setIsReady(true);
-        // if (status !== "granted") {
-        // setErrorMsg("Permission to access location was denied");
+        if (status !== "granted") {
+            // setErrorMsg("Permission to access location was denied");
+            dispatch({
+                type: SET_IS_LOCATION_PERMISSION_GRANTED,
+                data: false
+            })
 
-        // return;
-        // }
+        } else {
+            dispatch({
+                type: SET_IS_LOCATION_PERMISSION_GRANTED,
+                data: true
+            })
+        }
 
         // let location = await Location.getCurrentPositionAsync({});
         // setLocation(location);
         // setIsReady(true);
     };
+
+
+
 
     if (!isReady) {
         return (

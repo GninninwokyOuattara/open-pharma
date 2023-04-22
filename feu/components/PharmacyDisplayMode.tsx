@@ -1,23 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { COLOR_SCHEME } from '../constants/colorSchemes'
-import { changeDisplayMode } from '../stores/pharmaciesActions'
+import { SET_DISPLAY_MODE } from '../stores/actions'
+import { RootReducerType } from '../types/dataTypes'
 import ShadowAround from './utility-components/ShadowAround'
 
 
 const PharmacyDisplayMode = () => {
     const dispatch = useDispatch()
-    const [displayMode, setdisplayMode] = useState<"All" | "OpenOnly">("All")
+
+    const displayMode = useSelector((state: RootReducerType) => {
+        return state.pharmacies.displayMode;
+    });
+
+    const textColor = displayMode === "All" ? "black" : COLOR_SCHEME.MEDIIUM_GREEN
 
     const toggledisplayMode = () => {
-        setdisplayMode(displayMode === "All" ? "OpenOnly" : "All")
+
+        dispatch({
+            type: SET_DISPLAY_MODE,
+            data: displayMode === "All" ? "OpenOnly" : "All"
+        })
     }
-
-
-    useEffect(() => {
-        dispatch(changeDisplayMode(displayMode))
-    }, [displayMode])
 
     return (
         <ShadowAround>
@@ -30,9 +35,10 @@ const PharmacyDisplayMode = () => {
                     alignSelf: "flex-start",
                     padding: 5,
                     marginRight: 5,
-                    borderRadius: 5
+                    borderRadius: 5,
+
                 }}>
-                    <Text style={{ fontWeight: "500" }}>Affichage : {displayMode == "All" ? "Toutes les pharmacies" : "Pharmacies de garde uniquement"}</Text>
+                    <Text style={{ fontWeight: "500", color: textColor }}>{displayMode == "All" ? "Toutes les pharmacies" : "Pharmacies de garde"}</Text>
                 </View>
             </TouchableOpacity>
         </ShadowAround>

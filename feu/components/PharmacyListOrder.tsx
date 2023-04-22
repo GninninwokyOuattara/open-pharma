@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import React, { useCallback } from 'react'
+import { Image, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { COLOR_SCHEME } from '../constants/colorSchemes'
-import { UserLocationContext } from '../contexts/UserLocationContext'
-import { changePharmacyDisplayOrder } from '../stores/pharmaciesActions'
+import { SET_SORT_MODE } from '../stores/actions'
 import { RootReducerType } from '../types/dataTypes'
 import ShadowAround from './utility-components/ShadowAround'
+
 
 export type OrderType = OrderWIthoutUserLocation | OrderWithUserLocation
 
@@ -18,64 +18,27 @@ interface Props {
 
 const PharmacyListOrder: React.FC<Props> = ({ setIsProximityMode }) => {
 
-  const { location } = useContext(UserLocationContext)
-  const [orderMode, setOrderMode] = useState<OrderType>(() => {
-    if (location) {
-      return "A proximité"
-    }
-    return "Ascendant"
-  })
+
 
   const dispatch = useDispatch();
-  const pharmaciesDatas = useSelector((state: RootReducerType) => {
-    return state.pharmacies.toDisplayInBottomSheet;
+  const sortMode = useSelector((state: RootReducerType) => {
+    return state.pharmacies.sortMode;
   });
 
 
-  const toggleOrder = () => {
-    let newOrder: OrderType
-    if (location) {
-      if (orderMode === "A proximité") {
-        newOrder = "Ascendant"
-        // } else if (orderMode === "Ascendant") {
-        //   newOrder = "Descendant"
-      } else {
-        newOrder = "A proximité"
-      }
-
+  const toggleOrder = useCallback(() => {
+    if (sortMode == "Proximity") {
+      dispatch({ type: SET_SORT_MODE, data: "Alphabetical" })
     } else {
-      // if (orderMode === "Ascendant") {
-      //   newOrder = "Descendant"
-      // } else {
-      newOrder = "Ascendant"
-      // }
+      dispatch({ type: SET_SORT_MODE, data: "Proximity" })
     }
 
-    setOrderMode(newOrder)
-  }
-
-
-  useEffect(() => {
-
-
-    if (orderMode === "A proximité") {
-      dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
-      setIsProximityMode(true)
-
-    } else {
-      // if (orderMode === "Ascendant") {
-      dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
-
-      // } else if (orderMode === "Descendant") {
-      //   dispatch(changePharmacyDisplayOrder(pharmaciesDatas, orderMode))
-      // }
-      setIsProximityMode(false)
-    }
+  }, [sortMode])
 
 
 
 
-  }, [orderMode])
+
 
 
   return (
@@ -87,9 +50,17 @@ const PharmacyListOrder: React.FC<Props> = ({ setIsProximityMode }) => {
           alignSelf: "flex-start",
           padding: 5,
           marginRight: 5,
-          borderRadius: 5
+          borderRadius: 5,
+          height: 28,
+          // width: 50,
         }}>
-          <Text style={{ fontWeight: "500" }}>{orderMode}</Text>
+          {/* <Text style={{ fontWeight: "500" }}>{orderMode}</Text> */}
+          {
+            sortMode == "Proximity"
+              ? <Image source={require("../assets/distanceIconOrange.png")} style={{ height: 20, width: 20 }} />
+              : <Image source={require("../assets/orderIconOrange.png")} style={{ height: 15, width: 20 }} />
+          }
+
         </View>
       </TouchableOpacity>
     </ShadowAround>

@@ -1,4 +1,6 @@
 # Create a user model
+import uuid
+
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
@@ -8,7 +10,7 @@ class Pharmacy(models.Model):
         db_table = 'pharmacy'
         ordering = ['name', 'date_created', 'active']
 
-    id = models.AutoField(primary_key=True)
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=100)
     director = models.CharField(max_length=100, blank=True, null=True)
     addresses = ArrayField(models.CharField(
@@ -41,7 +43,7 @@ class OpenPharmacy(models.Model):
     class Meta:
         db_table = 'open_pharmacy'
 
-    id = models.AutoField(primary_key=True)
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     pharmacy = models.ForeignKey(
         Pharmacy, on_delete=models.CASCADE, related_name='open_pharmacies')
     open_from = models.DateField(blank=True, null=True)
