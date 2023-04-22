@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 
 # Create your models here.
@@ -7,7 +9,7 @@ class TrackerHistory(models.Model):
     class Meta:
         db_table = 'tracker_history'
 
-    id = models.AutoField(primary_key=True)
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     duration = models.DurationField()
