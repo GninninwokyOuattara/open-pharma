@@ -6,6 +6,7 @@ import NavigationBar from './navigationBar';
 
 // import outlet from router
 import { Outlet } from 'react-router-dom';
+import { palette } from '../colorPalette';
 
 
 
@@ -18,7 +19,7 @@ const Layout = () => {
             maxW={"100vw"}
             maxH={"100vh"}
             overflow={"hidden"}
-            backgroundColor={"#F8FBFC"}
+            backgroundColor={palette.custom.veryLightOrange}
 
         >
             {/* <VStack spacing={10}> */}

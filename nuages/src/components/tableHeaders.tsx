@@ -17,10 +17,11 @@ export const PendingReviewPageTableHeaders = () => {
 
     return (
         <Thead
-            backgroundColor={palette.colorHuntTheme.lightOrange}
+            backgroundColor={palette.custom.veryLightOrange}
             fontWeight={"bold"}
             position={"sticky"} top={0} zIndex={1}
-            height={"70px"}
+            // height={"80px"}
+            borderBottom={`1.5px solid ${palette.custom.niceOrange}`}
 
         >
 
@@ -28,7 +29,9 @@ export const PendingReviewPageTableHeaders = () => {
                 {/* <Th colSpan={1}>
                     <Checkbox />
                 </Th> */}
-                <Th colSpan={6}>
+                <Th
+                    height={"80px"}
+                    colSpan={6}>
                     <HStack gap={3}>
                         <Checkbox
                             isChecked={isChecked}
@@ -73,7 +76,7 @@ const LoadingHeader = () => {
 
     return (
         <Thead
-            backgroundColor={palette.colorHuntTheme.lightOrange}
+            // backgroundColor={palette.colorHuntTheme.lightOrange}
             fontWeight={"bold"}
             position={"sticky"} top={0} zIndex={1}
             height={"70px"}

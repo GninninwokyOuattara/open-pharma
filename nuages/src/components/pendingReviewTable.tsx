@@ -8,8 +8,20 @@ import { PendingReviewPageTableHeaders } from "./tableHeaders"
 
 export const PendingReviewPageTable = () => {
 
-    return <Box borderRadius={"md"} overflowY={"hidden"} height={"full"} width={"full"} shadow={"lg"} >
-        <TableContainer shadow={"outline"} borderRadius={"md"} width="full" height="full" backgroundColor={"white"}>
+    return <Box
+        // borderRadius={"md"}
+        overflowY={"hidden"}
+        height={"full"}
+        width={"full"}
+    // shadow={"lg"}
+    >
+        <TableContainer
+            shadow={"outline"}
+            // borderRadius={"md"} 
+            width="full"
+            height="full"
+        // backgroundColor={"white"}
+        >
             <Box height={"full"} width={"full"} overflow={"scroll"} >
 
                 <Table

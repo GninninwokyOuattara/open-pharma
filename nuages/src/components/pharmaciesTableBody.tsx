@@ -10,7 +10,6 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 import { BsFillPinMapFill } from "react-icons/bs"
 import { GrEdit } from "react-icons/gr"
 import { TbMoodEmpty } from "react-icons/tb"
-import { palette } from "../colorPalette"
 import { ToastContext, ToastContextInterface } from "../contexts/toast"
 
 
@@ -63,12 +62,16 @@ const PharmaciesTableRow: React.FC<{ pharmacy: PharmacyFullState }> = (
     return (
         <Tr
             _hover={{
-                backgroundColor: "orange.50",
-                transform: "scale(1.01)",
-                transition: "all 0.2s ease-in-out"
+                backgroundColor: "white",
+                // transform: "scale(1.01)",
+                // transition: "all 0.2s ease-in-out"
             }}
         >
             <TableData
+                // borderRadius={"lg"}
+                borderLeftRadius={"lg"}
+
+
             >
 
                 {pharmacy.name}
@@ -89,7 +92,10 @@ const PharmaciesTableRow: React.FC<{ pharmacy: PharmacyFullState }> = (
                 <EditButton pharmacy={pharmacy} />
 
             </TableData>
-            <TableData padding={0} paddingRight={2}>
+            <TableData
+                padding={0} paddingRight={2}
+                borderRightRadius={"lg"}
+            >
 
                 <PointPharmacyOnMapButton pharmacy={pharmacy} />
             </TableData>
@@ -107,7 +113,8 @@ const TableData: React.FC<TableCellProps> = (props) => {
     return (
         <Td
             {...props}
-            borderColor={palette.colorHuntTheme.lightOrange}
+            borderColor={"gray.300"}
+        // borderRadius={"lg"}
         >
             <Skeleton isLoaded={!isLoading}>
 

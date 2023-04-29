@@ -8,7 +8,7 @@ const PharmaciesTableRenderer = () => {
     return (
 
 
-        <TableContainer shadow={"outline"} borderRadius={"md"} width="full" height="full" backgroundColor={"white"}>
+        <TableContainer width="full" height="full" >
             <Box height={"full"} width={"full"} overflow={"scroll"} >
 
                 <Table
@@ -37,9 +37,10 @@ const PharmaciesTableHeaders = () => {
 
     return (
         <Thead
-            backgroundColor={palette.colorHuntTheme.lightOrange}
+            backgroundColor={palette.custom.veryLightOrange}
             fontWeight={"bold"}
             position={"sticky"} top={0} zIndex={1}
+            borderBottom={`1.5px solid ${palette.custom.niceOrange}`}
 
         >
             <Tr>

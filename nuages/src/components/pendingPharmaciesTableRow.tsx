@@ -1,6 +1,5 @@
 import { Checkbox, HStack, TableCellProps, Td, Text, Tr } from "@chakra-ui/react"
 import { useContext, useState } from "react"
-import { palette } from "../colorPalette"
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
 import { PendingReviewPharmacy } from "../types"
 import { ReviewButton } from "./actionButtons"
@@ -32,13 +31,15 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
 
     return (
         <Tr
-            backgroundColor={pharmacyPendingReview.is_checked ? "orange.50" : "white"}
+            backgroundColor={pharmacyPendingReview.is_checked ? "orange.50" : ""}
             _hover={{
-                backgroundColor: "orange.50",
-                transform: "scale(1.01)",
-                transition: "all 0.2s ease-in-out"
+                backgroundColor: "white",
+                // transform: "scale(1.01)",
+                // transition: "all 0.2s ease-in-out"
             }}>
-            <PendingPharmaciesTableData>
+            <PendingPharmaciesTableData
+                borderLeftRadius={"lg"}
+            >
                 <HStack gap={2} >
                     <Checkbox
                         colorScheme={"orange"}
@@ -64,7 +65,9 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
             <PendingPharmaciesTableData paddingX={1}>
                 <ReviewButton onClick={() => rejectPharmacy(pharmacyPendingReview)} for={"invalidate"} />
             </PendingPharmaciesTableData>
-            <PendingPharmaciesTableData padding={0} paddingRight={2}>
+            <PendingPharmaciesTableData
+                borderRightRadius={"lg"}
+                padding={0} paddingRight={2}>
                 <ReviewButton onClick={() => console.log("link")} for={"link"} />
             </PendingPharmaciesTableData>
 
@@ -81,7 +84,7 @@ const PendingPharmaciesTableData: React.FC<TableCellProps> = (props) => {
     return (
         <Td
             {...props}
-            borderColor={palette.colorHuntTheme.lightOrange}
+            borderColor={"gray.300"}
         >
 
 

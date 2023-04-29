@@ -1,7 +1,6 @@
 // Navigation bar component
 
-import { Box, Button, HStack, Icon, List, ListItem, Text, VStack } from "@chakra-ui/react";
-import { NavLink } from "react-router-dom";
+import { Box, Button, List, Text, VStack } from "@chakra-ui/react";
 
 
 // import Link from router
@@ -15,88 +14,113 @@ import styles from "../styles/navigation.module.css";
 
 // import HiOutlineExternalLink
 import { HiOutlineExternalLink } from "react-icons/hi";
+import NavigationTabItem from "./navigationTabItem";
+import OpenPharmaIcon from "./openPharmaIcon";
 
 
 const NavigationBar = () => {
     return (
 
         <Box
-            backgroundColor="whiteAlpha.100"
+            // backgroundColor="whiteAlpha.100"
             // padding={10}
             height="100%"
             // width={"100px"}
-            minWidth={"52"}
+            minWidth={"60"}
             paddingY={5}
             // borderRadius="md"
-            paddingX={"2"}
+
             overflow={"hidden"}
             display={"flex"}
             flexDirection={"column"}
             alignItems={"center"}
-            borderRight={"1px solid"}
-            borderColor={palette.colorHuntTheme.strongOrange}
+        // borderRight={"1px solid"}
+        // borderColor={palette.colorHuntTheme.strongOrange}
 
         >
+            <Box
+                height={"100%"}
+                width={"100%"}
+                paddingX={"2"}
+                display={"flex"}
 
-            <Box h={10} w="full" alignItems={"center"} justifyContent={"center"} display={"flex"} marginBottom={20}>
+                flexDirection={"column"}
+                alignItems={"center"}
 
-                <Icon as={routes[0].icon} color="black" display={"block"} />
-
-
-
-            </Box>
-
-            <VStack spacing={10} w={"full"} height={"100%"}>
-
-
-                <nav className={styles.navigation}>
-                    <List >
-                        {routes.map((route, idx) => {
-
-                            return <ListItem
-
-                                height={10}
-                                key={idx}
-                                display={"block"}
-                                // borderColor={"red.700"}
-                                // borderWidth={"1px"}
-                                borderRadius={"md"}
-                                overflow="hidden"
-                                marginBottom={1}
-
-
-                            >
-                                <NavLink
-                                    to={route.path}
-
-                                    className={({ isActive }) => isActive ? styles.navigationLinkActive : styles.navigationLink}
-
-                                >
-
-
-                                    <HStack w={"full"} paddingLeft={4}>
-
-                                        <Icon as={route.icon}
-                                            boxSize={6}
-                                            display={"block"}
-                                        />
-                                        <Text>{route.name}</Text>
-
-                                    </HStack>
-
-
-                                </NavLink>
-                            </ListItem>
-                        })}
-                    </List>
-
-                </nav>
+                // border={"2px solid"}
+                borderRight={`1px solid ${palette.custom.niceOrange}`}
+            >
 
 
 
-            </VStack>
 
-            {/* <Box h={10} w="full" alignItems={"center"} justifyContent={"center"} display={"flex"} borderRadius={"md"} backgroundColor={palette.colorHuntTheme.tameOrange} shadow={"md"}>
+                <Box h={10} w="full" alignItems={"center"} justifyContent={"center"} display={"flex"} marginBottom={20}>
+
+                    {/* <Icon as={routes[0].icon} color="black" display={"block"} /> */}
+                    <OpenPharmaIcon boxSize={12} color={palette.custom.niceOrange} />
+                    <Text
+                        fontWeight={"bold"}
+                        fontSize={"28px"}
+                    >
+                        OpenPharma</Text>
+
+
+
+
+                </Box>
+
+                <VStack spacing={10} w={"full"} height={"100%"}>
+
+
+                    <nav className={styles.navigation}>
+                        <List >
+                            {routes.map((route, idx) => {
+
+                                return <NavigationTabItem route={route} idx={idx} />
+                                // return <ListItem
+
+                                //     height={10}
+                                //     key={idx}
+                                //     display={"block"}
+                                //     // borderColor={"red.700"}
+                                //     // borderWidth={"1px"}
+                                //     borderRadius={"md"}
+                                //     overflow="hidden"
+                                //     marginBottom={1}
+
+
+                                // >
+                                //     <NavLink
+                                //         to={route.path}
+
+                                //         className={({ isActive }) => isActive ? styles.navigationLinkActive : styles.navigationLink}
+
+                                //     >
+
+
+                                //         <HStack w={"full"} paddingLeft={4}>
+
+                                //             <Icon as={route.icon}
+                                //                 boxSize={6}
+                                //                 display={"block"}
+                                //             />
+                                //             <Text>{route.name}</Text>
+
+                                //         </HStack>
+
+
+                                //     </NavLink>
+                                // </ListItem>
+                            })}
+                        </List>
+
+                    </nav>
+
+
+
+                </VStack>
+
+                {/* <Box h={10} w="full" alignItems={"center"} justifyContent={"center"} display={"flex"} borderRadius={"md"} backgroundColor={palette.colorHuntTheme.tameOrange} shadow={"md"}>
 
               
 
@@ -106,30 +130,32 @@ const NavigationBar = () => {
                 >Go To App</Text>
 
             </Box> */}
-            <a
-                href="https://google.ci"
-                style={{
-                    width: "100%",
+                <a
+                    href="https://google.ci"
+                    style={{
+                        width: "100%",
 
-                }}
-            >
-
-                <Button
-                    w={"full"}
-                    h={16}
-                    backgroundColor={palette.colorHuntTheme.lightOrange}
-                    rightIcon={<HiOutlineExternalLink />}
-                    color={"white"}
-                    fontSize={"24px"}
-
-                    _hover={{
-                        backgroundColor: palette.colorHuntTheme.strongOrange
                     }}
-
                 >
-                    App
-                </Button>
-            </a>
+
+                    <Button
+                        w={"full"}
+                        h={16}
+                        backgroundColor={"black"}
+                        rightIcon={<HiOutlineExternalLink />}
+                        color={"white"}
+                        fontSize={"24px"}
+
+                        _hover={{
+                            backgroundColor: palette.colorHuntTheme.strongOrange
+                        }}
+
+                    >
+                        App
+                    </Button>
+                </a>
+
+            </Box>
 
         </Box >
     );

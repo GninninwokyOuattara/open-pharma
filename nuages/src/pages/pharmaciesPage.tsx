@@ -1,5 +1,5 @@
 import { CheckIcon, CloseIcon, SettingsIcon } from "@chakra-ui/icons";
-import { Box, Button, Checkbox, CheckboxGroup, Flex, HStack, Icon, IconButton, Input, Menu, MenuButton, MenuList, Skeleton, Spinner, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useCheckboxGroup, VStack } from "@chakra-ui/react";
+import { Box, Button, Checkbox, CheckboxGroup, Flex, HStack, Icon, IconButton, Input, Menu, MenuButton, MenuList, Skeleton, Spinner, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, useCheckboxGroup } from "@chakra-ui/react";
 import { AiOutlineEye } from "react-icons/ai";
 import { FiRefreshCcw } from "react-icons/fi";
 import { MdOutlineHouseSiding } from "react-icons/md";
@@ -64,8 +64,8 @@ const PharmaciesPage = () => {
                     height={"100px"}
                     width={"100%"}
                     borderTop={"1px solid"}
-                    borderBottom={"1px solid "}
-                    borderColor={palette.colorHuntTheme.lightGreen}
+                    // borderBottom={"1px solid "}
+                    borderColor={palette.custom.niceOrange}
                     display={"flex"}
                     alignItems={"center"}
                     paddingX={2}
@@ -81,7 +81,12 @@ const PharmaciesPage = () => {
 
                 </Box>
 
-                <Box borderRadius={"md"} overflowY={"hidden"} height={"full"} width={"full"} shadow={"lg"} >
+                <Box
+                    overflowY={"hidden"}
+                    height={"full"} width={"full"}
+                // borderRadius={"md"} 
+                // shadow={"lg"} 
+                >
                     <PharmaciesTableRenderer />
                 </Box>
 
