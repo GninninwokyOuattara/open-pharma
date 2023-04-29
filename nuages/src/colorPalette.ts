@@ -16,4 +16,9 @@ export const palette = {
     lightGreen: "#F0ECCF",
     green: "#A3BB98",
   },
+
+  custom: {
+    veryLightOrange: "#f2efeb",
+    niceOrange: "#f3b68f",
+  },
 };
