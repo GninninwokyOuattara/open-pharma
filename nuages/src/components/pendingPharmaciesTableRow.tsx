@@ -19,15 +19,14 @@ interface PendingPharmaciesTableDataProps {
 export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps> = ({ pharmacyPendingReview, acceptPharmacy, rejectPharmacy, toggleCheckPendingReviewPharmacy, isChecked, setPharmaciesPendingReview }) => {
 
     const toggleCheckbox = useCallback(() => {
-        console.log('toggling for ', pharmacyPendingReview.name)
-        if (pharmacyPendingReview.is_checked) {
-            setPharmaciesPendingReview(currentState => currentState.map(pharmacy => {
-                if (pharmacy.id === pharmacyPendingReview.id) {
-                    const updatedPhmarcy = { ...pharmacyPendingReview, is_checked: !pharmacyPendingReview.is_checked }
-                    return updatedPhmarcy
-                } return pharmacy
-            }));
-        }
+        console.log('toggling for ', pharmacyPendingReview.name, pharmacyPendingReview.is_checked)
+        setPharmaciesPendingReview(currentState => currentState.map(pharmacy => {
+            if (pharmacy.id === pharmacyPendingReview.id) {
+                const updatedPhmarcy = { ...pharmacyPendingReview, is_checked: !!!pharmacyPendingReview.is_checked }
+                console.log('updated pharmacy', updatedPhmarcy)
+                return updatedPhmarcy
+            } return pharmacy
+        }));
     }, [pharmacyPendingReview, setPharmaciesPendingReview])
 
 
@@ -87,8 +86,8 @@ export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps
             {/* Button section */}
             {/* <PendingPharmaciesTableData padding={0}>
                 <ReviewButton onClick={() => acceptPharmacy(pharmacyPendingReview)} for={"validate"} />
-            </PendingPharmaciesTableData> */}
-            {/* <PendingPharmaciesTableData paddingX={1}>
+            </PendingPharmaciesTableData>
+            <PendingPharmaciesTableData paddingX={1}>
                 <ReviewButton onClick={() => rejectPharmacy(pharmacyPendingReview)} for={"invalidate"} />
             </PendingPharmaciesTableData>
             <PendingPharmaciesTableData
