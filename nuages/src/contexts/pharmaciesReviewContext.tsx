@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/react";
-import { createContext, useContext, useMemo, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
 import { PendingReviewPharmacy, Pharmacy } from "../types";
 import { getTimeElapsed } from "../utils/dry";
 import { ToastContext, ToastContextInterface } from "./toast";
@@ -12,6 +12,7 @@ export interface PharmaciesReviewContextInterface {
     isLoading: boolean;
     refreshDatas: () => void;
     pendingReviewPharmacies: PendingReviewPharmacy[];
+    setPharmaciesPendingReview: React.Dispatch<React.SetStateAction<PendingReviewPharmacy[] | []>>;
     filteredPendingReviewPharmacies: PendingReviewPharmacy[];
     setSearch: React.Dispatch<React.SetStateAction<string>>;
     acceptPharmacy: (pharmacy: PendingReviewPharmacy) => Promise<void>;
@@ -24,6 +25,7 @@ export interface PharmaciesReviewContextInterface {
     numberOfCheckedPharmacies: number;
     acceptSelectedPharmacies: () => Promise<void>;
     rejectSelectedPharmacies: () => Promise<void>;
+    toggleCheckPendingReviewPharmacy: (pharmacy: PendingReviewPharmacy) => void;
 
 }
 
@@ -141,7 +143,7 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
     // Reviews action
 
-    const acceptPharmacy = async (pharmacy: PendingReviewPharmacy) => {
+    const acceptPharmacy = useCallback(async (pharmacy: PendingReviewPharmacy) => {
         try {
             const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/activate/`, {
                 method: "POST",
@@ -158,7 +160,7 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
             errorToast("", `An error occurred while validating ${pharmacy.name}`)
 
         }
-    }
+    }, [])
 
 
 
@@ -196,6 +198,20 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
 
     // Checkboxes actions
+
+    const toggleCheckPendingReviewPharmacy = useCallback((pharmacy: PendingReviewPharmacy) => {
+        const pharmacies = pharmaciesPendingReview.map((pharmacyPendingReview: PendingReviewPharmacy) => {
+            if (pharmacyPendingReview.id === pharmacy.id) {
+                pharmacyPendingReview.is_checked == true ? pharmacyPendingReview.is_checked = false : pharmacyPendingReview.is_checked = true
+                return pharmacyPendingReview
+            } else {
+                return pharmacyPendingReview
+            }
+
+        })
+
+        setPharmaciesPendingReview(pharmacies)
+    }, [pharmaciesPendingReview])
 
     const checkOnePharmacy = (checkedPharmacy: PendingReviewPharmacy) => {
         setPharmaciesPendingReview((prev) => {
@@ -292,28 +308,77 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
     // }, [error])
 
 
+    // useEffect(() => {
+    //     let id = setInterval(() => {
+    //         console.log("Start Interval", pharmaciesPendingReview.length)
+    //         if (pharmaciesPendingReview.length > 0) {
+    //             const newPharmacies = pharmaciesPendingReview.map((pharmacy: PendingReviewPharmacy, idx) => {
+    //                 if (idx == 0) {
+    //                     pharmacy.is_checked = !pharmacy.is_checked
+    //                     console.log(pharmacy.name, pharmacy.is_checked)
+
+    //                     return pharmacy
+    //                 }
+    //                 return pharmacy
+    //             })
+
+    //             console.log(newPharmacies !== pharmaciesPendingReview);
+    //             setPharmaciesPendingReview(newPharmacies)
+    //         }
+    //     }, 3000)
+
+    //     return () => {
+    //         if (id) {
+    //             clearInterval(id)
+    //         }
+    //     }
+    // }, [pharmaciesPendingReview])
+
+
+
+    const contextValue = useMemo(() => ({
+        isLoading,
+        refreshDatas,
+        pendingReviewPharmacies: pharmaciesPendingReview,
+        setPharmaciesPendingReview,
+        filteredPendingReviewPharmacies,
+        setSearch,
+        acceptPharmacy,
+        rejectPharmacy,
+        handleSearch,
+        checkOnePharmacy,
+        uncheckOnePharmacy,
+        checkAllPharmacies,
+        uncheckAllPharmacies,
+        numberOfCheckedPharmacies,
+        acceptSelectedPharmacies,
+        rejectSelectedPharmacies,
+        toggleCheckPendingReviewPharmacy
+    }), [
+        isLoading,
+        refreshDatas,
+        pharmaciesPendingReview,
+        filteredPendingReviewPharmacies,
+        setSearch,
+        acceptPharmacy,
+        rejectPharmacy,
+        handleSearch,
+        checkOnePharmacy,
+        uncheckOnePharmacy,
+        checkAllPharmacies,
+        uncheckAllPharmacies,
+        numberOfCheckedPharmacies,
+        acceptSelectedPharmacies,
+        rejectSelectedPharmacies,
+        toggleCheckPendingReviewPharmacy
+
+    ]);
+
 
 
     return (
         <PharmaciesReviewContext.Provider
-            value={{
-                isLoading,
-                refreshDatas,
-                pendingReviewPharmacies: pharmaciesPendingReview,
-                filteredPendingReviewPharmacies,
-                setSearch,
-                acceptPharmacy,
-                rejectPharmacy,
-                handleSearch,
-                checkOnePharmacy,
-                uncheckOnePharmacy,
-                checkAllPharmacies,
-                uncheckAllPharmacies,
-                numberOfCheckedPharmacies,
-                acceptSelectedPharmacies,
-                rejectSelectedPharmacies,
-
-            }}>
+            value={contextValue}>
             {children}
         </PharmaciesReviewContext.Provider>
     )

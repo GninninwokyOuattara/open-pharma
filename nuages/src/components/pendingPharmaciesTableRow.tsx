@@ -1,25 +1,51 @@
 import { Checkbox, HStack, TableCellProps, Td, Text, Tr } from "@chakra-ui/react"
-import { useContext, useState } from "react"
-import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
+import React, { useCallback } from "react"
 import { PendingReviewPharmacy } from "../types"
-import { ReviewButton } from "./actionButtons"
 import { SingleRowSkeletonLoader } from "./rowsLoader"
 
-export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: PendingReviewPharmacy }> = ({ pharmacyPendingReview }) => {
 
-    const [isLoading, setIsLoading] = useState(false)
+interface PendingPharmaciesTableDataProps {
+
+    pharmacyPendingReview: PendingReviewPharmacy,
+    acceptPharmacy?: (pharmacy: PendingReviewPharmacy) => void,
+    rejectPharmacy?: (pharmacy: PendingReviewPharmacy) => void,
+    checkOnePharmacy?: (pharmacy: PendingReviewPharmacy) => void,
+    uncheckOnePharmacy?: (pharmacy: PendingReviewPharmacy) => void,
+    toggleCheckPendingReviewPharmacy?: (pharmacy: PendingReviewPharmacy) => void
+    isChecked?: boolean,
+    setPharmaciesPendingReview: React.Dispatch<React.SetStateAction<PendingReviewPharmacy[] | []>>
+}
+
+export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps> = ({ pharmacyPendingReview, acceptPharmacy, rejectPharmacy, toggleCheckPendingReviewPharmacy, isChecked, setPharmaciesPendingReview }) => {
+
+    const toggleCheckbox = useCallback(() => {
+        console.log('toggling for ', pharmacyPendingReview.name)
+        if (pharmacyPendingReview.is_checked) {
+            setPharmaciesPendingReview(currentState => currentState.map(pharmacy => {
+                if (pharmacy.id === pharmacyPendingReview.id) {
+                    const updatedPhmarcy = { ...pharmacyPendingReview, is_checked: !pharmacyPendingReview.is_checked }
+                    return updatedPhmarcy
+                } return pharmacy
+            }));
+        }
+    }, [pharmacyPendingReview, setPharmaciesPendingReview])
 
 
-    const { acceptPharmacy, rejectPharmacy, checkOnePharmacy, uncheckOnePharmacy } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+
+    console.log(pharmacyPendingReview.name, "has been rendered")
+    // const [isLoading, setIsLoading] = useState(false)
+
+
+    // const { acceptPharmacy, rejectPharmacy, checkOnePharmacy, uncheckOnePharmacy } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
 
 
     const handleCheck = () => {
-        if (pharmacyPendingReview.is_checked) {
-            uncheckOnePharmacy(pharmacyPendingReview)
-        } else {
-            checkOnePharmacy(pharmacyPendingReview)
-        }
+        // if (pharmacyPendingReview.is_checked) {
+        //     uncheckOnePharmacy(pharmacyPendingReview)
+        // } else {
+        //     checkOnePharmacy(pharmacyPendingReview)
+        // }
     }
 
 
@@ -43,8 +69,8 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
                 <HStack gap={2} >
                     <Checkbox
                         colorScheme={"orange"}
-                        isChecked={pharmacyPendingReview.is_checked || false}
-                        onChange={handleCheck}
+                        isChecked={isChecked}
+                        onChange={() => toggleCheckbox()}
                     />
                     <Text>
 
@@ -59,22 +85,24 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
             </PendingPharmaciesTableData>
 
             {/* Button section */}
-            <PendingPharmaciesTableData padding={0}>
+            {/* <PendingPharmaciesTableData padding={0}>
                 <ReviewButton onClick={() => acceptPharmacy(pharmacyPendingReview)} for={"validate"} />
-            </PendingPharmaciesTableData>
-            <PendingPharmaciesTableData paddingX={1}>
+            </PendingPharmaciesTableData> */}
+            {/* <PendingPharmaciesTableData paddingX={1}>
                 <ReviewButton onClick={() => rejectPharmacy(pharmacyPendingReview)} for={"invalidate"} />
             </PendingPharmaciesTableData>
             <PendingPharmaciesTableData
                 borderRightRadius={"lg"}
                 padding={0} paddingRight={2}>
                 <ReviewButton onClick={() => console.log("link")} for={"link"} />
-            </PendingPharmaciesTableData>
+            </PendingPharmaciesTableData> */}
 
         </Tr>
     )
 
 }
+
+export const PendingPharmaciesTableRowMemo = React.memo(PendingPharmaciesTableRow)
 
 
 const PendingPharmaciesTableData: React.FC<TableCellProps> = (props) => {
