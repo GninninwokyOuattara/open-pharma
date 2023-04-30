@@ -1,13 +1,10 @@
 import { CheckIcon, CloseIcon, SettingsIcon } from "@chakra-ui/icons";
-import { Box, Button, Checkbox, CheckboxGroup, Flex, HStack, Icon, IconButton, Input, Menu, MenuButton, MenuList, Skeleton, Spinner, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, useCheckboxGroup } from "@chakra-ui/react";
+import { Box, Button, Checkbox, CheckboxGroup, Flex, HStack, IconButton, Menu, MenuButton, MenuList, Skeleton, Spinner, Text, VStack, useCheckboxGroup } from "@chakra-ui/react";
 import { AiOutlineEye } from "react-icons/ai";
-import { FiRefreshCcw } from "react-icons/fi";
 import { MdOutlineHouseSiding } from "react-icons/md";
 import { RiEyeOffLine } from "react-icons/ri";
 import { PharmaciesDataSummary, PharmacyFullState } from "../types";
-import { getTags } from "../utils/dry";
 
-import animationStyles from "../styles/animation.module.css";
 
 import { useCallback, useContext, useEffect, useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
@@ -110,17 +107,6 @@ const PharmacyActionContainer = ({ pharmacy }: { pharmacy: PharmacyFullState }) 
     return <HStack height={"100%"} visibility={"hidden"} display={"inline-block"} alignSelf={"center"} justifySelf={"center"} _groupHover={{ visibility: "visible" }} >
         <Box display={"flex"} alignItems={"center"}>
 
-            {/* <IconButton
-                // display={"block"}
-                height={"100%"}
-                // width={"100%"}
-                variant={"outline"}
-                colorScheme='blue'
-                aria-label='Edit pharmacy'
-                icon={<MdOutlineEdit />}
-
-                onClick={() => openEditingPharmacyModal(pharmacy)}
-            /> */}
             <Button
 
                 variant={"outline"}
@@ -153,64 +139,6 @@ const PharmacyActionContainer = ({ pharmacy }: { pharmacy: PharmacyFullState }) 
     </HStack>
 }
 
-
-const PharmaciesTableContainer = () => {
-
-
-
-    const { refreshDatas, isLoading, summary, setSearch, setActiveTags } = useContext(PharmaciesContext) as PharmaciesContextInterface
-
-
-    return (
-        <TableContainer shadow={"md"} borderRadius={"md"} width="full" height="full" backgroundColor={"white"}>
-            <VStack width={"full"} maxW={"full"} height="full">
-
-                <Box width={"full"} padding={1} height={"50px"} zIndex={10} >
-                    <HStack w={"full"} h={"full"}>
-                        <Input placeholder='Search by name'
-                            width={300}
-                            alignSelf={"flex-start"}
-                            shadow={"md"}
-                            onChange={(e) => {
-                                setSearch(e.target.value)
-                            }}
-                        />
-
-                        <TagsSettingMenu setActiveTags={setActiveTags} />
-
-                        <Box>
-
-                            <Button boxShadow={"md"} disabled={isLoading} onClick={() => refreshDatas()}>
-                                <Icon className={isLoading ? animationStyles.rotate : ""} as={FiRefreshCcw} display={"block"} marginRight={2} />Refresh</Button>
-                        </Box>
-
-
-
-                        <DatasRecapLightContainer summary={summary} isLoading={isLoading} />
-
-                    </HStack>
-
-                </Box>
-                <Box overflowY={"scroll"} height={"100%"} width="full">
-
-                    <Table variant='simple'>
-
-                        <Thead position={"sticky"} top={0} backgroundColor={"white"} zIndex={1}>
-                            <Tr>
-                                <Th>Name</Th>
-                                <Th>State</Th>
-                                <Th>Opening</Th>
-                            </Tr>
-                        </Thead>
-
-                        <TableContent />
-                    </Table>
-                </Box>
-            </VStack>
-
-        </TableContainer>
-    )
-}
 
 
 
@@ -316,69 +244,6 @@ const TagsSettingMenu = ({ setActiveTags, ...otherProps }: { setActiveTags: Reac
                 </Flex>
             </MenuList>
         </Menu>
-    )
-}
-
-
-
-const TableContent = () => {
-
-    // get isLoading and filteredPharmacies from context
-
-
-    const { isLoading, filteredPharmacies } = useContext(PharmaciesContext) as PharmaciesContextInterface
-
-
-
-
-    if (isLoading) {
-        return <Text>Loading</Text>
-    }
-
-    if (!filteredPharmacies.length) {
-        return <Text>No pharmacies found</Text>
-    }
-
-
-
-    return (
-        <Tbody >
-
-            {filteredPharmacies.map((pharmacy, idx) => {
-
-                const tags = getTags(pharmacy)
-
-                return (<Tr key={idx} _hover={{ "backgroundColor": "gray.100" }} role="group" height={"75px"}>
-                    <Td width={"100%"} paddingY={0}>
-                        <HStack
-                            justifyContent={"space-between"}
-                        // height={"75px"}
-                        // alignItems={"center"}
-
-                        >
-
-                            <Box display={"inline-block"} height={"100%"}>
-                                {pharmacy.name}
-
-                            </Box>
-
-
-                            <PharmacyActionContainer pharmacy={pharmacy} />
-                        </HStack>
-
-                    </Td>
-                    <Td>
-
-                        <Tags tags={tags} />
-
-                    </Td>
-                    <Td >{pharmacy.open_date_range?.date_range_string || "-"}</Td>
-                </Tr>)
-            })
-            }
-
-
-        </Tbody>
     )
 }
 
