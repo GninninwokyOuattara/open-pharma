@@ -67,7 +67,7 @@ function NavigationTabItem({ route, idx }: props) {
                         />
 
                     </Box>
-                    <Text fontWeight={"500"}>{route.name}</Text>
+                    <Text fontWeight={"700"}>{route.name}</Text>
 
                 </HStack>
 
