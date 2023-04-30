@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, HStack, Spinner, Text, Th, Thead, Tr } from "@chakra-ui/react"
-import { useContext, useState } from "react"
+import { useCallback, useContext, useState } from "react"
 import { palette } from "../colorPalette"
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
 
@@ -7,9 +7,17 @@ import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../co
 
 export const PendingReviewPageTableHeaders = () => {
 
-    const { filteredPendingReviewPharmacies, isLoading, checkAllPharmacies, uncheckAllPharmacies, numberOfCheckedPharmacies } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+    const { filteredPendingReviewPharmacies, isLoading, checkAllPharmacies, uncheckAllPharmacies, numberOfCheckedPharmacies, setPharmaciesPendingReview } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
     const [isChecked, setIsChecked] = useState(false)
+
+    const toggleAllBoxes = useCallback(() => {
+        setIsChecked(currentState => !currentState)
+        setPharmaciesPendingReview(currentState => currentState.map(pharmacy => {
+            const updatedPhmarcy = { ...pharmacy, is_checked: !isChecked }
+            return updatedPhmarcy
+        }));
+    }, [isChecked, setPharmaciesPendingReview])
 
     if (isLoading) {
         return <LoadingHeader />
@@ -39,13 +47,7 @@ export const PendingReviewPageTableHeaders = () => {
                             borderColor={"gray.600"}
                             size={"lg"}
                             onChange={() => {
-                                if (isChecked) {
-                                    uncheckAllPharmacies()
-                                    setIsChecked(false)
-                                } else {
-                                    checkAllPharmacies()
-                                    setIsChecked(true)
-                                }
+                                toggleAllBoxes()
                             }}
                         />
                         {
