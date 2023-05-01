@@ -35,7 +35,7 @@ export const ToastProvider: React.FC<props> = ({ children }) => {
                 <Box borderRadius={"md"} color='white' p={3} bg={palette.custom.niceOrange}>
                     <HStack gap={2}>
 
-                        <CheckCircleIcon color={"green.400"} />
+                        <CheckCircleIcon color={"green.700"} boxSize={"6"} />
                         <Text fontWeight={"bold"}>
 
                             {message}
@@ -59,7 +59,7 @@ export const ToastProvider: React.FC<props> = ({ children }) => {
                 <Box borderRadius={"md"} color='white' p={3} bg={palette.custom.niceOrange}>
                     <HStack gap={2}>
 
-                        <Icon as={AiFillCloseCircle} color={"red.400"} />
+                        <Icon as={AiFillCloseCircle} color={"red.700"} boxSize={"6"} />
                         <Text fontWeight={"bold"}>
 
                             {message}
