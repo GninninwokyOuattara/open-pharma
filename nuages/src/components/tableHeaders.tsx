@@ -116,6 +116,13 @@ const CheckModeHeader: React.FC<{ numberOfPharmaciesSelected: number }> = ({ num
         const selectedPharmacies = pendingReviewPharmacies.filter(pharmacy => pharmacy.is_checked)
         const selectedPharmaciesIds = selectedPharmacies.map(pharmacy => pharmacy.id)
 
+        setPharmaciesPendingReview(currentState => currentState.map(pharmacy => {
+            if (selectedPharmaciesIds.includes(pharmacy.id)) {
+                return { ...pharmacy, is_loading: true }
+            }
+            return pharmacy
+        }));
+
         const obj = {
             review,
             pharmacies: selectedPharmacies
@@ -140,6 +147,12 @@ const CheckModeHeader: React.FC<{ numberOfPharmaciesSelected: number }> = ({ num
 
         } catch (error: any) {
             console.log(error)
+            setPharmaciesPendingReview(currentState => currentState.map(pharmacy => {
+                if (selectedPharmaciesIds.includes(pharmacy.id)) {
+                    return { ...pharmacy, is_loading: false }
+                }
+                return pharmacy
+            }));
             errorToast("", `${error.message}`)
 
         }

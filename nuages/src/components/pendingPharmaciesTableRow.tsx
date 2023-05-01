@@ -12,10 +12,11 @@ interface PendingPharmaciesTableDataProps {
 
     pharmacyPendingReview: PendingReviewPharmacy,
     isChecked?: boolean,
+    isLoadingFromBatch?: boolean,
     setPharmaciesPendingReview: React.Dispatch<React.SetStateAction<PendingReviewPharmacy[] | []>>
 }
 
-export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps> = ({ pharmacyPendingReview, isChecked, setPharmaciesPendingReview }) => {
+export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps> = ({ pharmacyPendingReview, isChecked, isLoadingFromBatch, setPharmaciesPendingReview }) => {
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -57,7 +58,7 @@ export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps
 
 
 
-    if (isLoading) {
+    if (isLoading || isLoadingFromBatch) {
         return <SingleRowSkeletonLoader pharmacy={pharmacyPendingReview} />
     }
 

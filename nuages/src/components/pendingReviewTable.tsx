@@ -69,6 +69,7 @@ const PendingReviewPageTableBody = () => {
                             key={pharmacyPendingReview.id}
                             pharmacyPendingReview={pharmacyPendingReview}
                             isChecked={pharmacyPendingReview.is_checked}
+                            isLoadingFromBatch={pharmacyPendingReview.is_loading}
                             setPharmaciesPendingReview={setPharmaciesPendingReview}
                         // acceptPharmacy={acceptPharmacy}
                         // rejectPharmacy={rejectPharmacy}
