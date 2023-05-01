@@ -1,5 +1,4 @@
 import { Box, HStack, Icon, ListItem, Text } from "@chakra-ui/react";
-import { useState } from "react";
 import { IconType } from "react-icons";
 import { NavLink } from "react-router-dom";
 import { palette } from "../colorPalette";
@@ -16,7 +15,6 @@ interface props {
 
 function NavigationTabItem({ route, idx }: props) {
 
-    const [isLinkActive, setIsLinkActive] = useState(false)
 
     return (
         <ListItem
@@ -32,44 +30,42 @@ function NavigationTabItem({ route, idx }: props) {
         >
             <NavLink
                 to={route.path}
-                className={({ isActive }) => {
-                    if (isActive) {
-                        setIsLinkActive(true)
-                        return ""
-                    } else {
-                        setIsLinkActive(false)
-                        return ""
-                    }
-                }}
+
 
 
 
             >
 
 
+                {
+                    ({ isActive, isPending }) => {
+
+                        return <HStack w={"full"} paddingLeft={1} height={"100%"} paddingY={2}>
+
+                            <Box
+                                height={"100%"}
+                                width={10}
+                                borderRadius={"md"}
+                                display={"flex"}
+                                alignItems={"center"}
+                                justifyContent={"center"}
+                                backgroundColor={isActive ? palette.custom.niceOrange : "white"}
+                            >
+                                <Icon as={route.icon}
+                                    boxSize={6}
+                                    display={"block"}
+                                    color={isActive ? "black" : "gray.500"}
+                                />
+
+                            </Box>
+                            <Text fontWeight={"700"}>{route.name}</Text>
+
+                        </HStack>
+
+                    }
+                }
 
 
-                <HStack w={"full"} paddingLeft={1} height={"100%"} paddingY={2}>
-
-                    <Box
-                        height={"100%"}
-                        width={10}
-                        borderRadius={"md"}
-                        display={"flex"}
-                        alignItems={"center"}
-                        justifyContent={"center"}
-                        backgroundColor={isLinkActive ? palette.custom.niceOrange : "white"}
-                    >
-                        <Icon as={route.icon}
-                            boxSize={6}
-                            display={"block"}
-                            color={isLinkActive ? "black" : "gray.500"}
-                        />
-
-                    </Box>
-                    <Text fontWeight={"700"}>{route.name}</Text>
-
-                </HStack>
 
 
 
