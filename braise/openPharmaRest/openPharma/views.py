@@ -55,6 +55,38 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
     def get_queryset(self):
         return super().get_queryset()
 
+    @action(detail=False, methods=['post'])
+    def batch_review(self, request, *args, **kwargs):
+
+        succeed = 0
+        failed = 0
+        try:
+            data = request.data
+            print("DATA", data)
+            review = data["review"]
+            if review != "activate" and review != "deactivate":
+                return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "Invalid review value"})
+
+            shouldActivate = True if review == "activated" else False
+            pharmacies = data["pharmacies"]
+
+            for pharmacy in pharmacies:
+                try:
+                    instance = Pharmacy.objects.get(id=pharmacy["id"])
+                    print("instance name ", instance.name)
+                    instance.active = shouldActivate
+                    instance.pending_review = False
+                    instance.save()
+                    succeed += 1
+                except Exception as error:
+                    failed += 1
+                    continue
+
+            return Response(data={"message": f"{succeed} pharmacies have been {review}d and {failed} failed"}, status=status.HTTP_200_OK)
+        except Exception as error:
+            print("ERROR", type(error))
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"message": f"An unknow error occured. Please try again later"})
+
     @action(detail=True, methods=['post'])
     def deactivate(self, request, *args, **kwargs):
         try:
