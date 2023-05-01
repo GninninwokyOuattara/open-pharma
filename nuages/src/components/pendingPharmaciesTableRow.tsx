@@ -1,22 +1,26 @@
 import { Checkbox, HStack, TableCellProps, Td, Text, Tr } from "@chakra-ui/react"
-import React, { useCallback } from "react"
+import React, { useCallback, useContext, useState } from "react"
+import { ToastContext, ToastContextInterface } from "../contexts/toast"
 import { PendingReviewPharmacy } from "../types"
+import { ReviewButton } from "./actionButtons"
 import { SingleRowSkeletonLoader } from "./rowsLoader"
 
+
+const backendUrl = process.env.REACT_APP_DJANGO_API_URL
 
 interface PendingPharmaciesTableDataProps {
 
     pharmacyPendingReview: PendingReviewPharmacy,
-    acceptPharmacy?: (pharmacy: PendingReviewPharmacy) => void,
-    rejectPharmacy?: (pharmacy: PendingReviewPharmacy) => void,
-    checkOnePharmacy?: (pharmacy: PendingReviewPharmacy) => void,
-    uncheckOnePharmacy?: (pharmacy: PendingReviewPharmacy) => void,
-    toggleCheckPendingReviewPharmacy?: (pharmacy: PendingReviewPharmacy) => void
     isChecked?: boolean,
     setPharmaciesPendingReview: React.Dispatch<React.SetStateAction<PendingReviewPharmacy[] | []>>
 }
 
-export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps> = ({ pharmacyPendingReview, acceptPharmacy, rejectPharmacy, toggleCheckPendingReviewPharmacy, isChecked, setPharmaciesPendingReview }) => {
+export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps> = ({ pharmacyPendingReview, isChecked, setPharmaciesPendingReview }) => {
+
+    const [isLoading, setIsLoading] = useState(false)
+
+    const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
+
 
     const toggleCheckbox = useCallback(() => {
         console.log('toggling for ', pharmacyPendingReview.name, pharmacyPendingReview.is_checked)
@@ -30,25 +34,35 @@ export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps
     }, [pharmacyPendingReview, setPharmaciesPendingReview])
 
 
+    const acceptPharmacy = useCallback(async (pharmacy: PendingReviewPharmacy) => {
 
-    console.log(pharmacyPendingReview.name, "has been rendered")
-    // const [isLoading, setIsLoading] = useState(false)
+        setIsLoading(true)
+        try {
+            const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/activate/`, {
+                method: "POST",
+            });
+            const data = await response.json();
+            console.log(data)
+            setPharmaciesPendingReview(currentState => currentState.filter(pharmacy => pharmacy.id !== pharmacyPendingReview.id))
+            successToast("", `${data.message}`)
+        } catch (error) {
+            errorToast("", `An error occurred while validating ${pharmacy.name}`)
+
+        }
+        setIsLoading(false)
+    }, [pharmacyPendingReview, setPharmaciesPendingReview])
 
 
-    // const { acceptPharmacy, rejectPharmacy, checkOnePharmacy, uncheckOnePharmacy } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+    const rejectPharmacy = useCallback((pharmacy: PendingReviewPharmacy) => {
+
+        errorToast("", `${pharmacy.name} has been rejected`)
+    }, [pharmacyPendingReview])
 
 
 
-    const handleCheck = () => {
-        // if (pharmacyPendingReview.is_checked) {
-        //     uncheckOnePharmacy(pharmacyPendingReview)
-        // } else {
-        //     checkOnePharmacy(pharmacyPendingReview)
-        // }
-    }
 
 
-    if (pharmacyPendingReview.is_loading) {
+    if (isLoading) {
         return <SingleRowSkeletonLoader pharmacy={pharmacyPendingReview} />
     }
 
@@ -84,7 +98,7 @@ export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps
             </PendingPharmaciesTableData>
 
             {/* Button section */}
-            {/* <PendingPharmaciesTableData padding={0}>
+            <PendingPharmaciesTableData padding={0}>
                 <ReviewButton onClick={() => acceptPharmacy(pharmacyPendingReview)} for={"validate"} />
             </PendingPharmaciesTableData>
             <PendingPharmaciesTableData paddingX={1}>
@@ -94,7 +108,7 @@ export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps
                 borderRightRadius={"lg"}
                 padding={0} paddingRight={2}>
                 <ReviewButton onClick={() => console.log("link")} for={"link"} />
-            </PendingPharmaciesTableData> */}
+            </PendingPharmaciesTableData>
 
         </Tr>
     )
