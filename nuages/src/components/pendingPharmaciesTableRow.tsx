@@ -34,31 +34,26 @@ export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps
     }, [pharmacyPendingReview, setPharmaciesPendingReview])
 
 
-    const acceptPharmacy = useCallback(async (pharmacy: PendingReviewPharmacy) => {
-
+    const reviewPharmacy = useCallback(async (action: "activate" | "deactivate") => {
         setIsLoading(true)
         try {
-            const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/activate/`, {
+            const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacyPendingReview.id}/${action}/`, {
                 method: "POST",
             });
+
             const data = await response.json();
-            console.log(data)
+            if (response.status !== 200) {
+                throw data
+            }
             setPharmaciesPendingReview(currentState => currentState.filter(pharmacy => pharmacy.id !== pharmacyPendingReview.id))
             successToast("", `${data.message}`)
-        } catch (error) {
-            errorToast("", `An error occurred while validating ${pharmacy.name}`)
+        } catch (error: any) {
+            errorToast("", `${error.message}`)
 
         }
         setIsLoading(false)
+
     }, [pharmacyPendingReview, setPharmaciesPendingReview])
-
-
-    const rejectPharmacy = useCallback((pharmacy: PendingReviewPharmacy) => {
-
-        errorToast("", `${pharmacy.name} has been rejected`)
-    }, [pharmacyPendingReview])
-
-
 
 
 
@@ -99,10 +94,10 @@ export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps
 
             {/* Button section */}
             <PendingPharmaciesTableData padding={0}>
-                <ReviewButton onClick={() => acceptPharmacy(pharmacyPendingReview)} for={"validate"} />
+                <ReviewButton onClick={() => reviewPharmacy("activate")} for={"validate"} />
             </PendingPharmaciesTableData>
             <PendingPharmaciesTableData paddingX={1}>
-                <ReviewButton onClick={() => rejectPharmacy(pharmacyPendingReview)} for={"invalidate"} />
+                <ReviewButton onClick={() => reviewPharmacy('deactivate')} for={"invalidate"} />
             </PendingPharmaciesTableData>
             <PendingPharmaciesTableData
                 borderRightRadius={"lg"}
