@@ -39,8 +39,12 @@ const PharmaciesTableBody = () => {
         >
 
             {
-                filteredPharmacies.map((pharmacy) => {
-                    return <PharmaciesTableRow pharmacy={pharmacy} />
+                filteredPharmacies.map((pharmacy, idx) => {
+
+                    return <PharmaciesTableRow
+                        key={pharmacy.id}
+                        pharmacy={pharmacy}
+                    />
                 })
             }
 

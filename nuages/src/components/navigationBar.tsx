@@ -76,7 +76,7 @@ const NavigationBar = () => {
                         <List >
                             {routes.map((route, idx) => {
 
-                                return <NavigationTabItem route={route} idx={idx} />
+                                return <NavigationTabItem route={route} idx={idx} key={idx} />
                                 // return <ListItem
 
                                 //     height={10}
