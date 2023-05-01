@@ -1,6 +1,11 @@
 import datetime
 
+from django.http import Http404
 from django.shortcuts import render
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
 from openPharma.models import OpenPharmacy, Pharmacy
 from openPharma.serializers import (OpenPharmaciesAdminSerializer,
                                     OpenPharmaciesListAdminSerializer,
@@ -8,9 +13,6 @@ from openPharma.serializers import (OpenPharmaciesAdminSerializer,
                                     PharmaciesOpenStateSerializer,
                                     PharmaciesPendingReviewAdminSerializer,
                                     PharmaciesSerializer)
-from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
 
 
 class PharmaciesViewset(viewsets.ReadOnlyModelViewSet):
@@ -55,21 +57,36 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def deactivate(self, request, *args, **kwargs):
-        instance = self.get_object()
-        instance.active = False
-        instance.pending_review = False
-        instance.save()
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
+        try:
+            instance = self.get_object()
+            instance.active = False
+            instance.pending_review = False
+            instance.save()
+            serializer = self.get_serializer(instance)
+            return Response(data={
+                "message": f"{instance.name} has been deactivated",
+                "pharmacy": serializer.data})
+        except Http404 as error:
+            return Response(status=status.HTTP_404_NOT_FOUND, data={"message": f"pharmacy not found"})
+        except Exception as error:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"message": f"An unknow error occured. Please try again later"})
 
     @action(detail=True, methods=['post'])
     def activate(self, request, *args, **kwargs):
-        instance = self.get_object()
-        instance.active = True
-        instance.pending_review = False
-        instance.save()
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
+
+        try:
+            instance = self.get_object()
+            instance.active = True
+            instance.pending_review = False
+            instance.save()
+            serializer = self.get_serializer(instance)
+            return Response(data={
+                "message": f"{instance.name} has been activated",
+                "pharmacy": serializer.data})
+        except Http404 as error:
+            return Response(status=status.HTTP_404_NOT_FOUND, data={"message": f"pharmacy not found"})
+        except Exception as error:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"message": f"An unknow error occured. Please try again later"})
 
 
 # OPEN PHARMACY
