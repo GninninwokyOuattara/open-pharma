@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, HStack, Spinner, Text, Th, Thead, Tr } from "@chakra-ui/react"
-import { useCallback, useContext, useState } from "react"
+import { useCallback, useContext, useMemo, useState } from "react"
 import { palette } from "../colorPalette"
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
 
@@ -10,6 +10,26 @@ export const PendingReviewPageTableHeaders = () => {
     const { filteredPendingReviewPharmacies, isLoading, checkAllPharmacies, uncheckAllPharmacies, numberOfCheckedPharmacies, setPharmaciesPendingReview } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
     const [isChecked, setIsChecked] = useState(false)
+    const numberOfPharmaciesSelected = useMemo(() => {
+        // for (const pharmacy of filteredPendingReviewPharmacies) {
+        //     let c = 0
+        //     if (pharmacy.is_checked) {
+        //         console.log("is checked mode")
+        //         return true
+        //     }
+        // }
+        // console.log("is not checked mode")
+
+        // return 0
+        let numberPharmaciesChecked = filteredPendingReviewPharmacies.reduce((acc, pharmacy) => {
+            if (pharmacy.is_checked) {
+                return acc + 1
+            }
+            return acc
+        }, 0)
+
+        return numberPharmaciesChecked
+    }, [filteredPendingReviewPharmacies])
 
     const toggleAllBoxes = useCallback(() => {
         setIsChecked(currentState => !currentState)
@@ -51,8 +71,8 @@ export const PendingReviewPageTableHeaders = () => {
                             }}
                         />
                         {
-                            numberOfCheckedPharmacies > 0
-                                ? <CheckModeHeader numberOfCheckedPharmacies={numberOfCheckedPharmacies} />
+                            numberOfPharmaciesSelected
+                                ? <CheckModeHeader numberOfPharmaciesSelected={numberOfPharmaciesSelected} />
                                 : <Text
                                     fontSize={"xl"}
                                     color={"gray.600"}
@@ -95,7 +115,7 @@ const LoadingHeader = () => {
 }
 
 
-const CheckModeHeader: React.FC<{ numberOfCheckedPharmacies: number }> = ({ numberOfCheckedPharmacies }) => {
+const CheckModeHeader: React.FC<{ numberOfPharmaciesSelected: number }> = ({ numberOfPharmaciesSelected }) => {
 
     const { acceptSelectedPharmacies, rejectSelectedPharmacies } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
@@ -115,7 +135,7 @@ const CheckModeHeader: React.FC<{ numberOfCheckedPharmacies: number }> = ({ numb
                 fontSize={"xl"}
                 color={"gray.600"}
             >
-                {numberOfCheckedPharmacies} pharmacies selected
+                {numberOfPharmaciesSelected} pharmacies selected
 
             </Text>
 
