@@ -2,6 +2,7 @@ import { Box, Button, Checkbox, HStack, Spinner, Text, Th, Thead, Tr } from "@ch
 import { useCallback, useContext, useMemo, useState } from "react"
 import { palette } from "../colorPalette"
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
+import { ToastContext, ToastContextInterface } from "../contexts/toast"
 
 
 
@@ -11,16 +12,6 @@ export const PendingReviewPageTableHeaders = () => {
 
     const [isChecked, setIsChecked] = useState(false)
     const numberOfPharmaciesSelected = useMemo(() => {
-        // for (const pharmacy of filteredPendingReviewPharmacies) {
-        //     let c = 0
-        //     if (pharmacy.is_checked) {
-        //         console.log("is checked mode")
-        //         return true
-        //     }
-        // }
-        // console.log("is not checked mode")
-
-        // return 0
         let numberPharmaciesChecked = filteredPendingReviewPharmacies.reduce((acc, pharmacy) => {
             if (pharmacy.is_checked) {
                 return acc + 1
@@ -117,8 +108,42 @@ const LoadingHeader = () => {
 
 const CheckModeHeader: React.FC<{ numberOfPharmaciesSelected: number }> = ({ numberOfPharmaciesSelected }) => {
 
-    const { acceptSelectedPharmacies, rejectSelectedPharmacies } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+    const { acceptSelectedPharmacies, rejectSelectedPharmacies, pendingReviewPharmacies, setPharmaciesPendingReview } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+    const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
 
+
+    const batchReview = useCallback(async (review: string) => {
+        const selectedPharmacies = pendingReviewPharmacies.filter(pharmacy => pharmacy.is_checked)
+        const selectedPharmaciesIds = selectedPharmacies.map(pharmacy => pharmacy.id)
+
+        const obj = {
+            review,
+            pharmacies: selectedPharmacies
+        }
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_DJANGO_API_URL}/admin-api/pharmacies-pending-review/batch-review/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+
+                },
+                body: JSON.stringify(obj),
+            });
+            const data = await response.json();
+            if (response.status !== 200) {
+                throw data
+            }
+
+            setPharmaciesPendingReview(currentState => currentState.filter(pharmacy => !selectedPharmaciesIds.includes(pharmacy.id)))
+            successToast("", `${data.message}`)
+
+        } catch (error: any) {
+            console.log(error)
+            errorToast("", `${error.message}`)
+
+        }
+    }, [setPharmaciesPendingReview, pendingReviewPharmacies, successToast, errorToast])
 
 
     return (
@@ -140,8 +165,8 @@ const CheckModeHeader: React.FC<{ numberOfPharmaciesSelected: number }> = ({ num
             </Text>
 
             <HStack gap={2}>
-                <ReviewSelectedButton title="Accept" onClick={acceptSelectedPharmacies} />
-                <ReviewSelectedButton title="Reject" onClick={rejectSelectedPharmacies} />
+                <ReviewSelectedButton title="Accept" onClick={() => batchReview("activate")} />
+                <ReviewSelectedButton title="Reject" onClick={() => batchReview("deactivate")} />
 
 
             </HStack>
