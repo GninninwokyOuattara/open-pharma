@@ -55,7 +55,7 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
     def get_queryset(self):
         return super().get_queryset()
 
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['post'], url_path="batch-review")
     def batch_review(self, request, *args, **kwargs):
 
         succeed = 0
@@ -73,7 +73,6 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
             for pharmacy in pharmacies:
                 try:
                     instance = Pharmacy.objects.get(id=pharmacy["id"])
-                    print("instance name ", instance.name)
                     instance.active = shouldActivate
                     instance.pending_review = False
                     instance.save()
