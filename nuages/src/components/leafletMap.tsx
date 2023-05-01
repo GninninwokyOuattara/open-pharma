@@ -41,8 +41,9 @@ const LeafletMap = () => {
         />
 
 
-        {pharmacies && pharmacies.map((pharmacy) => {
+        {pharmacies && pharmacies.map((pharmacy, idx) => {
             return <Marker
+                key={idx}
                 position={[pharmacy.coordinates.latitude, pharmacy.coordinates.longitude]}
 
 
