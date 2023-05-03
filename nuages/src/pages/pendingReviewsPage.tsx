@@ -25,6 +25,7 @@ const PendingReviewsPage = () => {
     const { refreshDatas } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
     useEffect(() => {
+        console.log("fired for pending review page")
         refreshDatas()
     }, [])
 

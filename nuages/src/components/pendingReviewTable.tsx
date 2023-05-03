@@ -1,5 +1,5 @@
 import { Box, Table, TableContainer, Tbody } from "@chakra-ui/react"
-import { useContext } from "react"
+import { memo, useContext } from "react"
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
 import { PendingReviewPharmacy } from "../types"
 import { PendingPharmaciesTableRowMemo } from "./pendingPharmaciesTableRow"
@@ -7,6 +7,9 @@ import { PendingReviewSkeletonLoader } from "./rowsLoader"
 import { PendingReviewPageTableHeaders } from "./tableHeaders"
 
 export const PendingReviewPageTable = () => {
+
+    const { pendingReviewPharmacies, isLoading, setPharmaciesPendingReview } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+
 
     return <Box
         // borderRadius={"md"}
@@ -30,7 +33,11 @@ export const PendingReviewPageTable = () => {
                 >
 
                     <PendingReviewPageTableHeaders />
-                    <PendingReviewPageTableBody />
+                    <PendingReviewPageTableBody
+                        pendingReviewPharmacies={pendingReviewPharmacies}
+                        isLoading={isLoading}
+                        setPharmaciesPendingReview={setPharmaciesPendingReview}
+                    />
 
 
 
@@ -45,9 +52,15 @@ export const PendingReviewPageTable = () => {
 
 
 
-const PendingReviewPageTableBody = () => {
+interface PendingReviewPageTableBodyProps {
+    pendingReviewPharmacies: PendingReviewPharmacy[]
+    isLoading: boolean,
+    setPharmaciesPendingReview: React.Dispatch<React.SetStateAction<PendingReviewPharmacy[] | []>>
+}
 
-    const { pendingReviewPharmacies, isLoading, acceptPharmacy, rejectPharmacy, checkOnePharmacy, uncheckOnePharmacy, toggleCheckPendingReviewPharmacy, setPharmaciesPendingReview } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+const PendingReviewPageTableBody: React.FC<PendingReviewPageTableBodyProps> = memo(({ pendingReviewPharmacies, isLoading, setPharmaciesPendingReview }) => {
+
+    // const { pendingReviewPharmacies, isLoading, acceptPharmacy, rejectPharmacy, checkOnePharmacy, uncheckOnePharmacy, toggleCheckPendingReviewPharmacy, setPharmaciesPendingReview } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
 
 
@@ -87,7 +100,7 @@ const PendingReviewPageTableBody = () => {
     return (
         null
     )
-}
+})
 
 
 
