@@ -36,7 +36,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onChange }) => {
             flexDirection={"row"}
             alignItems={"center"}
             paddingLeft={"10px"}
-            backgroundColor={"whiteAlpha.100"}
+            backgroundColor={"white"}
             _hover={{
                 border: "1px solid orange",
 
