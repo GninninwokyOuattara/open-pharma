@@ -2,10 +2,6 @@ import datetime
 
 from django.http import Http404
 from django.shortcuts import render
-from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
-
 from openPharma.models import OpenPharmacy, Pharmacy
 from openPharma.serializers import (OpenPharmaciesAdminSerializer,
                                     OpenPharmaciesListAdminSerializer,
@@ -13,6 +9,9 @@ from openPharma.serializers import (OpenPharmaciesAdminSerializer,
                                     PharmaciesOpenStateSerializer,
                                     PharmaciesPendingReviewAdminSerializer,
                                     PharmaciesSerializer)
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 
 class PharmaciesViewset(viewsets.ReadOnlyModelViewSet):
@@ -67,7 +66,7 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
             if review != "activate" and review != "deactivate":
                 return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "Invalid review value"})
 
-            shouldActivate = True if review == "activated" else False
+            shouldActivate = True if review == "activate" else False
             pharmacies = data["pharmacies"]
 
             for pharmacy in pharmacies:
