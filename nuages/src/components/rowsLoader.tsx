@@ -7,9 +7,9 @@ export const PendingReviewSkeletonLoader: React.FC<{ firstTenPharmacies: Pending
 
     return (
         <Tbody>
-            {firstTenPharmacies.map((p: PendingReviewPharmacy) => {
+            {firstTenPharmacies.map((p: PendingReviewPharmacy, idx) => {
                 return (
-                    <Tr>
+                    <Tr key={idx}>
                         <LoadingRowData >{p.name}</LoadingRowData>
                         <LoadingRowData>{p.time_elapsed}</LoadingRowData>
                         <LoadingRowData padding={0} w={0} >
