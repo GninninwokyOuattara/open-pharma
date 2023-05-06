@@ -7,7 +7,10 @@ import Layout from "./components/layout";
 import Home from "./pages/home";
 import PendingReviewsPage from "./pages/pendingReviewsPage";
 
+import { PharmaciesContextProvider } from './contexts/pharmaciesContext';
+import { PharmaciesReviewContextProvider } from "./contexts/pharmaciesReviewContext";
 import PharmaciesPage from "./pages/pharmaciesPage";
+
 
 
 // Path : 
@@ -28,11 +31,18 @@ const appRouting = createBrowserRouter([
             },
             {
                 path: "/pharmacies",
-                element: <PharmaciesPage />
+                element:
+                    <PharmaciesContextProvider>
+                        <PharmaciesPage />
+                    </PharmaciesContextProvider>
+
             },
             {
                 path: "/pending-reviews",
-                element: <PendingReviewsPage />,
+                element:
+                    <PharmaciesReviewContextProvider>
+                        <PendingReviewsPage />
+                    </PharmaciesReviewContextProvider>,
             },
         ]
     },
