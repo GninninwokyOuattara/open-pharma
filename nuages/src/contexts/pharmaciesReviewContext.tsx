@@ -124,10 +124,10 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
     }
 
     const refreshDatas = async () => {
-        setIsLoading(true)
         // cleanDatas()
-        // await getPendingReviewPharmacies()
-        // setIsLoading(false)
+        setIsLoading(true)
+        await getPendingReviewPharmacies()
+        setIsLoading(false)
     }
 
     const cleanDatas = () => {
