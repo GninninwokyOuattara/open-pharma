@@ -2,7 +2,7 @@ import { Center, Skeleton, Text } from "@chakra-ui/react";
 import React, { useContext, useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { palette } from "../colorPalette";
-import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
+import { LeafletMapContext, LeafletMapContextInterface } from "../contexts/leafletContext";
 import { PharmacyFullState } from "../types";
 
 
@@ -12,15 +12,6 @@ interface LeafletMapProps {
 }
 
 const LeafletMap: React.FC<LeafletMapProps> = React.memo(({ pharmacies, isLoading }) => {
-
-    console.log("Rerendered Map")
-
-    // get pharmacies from context
-
-    // const { pharmacies } = useContext(PharmaciesContext) as PharmaciesContextInterface
-
-    console.log("rerendered")
-
     if (isLoading) return <LoadinLeafletMap />
 
     if (!pharmacies.length) {
@@ -73,8 +64,7 @@ const LeafletMap: React.FC<LeafletMapProps> = React.memo(({ pharmacies, isLoadin
 
 function MapInteractionHandler() {
     const map = useMap()
-    const { pharmacyFocusedOnMap } = useContext(PharmaciesContext) as PharmaciesContextInterface
-
+    const { pharmacyFocusedOnMap } = useContext(LeafletMapContext) as LeafletMapContextInterface
 
     useEffect(() => {
         if (pharmacyFocusedOnMap) {
@@ -88,10 +78,6 @@ function MapInteractionHandler() {
 
 const LoadinLeafletMap = () => {
     return (
-
-        // <Center height={"full"} bg={palette.colorHuntTheme.lightGreen}>
-        //     <Spinner size={"lg"} />
-        // </Center>
         <Skeleton height={"100%"} width={"100%"} />
     )
 }
