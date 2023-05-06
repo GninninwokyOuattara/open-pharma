@@ -19,6 +19,12 @@ const PharmaciesTableBody = () => {
 
     // if there is no pharmacies and loading is false, return a message that spans all columns saying "No pharmacies found"
 
+    if (isLoading) {
+
+        return <SkeletonLoader />
+    }
+
+
     if (filteredPharmacies.length === 0 && !isLoading) {
         return <Tbody>
             <Tr>
@@ -274,4 +280,64 @@ const ToggleActibityButton: React.FC<{ pharmacy: PharmacyFullState }> = ({ pharm
 
         onClick={() => handleToggleActivity()}
     />
+}
+
+
+const SkeletonLoader = () => {
+
+
+    const nLoadingSkeleton = [1, 2, 3, 4, 5, 6, 7, 8]
+
+    return (
+        <>
+            {
+                nLoadingSkeleton.map((arr) => <Tr
+                    _hover={{
+                        backgroundColor: "white",
+
+                    }}
+                >
+                    <Td
+                        borderLeftRadius={"lg"}
+
+
+                    >
+
+                        <Skeleton height={"20px"} w={"full"} />
+                    </Td>
+                    <Td >
+                        <Skeleton height={"20px"} w={"full"} />
+
+                    </Td>
+
+                    <Td > <Skeleton height={"20px"} w={"full"} /> </Td>
+
+                    <Td >
+                        <Skeleton height={"20px"} w={"full"} />
+
+                    </Td>
+                    <Td padding={0} >
+
+                        <Skeleton height={"20px"} w={"25px"} />
+                    </Td>
+                    <Td paddingX={1} >
+
+
+                        <Skeleton height={"20px"} w={"25px"} />
+                    </Td>
+                    <Td
+                        padding={0} paddingRight={2}
+                        borderRightRadius={"lg"}
+                    >
+
+                        <Skeleton height={"20px"} w={"25px"} />
+                    </Td>
+
+                </Tr>)
+            }
+
+        </>
+    )
+
+
 }
