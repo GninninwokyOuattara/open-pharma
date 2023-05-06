@@ -1,5 +1,6 @@
 import { Box, Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect, useState } from "react";
+import { palette } from "../colorPalette";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
 import { ToastContext, ToastContextInterface } from "../contexts/toast";
 import { PharmacyFullStateEdit } from "../types";
@@ -107,16 +108,23 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
     return (
         <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={() => closeEditingPharmacyModal()}>
             <ModalOverlay />
-            <ModalContent>
-                <ModalHeader>Modal Title</ModalHeader>
+            <ModalContent
+                backgroundColor={palette.custom.veryLightOrange}
+
+            >
+                <ModalHeader>Edit pharmacy</ModalHeader>
                 <ModalCloseButton />
-                <ModalBody>
+                <ModalBody
+                >
                     {
                         pharmacyForm && (
                             <>
                                 <FormControl>
                                     <FormLabel>Name</FormLabel>
-                                    <Input placeholder={`${pharmacyInEditMode?.name}`} value={pharmacyForm.name}
+                                    <Input
+                                        backgroundColor={"white"}
+                                        placeholder={`${pharmacyInEditMode?.name}`}
+                                        value={pharmacyForm.name}
                                         onChange={(e) => handleFormChange(
                                             { name: e.target.value }
                                         )} />
@@ -124,7 +132,10 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
 
                                 <FormControl>
                                     <FormLabel>Description</FormLabel>
-                                    <Textarea placeholder={`${pharmacyInEditMode?.description}`} value={pharmacyForm.description}
+                                    <Textarea
+                                        backgroundColor={"white"}
+
+                                        placeholder={`${pharmacyInEditMode?.description}`} value={pharmacyForm.description}
                                         onChange={(e) => handleFormChange(
                                             { description: e.target.value }
                                         )} />
@@ -134,12 +145,17 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
                                     <FormLabel>Coordinates</FormLabel>
                                     <Box display={"flex"} gap={1}>
                                         <Input
+                                            backgroundColor={"white"}
+
                                             placeholder={`Latitude`}
                                             value={pharmacyForm.latitude}
                                             onChange={(e) => handleFormChange(
                                                 { latitude: e.target.value }
                                             )} />
-                                        <Input placeholder={`Longitude`} value={pharmacyForm.longitude}
+                                        <Input
+                                            backgroundColor={"white"}
+
+                                            placeholder={`Longitude`} value={pharmacyForm.longitude}
                                             onChange={(e) => handleFormChange(
                                                 { longitude: e.target.value }
                                             )} />
