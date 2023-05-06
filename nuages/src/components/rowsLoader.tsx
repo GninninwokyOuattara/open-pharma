@@ -1,6 +1,5 @@
 import { Skeleton, TableCellProps, Tbody, Td, Tr } from "@chakra-ui/react"
 import { PendingReviewPharmacy } from "../types"
-import { ReviewButton } from "./actionButtons"
 
 
 export const PendingReviewSkeletonLoader: React.FC<{ firstTenPharmacies: PendingReviewPharmacy[] }> = ({ firstTenPharmacies }) => {
@@ -12,7 +11,7 @@ export const PendingReviewSkeletonLoader: React.FC<{ firstTenPharmacies: Pending
                     <Tr key={idx}>
                         <LoadingRowData >{p.name}</LoadingRowData>
                         <LoadingRowData>{p.time_elapsed}</LoadingRowData>
-                        <LoadingRowData padding={0} w={0} >
+                        {/* <LoadingRowData padding={0} w={0} >
                             <ReviewButton for={"validate"} onClick={() => { }} />
                         </LoadingRowData>
                         <LoadingRowData paddingX={1} w={0} >
@@ -20,7 +19,11 @@ export const PendingReviewSkeletonLoader: React.FC<{ firstTenPharmacies: Pending
                         </LoadingRowData>
                         <LoadingRowData padding={0} paddingRight={2} w={0} >
                             <ReviewButton for={"validate"} onClick={() => { }} />
-                        </LoadingRowData>
+                        </LoadingRowData> */}
+                        <SkeletonLoaadingIcon paddingX={1} w={0} />
+                        <SkeletonLoaadingIcon paddingX={1} w={0} />
+
+                        <SkeletonLoaadingIcon padding={0} paddingRight={2} w={0} />
                     </Tr>
                 )
             })}
