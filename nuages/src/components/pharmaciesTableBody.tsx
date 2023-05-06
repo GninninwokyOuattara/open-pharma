@@ -6,6 +6,7 @@ import { getTags } from "../utils/dry"
 
 // import GrEdit
 
+import React from "react"
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 import { BsFillPinMapFill } from "react-icons/bs"
 import { GrEdit } from "react-icons/gr"
@@ -44,15 +45,15 @@ const PharmaciesTableBody = () => {
         <Tbody
         >
 
-            {
+            {/* {
                 filteredPharmacies.map((pharmacy, idx) => {
-
-                    return <PharmaciesTableRow
+                    return <PharmaciesTableRowMemoized
                         key={pharmacy.id}
                         pharmacy={pharmacy}
                     />
                 })
-            }
+            } */}
+            <PharmaciesTableRowsContainer pharmacies={filteredPharmacies} />
 
         </Tbody>
 
@@ -62,9 +63,29 @@ const PharmaciesTableBody = () => {
 export default PharmaciesTableBody
 
 
+const PharmaciesTableRowsContainer: React.FC<{ pharmacies: PharmacyFullState[] }> = React.memo(({ pharmacies }) => {
+    console.log("Rerendered container")
+    return (
+        <>
+            {
+                pharmacies.map((pharmacy, idx) => {
+                    return <PharmaciesTableRowMemoized
+                        key={pharmacy.id}
+                        pharmacy={pharmacy}
+                    />
+                })
+            }
+
+        </>
+    )
+})
+
+
 const PharmaciesTableRow: React.FC<{ pharmacy: PharmacyFullState }> = (
     { pharmacy }
 ) => {
+
+    // console.log("Rerendered row for ", pharmacy.name)
 
     const pharmacyDateRange = pharmacy.open_date_range
     const tags = getTags(pharmacy)
@@ -115,6 +136,8 @@ const PharmaciesTableRow: React.FC<{ pharmacy: PharmacyFullState }> = (
 
 }
 
+
+const PharmaciesTableRowMemoized = React.memo(PharmaciesTableRow)
 
 const TableData: React.FC<TableCellProps> = (props) => {
 
