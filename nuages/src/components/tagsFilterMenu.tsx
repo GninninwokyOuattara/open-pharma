@@ -23,7 +23,7 @@ const TagsFilterMenu = () => {
                     rightIcon={<IoFilter />}
                     shadow={"xs"}
                     border={"1px solid"}
-                    backgroundColor={"whiteAlpha.100"}
+                    backgroundColor={"white"}
                     _hover={{
                         border: "1px solid",
                         borderColor: palette.orange.havePersonality,
