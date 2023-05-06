@@ -296,31 +296,36 @@ const SkeletonLoader = () => {
                         backgroundColor: "white",
 
                     }}
+
                 >
                     <Td
                         borderLeftRadius={"lg"}
-
-
+                        borderColor={"gray.300"}
+                        borderBottomWidth={1}
                     >
-
                         <Skeleton height={"20px"} w={"full"} />
                     </Td>
-                    <Td >
+                    <Td borderColor={"gray.300"}
+                        borderBottomWidth={1}>
+                        <Skeleton height={"20px"} w={"full"} />
+                    </Td>
+
+                    <Td borderColor={"gray.300"}
+                        borderBottomWidth={1}> <Skeleton height={"20px"} w={"full"} /> </Td>
+
+                    <Td borderColor={"gray.300"}
+                        borderBottomWidth={1}>
                         <Skeleton height={"20px"} w={"full"} />
 
                     </Td>
-
-                    <Td > <Skeleton height={"20px"} w={"full"} /> </Td>
-
-                    <Td >
-                        <Skeleton height={"20px"} w={"full"} />
-
-                    </Td>
-                    <Td padding={0} >
+                    <Td padding={0} borderColor={"gray.300"}
+                        borderBottomWidth={1}>
 
                         <Skeleton height={"20px"} w={"25px"} />
                     </Td>
-                    <Td paddingX={1} >
+                    <Td paddingX={1}
+                        borderColor={"gray.300"}
+                        borderBottomWidth={1}>
 
 
                         <Skeleton height={"20px"} w={"25px"} />
@@ -328,6 +333,8 @@ const SkeletonLoader = () => {
                     <Td
                         padding={0} paddingRight={2}
                         borderRightRadius={"lg"}
+                        borderColor={"gray.300"}
+                        borderBottomWidth={1}
                     >
 
                         <Skeleton height={"20px"} w={"25px"} />
