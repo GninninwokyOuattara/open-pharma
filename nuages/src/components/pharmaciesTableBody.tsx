@@ -11,6 +11,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 import { BsFillPinMapFill } from "react-icons/bs"
 import { GrEdit } from "react-icons/gr"
 import { TbMoodEmpty } from "react-icons/tb"
+import { LeafletMapContext, LeafletMapContextInterface } from "../contexts/leafletContext"
 import { ToastContext, ToastContextInterface } from "../contexts/toast"
 
 
@@ -219,9 +220,8 @@ const EditButton: React.FC<{ pharmacy: PharmacyFullState }> = ({ pharmacy }) => 
 
 const PointPharmacyOnMapButton: React.FC<{ pharmacy: PharmacyFullState }> = ({ pharmacy }) => {
 
-    const { setPharmacyFocusedOnMap }
-        = useContext(PharmaciesContext) as PharmaciesContextInterface
-
+    const { setFocus }
+        = useContext(LeafletMapContext) as LeafletMapContextInterface
 
     return (
 
@@ -235,7 +235,7 @@ const PointPharmacyOnMapButton: React.FC<{ pharmacy: PharmacyFullState }> = ({ p
             size="sm"
             variant="ghost"
 
-            onClick={() => setPharmacyFocusedOnMap(pharmacy)}
+            onClick={() => setFocus(pharmacy)}
         />
     )
 
