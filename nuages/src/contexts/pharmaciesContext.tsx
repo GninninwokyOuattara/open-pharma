@@ -235,41 +235,74 @@ export const PharmaciesContextProvider = ({ children }: any) => {
     //     }
     // }, [error])
 
+    const value = useMemo(() => ({
+        isLoading,
+        setIsLoading,
+        error,
+        setError,
+        summary,
+        setSummary,
+        pharmacies,
+        setPharmacies,
+        search,
+        setSearch,
+        activeTags,
+        setActiveTags,
+        applyFilters,
+        filterByTags,
+        filterBySearch,
+        filteredPharmacies,
+        getDatas,
+        cleanDatas,
+        refreshDatas,
+        toggleActivity,
+        isOpen,
+        onOpen,
+        onClose,
+        pharmacyInEditMode,
+        setPharmacyInEditMode,
+        openEditingPharmacyModal,
+        closeEditingPharmacyModal,
+        updatePharmacyInPharmacies,
+        pharmacyFocusedOnMap,
+        setPharmacyFocusedOnMap
+
+    }), [
+        isLoading,
+        setIsLoading,
+        error,
+        setError,
+        summary,
+        setSummary,
+        pharmacies,
+        setPharmacies,
+        search,
+        setSearch,
+        activeTags,
+        setActiveTags,
+        applyFilters,
+        filterByTags,
+        filterBySearch,
+        filteredPharmacies,
+        getDatas,
+        cleanDatas,
+        refreshDatas,
+        toggleActivity,
+        isOpen,
+        onOpen,
+        onClose,
+        pharmacyInEditMode,
+        setPharmacyInEditMode,
+        openEditingPharmacyModal,
+        closeEditingPharmacyModal,
+        updatePharmacyInPharmacies,
+        pharmacyFocusedOnMap,
+        setPharmacyFocusedOnMap
+    ])
+
 
     return (
-        <PharmaciesContext.Provider value={{
-            isLoading,
-            setIsLoading,
-            error,
-            setError,
-            summary,
-            setSummary,
-            pharmacies,
-            setPharmacies,
-            search,
-            setSearch,
-            activeTags,
-            setActiveTags,
-            applyFilters,
-            filterByTags,
-            filterBySearch,
-            filteredPharmacies,
-            getDatas,
-            cleanDatas,
-            refreshDatas,
-            toggleActivity,
-            isOpen,
-            onOpen,
-            onClose,
-            pharmacyInEditMode,
-            setPharmacyInEditMode,
-            openEditingPharmacyModal,
-            closeEditingPharmacyModal,
-            updatePharmacyInPharmacies,
-            pharmacyFocusedOnMap,
-            setPharmacyFocusedOnMap
-
-        }}>
+        <PharmaciesContext.Provider value={value}>
             {children}
         </PharmaciesContext.Provider>
 
