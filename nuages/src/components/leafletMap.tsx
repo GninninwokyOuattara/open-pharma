@@ -1,4 +1,4 @@
-import { Center, Spinner, Text } from "@chakra-ui/react";
+import { Center, Skeleton, Text } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { palette } from "../colorPalette";
@@ -15,7 +15,7 @@ const LeafletMap = () => {
     if (isLoading) return <LoadinLeafletMap />
 
     if (!pharmacies.length) {
-        return (<Center h={"100%"} bg={palette.colorHuntTheme.lightGreen}>
+        return (<Center h={"100%"} bg={palette.custom.niceOrange}>
             <Text fontSize={"2xl"} fontWeight={"bold"} color={"black"}>
                 No Pharmacies to display on the map.
             </Text>
@@ -80,9 +80,10 @@ function MapInteractionHandler() {
 const LoadinLeafletMap = () => {
     return (
 
-        <Center height={"full"} bg={palette.colorHuntTheme.lightGreen}>
-            <Spinner size={"lg"} />
-        </Center>
+        // <Center height={"full"} bg={palette.colorHuntTheme.lightGreen}>
+        //     <Spinner size={"lg"} />
+        // </Center>
+        <Skeleton height={"100%"} width={"100%"} />
     )
 }
 
