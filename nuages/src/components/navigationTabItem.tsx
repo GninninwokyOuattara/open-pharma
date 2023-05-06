@@ -26,6 +26,10 @@ function NavigationTabItem({ route, idx }: props) {
             overflow="hidden"
             marginBottom={1}
 
+            _hover={{
+                backgroundColor: "whiteAlpha.600"
+            }}
+
 
         >
             <NavLink
