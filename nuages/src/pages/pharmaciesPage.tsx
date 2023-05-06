@@ -15,6 +15,7 @@ import PharmaciesTableRenderer from "../components/pharmaciesTableRenderer";
 import RefreshButton from "../components/refreshButton";
 import SearchBar from "../components/searchBar";
 import TagsFilterMenu from "../components/tagsFilterMenu";
+import { LeafletMapContextProvider } from "../contexts/leafletContext";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
 import { ToastContext, ToastContextInterface } from "../contexts/toast";
 
@@ -46,14 +47,18 @@ const PharmaciesPage = () => {
     }, [])
 
     return (
-        <Page
-            pharmacies={pharmacies}
-            isLoading={isLoading}
-            refreshDatas={refreshDatas}
-            setSearch={setSearch}
-            isOpen={isOpen}
-            onClose={onClose}
-        />
+        <LeafletMapContextProvider>
+
+            <Page
+                pharmacies={pharmacies}
+                isLoading={isLoading}
+                refreshDatas={refreshDatas}
+                setSearch={setSearch}
+                isOpen={isOpen}
+                onClose={onClose}
+            />
+        </LeafletMapContextProvider>
+
     );
 };
 
