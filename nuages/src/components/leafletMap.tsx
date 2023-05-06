@@ -1,5 +1,5 @@
 import { Center, Skeleton, Text } from "@chakra-ui/react";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { palette } from "../colorPalette";
 import { LeafletMapContext, LeafletMapContextInterface } from "../contexts/leafletContext";
@@ -66,11 +66,11 @@ function MapInteractionHandler() {
     const map = useMap()
     const { pharmacyFocusedOnMap } = useContext(LeafletMapContext) as LeafletMapContextInterface
 
-    useEffect(() => {
-        if (pharmacyFocusedOnMap) {
-            map.setView([pharmacyFocusedOnMap.coordinates.latitude, pharmacyFocusedOnMap.coordinates.longitude], 15, { animate: true })
-        }
-    }, [pharmacyFocusedOnMap])
+    // useEffect(() => {
+    if (pharmacyFocusedOnMap) {
+        map.setView([pharmacyFocusedOnMap.coordinates.latitude, pharmacyFocusedOnMap.coordinates.longitude], 15, { animate: true })
+    }
+    // }, [pharmacyFocusedOnMap])
 
     return null
 }
