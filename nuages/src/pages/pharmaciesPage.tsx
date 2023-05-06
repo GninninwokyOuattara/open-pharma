@@ -6,7 +6,7 @@ import { RiEyeOffLine } from "react-icons/ri";
 import { PharmaciesDataSummary, PharmacyFullState } from "../types";
 
 
-import { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 import { palette } from "../colorPalette";
 import EditPharmacyModal from "../components/editPharmacyModal";
@@ -31,7 +31,8 @@ const PharmaciesPage = () => {
         onClose,
         setSearch,
         isLoading,
-        refreshDatas
+        refreshDatas,
+        pharmacies
 
     } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
@@ -45,6 +46,31 @@ const PharmaciesPage = () => {
     }, [])
 
     return (
+        <Page
+            pharmacies={pharmacies}
+            isLoading={isLoading}
+            refreshDatas={refreshDatas}
+            setSearch={setSearch}
+            isOpen={isOpen}
+            onClose={onClose}
+        />
+    );
+};
+
+export default PharmaciesPage;
+
+
+
+const Page: React.FC<{
+    pharmacies: PharmacyFullState[],
+    isLoading: boolean
+    refreshDatas: () => void
+    setSearch: React.Dispatch<React.SetStateAction<string>>,
+    isOpen: boolean,
+    onClose: () => void
+}> = React.memo(({ pharmacies, isLoading, refreshDatas, setSearch, isOpen, onClose }) => {
+
+    return (
         <>
 
             <VStack
@@ -54,7 +80,10 @@ const PharmaciesPage = () => {
             >
 
                 <Box borderRadius={"md"} overflow={"hidden"} height={"200px"} width={"100%"} shadow={"md"}>
-                    <LeafletMap />
+                    <LeafletMap
+                        pharmacies={pharmacies}
+                        isLoading={isLoading}
+                    />
                 </Box>
 
                 <Box
@@ -92,10 +121,8 @@ const PharmaciesPage = () => {
             <EditPharmacyModal isOpen={isOpen} onClose={onClose} />
 
         </>
-    );
-};
-
-export default PharmaciesPage;
+    )
+})
 
 
 

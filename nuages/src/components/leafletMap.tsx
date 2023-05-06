@@ -1,16 +1,25 @@
 import { Center, Skeleton, Text } from "@chakra-ui/react";
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { palette } from "../colorPalette";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
+import { PharmacyFullState } from "../types";
 
 
-const LeafletMap = () => {
+interface LeafletMapProps {
+    pharmacies: PharmacyFullState[],
+    isLoading: boolean
+}
+
+const LeafletMap: React.FC<LeafletMapProps> = React.memo(({ pharmacies, isLoading }) => {
+
+    console.log("Rerendered Map")
 
     // get pharmacies from context
 
-    const { pharmacies, isLoading } = useContext(PharmaciesContext) as PharmaciesContextInterface
+    // const { pharmacies } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
+    console.log("rerendered")
 
     if (isLoading) return <LoadinLeafletMap />
 
@@ -58,7 +67,7 @@ const LeafletMap = () => {
 
         <MapInteractionHandler />
     </MapContainer>
-}
+})
 
 
 
@@ -66,12 +75,12 @@ function MapInteractionHandler() {
     const map = useMap()
     const { pharmacyFocusedOnMap } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
+
     useEffect(() => {
         if (pharmacyFocusedOnMap) {
             map.setView([pharmacyFocusedOnMap.coordinates.latitude, pharmacyFocusedOnMap.coordinates.longitude], 15, { animate: true })
         }
     }, [pharmacyFocusedOnMap])
-    console.log('map center:', map.getCenter())
 
     return null
 }
