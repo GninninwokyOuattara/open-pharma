@@ -20,7 +20,8 @@ from rest_framework_swagger.views import get_swagger_view
 
 # import SearchApiView
 from googleMapsScrapper.views import SearchApiView
-from openPharma.views import (OpenPharmaciesAdminViewset,
+from openPharma.views import (OpenPharmaActivityViewset,
+                              OpenPharmaciesAdminViewset,
                               OpenPharmaciesViewset, PharmaciesAdminViewset,
                               PharmaciesAllStateCountView,
                               PharmaciesCurrentStateViewset,
@@ -50,6 +51,10 @@ admin_router.register(r"get-pharmacies-states-count",
                       PharmaciesAllStateCountView, basename="get-pharmacies-states-count")
 admin_router.register(r"get-pharmacies-state-and-count",
                       PharmaciesStateAndCountViewset, basename="get-pharmacies-state-and-count")
+
+admin_router.register(
+    r"dashboard/get-recent-activity", OpenPharmaActivityViewset, basename="dashboard/get-recent-activity"
+)
 
 # admin_router.register(
 #     r"dashboard/get-pharmacies-over-weeks", PharmaciesStatisticsViewset.as_view({
