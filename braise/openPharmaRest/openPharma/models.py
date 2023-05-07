@@ -59,8 +59,8 @@ class Activity(models.Model):
 
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     # type field is used to store the type of activity either review or report
-    type = models.CharField(max_length=10)
-    action = models.CharField(max_length=10)
+    type = models.CharField(max_length=20)
+    action = models.CharField(max_length=20)
     description = models.CharField(max_length=1000)
     date_created = models.DateTimeField(auto_now_add=True)
 
