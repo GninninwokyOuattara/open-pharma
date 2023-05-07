@@ -1,7 +1,13 @@
 import datetime
 
+from django.db.models import Count
+from django.db.models.functions import TruncWeek
 from django.http import Http404
 from django.shortcuts import render
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
 from openPharma.models import OpenPharmacy, Pharmacy
 from openPharma.serializers import (OpenPharmaciesAdminSerializer,
                                     OpenPharmaciesListAdminSerializer,
@@ -9,9 +15,6 @@ from openPharma.serializers import (OpenPharmaciesAdminSerializer,
                                     PharmaciesOpenStateSerializer,
                                     PharmaciesPendingReviewAdminSerializer,
                                     PharmaciesSerializer)
-from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
 
 
 class PharmaciesViewset(viewsets.ReadOnlyModelViewSet):
@@ -244,3 +247,86 @@ class PharmaciesStateAndCountViewset(viewsets.ReadOnlyModelViewSet):
 
         response = {"summary": count_summary, "pharmacies": serializer.data}
         return Response(response)
+
+
+########################################################
+# VIEW FOR STATISTICS
+########################################################
+
+class PharmaciesStatisticsViewset(viewsets.ReadOnlyModelViewSet):
+    serializer_class = PharmaciesSerializer
+    queryset = Pharmacy.objects.all()
+    http_method_names = ['get']
+
+    # @action(detail=False, methods=['get'], url_path="pharmacies-over-weeks")
+    def get_pharmacies_over_weeks(self, request, *args, **kwargs):
+        # return the count of pharmacies after each week
+        pharmacies = Pharmacy.objects.annotate(
+            week=TruncWeek('date_created')).values('week').annotate(
+            count=Count('id')).order_by('week')
+
+        data = []
+        for pharmacy in pharmacies:
+            data.append({
+                'week': pharmacy['week'].strftime('%Y-%m-%d'),
+                'count': pharmacy['count']
+            })
+
+        return Response(data)
+
+    # GET
+
+    # @action(detail=False, methods=['get'], url_path="pharmacies-states")
+    def get_pharmacies_states(self, request, *args, **kwargs):
+        print("Hello")
+        current_date = datetime.datetime.now()
+        active_pharmacies_count = Pharmacy.objects.filter(active=True).count()
+        inactive_Pharmacies_count = Pharmacy.objects.filter(
+            active=False).count()
+        open_pharmacies_count = OpenPharmacy.objects.filter(
+            open_from__lte=current_date, open_until__gte=current_date).count()
+
+        data = [
+            {
+                "name": "Active Pharmacies",
+                "count": active_pharmacies_count,
+                "fill": "#3182CE",
+            },
+
+            {
+                "name": "Inactive Pharmacies",
+                "count": inactive_Pharmacies_count,
+                "fill": "#718096",
+            },
+            {
+                "name": "Open Pharmacies",
+                "count": open_pharmacies_count,
+                "fill": "#38A169",
+            }
+        ]
+
+        return Response(data)
+
+    # @action(detail=False, methods=['get'], url_path="pharmacies-reviews-states")
+    def get_reviews_states(self, request, *args, **kwargs):
+        # get number of active and inactive pharmacies
+        pending_review_pharmacies_count = Pharmacy.objects.filter(
+            pending_review=True).count()
+        reviewed_pharmacies_count = Pharmacy.objects.filter(
+            pending_review=False).count()
+
+        data = [
+            {
+                "name": "Pharmacies Pending Review",
+                "count": pending_review_pharmacies_count,
+                "fill": "#3182CE",
+            },
+
+            {
+                "name": "Pharmacies Reviewed",
+                "count": reviewed_pharmacies_count,
+                "fill": "#718096",
+            }
+        ]
+
+        return Response(data)
