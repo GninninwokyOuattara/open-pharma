@@ -1,8 +1,10 @@
 
 import { Box, HStack, VStack } from "@chakra-ui/react";
+import { DashboardActions } from "../components/dashboardActions";
 import { DashboardActivity } from "../components/dashboardActivity";
 import DashboardLineChart from "../components/dashboardLineChart";
 import DashboardPieChart from "../components/dashboardPieChart";
+import { DashboardUpdateRecap } from "../components/dashboardUpdateRecap";
 
 const Dashboard = () => {
     return (
@@ -39,12 +41,12 @@ const Dashboard = () => {
             <VStack
                 width={"70%"}
                 height={"100%"}
-                gap={2}
+                gap={1}
             >
                 <HStack
 
                     height={"60%"} width={"100%"}
-                    gap={2}
+                    gap={1}
                 >
 
                     {/* pie chart */}
@@ -56,13 +58,26 @@ const Dashboard = () => {
                     </Box>
 
                     {/* Buttons */}
-                    <Box
+                    <VStack
 
-                        height={"100%"} width={"50%"}
-                        border={"2px solid"}
+                        height={"100%"}
+                        width={"50%"}
+                        gap={1}
+                    // border={"2px solid"}
                     >
-                        Buttons
-                    </Box>
+                        <Box
+                            height={"30%"} width={"100%"}
+                        >
+
+                            <DashboardActions />
+                        </Box>
+                        <Box
+                            height={"100%"} width={"100%"}
+                        >
+
+                            <DashboardUpdateRecap />
+                        </Box>
+                    </VStack>
 
 
 
