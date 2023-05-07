@@ -1,5 +1,6 @@
 
 import { Box, HStack, VStack } from "@chakra-ui/react";
+import DashboardLineChart from "../components/dashboardLineChart";
 import DashboardPieChart from "../components/dashboardPieChart";
 import DashboardSummary from "../components/dashboardSummary";
 
@@ -72,9 +73,8 @@ const Dashboard = () => {
                 <Box
 
                     height={"40%"} width={"100%"}
-                    border={"2px solid"}
                 >
-                    Graph
+                    <DashboardLineChart />
                 </Box>
             </VStack>
 
