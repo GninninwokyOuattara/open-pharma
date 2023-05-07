@@ -6,7 +6,7 @@ const DashboardSummary = () => {
 
         <Box
             padding={2}
-            backgroundColor={palette.custom.veryLightOrange}
+            backgroundColor={palette.custom.niceOrange}
             shadow={"md"}
             height={"100%"}
             borderRadius={"md"}
