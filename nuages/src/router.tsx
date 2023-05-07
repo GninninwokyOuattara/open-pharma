@@ -4,11 +4,11 @@ import {
 import Layout from "./components/layout";
 
 // import Home
-import Home from "./pages/home";
 import PendingReviewsPage from "./pages/pendingReviewsPage";
 
 import { PharmaciesContextProvider } from './contexts/pharmaciesContext';
 import { PharmaciesReviewContextProvider } from "./contexts/pharmaciesReviewContext";
+import Dashboard from "./pages/dashboard";
 import PharmaciesPage from "./pages/pharmaciesPage";
 
 
@@ -27,7 +27,7 @@ const appRouting = createBrowserRouter([
 
             {
                 path: "/dashboard",
-                element: <Home />
+                element: <Dashboard />
             },
             {
                 path: "/pharmacies",
