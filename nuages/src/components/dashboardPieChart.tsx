@@ -1,8 +1,8 @@
-import { Text } from "@chakra-ui/react";
 import { Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 
 
 import { Box } from "@chakra-ui/react";
+import { DashboardItemHeader } from "./dashboardItemHeader";
 
 const DashboardPieChart = () => {
     return (
@@ -12,11 +12,10 @@ const DashboardPieChart = () => {
             shadow={"md"}
             borderRadius={"md"}
             padding={2}
+            backgroundColor={"white"}
         >
-            <Text
-                fontWeight={"bold"}
-                fontSize={"xl"}
-            >Charts</Text>
+            <DashboardItemHeader title={"Charts"} />
+
             <PieCharts />
 
         </Box>

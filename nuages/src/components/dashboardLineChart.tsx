@@ -1,7 +1,8 @@
-import { Text, VStack } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { palette } from '../colorPalette';
+import { DashboardItemHeader } from './dashboardItemHeader';
 
 const DashboardLineChart = () => {
     return (
@@ -9,13 +10,12 @@ const DashboardLineChart = () => {
             height={"100%"}
             shadow={"md"}
             borderRadius={"md"}
-            padding={2}
+            padding={1}
+            backgroundColor={"white"}
         >
 
-            <Text
-                fontWeight={"bold"}
-                fontSize={"xl"}
-            >Pharmacies Growth Overtime</Text>
+            <DashboardItemHeader title={"Pharmacies Growth Overtime"} />
+
 
             <CustomLineChart />
         </VStack>
