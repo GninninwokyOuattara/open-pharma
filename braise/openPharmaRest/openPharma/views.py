@@ -8,8 +8,9 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from openPharma.models import OpenPharmacy, Pharmacy
-from openPharma.serializers import (OpenPharmaciesAdminSerializer,
+from openPharma.models import Activity, OpenPharmacy, Pharmacy
+from openPharma.serializers import (ActivityListSerializer,
+                                    OpenPharmaciesAdminSerializer,
                                     OpenPharmaciesListAdminSerializer,
                                     PharmaciesAdminSerializer,
                                     PharmaciesOpenStateSerializer,
@@ -38,6 +39,12 @@ class PharmaciesAdminViewset(viewsets.ModelViewSet):
         instance.active = False
         instance.save()
         serializer = self.get_serializer(instance)
+
+        Activity.objects.create(
+            type="state",
+            action="deactivation",
+            description=f"{instance.name} has been deactivated",
+        )
         return Response(serializer.data)
 
     @action(detail=True, methods=["post"])
@@ -46,6 +53,11 @@ class PharmaciesAdminViewset(viewsets.ModelViewSet):
         instance.active = True
         instance.save()
         serializer = self.get_serializer(instance)
+        Activity.objects.create(
+            type="state",
+            action="activation",
+            description=f"{instance.name} has been activated",
+        )
         return Response(serializer.data)
 
 
@@ -83,6 +95,12 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
                     failed += 1
                     continue
 
+            Activity.objects.create(
+                type="review",
+                action="accepted" if shouldActivate else "rejected",
+                description=f"{succeed} pharmacies have been {review}d and {review}d",
+            )
+
             return Response(data={"message": f"{succeed} pharmacies have been {review}d and {failed} failed"}, status=status.HTTP_200_OK)
         except Exception as error:
             print("ERROR", type(error))
@@ -96,6 +114,11 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
             instance.pending_review = False
             instance.save()
             serializer = self.get_serializer(instance)
+            Activity.objects.create(
+                type="review",
+                action="rejected",
+                description=f"{instance.name} has been reviewed and deactivated",
+            )
             return Response(data={
                 "message": f"{instance.name} has been deactivated",
                 "pharmacy": serializer.data})
@@ -113,6 +136,14 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
             instance.pending_review = False
             instance.save()
             serializer = self.get_serializer(instance)
+
+            # insert a new Activity
+            Activity.objects.create(
+                type="review",
+                action="accepted",
+                description=f"{instance.name} has been reviewed and accepted",
+            )
+
             return Response(data={
                 "message": f"{instance.name} has been activated",
                 "pharmacy": serializer.data})
@@ -330,3 +361,9 @@ class PharmaciesStatisticsViewset(viewsets.ReadOnlyModelViewSet):
         ]
 
         return Response(data)
+
+
+class OpenPharmaActivityViewset(viewsets.ReadOnlyModelViewSet):
+    serializer_class = ActivityListSerializer
+    queryset = Activity.objects.all()[:20]
+    http_method_names = ['get']
