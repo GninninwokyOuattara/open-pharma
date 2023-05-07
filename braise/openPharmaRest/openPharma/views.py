@@ -98,7 +98,7 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
             Activity.objects.create(
                 type="review",
                 action="accepted" if shouldActivate else "rejected",
-                description=f"{succeed} pharmacies have been {review}d and {review}d",
+                description=f"{succeed} pharmacies have been reviewed and {review}d",
             )
 
             return Response(data={"message": f"{succeed} pharmacies have been {review}d and {failed} failed"}, status=status.HTTP_200_OK)
