@@ -1,5 +1,6 @@
 
 import { Box, HStack, VStack } from "@chakra-ui/react";
+import DashboardPieChart from "../components/dashboardPieChart";
 import DashboardSummary from "../components/dashboardSummary";
 
 const Dashboard = () => {
@@ -48,16 +49,15 @@ const Dashboard = () => {
                     {/* pie chart */}
                     <Box
 
-                        height={"100%"} width={"70%"}
-                        border={"2px solid"}
+                        height={"100%"} width={"50%"}
                     >
-                        Pie chart
+                        <DashboardPieChart />
                     </Box>
 
                     {/* Buttons */}
                     <Box
 
-                        height={"100%"} width={"30%"}
+                        height={"100%"} width={"50%"}
                         border={"2px solid"}
                     >
                         Buttons
