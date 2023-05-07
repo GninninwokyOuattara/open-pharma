@@ -84,54 +84,45 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ icon, title, time }) => {
 
 
     return (
+
         <Box
-            // borderBottom={"1px solid"}
-            // borderColor={"gray.500"}
-            // borderRadius={"md"}
-            shadow={"md"}
             width={"100%"}
+            // height={"100%"}
+            padding={2}
+            backgroundColor={palette.custom.veryLightOrange}
+            borderRadius={"md"}
+            shadow={"md"}
+
 
 
         >
-
-            <Box
-                width={"100M%"}
-                height={"100%"}
-                padding={2}
-                backgroundColor={palette.custom.veryLightOrange}
-                borderRadius={"md"}
-
+            <HStack
 
 
             >
-                <HStack
 
+                {icon}
 
+                <Box
+                    display={"flex"}
+                    flexDirection={"column"}
                 >
+                    <Text
+                        fontWeight={"medium"}
+                        fontSize={"medium"}
+                    >{title}</Text>
 
-                    {icon}
+                    <Text
+                        fontWeight={"bold"}
+                        fontSize={"small"}
+                        color={"gray"}                    >
+                        {time}
+                    </Text>
 
-                    <Box
-                        display={"flex"}
-                        flexDirection={"column"}
-                    >
-                        <Text
-                            fontWeight={"medium"}
-                            fontSize={"medium"}
-                        >{title}</Text>
+                </Box>
 
-                        <Text
-                            fontWeight={"bold"}
-                            fontSize={"small"}
-                            color={"gray"}                    >
-                            {time}
-                        </Text>
+            </HStack>
 
-                    </Box>
-
-                </HStack>
-
-            </Box>
         </Box>
     )
 
