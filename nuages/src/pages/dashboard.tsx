@@ -1,8 +1,8 @@
 
 import { Box, HStack, VStack } from "@chakra-ui/react";
+import { DashboardActivity } from "../components/dashboardActivity";
 import DashboardLineChart from "../components/dashboardLineChart";
 import DashboardPieChart from "../components/dashboardPieChart";
-import DashboardSummary from "../components/dashboardSummary";
 
 const Dashboard = () => {
     return (
@@ -17,22 +17,22 @@ const Dashboard = () => {
                 height={"100%"} width={"30%"}
             >
 
-                {/* summary */}
+                {/* summary
                 <Box
 
                     height={"45%"} width={"100%"}
                 // border={"2px solid"}
                 >
                     <DashboardSummary />
-                </Box>
+                </Box> */}
 
                 {/* Activity */}
                 <Box
 
-                    height={"55%"} width={"100%"}
-                    border={"2px solid"}
+                    height={"100%"} width={"100%"}
+                // border={"2px solid"}
                 >
-                    Activity
+                    <DashboardActivity />
                 </Box>
             </VStack>
 
