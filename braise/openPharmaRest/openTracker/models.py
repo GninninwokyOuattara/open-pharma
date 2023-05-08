@@ -15,7 +15,7 @@ class TrackerHistory(models.Model):
     duration = models.DurationField()
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
-    collected_data = models.JSONField()
+    # collected_data = models.JSONField()
     inserted_pharmacies = models.IntegerField(
         blank=True, null=True, default=0
     )
@@ -26,7 +26,7 @@ class TrackerHistory(models.Model):
     skipped_pharmacies = models.IntegerField(
         blank=True, null=True, default=0
 
-    ),
+    )
     already_open_pharmacies = models.IntegerField(
         blank=True, null=True, default=0
     )
