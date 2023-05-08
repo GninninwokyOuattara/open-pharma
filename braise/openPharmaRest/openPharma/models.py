@@ -55,7 +55,7 @@ class OpenPharmacy(models.Model):
 class Activity(models.Model):
     class Meta:
         db_table = 'activity'
-        ordering = ['date_created']
+        ordering = ['-date_created']
 
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     # type field is used to store the type of activity either review or report
