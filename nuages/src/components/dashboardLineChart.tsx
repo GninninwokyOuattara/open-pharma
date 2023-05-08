@@ -1,7 +1,9 @@
 import { VStack } from '@chakra-ui/react';
 
+import { useContext } from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { palette } from '../colorPalette';
+import { DashboardContext, DashboardContextInterface } from '../contexts/dashboardContext';
 import { DashboardItemHeader } from './dashboardItemHeader';
 
 const DashboardLineChart = () => {
@@ -73,12 +75,14 @@ const data = [
 
 const CustomLineChart = () => {
 
+    const { lineChartDatas } = useContext(DashboardContext) as DashboardContextInterface
+
     return (
         <ResponsiveContainer width="100%" height="100%">
             <LineChart
                 width={500}
                 height={300}
-                data={data}
+                data={lineChartDatas}
                 margin={{
                     top: 5,
                     right: 10,
@@ -87,11 +91,11 @@ const CustomLineChart = () => {
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="week" />
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="linear" dataKey="pv" stroke={palette.custom.niceOrange} activeDot={{ r: 8 }} animationBegin={0} />
+                <Line type="linear" dataKey="count" stroke={palette.custom.niceOrange} activeDot={{ r: 8 }} animationBegin={0} />
                 {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
             </LineChart>
         </ResponsiveContainer>
