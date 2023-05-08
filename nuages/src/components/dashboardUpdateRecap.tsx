@@ -1,13 +1,18 @@
 import { Box, HStack, Icon, Text, VStack } from "@chakra-ui/react"
 // import CountUp from "react-countup/build/CountUp"
+import { useContext } from "react"
 import CountUp from "react-countup"
 import { AiOutlinePlus } from "react-icons/ai"
 import { BsLightningFill } from "react-icons/bs"
 import { MdHouseSiding } from "react-icons/md"
 import { palette } from "../colorPalette"
+import { DashboardContext, DashboardContextInterface } from "../contexts/dashboardContext"
 import { DashboardItemHeader } from "./dashboardItemHeader"
 
 export const DashboardUpdateRecap = () => {
+
+    const { updateSummary } = useContext(DashboardContext) as DashboardContextInterface
+
     return (
         <VStack
             height={"100%"}
@@ -22,7 +27,7 @@ export const DashboardUpdateRecap = () => {
             <UpdateRecapItem
                 color={"blue.400"}
                 title={"New Pharmacies"}
-                value={304}
+                value={updateSummary.inserted_pharmacies}
                 icon={<Icon as={AiOutlinePlus}
                     boxSize={12}
                     color={"blue.400"} />}
@@ -32,7 +37,7 @@ export const DashboardUpdateRecap = () => {
                 color={"green.400"}
 
                 title={"Pharmacies opened"}
-                value={165}
+                value={updateSummary.updated_pharmacies}
                 icon={<Icon
                     as={MdHouseSiding}
                     boxSize={12}
@@ -45,7 +50,7 @@ export const DashboardUpdateRecap = () => {
             <UpdateRecapItem
                 color={"yellow.400"}
                 title={"Pharmacies skipped"}
-                value={44}
+                value={updateSummary.skipped_pharmacies}
                 icon={<Icon
                     as={BsLightningFill}
                     boxSize={12}
