@@ -1,9 +1,16 @@
-import { CheckCircleIcon } from "@chakra-ui/icons";
-import { Box, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { useContext } from "react";
+import { BsFileEarmarkCheck, BsToggles } from "react-icons/bs";
 import { palette } from "../colorPalette";
+import { DashboardContext, DashboardContextInterface } from "../contexts/dashboardContext";
+import { getTimeElapsed } from "../utils/dry";
 import { DashboardItemHeader } from "./dashboardItemHeader";
 
 export const DashboardActivity = () => {
+
+
+    const { activities } = useContext(DashboardContext) as DashboardContextInterface
+
     return (
         <VStack
             paddingBottom={2}
@@ -29,38 +36,59 @@ export const DashboardActivity = () => {
 
             >
 
+                {
+                    activities.map((activity, index) => {
+
+                        const time_elapsed = getTimeElapsed(activity.date_created)
+
+                        let icon: any
+                        let color: string
 
 
-                <ActivityItem
-                    icon={<CheckCircleIcon color={"green.500"} />}
-                    title={"Pharmacy du petit marché du dokui has been Approved"}
-                    time={"2 hours ago"}
-                />
-                <ActivityItem
-                    icon={<CheckCircleIcon color={"red.500"} />}
-                    title={"Pharmacy Rejected"}
-                    time={"3 hours ago"}
-                />
-                <ActivityItem
-                    icon={<CheckCircleIcon color={"gray.500"} />}
-                    title={"Automatic Update"}
-                    time={"3 hours ago"}
-                />
-                <ActivityItem
-                    icon={<CheckCircleIcon color={"green.500"} />}
-                    title={"Pharmacy du petit marché du dokui has been Approved"}
-                    time={"2 hours ago"}
-                />
-                <ActivityItem
-                    icon={<CheckCircleIcon color={"red.500"} />}
-                    title={"Pharmacy Rejected"}
-                    time={"3 hours ago"}
-                />
-                <ActivityItem
-                    icon={<CheckCircleIcon color={"gray.500"} />}
-                    title={"Automatic Update"}
-                    time={"3 hours ago"}
-                />
+                        // The color
+                        switch (activity.action) {
+                            case "accepted":
+                                color = "green.400"
+                                break;
+                            case "rejected":
+                                color = "red.400"
+                                break;
+                            case "activation":
+                                color = "blue.400"
+                                break;
+                            case "deactivation":
+                                color = "gray.400"
+                                break;
+
+                            default:
+                                color = "gray.400"
+                        }
+
+
+                        // The icon
+                        switch (activity.type) {
+                            case "review":
+                                icon = <Icon as={BsFileEarmarkCheck} color={color} boxSize={7} />
+                                break;
+                            case "state":
+                                icon = <Icon as={BsToggles} color={color} boxSize={7} />
+                                break;
+
+                        }
+
+
+                        return (
+                            <ActivityItem
+                                key={index}
+                                icon={icon}
+                                title={activity.description}
+                                time={time_elapsed}
+                            />
+                        )
+                    })
+                }
+
+
 
 
             </VStack>
@@ -81,6 +109,7 @@ interface ActivityItemProps {
 }
 
 const ActivityItem: React.FC<ActivityItemProps> = ({ icon, title, time }) => {
+
 
 
     return (
