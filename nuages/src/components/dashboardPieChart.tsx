@@ -2,6 +2,8 @@ import { Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 
 
 import { Box } from "@chakra-ui/react";
+import { useContext } from 'react';
+import { DashboardContext, DashboardContextInterface } from '../contexts/dashboardContext';
 import { DashboardItemHeader } from "./dashboardItemHeader";
 
 const DashboardPieChart = () => {
@@ -43,14 +45,16 @@ const data02 = [
 
 const PieCharts = () => {
 
+    const { stateChartDatas, reviewChartDatas } = useContext(DashboardContext) as DashboardContextInterface
+
 
     return (
         <ResponsiveContainer width="100%" height="100%">
             <PieChart width={500} height={500}>
                 <Pie
-                    dataKey="value"
+                    dataKey="count"
                     isAnimationActive={true}
-                    data={data01}
+                    data={stateChartDatas}
                     cx={"50%"}
                     cy={100}
                     outerRadius={90}
@@ -58,7 +62,7 @@ const PieCharts = () => {
                     fill="#8884d8"
                     label
                 />
-                <Pie dataKey="value" data={data02} cx={"50%"} cy={"70%"} innerRadius={40} outerRadius={80} fill="#82ca9d" />
+                <Pie dataKey="count" data={reviewChartDatas} cx={"50%"} cy={"70%"} innerRadius={40} outerRadius={80} fill="#82ca9d" label />
                 <Tooltip />
             </PieChart>
         </ResponsiveContainer>
