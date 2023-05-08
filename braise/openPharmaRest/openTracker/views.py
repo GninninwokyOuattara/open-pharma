@@ -9,9 +9,11 @@ from django.shortcuts import render
 from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from openPharma.models import Activity, OpenPharmacy, Pharmacy
 from openTracker.models import TrackerHistory
+from openTracker.serializers import TrackerHistoryListSerializer
 from openTracker.utils import (extract_pharmacy_data_from_row,
                                get_currently_open_pharmacies_datas,
                                perform_get_currently_open_pharmacies_datas,
@@ -131,3 +133,11 @@ class OpenPharmaActualizerView(APIView):
             "skipped_pharmacies":   n_skipped_inactive,
             "already_open_pharmacies": n_skipped_already_open
         }, status=200)
+
+
+class OpenPharmaTrackerHistoryViewset(ReadOnlyModelViewSet):
+    queryset = TrackerHistory.objects.all()
+    serializer_class = TrackerHistoryListSerializer
+
+    def get_queryset(self):
+        return TrackerHistory.objects.all().order_by('-date_created')[:1]
