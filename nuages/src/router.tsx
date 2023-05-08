@@ -6,6 +6,7 @@ import Layout from "./components/layout";
 // import Home
 import PendingReviewsPage from "./pages/pendingReviewsPage";
 
+import { DashboardContextProvider } from "./contexts/dashboardContext";
 import { PharmaciesContextProvider } from './contexts/pharmaciesContext';
 import { PharmaciesReviewContextProvider } from "./contexts/pharmaciesReviewContext";
 import Dashboard from "./pages/dashboard";
@@ -27,7 +28,9 @@ const appRouting = createBrowserRouter([
 
             {
                 path: "/dashboard",
-                element: <Dashboard />
+                element: <DashboardContextProvider>
+                    <Dashboard />
+                </DashboardContextProvider>
             },
             {
                 path: "/pharmacies",
