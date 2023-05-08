@@ -29,7 +29,8 @@ from openPharma.views import (OpenPharmaActivityViewset,
                               PharmaciesStateAndCountViewset,
                               PharmaciesStatisticsViewset, PharmaciesViewset)
 from openPharmaRest.views import TestView
-from openTracker.views import CurrentlyOpenPharmaciesView
+from openTracker.views import (CurrentlyOpenPharmaciesView,
+                               OpenPharmaActualizerView)
 
 user_router = routers.SimpleRouter()
 user_router.register(r'pharmacies', PharmaciesViewset, basename='pharmacies')
@@ -57,6 +58,10 @@ admin_router.register(
 )
 
 # admin_router.register(
+#     r"trigger-actualizer", OpenPharmaActualizerView, basename="run-actualizer"
+# )
+
+# admin_router.register(
 #     r"dashboard/get-pharmacies-over-weeks", PharmaciesStatisticsViewset.as_view({
 #         "get": "get_pharmacies_over_weeks"
 #     }),
@@ -81,6 +86,9 @@ urlpatterns = [
     path("admin-api/dashboard/get-pharmacies-reviews-states/", PharmaciesStatisticsViewset.as_view({
         "get": "get_reviews_states"
     })),
+
+    path("admin-api/trigger-actualizer/",
+         OpenPharmaActualizerView.as_view(), name="trigger-actualizer"),
 
     path("search/",
          SearchApiView.as_view(), name="search"),
