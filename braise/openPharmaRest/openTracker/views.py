@@ -93,7 +93,7 @@ class OpenPharmaActualizerView(APIView):
 
         except Exception as error:
             print(error)
-            return Response({"message": "An unexpected error accured1."}, status=500)
+            return Response({"message": "An unexpected error accured."}, status=500)
 
         finally:
             end_time = timezone.now()
@@ -107,8 +107,6 @@ class OpenPharmaActualizerView(APIView):
                     end_time=end_time,
                     duration=duration,
                     mode="Manual",
-                    collected_data=json.dumps(
-                        pharmacies_datas, default=str),
                     inserted_pharmacies=n_insertions,
                     updated_pharmacies=n_updates,
                     skipped_pharmacies=n_skipped_inactive,
@@ -119,16 +117,17 @@ class OpenPharmaActualizerView(APIView):
                 Activity.objects.create(
                     type="Actualization",
                     action="Manual",
-                    description=f"Actualization of pharmacies datas",
+                    description=f"Manual Actualization",
                 )
 
             except Exception as error:
                 print(error)
-                return Response({"message": "An unexpected error accured2."}, status=500)
+                return Response({"message": "An unexpected error accured."}, status=500)
 
         return Response({
             "message": "Pharmacies actualized successfully.",
             "inserted_pharmacies": n_insertions,
             "updated_pharmacies": n_updates,
-            "skipped_pharmacies":   n_skipped_inactive
+            "skipped_pharmacies":   n_skipped_inactive,
+            "already_open_pharmacies": n_skipped_already_open
         }, status=200)
