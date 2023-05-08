@@ -29,8 +29,10 @@ from openPharma.views import (OpenPharmaActivityViewset,
                               PharmaciesStateAndCountViewset,
                               PharmaciesStatisticsViewset, PharmaciesViewset)
 from openPharmaRest.views import TestView
+from openTracker.serializers import TrackerHistoryListSerializer
 from openTracker.views import (CurrentlyOpenPharmaciesView,
-                               OpenPharmaActualizerView)
+                               OpenPharmaActualizerView,
+                               OpenPharmaTrackerHistoryViewset)
 
 user_router = routers.SimpleRouter()
 user_router.register(r'pharmacies', PharmaciesViewset, basename='pharmacies')
@@ -55,6 +57,10 @@ admin_router.register(r"get-pharmacies-state-and-count",
 
 admin_router.register(
     r"dashboard/get-recent-activity", OpenPharmaActivityViewset, basename="dashboard/get-recent-activity"
+)
+
+admin_router.register(
+    r"dashboard/get-latest-tracker-results", OpenPharmaTrackerHistoryViewset, basename="dashboard/get-latest-tracker-results"
 )
 
 # admin_router.register(
