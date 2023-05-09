@@ -1,6 +1,7 @@
 import { Box, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { useContext } from "react";
 import { BsFileEarmarkCheck, BsToggles } from "react-icons/bs";
+import { FiSettings } from "react-icons/fi";
 import { palette } from "../colorPalette";
 import { DashboardContext, DashboardContextInterface } from "../contexts/dashboardContext";
 import { getTimeElapsed } from "../utils/dry";
@@ -59,6 +60,12 @@ export const DashboardActivity = () => {
                             case "deactivation":
                                 color = "gray.400"
                                 break;
+                            case "manual":
+                                color = "blue.400"
+                                break;
+                            case "automatic":
+                                color = "gray.400"
+                                break;
 
                             default:
                                 color = "gray.400"
@@ -73,6 +80,8 @@ export const DashboardActivity = () => {
                             case "state":
                                 icon = <Icon as={BsToggles} color={color} boxSize={7} />
                                 break;
+                            case "actualization":
+                                icon = <Icon as={FiSettings} color={color} boxSize={7} />
 
                         }
 
