@@ -15,28 +15,7 @@ const Dashboard = () => {
 
         >
 
-            <VStack
-                height={"100%"} width={"30%"}
-            >
 
-                {/* summary
-                <Box
-
-                    height={"45%"} width={"100%"}
-                // border={"2px solid"}
-                >
-                    <DashboardSummary />
-                </Box> */}
-
-                {/* Activity */}
-                <Box
-
-                    height={"100%"} width={"100%"}
-                // border={"2px solid"}
-                >
-                    <DashboardActivity />
-                </Box>
-            </VStack>
 
             <VStack
                 width={"70%"}
@@ -49,7 +28,6 @@ const Dashboard = () => {
                     gap={1}
                 >
 
-                    {/* pie chart */}
                     <Box
 
                         height={"100%"} width={"50%"}
@@ -57,13 +35,11 @@ const Dashboard = () => {
                         <DashboardPieChart />
                     </Box>
 
-                    {/* Buttons */}
                     <VStack
 
                         height={"100%"}
                         width={"50%"}
                         gap={1}
-                    // border={"2px solid"}
                     >
                         <Box
                             height={"30%"} width={"100%"}
@@ -84,12 +60,24 @@ const Dashboard = () => {
                 </HStack>
 
 
-                {/* Graph */}
                 <Box
 
                     height={"40%"} width={"100%"}
                 >
                     <DashboardLineChart />
+                </Box>
+            </VStack>
+            <VStack
+                height={"100%"} width={"30%"}
+            >
+
+
+                <Box
+
+                    height={"100%"} width={"100%"}
+                // border={"2px solid"}
+                >
+                    <DashboardActivity />
                 </Box>
             </VStack>
 
