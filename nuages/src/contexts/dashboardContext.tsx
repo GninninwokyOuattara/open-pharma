@@ -1,4 +1,5 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { ToastContext, ToastContextInterface } from "./toast";
 
 
 
@@ -43,7 +44,8 @@ export interface DashboardContextInterface {
     setActivities: React.Dispatch<React.SetStateAction<ActivitiesType[]>>,
     updateSummary: UpdateSummary,
     setUpdateSummary: React.Dispatch<React.SetStateAction<UpdateSummary>>,
-    getStatistics: () => Promise<void>
+    getStatistics: () => Promise<void>,
+    triggerActualization: () => Promise<void>
 
 }
 
@@ -52,7 +54,13 @@ const backendUrl = process.env.REACT_APP_DJANGO_API_URL
 
 export const DashboardContext = createContext<DashboardContextInterface | null>(null);
 
+
+
 export const DashboardContextProvider = ({ children }: any) => {
+
+    // get succesToast from context
+    const { successToast, errorToast
+    } = useContext(ToastContext) as ToastContextInterface
 
     // STATES
 
@@ -138,6 +146,27 @@ export const DashboardContextProvider = ({ children }: any) => {
 
     ])
 
+    const triggerActualization = useCallback(async () => {
+
+        try {
+            const response = await fetch(`${backendUrl}/admin-api/trigger-actualizer/`)
+
+
+
+            const data = await response.json()
+
+            const message = data.message
+            successToast("Success", message)
+            await getStatistics()
+            console.log(data)
+
+
+        } catch (error) {
+            errorToast("Error", "Something went wrong")
+            console.log(error)
+        }
+
+    }, [])
 
 
 
@@ -161,7 +190,8 @@ export const DashboardContextProvider = ({ children }: any) => {
             setActivities,
             updateSummary,
             setUpdateSummary,
-            getStatistics
+            getStatistics,
+            triggerActualization
         }
     }, [
         isLoading,
@@ -176,7 +206,8 @@ export const DashboardContextProvider = ({ children }: any) => {
         setActivities,
         updateSummary,
         setUpdateSummary,
-        getStatistics
+        getStatistics,
+        triggerActualization
     ])
     return (
         <DashboardContext.Provider value={value}>

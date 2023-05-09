@@ -1,5 +1,5 @@
 import { Button, Icon, VStack } from "@chakra-ui/react"
-import { useContext } from "react"
+import { useCallback, useContext, useState } from "react"
 import { BiRefresh } from "react-icons/bi"
 import { MdSettings } from "react-icons/md"
 import { palette } from "../colorPalette"
@@ -8,7 +8,16 @@ import { DashboardContext, DashboardContextInterface } from "../contexts/dashboa
 
 export const DashboardActions = () => {
 
-    const { getStatistics, isLoading } = useContext(DashboardContext) as DashboardContextInterface
+    const { getStatistics, isLoading, triggerActualization } = useContext(DashboardContext) as DashboardContextInterface
+
+    const [isActualiztionLoading, setIsActualizationLoading] = useState<boolean>(false)
+
+    const handleActualization = useCallback(async () => {
+        setIsActualizationLoading(true)
+        await triggerActualization()
+        setIsActualizationLoading(false)
+    }, [isActualiztionLoading, triggerActualization])
+
 
 
     return (
@@ -34,8 +43,8 @@ export const DashboardActions = () => {
             <ActionButton
                 title={"Trigger Data Actualization"}
                 icon={<Icon as={MdSettings} />}
-                onClick={() => console.log("clicked")}
-                isLoading={isLoading}
+                onClick={() => handleActualization()}
+                isLoading={isActualiztionLoading}
             />
 
 
