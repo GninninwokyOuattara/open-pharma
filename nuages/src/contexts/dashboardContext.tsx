@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 
 
 
@@ -31,8 +31,8 @@ interface UpdateSummary {
 }
 
 export interface DashboardContextInterface {
-    isLoading: Boolean,
-    setIsLoading: React.Dispatch<React.SetStateAction<Boolean>>,
+    isLoading: boolean,
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
     lineChartDatas: any,
     setLineChartDatas: React.Dispatch<React.SetStateAction<any>>,
     reviewChartDatas: ChartType[],
@@ -43,6 +43,7 @@ export interface DashboardContextInterface {
     setActivities: React.Dispatch<React.SetStateAction<ActivitiesType[]>>,
     updateSummary: UpdateSummary,
     setUpdateSummary: React.Dispatch<React.SetStateAction<UpdateSummary>>,
+    getStatistics: () => Promise<void>
 
 }
 
@@ -55,7 +56,7 @@ export const DashboardContextProvider = ({ children }: any) => {
 
     // STATES
 
-    const [isLoading, setIsLoading] = useState<Boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [lineChartDatas, setLineChartDatas] = useState<any>([])
     const [reviewChartDatas, setReviewChartDatas] = useState<ChartType[]>([])
     const [stateChartDatas, setStateChartDatas] = useState<ChartType[]>([])
@@ -75,7 +76,7 @@ export const DashboardContextProvider = ({ children }: any) => {
     })
 
 
-    const getStatistics = async () => {
+    const getStatistics = useCallback(async () => {
         setIsLoading(true)
         try {
 
@@ -127,7 +128,20 @@ export const DashboardContextProvider = ({ children }: any) => {
         }
 
         setIsLoading(false)
-    }
+    }, [
+        setIsLoading,
+        setLineChartDatas,
+        setReviewChartDatas,
+        setStateChartDatas,
+        setActivities,
+        setUpdateSummary
+
+    ])
+
+
+
+
+
 
     useEffect(() => {
         getStatistics()
@@ -146,7 +160,8 @@ export const DashboardContextProvider = ({ children }: any) => {
             activities,
             setActivities,
             updateSummary,
-            setUpdateSummary
+            setUpdateSummary,
+            getStatistics
         }
     }, [
         isLoading,
@@ -160,7 +175,8 @@ export const DashboardContextProvider = ({ children }: any) => {
         activities,
         setActivities,
         updateSummary,
-        setUpdateSummary
+        setUpdateSummary,
+        getStatistics
     ])
     return (
         <DashboardContext.Provider value={value}>
