@@ -5,8 +5,8 @@ import { ToastContext, ToastContextInterface } from "./toast";
 
 interface ActivitiesType {
     id: string,
-    type: "review" | "state" | "link" | "update",
-    action: "accepted" | "rejected" | "activation" | "deactivation" | "linked",
+    type: "review" | "state" | "link" | "update" | "actualization",
+    action: "accepted" | "rejected" | "activation" | "deactivation" | "linked" | "manual" | "automatic",
     description: string,
     date_created: string,
 }
