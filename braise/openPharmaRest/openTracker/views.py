@@ -117,8 +117,8 @@ class OpenPharmaActualizerView(APIView):
 
                 # Insert in Activity
                 Activity.objects.create(
-                    type="Actualization",
-                    action="Manual",
+                    type="actualization",
+                    action="manual",
                     description=f"Manual Actualization",
                 )
 
