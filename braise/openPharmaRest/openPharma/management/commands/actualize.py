@@ -11,7 +11,7 @@ from django.core.management.base import BaseCommand, CommandError
 # from timezone import timezone
 from django.utils import timezone
 # import pharmact
-from openPharma.models import OpenPharmacy, Pharmacy
+from openPharma.models import OpenPharmacy, Pharmacy, Activity
 from openTracker.models import TrackerHistory
 from openTracker.utils import get_currently_open_pharmacies_datas
 
@@ -172,5 +172,21 @@ class Command(BaseCommand):
             # convert self.pharmacies_datas to json
 
             # insert in TrackerHistory
+            #TrackerHistory.objects.create(
+            #    start_time=self.start_time, end_time=self.end_time, duration=self.duration, mode="scheduled", collected_data=json.dumps(self.pharmacies_datas, default=str))
+
             TrackerHistory.objects.create(
-                start_time=self.start_time, end_time=self.end_time, duration=self.duration, mode="scheduled", collected_data=json.dumps(self.pharmacies_datas, default=str))
+                    start_time=self.start_time,
+                    end_time=self.end_time,
+                    duration=self.duration,
+                    mode="automatic",
+                    inserted_pharmacies=self.n_insertions,
+                    updated_pharmacies=self.n_updates,
+                    skipped_pharmacies=self.n_skipped_inactive,
+                    already_open_pharmacies=self.n_skipped_already_open
+                )
+            Activity.objects.create(
+                    type="actualization",
+                    action="automatic",
+                    description=f"Scheduled Actualization",
+                )
