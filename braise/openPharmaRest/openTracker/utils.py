@@ -1,5 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
+from django.utils import timezone
+
+from openPharma.models import OpenPharmacy, Pharmacy
 from openTracker.constants import REQUEST_HEADERS, SOURCE_URL
 
 # Checkers
@@ -73,6 +76,20 @@ def get_pharmacies_datas_rows():
     return tables_rows
 
 
+def perform_get_currently_open_pharmacies_datas():
+    """Run get_currently_open_pharmacies_datas function while also keeping track of its performance and handling printing informations in console.
+    """
+
+    # get the timestamp
+    start = timezone.now()
+    pharmacies_datas = get_currently_open_pharmacies_datas()
+    end = timezone.now()
+    # duration in sec
+    duration = (end - start).total_seconds()
+
+    return pharmacies_datas
+
+
 def get_currently_open_pharmacies_datas():
     """Get all pharmacies datas from the source url"""
 
@@ -82,3 +99,62 @@ def get_currently_open_pharmacies_datas():
         pharmacy_data = extract_pharmacy_data_from_row(table_row)
         collection.append(pharmacy_data)
     return collection
+
+
+#
+
+def perform_pharmacy_insertion(self, pharmacy_datas):
+    """Perform a regular pharmacy insertion while handling possible error and printing
+
+    Args:
+        pharmacy_datas (__dict__): An object of key value pair representing a pharmacy
+    """
+    try:
+        # Pharmacy.objects.create(
+        #     **pharmacy_datas, pending_review=True, active=False)
+        Pharmacy.objects.create(
+            name=pharmacy_datas["name"],
+            director=pharmacy_datas["director"],
+            addresses=pharmacy_datas["addresses"],
+            phones=pharmacy_datas["phones"],
+            google_maps_link=pharmacy_datas["google_maps_link"],
+            latitude=pharmacy_datas["latitude"],
+            longitude=pharmacy_datas["longitude"],
+            pending_review=True,
+            active=False)
+
+        self.stdout.write(self.style.SUCCESS(
+            f'[{self.timestamp}] {pharmacy_datas["name"]} created and pending review'))
+        self.n_insertions += 1
+    except Exception as err:
+        # TODO handle exception.
+        pass
+
+
+def perform_pharmacy_opening(self, pharmacy, pharmacy_datas):
+    """Perform the act of opening the pharmacy on a date range.
+
+    Args:
+        pharmacy (Pharmacy): A pharmacy open 
+    """
+    try:
+        OpenPharmacy.objects.create(
+            pharmacy=pharmacy, open_from=pharmacy_datas["open_from"], open_until=pharmacy_datas["open_until"])
+        self.stdout.write(self.style.SUCCESS(
+            f'[{self.timestamp}] {pharmacy_datas["name"]} opening data has been set.'))
+        self.n_updates += 1
+    except Exception as err:
+        # TODO Better handling of this exception...
+        self.stdout.write(self.style.ERROR(
+            f'[{self.timestamp}] {pharmacy_datas["name"]} opening data has not been set due to an unknown error.'))
+        pass
+
+
+def stdout_stamp(self, message):
+    """Print a message with a timestamp
+
+    Args:
+        message (str): The message to print
+    """
+    self.stdout.write(self.style.SUCCESS(
+        f'[{self.timestamp}] {message}'))
