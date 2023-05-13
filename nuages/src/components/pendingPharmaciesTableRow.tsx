@@ -1,30 +1,64 @@
 import { Checkbox, HStack, TableCellProps, Td, Text, Tr } from "@chakra-ui/react"
-import { useContext, useState } from "react"
-import { palette } from "../colorPalette"
-import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
+import React, { useCallback, useContext, useState } from "react"
+import { ToastContext, ToastContextInterface } from "../contexts/toast"
 import { PendingReviewPharmacy } from "../types"
 import { ReviewButton } from "./actionButtons"
 import { SingleRowSkeletonLoader } from "./rowsLoader"
 
-export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: PendingReviewPharmacy }> = ({ pharmacyPendingReview }) => {
+
+const backendUrl = process.env.REACT_APP_DJANGO_API_URL
+
+interface PendingPharmaciesTableDataProps {
+
+    pharmacyPendingReview: PendingReviewPharmacy,
+    isChecked?: boolean,
+    isLoadingFromBatch?: boolean,
+    setPharmaciesPendingReview: React.Dispatch<React.SetStateAction<PendingReviewPharmacy[] | []>>
+}
+
+export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps> = ({ pharmacyPendingReview, isChecked, isLoadingFromBatch, setPharmaciesPendingReview }) => {
 
     const [isLoading, setIsLoading] = useState(false)
 
-
-    const { acceptPharmacy, rejectPharmacy, checkOnePharmacy, uncheckOnePharmacy } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
-
+    const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
 
 
-    const handleCheck = () => {
-        if (pharmacyPendingReview.is_checked) {
-            uncheckOnePharmacy(pharmacyPendingReview)
-        } else {
-            checkOnePharmacy(pharmacyPendingReview)
+    const toggleCheckbox = useCallback(() => {
+        console.log('toggling for ', pharmacyPendingReview.name, pharmacyPendingReview.is_checked)
+        setPharmaciesPendingReview(currentState => currentState.map(pharmacy => {
+            if (pharmacy.id === pharmacyPendingReview.id) {
+                const updatedPhmarcy = { ...pharmacyPendingReview, is_checked: !!!pharmacyPendingReview.is_checked }
+                console.log('updated pharmacy', updatedPhmarcy)
+                return updatedPhmarcy
+            } return pharmacy
+        }));
+    }, [pharmacyPendingReview, setPharmaciesPendingReview])
+
+
+    const reviewPharmacy = useCallback(async (action: "activate" | "deactivate") => {
+        setIsLoading(true)
+        try {
+            const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacyPendingReview.id}/${action}/`, {
+                method: "POST",
+            });
+
+            const data = await response.json();
+            if (response.status !== 200) {
+                throw data
+            }
+            setPharmaciesPendingReview(currentState => currentState.filter(pharmacy => pharmacy.id !== pharmacyPendingReview.id))
+            successToast("", `${data.message}`)
+        } catch (error: any) {
+            errorToast("", `${error.message}`)
+
         }
-    }
+        setIsLoading(false)
+
+    }, [pharmacyPendingReview, setPharmaciesPendingReview])
 
 
-    if (pharmacyPendingReview.is_loading) {
+
+    if (isLoading || isLoadingFromBatch) {
         return <SingleRowSkeletonLoader pharmacy={pharmacyPendingReview} />
     }
 
@@ -32,18 +66,20 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
 
     return (
         <Tr
-            backgroundColor={pharmacyPendingReview.is_checked ? "orange.50" : "white"}
+            backgroundColor={pharmacyPendingReview.is_checked ? "orange.50" : ""}
             _hover={{
-                backgroundColor: "orange.50",
-                transform: "scale(1.01)",
-                transition: "all 0.2s ease-in-out"
+                backgroundColor: "white",
+                // transform: "scale(1.01)",
+                // transition: "all 0.2s ease-in-out"
             }}>
-            <PendingPharmaciesTableData>
+            <PendingPharmaciesTableData
+                borderLeftRadius={"lg"}
+            >
                 <HStack gap={2} >
                     <Checkbox
                         colorScheme={"orange"}
-                        isChecked={pharmacyPendingReview.is_checked || false}
-                        onChange={handleCheck}
+                        isChecked={isChecked}
+                        onChange={() => toggleCheckbox()}
                     />
                     <Text>
 
@@ -59,12 +95,14 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
 
             {/* Button section */}
             <PendingPharmaciesTableData padding={0}>
-                <ReviewButton onClick={() => acceptPharmacy(pharmacyPendingReview)} for={"validate"} />
+                <ReviewButton onClick={() => reviewPharmacy("activate")} for={"validate"} />
             </PendingPharmaciesTableData>
             <PendingPharmaciesTableData paddingX={1}>
-                <ReviewButton onClick={() => rejectPharmacy(pharmacyPendingReview)} for={"invalidate"} />
+                <ReviewButton onClick={() => reviewPharmacy('deactivate')} for={"invalidate"} />
             </PendingPharmaciesTableData>
-            <PendingPharmaciesTableData padding={0} paddingRight={2}>
+            <PendingPharmaciesTableData
+                borderRightRadius={"lg"}
+                padding={0} paddingRight={2}>
                 <ReviewButton onClick={() => console.log("link")} for={"link"} />
             </PendingPharmaciesTableData>
 
@@ -72,6 +110,8 @@ export const PendingPharmaciesTableRow: React.FC<{ pharmacyPendingReview: Pendin
     )
 
 }
+
+export const PendingPharmaciesTableRowMemo = React.memo(PendingPharmaciesTableRow)
 
 
 const PendingPharmaciesTableData: React.FC<TableCellProps> = (props) => {
@@ -81,7 +121,7 @@ const PendingPharmaciesTableData: React.FC<TableCellProps> = (props) => {
     return (
         <Td
             {...props}
-            borderColor={palette.colorHuntTheme.lightOrange}
+            borderColor={"gray.300"}
         >
 
 

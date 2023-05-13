@@ -20,7 +20,7 @@ const RefreshButton: React.FC<RefreshButtonProps> = ({ isLoading, onClick }) => 
             title="Refresh"
 
             boxShadow={"xs"}
-            backgroundColor={"whiteAlpha.100"}
+            backgroundColor={"white"}
             border={"1px solid"}
             // borderColor={palette.orange.havePersonality}
             _hover={{

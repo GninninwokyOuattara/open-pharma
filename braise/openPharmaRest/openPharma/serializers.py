@@ -1,7 +1,8 @@
 
 from django.utils import timezone
-from openPharma.models import OpenPharmacy, Pharmacy
 from rest_framework import serializers
+
+from openPharma.models import Activity, OpenPharmacy, Pharmacy
 
 
 class PharmaciesSerializer(serializers.ModelSerializer):
@@ -172,3 +173,11 @@ class PharmaciesOpenStateSerializer(serializers.ModelSerializer):
         if open_pharmacy:
             return True
         return False
+
+
+class ActivityListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Activity
+        fields = "__all__"
+        # order by date created

@@ -8,7 +8,7 @@ const PharmaciesTableRenderer = () => {
     return (
 
 
-        <TableContainer shadow={"outline"} borderRadius={"md"} width="full" height="full" backgroundColor={"white"}>
+        <TableContainer width="full" height="full" >
             <Box height={"full"} width={"full"} overflow={"scroll"} >
 
                 <Table
@@ -37,19 +37,20 @@ const PharmaciesTableHeaders = () => {
 
     return (
         <Thead
-            backgroundColor={palette.colorHuntTheme.lightOrange}
+            backgroundColor={palette.custom.veryLightOrange}
             fontWeight={"bold"}
             position={"sticky"} top={0} zIndex={1}
+            borderBottom={`1.5px solid ${palette.custom.niceOrange}`}
 
         >
             <Tr>
-                <Th>Name</Th>
-                <Th>Status</Th>
-                <Th>Open from</Th>
-                <Th>Open until</Th>
-                <Th padding={0} ></Th> {/* Activate/Deactivate */}
-                <Th padding={1}></Th> {/* Edit */}
-                <Th padding={1}></Th> {/* Point on map */}
+                <Th width={"45%"}>Name</Th>
+                <Th width={"20%"}>Status</Th>
+                <Th width={"10%"}>Open from</Th>
+                <Th width={"10%"}>Open until</Th>
+                <Th padding={0} width={"5%"}></Th> {/* Activate/Deactivate */}
+                <Th padding={1} width={"5%"}></Th> {/* Edit */}
+                <Th padding={1} width={"5%"}></Th> {/* Point on map */}
             </Tr>
         </Thead>
     )

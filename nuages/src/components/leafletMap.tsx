@@ -1,21 +1,21 @@
-import { Center, Spinner, Text } from "@chakra-ui/react";
-import { useContext, useEffect } from "react";
+import { Center, Skeleton, Text } from "@chakra-ui/react";
+import React, { useContext } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { palette } from "../colorPalette";
-import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
+import { LeafletMapContext, LeafletMapContextInterface } from "../contexts/leafletContext";
+import { PharmacyFullState } from "../types";
 
 
-const LeafletMap = () => {
+interface LeafletMapProps {
+    pharmacies: PharmacyFullState[],
+    isLoading: boolean
+}
 
-    // get pharmacies from context
-
-    const { pharmacies, isLoading } = useContext(PharmaciesContext) as PharmaciesContextInterface
-
-
+const LeafletMap: React.FC<LeafletMapProps> = React.memo(({ pharmacies, isLoading }) => {
     if (isLoading) return <LoadinLeafletMap />
 
     if (!pharmacies.length) {
-        return (<Center h={"100%"} bg={palette.colorHuntTheme.lightGreen}>
+        return (<Center h={"100%"} bg={palette.custom.niceOrange}>
             <Text fontSize={"2xl"} fontWeight={"bold"} color={"black"}>
                 No Pharmacies to display on the map.
             </Text>
@@ -41,8 +41,9 @@ const LeafletMap = () => {
         />
 
 
-        {pharmacies && pharmacies.map((pharmacy) => {
+        {pharmacies && pharmacies.map((pharmacy, idx) => {
             return <Marker
+                key={idx}
                 position={[pharmacy.coordinates.latitude, pharmacy.coordinates.longitude]}
 
 
@@ -57,20 +58,19 @@ const LeafletMap = () => {
 
         <MapInteractionHandler />
     </MapContainer>
-}
+})
 
 
 
 function MapInteractionHandler() {
     const map = useMap()
-    const { pharmacyFocusedOnMap } = useContext(PharmaciesContext) as PharmaciesContextInterface
+    const { pharmacyFocusedOnMap } = useContext(LeafletMapContext) as LeafletMapContextInterface
 
-    useEffect(() => {
-        if (pharmacyFocusedOnMap) {
-            map.setView([pharmacyFocusedOnMap.coordinates.latitude, pharmacyFocusedOnMap.coordinates.longitude], 15, { animate: true })
-        }
-    }, [pharmacyFocusedOnMap])
-    console.log('map center:', map.getCenter())
+    // useEffect(() => {
+    if (pharmacyFocusedOnMap) {
+        map.setView([pharmacyFocusedOnMap.coordinates.latitude, pharmacyFocusedOnMap.coordinates.longitude], 15, { animate: true })
+    }
+    // }, [pharmacyFocusedOnMap])
 
     return null
 }
@@ -78,10 +78,7 @@ function MapInteractionHandler() {
 
 const LoadinLeafletMap = () => {
     return (
-
-        <Center height={"full"} bg={palette.colorHuntTheme.lightGreen}>
-            <Spinner size={"lg"} />
-        </Center>
+        <Skeleton height={"100%"} width={"100%"} />
     )
 }
 

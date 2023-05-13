@@ -4,10 +4,14 @@ import {
 import Layout from "./components/layout";
 
 // import Home
-import Home from "./pages/home";
 import PendingReviewsPage from "./pages/pendingReviewsPage";
 
+import { DashboardContextProvider } from "./contexts/dashboardContext";
+import { PharmaciesContextProvider } from './contexts/pharmaciesContext';
+import { PharmaciesReviewContextProvider } from "./contexts/pharmaciesReviewContext";
+import Dashboard from "./pages/dashboard";
 import PharmaciesPage from "./pages/pharmaciesPage";
+
 
 
 // Path : 
@@ -23,16 +27,25 @@ const appRouting = createBrowserRouter([
         children: [
 
             {
-                path: "/",
-                element: <Home />
+                path: "/dashboard",
+                element: <DashboardContextProvider>
+                    <Dashboard />
+                </DashboardContextProvider>
             },
             {
                 path: "/pharmacies",
-                element: <PharmaciesPage />
+                element:
+                    <PharmaciesContextProvider>
+                        <PharmaciesPage />
+                    </PharmaciesContextProvider>
+
             },
             {
                 path: "/pending-reviews",
-                element: <PendingReviewsPage />,
+                element:
+                    <PharmaciesReviewContextProvider>
+                        <PendingReviewsPage />
+                    </PharmaciesReviewContextProvider>,
             },
         ]
     },

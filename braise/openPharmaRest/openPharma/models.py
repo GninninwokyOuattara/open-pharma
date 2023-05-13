@@ -52,4 +52,17 @@ class OpenPharmacy(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
 
+class Activity(models.Model):
+    class Meta:
+        db_table = 'activity'
+        ordering = ['-date_created']
+
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    # type field is used to store the type of activity either review or report
+    type = models.CharField(max_length=20)
+    action = models.CharField(max_length=20)
+    description = models.CharField(max_length=1000)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+
 # TODO : Add a model for pharmacy related name to handle case where the pharmacy name is incorrectly spelled and should point to an already stored pharmacy.

@@ -103,7 +103,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
 
     const getDatas = async () => {
         try {
-            const response = await fetch("http://localhost:8000//admin-api/get-pharmacies-state-and-count/")
+            const response = await fetch(`${backendUrl}/admin-api/get-pharmacies-state-and-count/`)
             const data: PharmaciesStateAndSummary = await response.json()
             setSummary(data.summary)
             setPharmacies(data.pharmacies)
@@ -235,41 +235,74 @@ export const PharmaciesContextProvider = ({ children }: any) => {
     //     }
     // }, [error])
 
+    const value = useMemo(() => ({
+        isLoading,
+        setIsLoading,
+        error,
+        setError,
+        summary,
+        setSummary,
+        pharmacies,
+        setPharmacies,
+        search,
+        setSearch,
+        activeTags,
+        setActiveTags,
+        applyFilters,
+        filterByTags,
+        filterBySearch,
+        filteredPharmacies,
+        getDatas,
+        cleanDatas,
+        refreshDatas,
+        toggleActivity,
+        isOpen,
+        onOpen,
+        onClose,
+        pharmacyInEditMode,
+        setPharmacyInEditMode,
+        openEditingPharmacyModal,
+        closeEditingPharmacyModal,
+        updatePharmacyInPharmacies,
+        pharmacyFocusedOnMap,
+        setPharmacyFocusedOnMap
+
+    }), [
+        isLoading,
+        setIsLoading,
+        error,
+        setError,
+        summary,
+        setSummary,
+        pharmacies,
+        setPharmacies,
+        search,
+        setSearch,
+        activeTags,
+        setActiveTags,
+        applyFilters,
+        filterByTags,
+        filterBySearch,
+        filteredPharmacies,
+        getDatas,
+        cleanDatas,
+        refreshDatas,
+        toggleActivity,
+        isOpen,
+        onOpen,
+        onClose,
+        pharmacyInEditMode,
+        setPharmacyInEditMode,
+        openEditingPharmacyModal,
+        closeEditingPharmacyModal,
+        updatePharmacyInPharmacies,
+        pharmacyFocusedOnMap,
+        setPharmacyFocusedOnMap
+    ])
+
 
     return (
-        <PharmaciesContext.Provider value={{
-            isLoading,
-            setIsLoading,
-            error,
-            setError,
-            summary,
-            setSummary,
-            pharmacies,
-            setPharmacies,
-            search,
-            setSearch,
-            activeTags,
-            setActiveTags,
-            applyFilters,
-            filterByTags,
-            filterBySearch,
-            filteredPharmacies,
-            getDatas,
-            cleanDatas,
-            refreshDatas,
-            toggleActivity,
-            isOpen,
-            onOpen,
-            onClose,
-            pharmacyInEditMode,
-            setPharmacyInEditMode,
-            openEditingPharmacyModal,
-            closeEditingPharmacyModal,
-            updatePharmacyInPharmacies,
-            pharmacyFocusedOnMap,
-            setPharmacyFocusedOnMap
-
-        }}>
+        <PharmaciesContext.Provider value={value}>
             {children}
         </PharmaciesContext.Provider>
 

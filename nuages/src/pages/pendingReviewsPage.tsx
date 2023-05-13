@@ -25,6 +25,7 @@ const PendingReviewsPage = () => {
     const { refreshDatas } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
     useEffect(() => {
+        console.log("fired for pending review page")
         refreshDatas()
     }, [])
 
@@ -54,9 +55,9 @@ const PendingReviewPageHeader = () => {
         <Box
             height={"100px"}
             width={"100%"}
-            borderTop={"1px solid"}
+            // borderTop={"1px solid"}
             borderBottom={"1px solid "}
-            borderColor={palette.colorHuntTheme.lightGreen}
+            borderColor={palette.custom.niceOrange}
             display={"flex"}
             alignItems={"center"}
             paddingX={2}

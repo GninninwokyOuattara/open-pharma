@@ -12,7 +12,7 @@ const TagsFilterMenu = () => {
         defaultValue: ['Inactive Pharmacies', 'Active Pharmacies', 'Open Pharmacies'],
     })
 
-    const { setActiveTags } = useContext(PharmaciesContext) as PharmaciesContextInterface
+    const { setActiveTags, activeTags } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
 
     return (
@@ -23,7 +23,7 @@ const TagsFilterMenu = () => {
                     rightIcon={<IoFilter />}
                     shadow={"xs"}
                     border={"1px solid"}
-                    backgroundColor={"whiteAlpha.100"}
+                    backgroundColor={"white"}
                     _hover={{
                         border: "1px solid",
                         borderColor: palette.orange.havePersonality,
@@ -41,13 +41,28 @@ const TagsFilterMenu = () => {
                         onChange={(activeTags: string[]) => setActiveTags(activeTags)}
                     >
 
-                        <Checkbox value={"Inactive"} alignSelf={"flex-start"} colorScheme='green' >
+                        <Checkbox
+                            value={"Inactive"}
+                            alignSelf={"flex-start"}
+                            colorScheme='orange'
+                            isChecked={activeTags.includes("Inactive")}
+                        >
                             Inactive Pharmacies
                         </Checkbox>
-                        <Checkbox value={"Active"} alignSelf={"flex-start"} colorScheme='green' >
+                        <Checkbox
+                            value={"Active"}
+                            alignSelf={"flex-start"}
+                            colorScheme='orange'
+                            isChecked={activeTags.includes("Active")}
+                        >
                             Active Pharmacies
                         </Checkbox>
-                        <Checkbox value={"Open"} alignSelf={"flex-start"} colorScheme='green' >
+                        <Checkbox
+                            value={"Open"}
+                            alignSelf={"flex-start"}
+                            colorScheme='orange'
+                            isChecked={activeTags.includes("Open")}
+                        >
                             Open Pharmacies
                         </Checkbox>
                     </CheckboxGroup>

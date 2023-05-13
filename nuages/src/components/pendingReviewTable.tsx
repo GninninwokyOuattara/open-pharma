@@ -1,15 +1,30 @@
 import { Box, Table, TableContainer, Tbody } from "@chakra-ui/react"
-import { useContext } from "react"
+import { memo, useContext } from "react"
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
 import { PendingReviewPharmacy } from "../types"
-import { PendingPharmaciesTableRow } from "./pendingPharmaciesTableRow"
+import { PendingPharmaciesTableRowMemo } from "./pendingPharmaciesTableRow"
 import { PendingReviewSkeletonLoader } from "./rowsLoader"
 import { PendingReviewPageTableHeaders } from "./tableHeaders"
 
 export const PendingReviewPageTable = () => {
 
-    return <Box borderRadius={"md"} overflowY={"hidden"} height={"full"} width={"full"} shadow={"lg"} >
-        <TableContainer shadow={"outline"} borderRadius={"md"} width="full" height="full" backgroundColor={"white"}>
+    const { pendingReviewPharmacies, isLoading, setPharmaciesPendingReview } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+
+
+    return <Box
+        // borderRadius={"md"}
+        overflowY={"hidden"}
+        height={"full"}
+        width={"full"}
+    // shadow={"lg"}
+    >
+        <TableContainer
+            shadow={"outline"}
+            // borderRadius={"md"} 
+            width="full"
+            height="full"
+        // backgroundColor={"white"}
+        >
             <Box height={"full"} width={"full"} overflow={"scroll"} >
 
                 <Table
@@ -18,7 +33,11 @@ export const PendingReviewPageTable = () => {
                 >
 
                     <PendingReviewPageTableHeaders />
-                    <PendingReviewPageTableBody />
+                    <PendingReviewPageTableBody
+                        pendingReviewPharmacies={pendingReviewPharmacies}
+                        isLoading={isLoading}
+                        setPharmaciesPendingReview={setPharmaciesPendingReview}
+                    />
 
 
 
@@ -33,9 +52,16 @@ export const PendingReviewPageTable = () => {
 
 
 
-const PendingReviewPageTableBody = () => {
+interface PendingReviewPageTableBodyProps {
+    pendingReviewPharmacies: PendingReviewPharmacy[]
+    isLoading: boolean,
+    setPharmaciesPendingReview: React.Dispatch<React.SetStateAction<PendingReviewPharmacy[] | []>>
+}
 
-    const { pendingReviewPharmacies, isLoading } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+const PendingReviewPageTableBody: React.FC<PendingReviewPageTableBodyProps> = memo(({ pendingReviewPharmacies, isLoading, setPharmaciesPendingReview }) => {
+
+    // const { pendingReviewPharmacies, isLoading, acceptPharmacy, rejectPharmacy, checkOnePharmacy, uncheckOnePharmacy, toggleCheckPendingReviewPharmacy, setPharmaciesPendingReview } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+
 
 
     if (isLoading) {
@@ -46,13 +72,24 @@ const PendingReviewPageTableBody = () => {
 
     if (pendingReviewPharmacies.length && !isLoading) {
 
+        console.log("Rendering rows")
+
         return (
             <Tbody>
                 {pendingReviewPharmacies.map((pharmacyPendingReview: PendingReviewPharmacy) => {
                     return (
-                        <PendingPharmaciesTableRow
+                        <PendingPharmaciesTableRowMemo
                             key={pharmacyPendingReview.id}
-                            pharmacyPendingReview={pharmacyPendingReview} />
+                            pharmacyPendingReview={pharmacyPendingReview}
+                            isChecked={pharmacyPendingReview.is_checked}
+                            isLoadingFromBatch={pharmacyPendingReview.is_loading}
+                            setPharmaciesPendingReview={setPharmaciesPendingReview}
+                        // acceptPharmacy={acceptPharmacy}
+                        // rejectPharmacy={rejectPharmacy}
+                        // checkOnePharmacy={checkOnePharmacy}
+                        // uncheckOnePharmacy={uncheckOnePharmacy}
+                        // toggleCheckPendingReviewPharmacy={toggleCheckPendingReviewPharmacy}
+                        />
                     )
                 })}
 
@@ -63,7 +100,7 @@ const PendingReviewPageTableBody = () => {
     return (
         null
     )
-}
+})
 
 
 

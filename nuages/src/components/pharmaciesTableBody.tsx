@@ -6,11 +6,12 @@ import { getTags } from "../utils/dry"
 
 // import GrEdit
 
+import React from "react"
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 import { BsFillPinMapFill } from "react-icons/bs"
 import { GrEdit } from "react-icons/gr"
 import { TbMoodEmpty } from "react-icons/tb"
-import { palette } from "../colorPalette"
+import { LeafletMapContext, LeafletMapContextInterface } from "../contexts/leafletContext"
 import { ToastContext, ToastContextInterface } from "../contexts/toast"
 
 
@@ -19,6 +20,12 @@ const PharmaciesTableBody = () => {
     const { filteredPharmacies, isLoading } = useContext(PharmaciesContext) as PharmaciesContextInterface
 
     // if there is no pharmacies and loading is false, return a message that spans all columns saying "No pharmacies found"
+
+    if (isLoading) {
+
+        return <SkeletonLoader />
+    }
+
 
     if (filteredPharmacies.length === 0 && !isLoading) {
         return <Tbody>
@@ -39,11 +46,15 @@ const PharmaciesTableBody = () => {
         <Tbody
         >
 
-            {
-                filteredPharmacies.map((pharmacy) => {
-                    return <PharmaciesTableRow pharmacy={pharmacy} />
+            {/* {
+                filteredPharmacies.map((pharmacy, idx) => {
+                    return <PharmaciesTableRowMemoized
+                        key={pharmacy.id}
+                        pharmacy={pharmacy}
+                    />
                 })
-            }
+            } */}
+            <PharmaciesTableRowsContainer pharmacies={filteredPharmacies} />
 
         </Tbody>
 
@@ -53,9 +64,29 @@ const PharmaciesTableBody = () => {
 export default PharmaciesTableBody
 
 
+const PharmaciesTableRowsContainer: React.FC<{ pharmacies: PharmacyFullState[] }> = React.memo(({ pharmacies }) => {
+    console.log("Rerendered container")
+    return (
+        <>
+            {
+                pharmacies.map((pharmacy, idx) => {
+                    return <PharmaciesTableRowMemoized
+                        key={pharmacy.id}
+                        pharmacy={pharmacy}
+                    />
+                })
+            }
+
+        </>
+    )
+})
+
+
 const PharmaciesTableRow: React.FC<{ pharmacy: PharmacyFullState }> = (
     { pharmacy }
 ) => {
+
+    // console.log("Rerendered row for ", pharmacy.name)
 
     const pharmacyDateRange = pharmacy.open_date_range
     const tags = getTags(pharmacy)
@@ -63,12 +94,16 @@ const PharmaciesTableRow: React.FC<{ pharmacy: PharmacyFullState }> = (
     return (
         <Tr
             _hover={{
-                backgroundColor: "orange.50",
-                transform: "scale(1.01)",
-                transition: "all 0.2s ease-in-out"
+                backgroundColor: "white",
+                // transform: "scale(1.01)",
+                // transition: "all 0.2s ease-in-out"
             }}
         >
             <TableData
+                // borderRadius={"lg"}
+                borderLeftRadius={"lg"}
+
+
             >
 
                 {pharmacy.name}
@@ -89,7 +124,10 @@ const PharmaciesTableRow: React.FC<{ pharmacy: PharmacyFullState }> = (
                 <EditButton pharmacy={pharmacy} />
 
             </TableData>
-            <TableData padding={0} paddingRight={2}>
+            <TableData
+                padding={0} paddingRight={2}
+                borderRightRadius={"lg"}
+            >
 
                 <PointPharmacyOnMapButton pharmacy={pharmacy} />
             </TableData>
@@ -100,6 +138,8 @@ const PharmaciesTableRow: React.FC<{ pharmacy: PharmacyFullState }> = (
 }
 
 
+const PharmaciesTableRowMemoized = React.memo(PharmaciesTableRow)
+
 const TableData: React.FC<TableCellProps> = (props) => {
 
     const { isLoading } = useContext(PharmaciesContext) as PharmaciesContextInterface
@@ -107,7 +147,8 @@ const TableData: React.FC<TableCellProps> = (props) => {
     return (
         <Td
             {...props}
-            borderColor={palette.colorHuntTheme.lightOrange}
+            borderColor={"gray.300"}
+        // borderRadius={"lg"}
         >
             <Skeleton isLoaded={!isLoading}>
 
@@ -179,9 +220,8 @@ const EditButton: React.FC<{ pharmacy: PharmacyFullState }> = ({ pharmacy }) => 
 
 const PointPharmacyOnMapButton: React.FC<{ pharmacy: PharmacyFullState }> = ({ pharmacy }) => {
 
-    const { setPharmacyFocusedOnMap }
-        = useContext(PharmaciesContext) as PharmaciesContextInterface
-
+    const { setFocus }
+        = useContext(LeafletMapContext) as LeafletMapContextInterface
 
     return (
 
@@ -195,7 +235,7 @@ const PointPharmacyOnMapButton: React.FC<{ pharmacy: PharmacyFullState }> = ({ p
             size="sm"
             variant="ghost"
 
-            onClick={() => setPharmacyFocusedOnMap(pharmacy)}
+            onClick={() => setFocus(pharmacy)}
         />
     )
 
@@ -263,4 +303,71 @@ const ToggleActibityButton: React.FC<{ pharmacy: PharmacyFullState }> = ({ pharm
 
         onClick={() => handleToggleActivity()}
     />
+}
+
+
+const SkeletonLoader = () => {
+
+
+    const nLoadingSkeleton = [1, 2, 3, 4, 5, 6, 7, 8]
+
+    return (
+        <>
+            {
+                nLoadingSkeleton.map((arr) => <Tr
+                    _hover={{
+                        backgroundColor: "white",
+
+                    }}
+
+                >
+                    <Td
+                        borderLeftRadius={"lg"}
+                        borderColor={"gray.300"}
+                        borderBottomWidth={1}
+                    >
+                        <Skeleton height={"20px"} w={"full"} />
+                    </Td>
+                    <Td borderColor={"gray.300"}
+                        borderBottomWidth={1}>
+                        <Skeleton height={"20px"} w={"full"} />
+                    </Td>
+
+                    <Td borderColor={"gray.300"}
+                        borderBottomWidth={1}> <Skeleton height={"20px"} w={"full"} /> </Td>
+
+                    <Td borderColor={"gray.300"}
+                        borderBottomWidth={1}>
+                        <Skeleton height={"20px"} w={"full"} />
+
+                    </Td>
+                    <Td padding={0} borderColor={"gray.300"}
+                        borderBottomWidth={1}>
+
+                        <Skeleton height={"20px"} w={"25px"} />
+                    </Td>
+                    <Td paddingX={1}
+                        borderColor={"gray.300"}
+                        borderBottomWidth={1}>
+
+
+                        <Skeleton height={"20px"} w={"25px"} />
+                    </Td>
+                    <Td
+                        padding={0} paddingRight={2}
+                        borderRightRadius={"lg"}
+                        borderColor={"gray.300"}
+                        borderBottomWidth={1}
+                    >
+
+                        <Skeleton height={"20px"} w={"25px"} />
+                    </Td>
+
+                </Tr>)
+            }
+
+        </>
+    )
+
+
 }
