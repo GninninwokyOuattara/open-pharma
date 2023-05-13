@@ -21,4 +21,10 @@ export const palette = {
     veryLightOrange: "#f2efeb",
     niceOrange: "#f3b68f",
   },
+  design: {
+    primary: "#FDEEDC",
+    secondary: "#FFD8A9",
+    accent: "#F1A661",
+    important: "#E38B29",
+  },
 };
