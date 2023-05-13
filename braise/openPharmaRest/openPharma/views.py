@@ -350,13 +350,13 @@ class PharmaciesStatisticsViewset(viewsets.ReadOnlyModelViewSet):
             {
                 "name": "Pharmacies Pending Review",
                 "count": pending_review_pharmacies_count,
-                "fill": "#3182CE",
+                "fill": "#718096",
             },
 
             {
                 "name": "Pharmacies Reviewed",
                 "count": reviewed_pharmacies_count,
-                "fill": "#718096",
+                "fill": "#3182CE",
             }
         ]
 
