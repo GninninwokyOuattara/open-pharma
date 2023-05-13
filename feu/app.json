@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "feu",
-    "slug": "feu",
+    "name": "OpenPharma",
+    "slug": "OpenPhama",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splashScreen.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#F0ECD6"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,8 +21,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/appIconForegroundAndroid.png",
+        "backgroundColor": "#F0ECD6"
       }
     },
     "web": {

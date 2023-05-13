@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from "react-native";
 import React from "react";
+import { StyleSheet, View } from "react-native";
 
 interface shadowStyle {
     shadowColor?: string;
@@ -25,6 +25,8 @@ const ShadowAround: React.FC<props> = ({ children, shadowStyles }) => {
 
 const styles = StyleSheet.create({
     container: {
+        // borderWidth: 1,
+        backgroundColor: 'rgba(255,255,255,0.0)',
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

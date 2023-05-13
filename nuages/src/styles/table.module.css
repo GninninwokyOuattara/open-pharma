@@ -1,0 +1,28 @@
+.tableRow {
+    background-color: #fff;
+    /* border-color: aqua; */
+    /* border-width: 2px; */
+    
+
+}
+
+.tableRow td {
+    border-bottom: red;
+}
+
+.tableDataHidden {
+    visibility: "invisible";
+    opacity: 0;
+}
+
+.tableRow:hover .tableDataHidden{
+    visibility: "visible";
+    opacity: 1;
+
+
+}
+
+.tableRow:hover {
+    background-color: #f9fafb;
+
+}

@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'googleMapsScrapper',
     'openTracker',
-    'rest_framework_swagger'
+    'rest_framework_swagger',
+    "corsheaders",
 ]
 
 REST_FRAMEWORK = {
@@ -62,6 +63,8 @@ REST_FRAMEWORK = {
 
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -155,7 +158,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CRONJOBS = [
-    ("0 9 * * *", "django.core.management.call_command",
+    ("*/1 * * * *", "django.core.management.call_command",
      ["actualize"], {}, f">> {DIR_PATH}/cron_actualize.log 2>&1"),
 
     #  NB :
@@ -163,4 +166,9 @@ CRONJOBS = [
     # Remove cronjob -> python manage.py crontab remove
     # List cronjob -> python manage.py crontab show
 
+]
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React
 ]

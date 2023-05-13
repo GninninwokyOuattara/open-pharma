@@ -15,18 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-# import SearchApiView
-from googleMapsScrapper.views import SearchApiView
-from openPharma.views import (OpenPharmaciesAdminViewset,
-                              OpenPharmaciesViewset, PharmaciesAdminViewset,
-                              PharmaciesCurrentStateViewset,
-                              PharmaciesPendingReviewAdminViewset,
-                              PharmaciesViewset)
-from openTracker.views import CurrentlyOpenPharmaciesView
 from rest_framework import routers
 from rest_framework_swagger.views import get_swagger_view
 
+# import SearchApiView
+from googleMapsScrapper.views import SearchApiView
+from openPharma.views import (OpenPharmaActivityViewset,
+                              OpenPharmaciesAdminViewset,
+                              OpenPharmaciesViewset, PharmaciesAdminViewset,
+                              PharmaciesAllStateCountView,
+                              PharmaciesCurrentStateViewset,
+                              PharmaciesPendingReviewAdminViewset,
+                              PharmaciesStateAndCountViewset,
+                              PharmaciesStatisticsViewset, PharmaciesViewset)
 from openPharmaRest.views import TestView
+from openTracker.serializers import TrackerHistoryListSerializer
+from openTracker.views import (CurrentlyOpenPharmaciesView,
+                               OpenPharmaActualizerView,
+                               OpenPharmaTrackerHistoryViewset)
 
 user_router = routers.SimpleRouter()
 user_router.register(r'pharmacies', PharmaciesViewset, basename='pharmacies')
@@ -44,7 +50,30 @@ admin_router.register(r'pharmacies-pending-review',
 
 admin_router.register(r"open-pharmacies",
                       OpenPharmaciesAdminViewset, basename="admin-open-pharmacies")
+admin_router.register(r"get-pharmacies-states-count",
+                      PharmaciesAllStateCountView, basename="get-pharmacies-states-count")
+admin_router.register(r"get-pharmacies-state-and-count",
+                      PharmaciesStateAndCountViewset, basename="get-pharmacies-state-and-count")
 
+admin_router.register(
+    r"dashboard/get-recent-activity", OpenPharmaActivityViewset, basename="dashboard/get-recent-activity"
+)
+
+admin_router.register(
+    r"dashboard/get-latest-tracker-results", OpenPharmaTrackerHistoryViewset, basename="dashboard/get-latest-tracker-results"
+)
+
+# admin_router.register(
+#     r"trigger-actualizer", OpenPharmaActualizerView, basename="run-actualizer"
+# )
+
+# admin_router.register(
+#     r"dashboard/get-pharmacies-over-weeks", PharmaciesStatisticsViewset.as_view({
+#         "get": "get_pharmacies_over_weeks"
+#     }),
+
+#     basename="dashboard"
+# )
 
 schema_view = get_swagger_view(title='OpenPharma API')
 
@@ -54,6 +83,19 @@ urlpatterns = [
     path("admin-api/", include(admin_router.urls)),
     path("admin-api/get-currently-open-pharmacies/",
          CurrentlyOpenPharmaciesView.as_view(), name="tracker"),
+    path("admin-api/dashboard/get-pharmacies-over-weeks/", PharmaciesStatisticsViewset.as_view({
+        "get": "get_pharmacies_over_weeks"
+    })),
+    path("admin-api/dashboard/get-pharmacies-states/", PharmaciesStatisticsViewset.as_view({
+        "get": "get_pharmacies_states"
+    })),
+    path("admin-api/dashboard/get-pharmacies-reviews-states/", PharmaciesStatisticsViewset.as_view({
+        "get": "get_reviews_states"
+    })),
+
+    path("admin-api/trigger-actualizer/",
+         OpenPharmaActualizerView.as_view(), name="trigger-actualizer"),
+
     path("search/",
          SearchApiView.as_view(), name="search"),
 

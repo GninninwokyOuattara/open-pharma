@@ -1,7 +1,7 @@
-import { useCallback, useContext } from 'react';
+import { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MapContext } from '../contexts/MapContext';
-import { getAllPharmacies, getUpdateVersion, updateDeviceUpdateVersionTo } from '../database/db';
+import { deleteAllPharmacies, getAllPharmacies, getUpdateVersion, updateDeviceUpdateVersionTo } from '../database/db';
 import { FETCH_ALL_PHARMACIES } from '../stores/actions';
 import { fetchAllPharmacies, getCurrentUpdateVersion } from '../stores/pharmaciesActions';
 import { DBPharmacy, RootReducerType } from '../types/dataTypes';
@@ -52,7 +52,7 @@ const useInitializer = () => {
 
     }
 
-    const init = useCallback(async () => {
+    const init = async () => {
         setIsFetching!(true)
         try {
             let pharmacies: DBPharmacy[] = await getAllPharmacies()
@@ -69,7 +69,9 @@ const useInitializer = () => {
                 // console.log("isOk: " + isOk)
                 if (!await isDeviceVersionValid()) {
                     console.log("Outdated device version, fetching most recent one...")
-                    await init()
+                    // await init()
+                    await deleteAllPharmacies()
+                    await Promise.all([dispatch(fetchAllPharmacies()), updateDeviceVersion()])
                 }
 
 
@@ -102,7 +104,7 @@ const useInitializer = () => {
         }
 
         setIsFetching!(false)
-    }, [pharmaciesDatas])
+    }
 
     return { init }
 }

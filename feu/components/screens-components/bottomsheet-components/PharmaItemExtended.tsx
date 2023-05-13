@@ -1,51 +1,58 @@
-import React from 'react'
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
-import ShadowAround from '../../utility-components/ShadowAround'
+import React, { memo } from 'react'
+import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 
-import { Pharmacy } from '../../../types/dataTypes'
-import OpenPharmacyItemSticker from './OpenPharmacyItemSticker'
+import { PharmacyFullState } from '../../../types/dataTypes'
+import Pulse from '../../utility-components/Pulse'
 
 
 
 interface Props {
-    pharmacyData: Pharmacy,
+    pharmacyData: PharmacyFullState,
     onPress?: () => void
 }
 
 const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
     return (
-        <ShadowAround
-            shadowStyles={{
-                shadowColor: "#C0AF96",
-                shadowOffset: { width: 0, height: 0 },
-            }}
-        >
-            <TouchableWithoutFeedback onPress={() => onPress && onPress()}>
-                <View style={styles.container}>
 
-                    <View style={styles.primaryContainer}>
-                        <View style={styles.pharmacyInfoContainer}>
 
-                            <Text style={styles.pharmacyHeader}>{pharmacyData.flat_name}</Text>
-                            <Text style={styles.pharmacyPosition}>{pharmacyData.geographical_position}</Text>
+        <TouchableWithoutFeedback onPress={() => onPress && onPress()}>
+            <View style={styles.container}>
+
+                <View style={styles.primaryContainer}>
+                    <ScrollView
+                        style={styles.pharmacyInfoContainer}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                    >
+
+                        <Text style={styles.pharmacyHeader}>{pharmacyData.name}</Text>
+
+                    </ScrollView>
+
+
+                    <View style={styles.pharmacyMetaContainer}>
+                        <View>
+
+                            <Text style={styles.pharmacyDistance}>{pharmacyData.distanceToUserReadable}</Text>
                         </View>
+
                         {
-                            pharmacyData.distance && <View style={styles.pharmacyDistanceContainer}>
+                            pharmacyData.open &&
+                            <Pulse color='#28a745' />
 
-                                <Text style={styles.pharmacyDistance}>{pharmacyData.distance}</Text>
-                            </View>
+
                         }
-
                     </View>
-                    {
 
-                        pharmacyData.open && <OpenPharmacyItemSticker state='open' title="Pharmacie de garde" />
-                    }
 
 
                 </View>
-            </TouchableWithoutFeedback>
-        </ShadowAround>
+
+
+
+            </View>
+        </TouchableWithoutFeedback>
+
     )
 }
 
@@ -55,22 +62,49 @@ const styles = StyleSheet.create({
         flex: 0,
         flexDirection: 'column',
         backgroundColor: "#FDF2E3",
-        borderRadius: 15,
-        padding: 10,
+        borderRadius: 10,
+        paddingHorizontal: 10,
         marginBottom: 10,
+        height: 50,
         // borderWidth: 1,
-        // borderColor: "red"
+        // borderColor: "red",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 5.46,
+
+        elevation: 9,
+
     },
     primaryContainer: {
         width: "100%",
+        height: "100%",
         // borderWidth: 1,
         flexDirection: "row",
         marginBottom: 10,
+        alignItems: "center",
     },
     pharmacyInfoContainer: {
-        flexDirection: "column",
+        flexDirection: "row",
         // width: "80%",
         flex: 1,
+        marginRight: 10,
+        // borderWidth: 1,
+    },
+    pharmacyMetaContainer: {
+        flexDirection: "row",
+
+        // borderWidth: 1,
+        // borderColor: "red",
+        height: "100%",
+        // width: 70,
+        justifyContent: "space-between",
+        alignItems: "center",
+        // padding: 0,
+        // space
     },
     pharmacyHeader: {
         fontSize: 15,
@@ -99,7 +133,7 @@ const styles = StyleSheet.create({
         // width: 100,
     },
     pharmacyState: {
-        borderRadius: 15,
+        borderRadius: 5,
         borderWidth: 1,
         alignSelf: "flex-start",
         paddingVertical: 2,
@@ -117,4 +151,4 @@ const PharmacyStateContainer = () => {
 }
 
 
-export default PharmaItemExtended
+export default memo(PharmaItemExtended)
