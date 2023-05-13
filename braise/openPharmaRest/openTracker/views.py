@@ -66,6 +66,7 @@ class OpenPharmaActualizerView(APIView):
                         longitude=pharmacy_datas["longitude"],
                         pending_review=True,
                         active=False)
+                    n_insertions +=1
                     continue
 
                 pharmacy = pharmacy[0]
