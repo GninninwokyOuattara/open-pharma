@@ -17,6 +17,7 @@
     "@types/react-dom": "^18.0.0",
     "framer-motion": "^7.6.19",
     "leaflet": "^1.9.3",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-countup": "^6.4.2",
     "react-dom": "^18.2.0",
