@@ -1,7 +1,7 @@
 
 import { useDisclosure, useToast } from '@chakra-ui/react';
 import React, { createContext, useCallback, useMemo, useState } from 'react';
-import { PharmaciesDataSummary, PharmaciesStateAndSummary, PharmacyFullState } from '../types';
+import { PharmaciesDataSummary, PharmacyFullState } from '../types';
 import { getTags } from '../utils/dry';
 
 
@@ -103,11 +103,10 @@ export const PharmaciesContextProvider = ({ children }: any) => {
 
     const getDatas = async () => {
         try {
-            const response = await fetch(`${backendUrl}/admin-api/get-pharmacies-state-and-count/`)
-            const data: PharmaciesStateAndSummary = await response.json()
-            setSummary(data.summary)
-            setPharmacies(data.pharmacies)
-            // return data
+            const response = await fetch(`${backendUrl}/admin-api/pharmacies/`)
+            const data: PharmacyFullState[] = await response.json()
+            // setSummary(data.summary)
+            setPharmacies(data)
         } catch (error: any) {
             // cleanDatas()
             // setError(error.message)
