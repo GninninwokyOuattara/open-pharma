@@ -6,7 +6,7 @@ import { RiEyeOffLine } from "react-icons/ri";
 import { PharmaciesDataSummary, PharmacyFullState } from "../types";
 
 
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { memo, useCallback, useContext, useEffect, useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 import { palette } from "../colorPalette";
 import EditPharmacyModal from "../components/editPharmacyModal";
@@ -78,54 +78,81 @@ const Page: React.FC<{
     return (
         <>
 
-            <VStack
-                height={"full"}
-                width={"full"}
-                gap={1}
-            >
-
-                <Box borderRadius={"md"} overflow={"hidden"} height={"200px"} width={"100%"} shadow={"md"}>
-                    <LeafletMap
-                        pharmacies={pharmacies}
-                        isLoading={isLoading}
-                    />
-                </Box>
-
-                <Box
-                    height={"100px"}
-                    width={"100%"}
-                    borderTop={"1px solid"}
-                    // borderBottom={"1px solid "}
-                    borderColor={palette.custom.niceOrange}
-                    display={"flex"}
-                    alignItems={"center"}
-                    paddingX={2}
-                    zIndex={10}
-                    justifyContent={"space-between"}
-                >
-                    <HStack >
-
-                        <RefreshButton isLoading={isLoading} onClick={refreshDatas} />
-                        <TagsFilterMenu />
-                    </HStack>
-                    <SearchBar onChange={setSearch} />
-
-                </Box>
-
-                <Box
-                    overflowY={"hidden"}
-                    height={"full"} width={"full"}
-                // borderRadius={"md"} 
-                // shadow={"lg"} 
-                >
-                    <PharmaciesTableRenderer />
-                </Box>
-
-
-            </VStack>
+            <MainContent
+                pharmacies={pharmacies}
+                isLoading={isLoading}
+                refreshDatas={refreshDatas}
+                setSearch={setSearch}
+            />
             <EditPharmacyModal isOpen={isOpen} onClose={onClose} />
 
         </>
+    )
+})
+
+
+
+interface MainContentProps {
+    pharmacies: PharmacyFullState[],
+    isLoading: boolean
+    refreshDatas: () => void
+    setSearch: React.Dispatch<React.SetStateAction<string>>,
+}
+
+const MainContent: React.FC<MainContentProps> = memo(({
+    pharmacies,
+    isLoading,
+    refreshDatas,
+    setSearch,
+}) => {
+
+
+    return (
+        <VStack
+            height={"full"}
+            width={"full"}
+            gap={1}
+        >
+
+            <Box borderRadius={"md"} overflow={"hidden"} height={"200px"} width={"100%"} shadow={"md"}>
+                <LeafletMap
+                    pharmacies={pharmacies}
+                    isLoading={isLoading}
+                />
+            </Box>
+
+            <Box
+                height={"100px"}
+                width={"100%"}
+                borderTop={"1px solid"}
+                // borderBottom={"1px solid "}
+                borderColor={palette.custom.niceOrange}
+                display={"flex"}
+                alignItems={"center"}
+                paddingX={2}
+                zIndex={10}
+                justifyContent={"space-between"}
+            >
+                <HStack >
+
+                    <RefreshButton isLoading={isLoading} onClick={refreshDatas} />
+                    <TagsFilterMenu />
+                </HStack>
+                <SearchBar onChange={setSearch} />
+
+            </Box>
+
+            <Box
+                overflowY={"hidden"}
+                height={"full"} width={"full"}
+            // borderRadius={"md"} 
+            // shadow={"lg"} 
+            >
+                <PharmaciesTableRenderer />
+            </Box>
+
+
+        </VStack>
     )
 })
 
