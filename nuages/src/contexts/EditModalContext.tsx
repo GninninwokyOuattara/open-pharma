@@ -12,6 +12,7 @@ export interface EditModalContextInterface {
     openEditPharmacyModal: (pharmacy: PharmacyFullState) => void;
     closeEditPharmacyModal: () => void;
     pharmacyInEditMode: PharmacyFullState | null;
+    setPharmacyInEditMode: React.Dispatch<React.SetStateAction<PharmacyFullState | null>>;
 }
 
 
@@ -42,8 +43,9 @@ export const EditModalContextProvider = ({ children }: any) => {
         isOpen,
         openEditPharmacyModal,
         closeEditPharmacyModal,
-        pharmacyInEditMode
-    }), [isOpen, openEditPharmacyModal, closeEditPharmacyModal, pharmacyInEditMode])
+        pharmacyInEditMode,
+        setPharmacyInEditMode
+    }), [isOpen, openEditPharmacyModal, closeEditPharmacyModal, pharmacyInEditMode, setPharmacyInEditMode])
 
 
     return (
