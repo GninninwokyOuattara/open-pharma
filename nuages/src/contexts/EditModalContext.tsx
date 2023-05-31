@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { createContext, useCallback, useState } from 'react';
+import { createContext, useCallback, useMemo, useState } from 'react';
 import { PharmacyFullState } from '../types';
 
 
@@ -11,6 +11,7 @@ export interface EditModalContextInterface {
     isOpen: boolean;
     openEditPharmacyModal: (pharmacy: PharmacyFullState) => void;
     closeEditPharmacyModal: () => void;
+    pharmacyInEditMode: PharmacyFullState | null;
 }
 
 
@@ -24,7 +25,9 @@ export const EditModalContextProvider = ({ children }: any) => {
 
 
 
+
     const openEditPharmacyModal = useCallback((pharmacy: PharmacyFullState) => {
+        console.log("Selected pharmacy for modal open: ", pharmacy)
         setPharmacyInEditMode(pharmacy)
         onOpen()
     }, [setPharmacyInEditMode])
@@ -33,6 +36,24 @@ export const EditModalContextProvider = ({ children }: any) => {
         setPharmacyInEditMode(null)
         onClose()
     }, [setPharmacyInEditMode])
+
+
+    const value = useMemo(() => ({
+        isOpen,
+        openEditPharmacyModal,
+        closeEditPharmacyModal,
+        pharmacyInEditMode
+    }), [isOpen, openEditPharmacyModal, closeEditPharmacyModal, pharmacyInEditMode])
+
+
+    return (
+
+
+        <EditModalContext.Provider value={value}>
+            {children}
+        </EditModalContext.Provider>
+
+    )
 
 }
 
