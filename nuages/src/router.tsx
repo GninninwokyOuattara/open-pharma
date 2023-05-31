@@ -6,6 +6,7 @@ import Layout from "./components/layout";
 // import Home
 import PendingReviewsPage from "./pages/pendingReviewsPage";
 
+import { EditModalContextProvider } from "./contexts/EditModalContext";
 import { DashboardContextProvider } from "./contexts/dashboardContext";
 import { PharmaciesContextProvider } from './contexts/pharmaciesContext';
 import { PharmaciesReviewContextProvider } from "./contexts/pharmaciesReviewContext";
@@ -36,7 +37,10 @@ const appRouting = createBrowserRouter([
                 path: "/pharmacies",
                 element:
                     <PharmaciesContextProvider>
-                        <PharmaciesPage />
+                        <EditModalContextProvider>
+                            <PharmaciesPage />
+                        </EditModalContextProvider>
+
                     </PharmaciesContextProvider>
 
             },
