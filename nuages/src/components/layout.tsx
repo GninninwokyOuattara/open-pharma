@@ -30,11 +30,12 @@ const Layout = () => {
                     height={"100%"}
                     // overflow={"hidden"}
                     padding={2}
-                    paddingBottom={5}
+                    paddingY={5}
                     paddingX={5}
                     // borderWidth={1}
                     // borderColor="orange.200"
                     borderRadius={5}
+                    backgroundColor={palette.custom.veryLightOrange}
                 >
                     <Outlet />
                 </Box>
