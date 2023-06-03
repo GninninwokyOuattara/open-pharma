@@ -4,10 +4,6 @@ from django.db.models import Count
 from django.db.models.functions import TruncWeek
 from django.http import Http404
 from django.shortcuts import render
-from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
-
 from openPharma.models import Activity, OpenPharmacy, Pharmacy
 from openPharma.serializers import (ActivityListSerializer,
                                     OpenPharmaciesAdminSerializer,
@@ -16,6 +12,9 @@ from openPharma.serializers import (ActivityListSerializer,
                                     PharmaciesOpenStateSerializer,
                                     PharmaciesPendingReviewAdminSerializer,
                                     PharmaciesSerializer)
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 
 class PharmaciesViewset(viewsets.ReadOnlyModelViewSet):
@@ -199,6 +198,11 @@ class PharmaciesCurrentStateViewset(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.data)
 
 
+class OpenPharmaPharmaciesStatesAdminViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = PharmaciesOpenStateSerializer
+    queryset = Pharmacy.objects.filter(pending_review=False, active=True)
+
+
 # DATAS COUNTERS VIEWS
 
 
@@ -256,13 +260,13 @@ class PharmaciesStateAndCountViewset(viewsets.ReadOnlyModelViewSet):
     serializer_class = PharmaciesOpenStateSerializer
     # queryset = Pharmacy.objects.all()
     # only take those that are not pending review
-    queryset = Pharmacy.objects.filter(pending_review=False)
+    queryset = Pharmacy.objects.filter(pending_review=False, active=True)
     current_date = datetime.datetime.now()
 
     def list(self, request, *args, **kwargs):
 
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
+        # queryset = self.get_queryset()
+        serializer = self.get_serializer(self.queryset, many=True)
 
         active_pharmacies_count = Pharmacy.objects.filter(active=True).count()
         inactive_pharmacies_count = Pharmacy.objects.filter(
