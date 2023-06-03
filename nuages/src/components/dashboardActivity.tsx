@@ -3,7 +3,6 @@ import moment from "moment";
 import { useContext } from "react";
 import { BsFileEarmarkCheck, BsToggles } from "react-icons/bs";
 import { FiSettings } from "react-icons/fi";
-import { palette } from "../colorPalette";
 import { DashboardContext, DashboardContextInterface } from "../contexts/dashboardContext";
 import { DashboardItemHeader } from "./dashboardItemHeader";
 
@@ -15,8 +14,8 @@ export const DashboardActivity = () => {
     return (
         <VStack
             paddingBottom={2}
-            backgroundColor={"white"}
-            shadow={"md"}
+            // backgroundColor={"white"}
+            shadow={"base"}
             height={"100%"}
             borderRadius={"md"}
             gap={0.1}
@@ -129,9 +128,16 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ icon, title, time }) => {
             width={"100%"}
             // height={"100%"}
             padding={2}
-            backgroundColor={palette.custom.veryLightOrange}
+            // backgroundColor={palette.custom.veryLightOrange}
+            // backgroundColor={"white"}
             borderRadius={"md"}
-            shadow={"md"}
+            shadow={"base"}
+            color={"gray.500"}
+            fontWeight={"extrabold"}
+
+            _hover={{
+                shadow: "md",
+            }}
 
 
 
