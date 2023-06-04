@@ -116,7 +116,8 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
             const data = await response.json()
             updatePharmacyInPharmacies(data)
             successToast("Sucess", "Pharmacy updated successfully")
-            closeEditingPharmacyModal()
+            // closeEditingPharmacyModal()
+            closeEditPharmacyModal()
         }
         catch (error) {
 
