@@ -97,6 +97,7 @@ export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps
             <PendingPharmaciesTableData padding={0}>
                 <ReviewButton onClick={() => reviewPharmacy("activate")} for={"validate"} />
                 <ReviewButton onClick={() => reviewPharmacy('deactivate')} for={"invalidate"} />
+                <ReviewButton onClick={() => console.log('Open review modal')} for={"review"} />
                 <ReviewButton onClick={() => console.log("link")} for={"link"} />
             </PendingPharmaciesTableData>
             {/* <PendingPharmaciesTableData paddingX={1}>
