@@ -209,9 +209,17 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                         colorScheme='orange'
                         mr={3}
                         // onClick={onClose}
-                        onClick={() => updatePharmacy()}
+                        onClick={() => console.log("Validate")}
                     >
-                        Confirm
+                        Accept
+                    </Button>
+                    <Button
+                        colorScheme='orange'
+                        mr={3}
+                        // onClick={onClose}
+                        onClick={() => console.log("Validate")}
+                    >
+                        Reject
                     </Button>
                     {/* <Button variant='ghost'>Secondary Action</Button> */}
                 </ModalFooter>
