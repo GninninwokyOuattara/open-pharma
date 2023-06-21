@@ -14,7 +14,9 @@ import SearchBar from "../components/searchBar";
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext";
 
 
+import EditPendingPharmacyModal from "../components/editPendingPharmacyModal";
 import { PendingReviewPageTable } from "../components/pendingReviewTable";
+import EditPendingModalContext, { EditPendingModalContextInterface } from "../contexts/EditPendingModalContext";
 
 
 
@@ -51,6 +53,8 @@ const PendingReviewPageHeader = () => {
 
     const { refreshDatas, setSearch, handleSearch } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
+    const { isOpen, onOpen, onClose } = useContext(EditPendingModalContext) as EditPendingModalContextInterface
+
     return (
         <Box
             height={"100px"}
@@ -69,6 +73,9 @@ const PendingReviewPageHeader = () => {
                 <RefreshButton isLoading={false} onClick={() => refreshDatas()} />
             </HStack>
             <SearchBar onChange={handleSearch} />
+            <EditPendingPharmacyModal isOpen={false} onClose={function (): void {
+                throw new Error("Function not implemented.");
+            }} />
 
         </Box>
     )
