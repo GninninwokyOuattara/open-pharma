@@ -2,6 +2,7 @@ import { IconButton } from "@chakra-ui/react"
 import { FaClipboardList } from "react-icons/fa"
 import { FiCheck, FiX } from "react-icons/fi"
 import { TbPlugConnected } from "react-icons/tb"
+import { palette } from "../colorPalette"
 
 interface ReviewButtonProps {
     onClick: () => void
@@ -20,6 +21,7 @@ export const ReviewButton: React.FC<ReviewButtonProps> = (props) => {
             onClick={props.onClick}
             size={"sm"}
             variant={"ghost"}
+            _hover={{ bg: palette.custom.niceOrange }}
 
         />
     )
