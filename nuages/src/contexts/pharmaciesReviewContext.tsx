@@ -1,4 +1,4 @@
-import { useToast } from "@chakra-ui/react";
+import { useDisclosure, useToast } from "@chakra-ui/react";
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
 import { PendingReviewPharmacy, Pharmacy } from "../types";
 import { getTimeElapsed } from "../utils/dry";
@@ -26,6 +26,14 @@ export interface PharmaciesReviewContextInterface {
     acceptSelectedPharmacies: () => Promise<void>;
     rejectSelectedPharmacies: () => Promise<void>;
     toggleCheckPendingReviewPharmacy: (pharmacy: PendingReviewPharmacy) => void;
+    pharmacyInEditMode: PendingReviewPharmacy | null;
+    setPharmacyInEditMode: React.Dispatch<React.SetStateAction<PendingReviewPharmacy | null>>;
+    openEditingPharmacyModal: (pharmacy: PendingReviewPharmacy) => void;
+    closeEditingPharmacyModal: () => void;
+    isOpen: boolean;
+    onOpen: () => void;
+    onClose: () => void;
+    updatePendingReviewPharmacyInPharmacies: (pharmacy: PendingReviewPharmacy) => void;
 
 }
 
@@ -44,11 +52,16 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
     const [pharmaciesPendingReviewStatic, setPharmaciesPendingReviewStatic] = useState<Pharmacy[] | []>([]);
     const [pharmaciesPendingReview, setPharmaciesPendingReview] = useState<PendingReviewPharmacy[] | []>([]);
+
+    const [pharmacyInEditMode, setPharmacyInEditMode] = useState<PendingReviewPharmacy | null>(null);
+
     const [search, setSearch] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [rowsChecked, setRowsChecked] = useState<string[]>([]);
     let checkedPharmaciesList: PendingReviewPharmacy[] = []
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
 
     const toast = useToast();
 
@@ -110,6 +123,18 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
             })
 
         }
+    }
+
+    const updatePendingReviewPharmacyInPharmacies = (update: PendingReviewPharmacy) => {
+        setPharmaciesPendingReview((prev) => {
+            const newPharmacies = prev.map((pharmacy) => {
+                if (pharmacy.id === update.id) {
+                    return update
+                }
+                return pharmacy
+            })
+            return newPharmacies
+        })
     }
 
     const handleSearch = (search: string) => {
@@ -195,6 +220,9 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         })
 
     }
+
+
+
 
 
     // Checkboxes actions
@@ -283,6 +311,19 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
     }
 
 
+    // MODAL STUFF
+
+    const openEditingPharmacyModal = (pharmacy: PendingReviewPharmacy) => {
+        setPharmacyInEditMode(pharmacy)
+        onOpen()
+    }
+
+    const closeEditingPharmacyModal = () => {
+        setPharmacyInEditMode(null)
+        onClose()
+    }
+
+
 
     // USE EFFECTS
 
@@ -353,7 +394,15 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         numberOfCheckedPharmacies,
         acceptSelectedPharmacies,
         rejectSelectedPharmacies,
-        toggleCheckPendingReviewPharmacy
+        toggleCheckPendingReviewPharmacy,
+        setPharmacyInEditMode,
+        pharmacyInEditMode,
+        openEditingPharmacyModal,
+        closeEditingPharmacyModal,
+        isOpen,
+        onOpen,
+        onClose,
+        updatePendingReviewPharmacyInPharmacies
     }), [
         isLoading,
         refreshDatas,
@@ -370,7 +419,15 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         numberOfCheckedPharmacies,
         acceptSelectedPharmacies,
         rejectSelectedPharmacies,
-        toggleCheckPendingReviewPharmacy
+        toggleCheckPendingReviewPharmacy,
+        setPharmacyInEditMode,
+        pharmacyInEditMode,
+        openEditingPharmacyModal,
+        closeEditingPharmacyModal,
+        isOpen,
+        onOpen,
+        onClose,
+        updatePendingReviewPharmacyInPharmacies
 
     ]);
 
