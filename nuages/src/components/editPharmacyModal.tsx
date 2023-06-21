@@ -134,7 +134,12 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
 
 
     return (
-        <Modal blockScrollOnMount={false} isOpen={open} onClose={() => closeEditPharmacyModal()}>
+        <Modal blockScrollOnMount={false} isOpen={open}
+            isCentered
+            onClose={() => closeEditPharmacyModal()}
+
+
+        >
             <ModalOverlay />
             <ModalContent
                 backgroundColor={palette.custom.veryLightOrange}
