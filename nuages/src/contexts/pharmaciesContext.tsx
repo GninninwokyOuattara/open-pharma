@@ -5,7 +5,8 @@ import { PharmaciesDataSummary, PharmacyFullState } from '../types';
 import { getTags } from '../utils/dry';
 
 
-const backendUrl = process.env.REACT_APP_DJANGO_API_URL
+const backendUrl = import.meta.env.VITE_APP_DJANGO_API_URL;
+console.log("backendUrl", backendUrl);
 
 
 export interface PharmaciesContextInterface {

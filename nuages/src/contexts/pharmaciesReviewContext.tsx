@@ -4,7 +4,7 @@ import { PendingReviewPharmacy, Pharmacy } from "../types";
 import { getTimeElapsed } from "../utils/dry";
 import { ToastContext, ToastContextInterface } from "./toast";
 
-const backendUrl = process.env.REACT_APP_DJANGO_API_URL;
+const backendUrl = import.meta.env.VITE_APP_DJANGO_API_URL;
 
 
 
