@@ -100,3 +100,7 @@ export const isValidFloatNumber = (value: string | number) => {
 export const isValidCoordinateValue = (value: string | number) => {
   return -90 <= value && value <= 90;
 };
+
+export const getSemicolonSeparatedStringFromArray = (array: string[]) => {
+  return array.join(";\n");
+};
