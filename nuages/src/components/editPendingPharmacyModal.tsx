@@ -1,9 +1,9 @@
-import { Box, Button, FormControl, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalOverlay, Textarea } from "@chakra-ui/react";
-import { useCallback, useContext } from "react";
+import { Box, Button, FormControl, FormLabel, HStack, Input, InputGroup, InputLeftAddon, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalOverlay, Stack, Textarea } from "@chakra-ui/react";
+import { useCallback, useContext, useState } from "react";
 import { palette } from "../colorPalette";
 import EditPendingModalContext, { EditPendingModalContextInterface } from "../contexts/EditPendingModalContext";
 import { ToastContext, ToastContextInterface } from "../contexts/toast";
-import { isValidCoordinateValue } from "../utils/dry";
+import { getSemicolonSeparatedStringFromArray, isValidCoordinateValue } from "../utils/dry";
 import SinglePharmacyLeafletMap from "./SinglePharmacyLeafletMap";
 
 // import Lorem component
@@ -43,6 +43,23 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
         isOpen: open,
         closePendingEditPharmacyModal } = useContext(EditPendingModalContext) as EditPendingModalContextInterface
 
+    const [contactsInForm, setContactsInForm] = useState<{ [key: string]: string }>(
+        () => {
+            if (!pharmacyForm) {
+                return {}
+            }
+
+            let i = 0;
+            const contacts: { [key: string]: string } = {}
+            for (const phoneNumber in pharmacyForm.phones) {
+                contacts[`${i}`] = pharmacyForm.phones[phoneNumber]
+                i++
+            }
+            return contacts
+        }
+    )
+
+
 
     // console.log("Modal state", open)
     console.log("Pharmacy to be used", pharmacyForm)
@@ -79,6 +96,11 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
 
             // return { ...prevFormState, [key]: value }
         })
+    }
+
+
+    const handleContactChange = (key: string, value: string) => {
+        contactsInForm[key] = value
     }
 
     const isValidEdit = () => {
@@ -136,10 +158,6 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
 
     }, [pharmacyForm, backendUrl, successToast, errorToast])
 
-    const getAddressesString = (addressesArray: string[]) => {
-        return addressesArray.join(";\n")
-    }
-
 
 
 
@@ -173,7 +191,8 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                         >
                             {
                                 pharmacyForm && (
-                                    <>
+                                    <Stack
+                                        spacing={4}>
                                         <FormControl>
                                             <FormLabel>Name</FormLabel>
                                             <Input
@@ -234,15 +253,53 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                                             <Textarea
                                                 backgroundColor={"white"}
 
-                                                placeholder={`${pharmacyInEditModeSave?.description}`} value={getAddressesString(pharmacyForm.addresses)}
+                                                placeholder={`${pharmacyInEditModeSave?.description}`} value={getSemicolonSeparatedStringFromArray(pharmacyForm.addresses)}
                                                 onChange={(e) => handleFormChange(
                                                     { addresses: e.target.value }
                                                 )} />
                                         </FormControl>
 
+                                        <FormControl>
+                                            <FormLabel>Contacts</FormLabel>
+
+                                            <InputGroup
+                                                backgroundColor={"white"}>
+                                                <InputLeftAddon children='+225' />
+                                                <Input type='tel' placeholder='Phone number' value={pharmacyForm.phones} onChange={(e) => handleFormChange({ phones: e.target.value })} />
+                                            </InputGroup>
+
+                                        </FormControl>
+
+                                        <FormControl>
+                                            <FormLabel>Contacts 2</FormLabel>
+
+                                            <Stack>
+
+                                                {
+
+                                                    Object.keys(contactsInForm).map((key) => {
+
+                                                        return (
+                                                            <InputGroup
+                                                                backgroundColor={"white"}>
+                                                                <InputLeftAddon children='+225' />
+                                                                <Input type='tel' placeholder='Phone number' value={contactsInForm[key]} onChange={(e) => setContactsInForm((prev) => {
+                                                                    return { ...prev, [key]: e.target.value }
+                                                                })} />
+                                                            </InputGroup>
+                                                        )
+                                                    }
+                                                    )
+                                                }
+                                            </Stack>
 
 
-                                    </>
+
+                                        </FormControl>
+
+
+
+                                    </Stack>
 
                                 )
                             }
