@@ -16,7 +16,7 @@ const SinglePharmacyLeafletMap: React.FC<props> = ({ latitude, longitude }) => {
     return (
         <MapContainer
             center={[latitude, longitude]}
-            zoom={13}
+            zoom={15}
             scrollWheelZoom={false}
 
             style={{
