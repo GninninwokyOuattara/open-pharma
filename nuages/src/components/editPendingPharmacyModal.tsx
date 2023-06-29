@@ -63,12 +63,17 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
 
         // get key and value from change
 
-        const key: "latitude" | "longitude" | string = Object.keys(change)[0]
+        const key: "latitude" | "longitude" | "addresses" | string = Object.keys(change)[0]
         let value: string = Object.values(change)[0]
         setPharmacyForm((prevFormState) => {
 
             if (prevFormState) {
-                return { ...prevFormState, [key]: value }
+                if (key == "addresses") {
+                    return { ...prevFormState, [key]: value.split(";").map((address) => address.trim()) }
+                } else {
+
+                    return { ...prevFormState, [key]: value }
+                }
             }
             return pharmacyForm
 
@@ -131,7 +136,9 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
 
     }, [pharmacyForm, backendUrl, successToast, errorToast])
 
-
+    const getAddressesString = (addressesArray: string[]) => {
+        return addressesArray.join(";\n")
+    }
 
 
 
@@ -151,11 +158,13 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                 height={"500px"}
                 overflow={"hidden"}
             >
-                <HStack spacing={1} flex={1}>
+                <HStack spacing={1} flex={1} height={"100%"}>
 
                     <Box display={"flex"}
-                        height={"100%"} padding={5}
+                        padding={5}
                         flexDirection={"column"}
+                        flex={1}
+                        height={"100%"}
                     >
                         <ModalBody
                             flex={1}
@@ -220,6 +229,17 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                                             </Box>
                                         </FormControl>
 
+                                        <FormControl>
+                                            <FormLabel>Addresses</FormLabel>
+                                            <Textarea
+                                                backgroundColor={"white"}
+
+                                                placeholder={`${pharmacyInEditModeSave?.description}`} value={getAddressesString(pharmacyForm.addresses)}
+                                                onChange={(e) => handleFormChange(
+                                                    { addresses: e.target.value }
+                                                )} />
+                                        </FormControl>
+
 
 
                                     </>
@@ -229,7 +249,9 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
 
 
                         </ModalBody>
-                        <ModalFooter >
+                        <ModalFooter
+                            alignSelf={"flex-end"}
+                        >
                             <Button
                                 colorScheme='orange'
                                 mr={3}
