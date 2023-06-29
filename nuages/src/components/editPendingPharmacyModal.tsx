@@ -1,9 +1,7 @@
 import { Box, Button, FormControl, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalOverlay, Textarea } from "@chakra-ui/react";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext } from "react";
 import { palette } from "../colorPalette";
 import EditPendingModalContext, { EditPendingModalContextInterface } from "../contexts/EditPendingModalContext";
-import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
-import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext";
 import { ToastContext, ToastContextInterface } from "../contexts/toast";
 import { isValidCoordinateValue } from "../utils/dry";
 import SinglePharmacyLeafletMap from "./SinglePharmacyLeafletMap";
@@ -25,7 +23,7 @@ interface EditPendingPharmacyModalProps {
 const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, onClose }) => {
 
 
-    const { pharmacyInEditMode, closeEditingPharmacyModal, updatePendingReviewPharmacyInPharmacies } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+    // const { pharmacyInEditMode, closeEditingPharmacyModal, updatePendingReviewPharmacyInPharmacies } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
     // get successToast and errorToast from context
 
@@ -36,23 +34,27 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
     // const [pharmacyForm, setPharmacyForm] = useState<PharmacyFullStateEdit>(pharmacyInEditMode as PharmacyFullStateEdit)
 
 
-    const newLocal = useContext(PharmaciesContext) as PharmaciesContextInterface;
+    // const newLocal = useContext(PharmaciesContext) as PharmaciesContextInterface;
     // use edit modal context
 
-    const { pharmacyInEditMode: pharmacyForm, setPharmacyInEditMode: setPharmacyForm, isOpen: open, closePendingEditPharmacyModal } = useContext(EditPendingModalContext) as EditPendingModalContextInterface
+    const { pharmacyInEditMode: pharmacyForm,
+        setPharmacyInEditMode: setPharmacyForm,
+        pharmacyInEditModeSave,
+        isOpen: open,
+        closePendingEditPharmacyModal } = useContext(EditPendingModalContext) as EditPendingModalContextInterface
 
 
-    console.log("Modal state", open)
+    // console.log("Modal state", open)
     console.log("Pharmacy to be used", pharmacyForm)
 
 
 
-    useEffect(() => {
-        if (pharmacyInEditMode) {
-            setPharmacyForm(pharmacyInEditMode)
-        }
+    // useEffect(() => {
+    //     if (pharmacyInEditMode) {
+    //         setPharmacyForm(pharmacyInEditMode)
+    //     }
 
-    }, [pharmacyInEditMode])
+    // }, [pharmacyInEditMode])
 
     const handleFormChange = (change: { [key: string]: string }) => {
         if (!pharmacyForm) {
@@ -115,7 +117,7 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
 
             const response = await fetch(`${backendUrl}/admin-api/pharmacies/${pharmacyForm.id}/`, options)
             const data = await response.json()
-            updatePendingReviewPharmacyInPharmacies(data)
+            // updatePendingReviewPharmacyInPharmacies(data)
             successToast("Sucess", "Pharmacy updated successfully")
             // closeEditingPharmacyModal()
             closePendingEditPharmacyModal()
@@ -158,6 +160,7 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                         <ModalBody
                             flex={1}
                             overflowY={"auto"}
+                            flexDirection={"column"}
                         >
                             {
                                 pharmacyForm && (
@@ -166,7 +169,7 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                                             <FormLabel>Name</FormLabel>
                                             <Input
                                                 backgroundColor={"white"}
-                                                placeholder={`${pharmacyInEditMode?.name}`}
+                                                placeholder={`${pharmacyInEditModeSave?.name}`}
                                                 value={pharmacyForm.name}
                                                 onChange={(e) => handleFormChange(
                                                     { name: e.target.value }
@@ -174,11 +177,21 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                                         </FormControl>
 
                                         <FormControl>
+                                            <FormLabel>Director</FormLabel>
+                                            <Input
+                                                backgroundColor={"white"}
+                                                placeholder={`${pharmacyInEditModeSave?.director}`}
+                                                value={pharmacyForm.director}
+                                                onChange={(e) => handleFormChange(
+                                                    { name: e.target.value }
+                                                )} />
+                                        </FormControl>
+                                        <FormControl>
                                             <FormLabel>Description</FormLabel>
                                             <Textarea
                                                 backgroundColor={"white"}
 
-                                                placeholder={`${pharmacyInEditMode?.description}`} value={pharmacyForm.description}
+                                                placeholder={`${pharmacyInEditModeSave?.description}`} value={pharmacyForm.description}
                                                 onChange={(e) => handleFormChange(
                                                     { description: e.target.value }
                                                 )} />
@@ -190,7 +203,7 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                                                 <Input
                                                     backgroundColor={"white"}
 
-                                                    placeholder={`Latitude`}
+                                                    placeholder={pharmacyInEditModeSave?.latitude.toString()}
                                                     value={pharmacyForm.latitude}
                                                     onChange={(e) => handleFormChange(
                                                         { latitude: e.target.value }
@@ -198,7 +211,8 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                                                 <Input
                                                     backgroundColor={"white"}
 
-                                                    placeholder={`Longitude`} value={pharmacyForm.longitude}
+                                                    placeholder={pharmacyInEditModeSave?.longitude.toString()}
+                                                    value={pharmacyForm.longitude}
                                                     onChange={(e) => handleFormChange(
                                                         { longitude: e.target.value }
                                                     )} />
@@ -207,7 +221,9 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                                         </FormControl>
 
 
+
                                     </>
+
                                 )
                             }
 
