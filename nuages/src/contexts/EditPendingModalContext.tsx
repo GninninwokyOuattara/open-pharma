@@ -15,6 +15,10 @@ export interface EditPendingModalContextInterface {
     closePendingEditPharmacyModal: () => void;
     pharmacyInEditMode: PendingReviewPharmacy | null;
     setPharmacyInEditMode: React.Dispatch<React.SetStateAction<PendingReviewPharmacy | null>>;
+    pharmacyInEditModeSave: PendingReviewPharmacy | null;
+    setPharmacyInEditModeSave: React.Dispatch<React.SetStateAction<PendingReviewPharmacy | null>>;
+
+
 }
 
 
@@ -25,6 +29,7 @@ export const EditPendingModalContextProvider = ({ children }: any) => {
 
     const [pharmacyInEditMode, setPharmacyInEditMode] = useState<PendingReviewPharmacy | null>(null)
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [pharmacyInEditModeSave, setPharmacyInEditModeSave] = useState<PendingReviewPharmacy | null>(null)
 
 
 
@@ -32,11 +37,13 @@ export const EditPendingModalContextProvider = ({ children }: any) => {
     const openPendingEditPharmacyModal = useCallback((pharmacy: PendingReviewPharmacy) => {
         console.log("Selected pharmacy for modal open: ", pharmacy)
         setPharmacyInEditMode(pharmacy)
+        setPharmacyInEditModeSave(pharmacy)
         onOpen()
     }, [setPharmacyInEditMode])
 
     const closePendingEditPharmacyModal = useCallback(() => {
         setPharmacyInEditMode(null)
+        setPharmacyInEditModeSave(null)
         onClose()
     }, [setPharmacyInEditMode])
 
@@ -48,11 +55,15 @@ export const EditPendingModalContextProvider = ({ children }: any) => {
         openPendingEditPharmacyModal,
         closePendingEditPharmacyModal,
         pharmacyInEditMode,
-        setPharmacyInEditMode
+        setPharmacyInEditMode,
+        pharmacyInEditModeSave
     }), [isOpen,
         onOpen,
         onClose,
-        openPendingEditPharmacyModal, closePendingEditPharmacyModal, pharmacyInEditMode, setPharmacyInEditMode])
+        openPendingEditPharmacyModal,
+        closePendingEditPharmacyModal, pharmacyInEditMode,
+        pharmacyInEditModeSave,
+        setPharmacyInEditMode])
 
 
     return (
