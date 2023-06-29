@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalOverlay, Textarea } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect } from "react";
 import { palette } from "../colorPalette";
 import EditPendingModalContext, { EditPendingModalContextInterface } from "../contexts/EditPendingModalContext";
@@ -6,6 +6,7 @@ import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharm
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext";
 import { ToastContext, ToastContextInterface } from "../contexts/toast";
 import { isValidCoordinateValue } from "../utils/dry";
+import SinglePharmacyLeafletMap from "./SinglePharmacyLeafletMap";
 
 // import Lorem component
 
@@ -143,11 +144,113 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
             <ModalOverlay />
             <ModalContent
                 backgroundColor={palette.custom.veryLightOrange}
-
+                // width={"800px"}
+                maxWidth={"80%"}
+                height={"500px"}
+                overflow={"hidden"}
             >
-                <ModalHeader>Edit pharmacy</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody
+                <HStack spacing={1} flex={1}>
+
+                    <Box display={"flex"}
+                        height={"100%"} padding={5}
+                        flexDirection={"column"}
+                    >
+                        <ModalBody
+                            flex={1}
+                            overflowY={"auto"}
+                        >
+                            {
+                                pharmacyForm && (
+                                    <>
+                                        <FormControl>
+                                            <FormLabel>Name</FormLabel>
+                                            <Input
+                                                backgroundColor={"white"}
+                                                placeholder={`${pharmacyInEditMode?.name}`}
+                                                value={pharmacyForm.name}
+                                                onChange={(e) => handleFormChange(
+                                                    { name: e.target.value }
+                                                )} />
+                                        </FormControl>
+
+                                        <FormControl>
+                                            <FormLabel>Description</FormLabel>
+                                            <Textarea
+                                                backgroundColor={"white"}
+
+                                                placeholder={`${pharmacyInEditMode?.description}`} value={pharmacyForm.description}
+                                                onChange={(e) => handleFormChange(
+                                                    { description: e.target.value }
+                                                )} />
+                                        </FormControl>
+
+                                        <FormControl>
+                                            <FormLabel>Coordinates</FormLabel>
+                                            <Box display={"flex"} gap={1}>
+                                                <Input
+                                                    backgroundColor={"white"}
+
+                                                    placeholder={`Latitude`}
+                                                    value={pharmacyForm.latitude}
+                                                    onChange={(e) => handleFormChange(
+                                                        { latitude: e.target.value }
+                                                    )} />
+                                                <Input
+                                                    backgroundColor={"white"}
+
+                                                    placeholder={`Longitude`} value={pharmacyForm.longitude}
+                                                    onChange={(e) => handleFormChange(
+                                                        { longitude: e.target.value }
+                                                    )} />
+
+                                            </Box>
+                                        </FormControl>
+
+
+                                    </>
+                                )
+                            }
+
+
+                        </ModalBody>
+                        <ModalFooter >
+                            <Button
+                                colorScheme='orange'
+                                mr={3}
+                                // onClick={onClose}
+                                onClick={() => console.log("Validate")}
+                            >
+                                Accept
+                            </Button>
+                            <Button
+                                colorScheme='orange'
+                                mr={3}
+                                // onClick={onClose}
+                                onClick={() => console.log("Validate")}
+                            >
+                                Reject
+                            </Button>
+                        </ModalFooter>
+                    </Box>
+                    <Box
+                        width={"65%"}
+                        height={"100%"}
+                        backgroundColor={"white"}
+                    >
+
+                        <SinglePharmacyLeafletMap
+                            latitude={pharmacyForm ? pharmacyForm.latitude : 0}
+                            longitude={pharmacyForm ? pharmacyForm.longitude : 0}
+                        />
+
+                    </Box>
+
+                </HStack>
+                {/* <ModalHeader>Edit pharmacy</ModalHeader> */}
+                <ModalCloseButton
+
+                />
+                {/* <ModalBody
                 >
                     {
                         pharmacyForm && (
@@ -202,27 +305,10 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                     }
 
 
-                </ModalBody>
+                </ModalBody> */}
 
-                <ModalFooter >
-                    <Button
-                        colorScheme='orange'
-                        mr={3}
-                        // onClick={onClose}
-                        onClick={() => console.log("Validate")}
-                    >
-                        Accept
-                    </Button>
-                    <Button
-                        colorScheme='orange'
-                        mr={3}
-                        // onClick={onClose}
-                        onClick={() => console.log("Validate")}
-                    >
-                        Reject
-                    </Button>
-                    {/* <Button variant='ghost'>Secondary Action</Button> */}
-                </ModalFooter>
+
+
             </ModalContent>
         </Modal>
     )
