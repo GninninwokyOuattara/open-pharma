@@ -205,7 +205,7 @@ const EditButton: React.FC<{ pharmacy: PharmacyFullState, openEditPharmacyModal:
     // An icon button with the edit icon
 
     // from pharmacyContext import openEditingPharmacyModal
-    console.log("RERENDERED EDIT BUTTON")
+    // console.log("RERENDERED EDIT BUTTON")
 
 
     const { openEditingPharmacyModal } = useContext(PharmaciesContext) as PharmaciesContextInterface
