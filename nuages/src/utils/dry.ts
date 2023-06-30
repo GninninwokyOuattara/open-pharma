@@ -104,3 +104,14 @@ export const isValidCoordinateValue = (value: string | number) => {
 export const getSemicolonSeparatedStringFromArray = (array: string[]) => {
   return array.join(";\n");
 };
+
+export const getArrayFromSemicolonSeparatedString = (string: string) => {
+  if (!string) {
+    return [];
+  }
+  return string.split(";\n");
+};
+
+export const getArrayFromObject = (object: any) => {
+  return Object.keys(object).map((key) => object[key]);
+};
