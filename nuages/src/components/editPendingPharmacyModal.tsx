@@ -1,5 +1,5 @@
 import { Box, Button, FormControl, FormLabel, HStack, Input, InputGroup, InputLeftAddon, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalOverlay, Stack, Textarea } from "@chakra-ui/react";
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { palette } from "../colorPalette";
 import EditPendingModalContext, { EditPendingModalContextInterface } from "../contexts/EditPendingModalContext";
 import { ToastContext, ToastContextInterface } from "../contexts/toast";
@@ -44,20 +44,25 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
         closePendingEditPharmacyModal } = useContext(EditPendingModalContext) as EditPendingModalContextInterface
 
     const [contactsInForm, setContactsInForm] = useState<{ [key: string]: string }>(
-        () => {
-            if (!pharmacyForm) {
-                return {}
-            }
-
-            let i = 0;
-            const contacts: { [key: string]: string } = {}
-            for (const phoneNumber in pharmacyForm.phones) {
-                contacts[`${i}`] = pharmacyForm.phones[phoneNumber]
-                i++
-            }
-            return contacts
-        }
+        {}
     )
+
+
+    useEffect(() => {
+        if (!pharmacyForm || pharmacyForm == null) {
+            setContactsInForm({})
+            return
+        }
+
+        let i = 0;
+        const contacts: { [key: string]: string; } = {};
+        for (const phoneNumber in pharmacyForm.phones) {
+            contacts[`${i}`] = pharmacyForm.phones[phoneNumber];
+            i++;
+        }
+        setContactsInForm(contacts)
+
+    }, [pharmacyForm])
 
 
 
