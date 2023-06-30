@@ -110,9 +110,20 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
     def deactivate(self, request, *args, **kwargs):
 
         # get the data posted
+        data = request.data
 
         try:
             instance = self.get_object()
+            instance.description = data["description"]
+            instance.addresses = data["addresses"]
+            instance.phones = data["phones"]
+            instance.email = data["email"]
+            instance.website = data["website"]
+            instance.google_maps_link = data["google_maps_link"]
+            instance.latitude = data["latitude"]
+            instance.longitude = data["longitude"]
+            instance.name = data["name"]
+            instance.director = data["director"]
             instance.active = False
             instance.pending_review = False
             instance.save()
