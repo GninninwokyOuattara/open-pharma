@@ -4,6 +4,10 @@ from django.db.models import Count
 from django.db.models.functions import TruncWeek
 from django.http import Http404
 from django.shortcuts import render
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
 from openPharma.models import Activity, OpenPharmacy, Pharmacy
 from openPharma.serializers import (ActivityListSerializer,
                                     OpenPharmaciesAdminSerializer,
@@ -12,9 +16,6 @@ from openPharma.serializers import (ActivityListSerializer,
                                     PharmaciesOpenStateSerializer,
                                     PharmaciesPendingReviewAdminSerializer,
                                     PharmaciesSerializer)
-from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
 
 
 class PharmaciesViewset(viewsets.ReadOnlyModelViewSet):
@@ -107,6 +108,9 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def deactivate(self, request, *args, **kwargs):
+
+        # get the data posted
+
         try:
             instance = self.get_object()
             instance.active = False
@@ -129,10 +133,24 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def activate(self, request, *args, **kwargs):
 
+        data = request.data
+
         try:
             instance = self.get_object()
+            instance.description = data["description"]
+            instance.addresses = data["addresses"]
+            instance.phones = data["phones"]
+            instance.email = data["email"]
+            instance.website = data["website"]
+            instance.google_maps_link = data["google_maps_link"]
+            instance.latitude = data["latitude"]
+            instance.longitude = data["longitude"]
+            instance.name = data["name"]
+            instance.director = data["director"]
+
             instance.active = True
             instance.pending_review = False
+
             instance.save()
             serializer = self.get_serializer(instance)
 
@@ -149,6 +167,7 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
         except Http404 as error:
             return Response(status=status.HTTP_404_NOT_FOUND, data={"message": f"pharmacy not found"})
         except Exception as error:
+            print("Error", error)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"message": f"An unknow error occured. Please try again later"})
 
 
