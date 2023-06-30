@@ -104,10 +104,6 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
     }
 
 
-    const handleContactChange = (key: string, value: string) => {
-        contactsInForm[key] = value
-    }
-
     const isValidEdit = () => {
         if (!pharmacyForm) {
             return false
@@ -264,19 +260,10 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                                                 )} />
                                         </FormControl>
 
+
+
                                         <FormControl>
                                             <FormLabel>Contacts</FormLabel>
-
-                                            <InputGroup
-                                                backgroundColor={"white"}>
-                                                <InputLeftAddon children='+225' />
-                                                <Input type='tel' placeholder='Phone number' value={pharmacyForm.phones} onChange={(e) => handleFormChange({ phones: e.target.value })} />
-                                            </InputGroup>
-
-                                        </FormControl>
-
-                                        <FormControl>
-                                            <FormLabel>Contacts 2</FormLabel>
 
                                             <Stack>
 
