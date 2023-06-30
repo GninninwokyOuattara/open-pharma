@@ -4,6 +4,7 @@ import { palette } from "../colorPalette";
 import EditPendingModalContext, { EditPendingModalContextInterface } from "../contexts/EditPendingModalContext";
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext";
 import { ToastContext, ToastContextInterface } from "../contexts/toast";
+import { PendingReviewPharmacy } from "../types";
 import { getArrayFromObject, getSemicolonSeparatedStringFromArray, isValidCoordinateValue } from "../utils/dry";
 import SinglePharmacyLeafletMap from "./SinglePharmacyLeafletMap";
 
@@ -30,7 +31,7 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
 
     const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
 
-    const backendUrl = process.env.REACT_APP_DJANGO_API_URL;
+    const backendUrl = import.meta.env.VITE_APP_DJANGO_API_URL;
 
     // const [pharmacyForm, setPharmacyForm] = useState<PharmacyFullStateEdit>(pharmacyInEditMode as PharmacyFullStateEdit)
 
@@ -44,7 +45,7 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
         isOpen: open,
         closePendingEditPharmacyModal } = useContext(EditPendingModalContext) as EditPendingModalContextInterface
 
-    const { acceptPharmacy, rejectPharmacy } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+    const { acceptPharmacy, rejectPharmacy, review } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
     const [contactsInForm, setContactsInForm] = useState<{ [key: string]: string }>(
         {}
@@ -161,33 +162,32 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
 
 
 
-    const buildPharmacyObjectFromForm = () => {
+    const buildPharmacyObjectFromForm = (pharmacyForm: PendingReviewPharmacy) => {
         // In this function i build the object
         const contactsArray = getArrayFromObject(contactsInForm)
         const addresses = pharmacyForm
             ? pharmacyForm.addresses.map((address) => address.replace("\n", ""))
             : []
-        setPharmacyForm((previous) => {
-            if (previous) {
-                const afterEdition = {
-                    ...previous,
-                    contacts: contactsArray,
-                    addresses: addresses
-                }
+        const buildObject = {
+            ...pharmacyForm,
+            contacts: contactsArray,
+            addresses: addresses,
 
-                console.log("After edition", afterEdition)
-                return {
-                    ...afterEdition
-                }
-            }
-            return null
-        })
+        }
+        return buildObject
+
     }
-    const review = () => {
-        // In this function i build the object
-        buildPharmacyObjectFromForm()
-        console.log("BOOOM REVIEWED")
-    }
+
+    const reviewPharmacy = useCallback(async (pharmacy: PendingReviewPharmacy, action: "activate" | "deactivate") => {
+        console.log("reviewPharmacy", pharmacy)
+        const results = await review(
+            buildPharmacyObjectFromForm(pharmacy),
+            action)
+        if (results) {
+            closePendingEditPharmacyModal()
+        }
+    }, [review, closePendingEditPharmacyModal])
+
 
 
 
@@ -334,7 +334,10 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                                 colorScheme='orange'
                                 mr={3}
                                 // onClick={onClose}
-                                onClick={() => review()}
+                                onClick={async () => await reviewPharmacy(
+                                    pharmacyForm as PendingReviewPharmacy,
+                                    "activate"
+                                )}
                             >
                                 Accept
                             </Button>
