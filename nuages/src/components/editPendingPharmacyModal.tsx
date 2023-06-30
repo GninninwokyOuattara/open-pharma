@@ -2,8 +2,9 @@ import { Box, Button, FormControl, FormLabel, HStack, Input, InputGroup, InputLe
 import { useCallback, useContext, useEffect, useState } from "react";
 import { palette } from "../colorPalette";
 import EditPendingModalContext, { EditPendingModalContextInterface } from "../contexts/EditPendingModalContext";
+import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext";
 import { ToastContext, ToastContextInterface } from "../contexts/toast";
-import { getSemicolonSeparatedStringFromArray, isValidCoordinateValue } from "../utils/dry";
+import { getArrayFromObject, getSemicolonSeparatedStringFromArray, isValidCoordinateValue } from "../utils/dry";
 import SinglePharmacyLeafletMap from "./SinglePharmacyLeafletMap";
 
 // import Lorem component
@@ -43,6 +44,8 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
         isOpen: open,
         closePendingEditPharmacyModal } = useContext(EditPendingModalContext) as EditPendingModalContextInterface
 
+    const { acceptPharmacy, rejectPharmacy } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+
     const [contactsInForm, setContactsInForm] = useState<{ [key: string]: string }>(
         {}
     )
@@ -66,17 +69,14 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
 
 
 
+
+
     // console.log("Modal state", open)
     console.log("Pharmacy to be used", pharmacyForm)
 
 
 
-    // useEffect(() => {
-    //     if (pharmacyInEditMode) {
-    //         setPharmacyForm(pharmacyInEditMode)
-    //     }
 
-    // }, [pharmacyInEditMode])
 
     const handleFormChange = (change: { [key: string]: string }) => {
         if (!pharmacyForm) {
@@ -91,7 +91,7 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
 
             if (prevFormState) {
                 if (key == "addresses") {
-                    return { ...prevFormState, [key]: value.split(";").map((address) => address.trim()) }
+                    return { ...prevFormState, [key]: value.split(";") }
                 } else {
 
                     return { ...prevFormState, [key]: value }
@@ -159,6 +159,35 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
 
     }, [pharmacyForm, backendUrl, successToast, errorToast])
 
+
+
+    const buildPharmacyObjectFromForm = () => {
+        // In this function i build the object
+        const contactsArray = getArrayFromObject(contactsInForm)
+        const addresses = pharmacyForm
+            ? pharmacyForm.addresses.map((address) => address.replace("\n", ""))
+            : []
+        setPharmacyForm((previous) => {
+            if (previous) {
+                const afterEdition = {
+                    ...previous,
+                    contacts: contactsArray,
+                    addresses: addresses
+                }
+
+                console.log("After edition", afterEdition)
+                return {
+                    ...afterEdition
+                }
+            }
+            return null
+        })
+    }
+    const review = () => {
+        // In this function i build the object
+        buildPharmacyObjectFromForm()
+        console.log("BOOOM REVIEWED")
+    }
 
 
 
@@ -305,7 +334,7 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                                 colorScheme='orange'
                                 mr={3}
                                 // onClick={onClose}
-                                onClick={() => console.log("Validate")}
+                                onClick={() => review()}
                             >
                                 Accept
                             </Button>
