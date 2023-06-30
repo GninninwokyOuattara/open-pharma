@@ -34,6 +34,7 @@ export interface PharmaciesReviewContextInterface {
     onOpen: () => void;
     onClose: () => void;
     updatePendingReviewPharmacyInPharmacies: (pharmacy: PendingReviewPharmacy) => void;
+    review: (pharmacyToReview: PendingReviewPharmacy, review: 'activate' | 'deactivate') => Promise<boolean>
 
 }
 
@@ -168,6 +169,40 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
     // Reviews action
 
+    const review = useCallback(async (pharmacyToReview: PendingReviewPharmacy, review: 'activate' | 'deactivate') => {
+        try {
+            const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacyToReview.id}/${review}/`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    ...pharmacyToReview
+                })
+            });
+            const data = await response.json();
+
+            if (response.status == 200) {
+                successToast("", `${data.message}`)
+                setPharmaciesPendingReview((prev) => {
+                    const newPharmacies = prev.filter((pharmacy) => {
+                        return pharmacy.id !== pharmacyToReview.id
+                    })
+                    return newPharmacies
+                })
+                return true
+            } else {
+                errorToast("", `${data.message}`)
+                return false
+            }
+
+
+        } catch (error: any) {
+            errorToast("", `An error occurred while validating ${pharmacyToReview.name}`)
+            return false
+        }
+    }, [])
+
     const acceptPharmacy = useCallback(async (pharmacy: PendingReviewPharmacy) => {
         try {
             const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/activate/`, {
@@ -177,7 +212,6 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
             // await removePharmacyInPharmacies(data)
             successToast("", `${pharmacy.name} is now active`)
 
-            // return true
             // refreshDatas()
         } catch (error: any) {
             // setError(error)
@@ -402,7 +436,8 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         isOpen,
         onOpen,
         onClose,
-        updatePendingReviewPharmacyInPharmacies
+        updatePendingReviewPharmacyInPharmacies,
+        review
     }), [
         isLoading,
         refreshDatas,
@@ -427,7 +462,8 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         isOpen,
         onOpen,
         onClose,
-        updatePendingReviewPharmacyInPharmacies
+        updatePendingReviewPharmacyInPharmacies,
+        review
 
     ]);
 
