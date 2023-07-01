@@ -345,7 +345,10 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                                 colorScheme='orange'
                                 mr={3}
                                 // onClick={onClose}
-                                onClick={() => console.log("Validate")}
+                                onClick={async () => await reviewPharmacy(
+                                    pharmacyForm as PendingReviewPharmacy,
+                                    "deactivate"
+                                )}
                             >
                                 Reject
                             </Button>
