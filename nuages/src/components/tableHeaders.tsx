@@ -129,7 +129,7 @@ const CheckModeHeader: React.FC<{ numberOfPharmaciesSelected: number }> = ({ num
         }
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_DJANGO_API_URL}/admin-api/pharmacies-pending-review/batch-review/`, {
+            const response = await fetch(`${import.meta.env.VITE_APP_DJANGO_API_URL}/admin-api/pharmacies-pending-review/batch-review/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

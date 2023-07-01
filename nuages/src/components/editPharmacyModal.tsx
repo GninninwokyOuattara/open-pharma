@@ -30,7 +30,7 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
 
     const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
 
-    const backendUrl = process.env.REACT_APP_DJANGO_API_URL;
+    const backendUrl = import.meta.env.VITE_APP_DJANGO_API_URL;
 
     // const [pharmacyForm, setPharmacyForm] = useState<PharmacyFullStateEdit>(pharmacyInEditMode as PharmacyFullStateEdit)
 

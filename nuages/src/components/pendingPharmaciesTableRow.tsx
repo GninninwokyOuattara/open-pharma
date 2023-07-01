@@ -6,7 +6,7 @@ import { ReviewButton } from "./actionButtons"
 import { SingleRowSkeletonLoader } from "./rowsLoader"
 
 
-const backendUrl = process.env.REACT_APP_DJANGO_API_URL
+const backendUrl = import.meta.env.VITE_APP_DJANGO_API_URL
 
 interface PendingPharmaciesTableDataProps {
 

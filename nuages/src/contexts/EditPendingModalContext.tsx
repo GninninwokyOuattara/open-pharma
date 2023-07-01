@@ -3,7 +3,7 @@ import { createContext, useCallback, useMemo, useState } from 'react';
 import { PendingReviewPharmacy } from '../types';
 
 
-const backendUrl = process.env.REACT_APP_DJANGO_API_URL
+const backendUrl = import.meta.env.VITE_APP_DJANGO_API_URL
 
 
 export interface EditPendingModalContextInterface {
