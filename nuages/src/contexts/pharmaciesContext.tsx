@@ -104,7 +104,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
 
     const getDatas = async () => {
         try {
-            const response = await fetch(`${backendUrl}/admin-api/active-pharmacies-states/`)
+            const response = await fetch(`${backendUrl}/admin-api/pharmacies/`)
             const data: PharmacyFullState[] = await response.json()
 
             setPharmacies(data)
