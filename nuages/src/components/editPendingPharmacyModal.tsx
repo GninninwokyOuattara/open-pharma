@@ -73,7 +73,7 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
 
 
     // console.log("Modal state", open)
-    console.log("Pharmacy to be used", pharmacyForm)
+    // console.log("Pharmacy to be used", pharmacyForm)
 
 
 
@@ -88,12 +88,15 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
 
         const key: "latitude" | "longitude" | "addresses" | string = Object.keys(change)[0]
         let value: string = Object.values(change)[0]
+
+
         setPharmacyForm((prevFormState) => {
 
             if (prevFormState) {
                 if (key == "addresses") {
                     return { ...prevFormState, [key]: value.split(";") }
                 } else {
+
 
                     return { ...prevFormState, [key]: value }
                 }
@@ -179,7 +182,6 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
     }
 
     const reviewPharmacy = useCallback(async (pharmacy: PendingReviewPharmacy, action: "activate" | "deactivate") => {
-        console.log("reviewPharmacy", pharmacy)
         const results = await review(
             buildPharmacyObjectFromForm(pharmacy),
             action)
@@ -241,7 +243,7 @@ const EditPharmacyModal: React.FC<EditPendingPharmacyModalProps> = ({ isOpen, on
                                                 placeholder={`${pharmacyInEditModeSave?.director}`}
                                                 value={pharmacyForm.director}
                                                 onChange={(e) => handleFormChange(
-                                                    { name: e.target.value }
+                                                    { director: e.target.value }
                                                 )} />
                                         </FormControl>
                                         <FormControl>
