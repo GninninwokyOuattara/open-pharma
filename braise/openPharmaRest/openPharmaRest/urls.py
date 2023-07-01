@@ -47,8 +47,8 @@ user_router.register(r"pharmacies-current-state",
 admin_router = routers.SimpleRouter()
 admin_router.register(
     r"pharmacies", PharmaciesAdminViewset, basename="pharmacies")
-admin_router.register("pharmacies",
-                      OpenPharmaPharmaciesStatesAdminViewSet, basename="pharmacies")
+admin_router.register("active-pharmacies-states",
+                      OpenPharmaPharmaciesStatesAdminViewSet, basename="active-pharmacies-states")
 admin_router.register(r'pharmacies-pending-review',
                       PharmaciesPendingReviewAdminViewset, basename='admin-pharmacies-pending-review')
 
