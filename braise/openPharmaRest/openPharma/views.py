@@ -230,7 +230,7 @@ class PharmaciesCurrentStateViewset(viewsets.ReadOnlyModelViewSet):
 
 class OpenPharmaPharmaciesStatesAdminViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PharmaciesOpenStateSerializer
-    queryset = Pharmacy.objects.filter(pending_review=False, active=True)
+    queryset = Pharmacy.objects.filter(pending_review=False)
 
 
 # DATAS COUNTERS VIEWS
