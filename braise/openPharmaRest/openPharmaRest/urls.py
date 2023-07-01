@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework import routers
+from rest_framework_swagger.views import get_swagger_view
+
 # import SearchApiView
 from googleMapsScrapper.views import SearchApiView
 from openPharma.views import (OpenPharmaActivityViewset,
@@ -27,14 +30,11 @@ from openPharma.views import (OpenPharmaActivityViewset,
                               PharmaciesPendingReviewAdminViewset,
                               PharmaciesStateAndCountViewset,
                               PharmaciesStatisticsViewset, PharmaciesViewset)
+from openPharmaRest.views import TestView
 from openTracker.serializers import TrackerHistoryListSerializer
 from openTracker.views import (CurrentlyOpenPharmaciesView,
                                OpenPharmaActualizerView,
                                OpenPharmaTrackerHistoryViewset)
-from rest_framework import routers
-from rest_framework_swagger.views import get_swagger_view
-
-from openPharmaRest.views import TestView
 
 user_router = routers.SimpleRouter()
 user_router.register(r'pharmacies', PharmaciesViewset, basename='pharmacies')
@@ -47,8 +47,8 @@ user_router.register(r"pharmacies-current-state",
 admin_router = routers.SimpleRouter()
 admin_router.register(
     r"pharmacies", PharmaciesAdminViewset, basename="pharmacies")
-admin_router.register("active-pharmacies-states",
-                      OpenPharmaPharmaciesStatesAdminViewSet, basename="active-pharmacies-states")
+admin_router.register("pharmacies",
+                      OpenPharmaPharmaciesStatesAdminViewSet, basename="pharmacies")
 admin_router.register(r'pharmacies-pending-review',
                       PharmaciesPendingReviewAdminViewset, basename='admin-pharmacies-pending-review')
 
