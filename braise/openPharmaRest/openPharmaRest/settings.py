@@ -15,6 +15,7 @@ from os import environ
 from pathlib import Path
 
 from dotenv import load_dotenv
+
 # import DIR_PATH
 from global_constants import DIR_PATH
 
@@ -58,6 +59,10 @@ REST_FRAMEWORK = {
     "DATE_FORMAT": '%d/%m/%Y',
     "DATE_INPUT_FORMATS": ["%d/%m/%Y", ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
 
 }
 
