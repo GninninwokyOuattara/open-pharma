@@ -1,10 +1,10 @@
-import { useToast } from "@chakra-ui/react";
+import { useDisclosure, useToast } from "@chakra-ui/react";
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
 import { PendingReviewPharmacy, Pharmacy } from "../types";
 import { getTimeElapsed } from "../utils/dry";
 import { ToastContext, ToastContextInterface } from "./toast";
 
-const backendUrl = process.env.REACT_APP_DJANGO_API_URL;
+const backendUrl = import.meta.env.VITE_APP_DJANGO_API_URL;
 
 
 
@@ -26,6 +26,15 @@ export interface PharmaciesReviewContextInterface {
     acceptSelectedPharmacies: () => Promise<void>;
     rejectSelectedPharmacies: () => Promise<void>;
     toggleCheckPendingReviewPharmacy: (pharmacy: PendingReviewPharmacy) => void;
+    pharmacyInEditMode: PendingReviewPharmacy | null;
+    setPharmacyInEditMode: React.Dispatch<React.SetStateAction<PendingReviewPharmacy | null>>;
+    openEditingPharmacyModal: (pharmacy: PendingReviewPharmacy) => void;
+    closeEditingPharmacyModal: () => void;
+    isOpen: boolean;
+    onOpen: () => void;
+    onClose: () => void;
+    updatePendingReviewPharmacyInPharmacies: (pharmacy: PendingReviewPharmacy) => void;
+    review: (pharmacyToReview: PendingReviewPharmacy, review: 'activate' | 'deactivate') => Promise<boolean>
 
 }
 
@@ -44,11 +53,16 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
     const [pharmaciesPendingReviewStatic, setPharmaciesPendingReviewStatic] = useState<Pharmacy[] | []>([]);
     const [pharmaciesPendingReview, setPharmaciesPendingReview] = useState<PendingReviewPharmacy[] | []>([]);
+
+    const [pharmacyInEditMode, setPharmacyInEditMode] = useState<PendingReviewPharmacy | null>(null);
+
     const [search, setSearch] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [rowsChecked, setRowsChecked] = useState<string[]>([]);
     let checkedPharmaciesList: PendingReviewPharmacy[] = []
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
 
     const toast = useToast();
 
@@ -112,6 +126,18 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         }
     }
 
+    const updatePendingReviewPharmacyInPharmacies = (update: PendingReviewPharmacy) => {
+        setPharmaciesPendingReview((prev) => {
+            const newPharmacies = prev.map((pharmacy) => {
+                if (pharmacy.id === update.id) {
+                    return update
+                }
+                return pharmacy
+            })
+            return newPharmacies
+        })
+    }
+
     const handleSearch = (search: string) => {
         if (search) {
             setPharmaciesPendingReview(cachedPharmacies.current.filter((pharmacy: PendingReviewPharmacy) => {
@@ -143,6 +169,40 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
     // Reviews action
 
+    const review = useCallback(async (pharmacyToReview: PendingReviewPharmacy, review: 'activate' | 'deactivate') => {
+        try {
+            const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacyToReview.id}/${review}/`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    ...pharmacyToReview
+                })
+            });
+            const data = await response.json();
+
+            if (response.status == 200) {
+                successToast("", `${data.message}`)
+                setPharmaciesPendingReview((prev) => {
+                    const newPharmacies = prev.filter((pharmacy) => {
+                        return pharmacy.id !== pharmacyToReview.id
+                    })
+                    return newPharmacies
+                })
+                return true
+            } else {
+                errorToast("", `${data.message}`)
+                return false
+            }
+
+
+        } catch (error: any) {
+            errorToast("", `An error occurred while validating ${pharmacyToReview.name}`)
+            return false
+        }
+    }, [])
+
     const acceptPharmacy = useCallback(async (pharmacy: PendingReviewPharmacy) => {
         try {
             const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacy.id}/activate/`, {
@@ -152,7 +212,6 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
             // await removePharmacyInPharmacies(data)
             successToast("", `${pharmacy.name} is now active`)
 
-            // return true
             // refreshDatas()
         } catch (error: any) {
             // setError(error)
@@ -195,6 +254,9 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         })
 
     }
+
+
+
 
 
     // Checkboxes actions
@@ -283,6 +345,19 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
     }
 
 
+    // MODAL STUFF
+
+    const openEditingPharmacyModal = (pharmacy: PendingReviewPharmacy) => {
+        setPharmacyInEditMode(pharmacy)
+        onOpen()
+    }
+
+    const closeEditingPharmacyModal = () => {
+        setPharmacyInEditMode(null)
+        onClose()
+    }
+
+
 
     // USE EFFECTS
 
@@ -353,7 +428,16 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         numberOfCheckedPharmacies,
         acceptSelectedPharmacies,
         rejectSelectedPharmacies,
-        toggleCheckPendingReviewPharmacy
+        toggleCheckPendingReviewPharmacy,
+        setPharmacyInEditMode,
+        pharmacyInEditMode,
+        openEditingPharmacyModal,
+        closeEditingPharmacyModal,
+        isOpen,
+        onOpen,
+        onClose,
+        updatePendingReviewPharmacyInPharmacies,
+        review
     }), [
         isLoading,
         refreshDatas,
@@ -370,7 +454,16 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
         numberOfCheckedPharmacies,
         acceptSelectedPharmacies,
         rejectSelectedPharmacies,
-        toggleCheckPendingReviewPharmacy
+        toggleCheckPendingReviewPharmacy,
+        setPharmacyInEditMode,
+        pharmacyInEditMode,
+        openEditingPharmacyModal,
+        closeEditingPharmacyModal,
+        isOpen,
+        onOpen,
+        onClose,
+        updatePendingReviewPharmacyInPharmacies,
+        review
 
     ]);
 

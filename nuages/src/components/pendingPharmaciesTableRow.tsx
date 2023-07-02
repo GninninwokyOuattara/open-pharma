@@ -6,17 +6,18 @@ import { ReviewButton } from "./actionButtons"
 import { SingleRowSkeletonLoader } from "./rowsLoader"
 
 
-const backendUrl = process.env.REACT_APP_DJANGO_API_URL
+const backendUrl = import.meta.env.VITE_APP_DJANGO_API_URL
 
 interface PendingPharmaciesTableDataProps {
 
     pharmacyPendingReview: PendingReviewPharmacy,
     isChecked?: boolean,
     isLoadingFromBatch?: boolean,
-    setPharmaciesPendingReview: React.Dispatch<React.SetStateAction<PendingReviewPharmacy[] | []>>
+    setPharmaciesPendingReview: React.Dispatch<React.SetStateAction<PendingReviewPharmacy[] | []>>,
+    openPendingEditPharmacyModal: (pharmacy: PendingReviewPharmacy) => void
 }
 
-export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps> = ({ pharmacyPendingReview, isChecked, isLoadingFromBatch, setPharmaciesPendingReview }) => {
+export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps> = ({ pharmacyPendingReview, isChecked, isLoadingFromBatch, setPharmaciesPendingReview, openPendingEditPharmacyModal }) => {
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -96,15 +97,18 @@ export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps
             {/* Button section */}
             <PendingPharmaciesTableData padding={0}>
                 <ReviewButton onClick={() => reviewPharmacy("activate")} for={"validate"} />
+                <ReviewButton onClick={() => reviewPharmacy('deactivate')} for={"invalidate"} />
+                <ReviewButton onClick={() => openPendingEditPharmacyModal(pharmacyPendingReview)} for={"review"} />
+                <ReviewButton onClick={() => console.log("link")} for={"link"} />
             </PendingPharmaciesTableData>
-            <PendingPharmaciesTableData paddingX={1}>
+            {/* <PendingPharmaciesTableData paddingX={1}>
                 <ReviewButton onClick={() => reviewPharmacy('deactivate')} for={"invalidate"} />
             </PendingPharmaciesTableData>
             <PendingPharmaciesTableData
                 borderRightRadius={"lg"}
                 padding={0} paddingRight={2}>
                 <ReviewButton onClick={() => console.log("link")} for={"link"} />
-            </PendingPharmaciesTableData>
+            </PendingPharmaciesTableData> */}
 
         </Tr>
     )

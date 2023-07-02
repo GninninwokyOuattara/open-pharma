@@ -22,7 +22,9 @@ from rest_framework_swagger.views import get_swagger_view
 from googleMapsScrapper.views import SearchApiView
 from openPharma.views import (OpenPharmaActivityViewset,
                               OpenPharmaciesAdminViewset,
-                              OpenPharmaciesViewset, PharmaciesAdminViewset,
+                              OpenPharmaciesViewset,
+                              OpenPharmaPharmaciesStatesAdminViewSet,
+                              PharmaciesAdminViewset,
                               PharmaciesAllStateCountView,
                               PharmaciesCurrentStateViewset,
                               PharmaciesPendingReviewAdminViewset,
@@ -44,7 +46,9 @@ user_router.register(r"pharmacies-current-state",
 
 admin_router = routers.SimpleRouter()
 admin_router.register(
-    r"pharmacies", PharmaciesAdminViewset, basename="admin-pharmacies")
+    r"pharmacies", PharmaciesAdminViewset, basename="pharmacies")
+admin_router.register("active-pharmacies-states",
+                      OpenPharmaPharmaciesStatesAdminViewSet, basename="active-pharmacies-states")
 admin_router.register(r'pharmacies-pending-review',
                       PharmaciesPendingReviewAdminViewset, basename='admin-pharmacies-pending-review')
 

@@ -10,6 +10,7 @@ export const DashboardItemHeader = ({ title }: { title: string }) => {
             borderRadius={"md"}
             width={"100%"}
             textAlign={"center"}
+            color={palette.custom.niceOrange}
         >{title}</Text>
     )
 }

@@ -24,7 +24,7 @@ export const DashboardActions = () => {
         <VStack
             height={"100%"}
             width={"100%"}
-            backgroundColor={"white"}
+            // backgroundColor={"white"}
             shadow={"md"}
             borderRadius={"md"}
             padding={1}

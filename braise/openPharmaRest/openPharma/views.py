@@ -108,8 +108,23 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def deactivate(self, request, *args, **kwargs):
+
+        # get the data posted
+        data = request.data
+
         try:
             instance = self.get_object()
+            if data != {}:
+                instance.description = data["description"]
+                instance.addresses = data["addresses"]
+                instance.phones = data["phones"]
+                instance.email = data["email"]
+                instance.website = data["website"]
+                instance.google_maps_link = data["google_maps_link"]
+                instance.latitude = data["latitude"]
+                instance.longitude = data["longitude"]
+                instance.name = data["name"]
+                instance.director = data["director"]
             instance.active = False
             instance.pending_review = False
             instance.save()
@@ -130,10 +145,26 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def activate(self, request, *args, **kwargs):
 
+        data = request.data
+        print("Data", data)
+
         try:
             instance = self.get_object()
+            if data != {}:
+                instance.description = data["description"]
+                instance.addresses = data["addresses"]
+                instance.phones = data["phones"]
+                instance.email = data["email"]
+                instance.website = data["website"]
+                instance.google_maps_link = data["google_maps_link"]
+                instance.latitude = data["latitude"]
+                instance.longitude = data["longitude"]
+                instance.name = data["name"]
+                instance.director = data["director"]
+
             instance.active = True
             instance.pending_review = False
+
             instance.save()
             serializer = self.get_serializer(instance)
 
@@ -150,6 +181,7 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
         except Http404 as error:
             return Response(status=status.HTTP_404_NOT_FOUND, data={"message": f"pharmacy not found"})
         except Exception as error:
+            print("Error", error)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"message": f"An unknow error occured. Please try again later"})
 
 
@@ -197,6 +229,11 @@ class PharmaciesCurrentStateViewset(viewsets.ReadOnlyModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
 
         return Response(serializer.data)
+
+
+class OpenPharmaPharmaciesStatesAdminViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = PharmaciesOpenStateSerializer
+    queryset = Pharmacy.objects.filter(pending_review=False)
 
 
 # DATAS COUNTERS VIEWS
@@ -256,13 +293,13 @@ class PharmaciesStateAndCountViewset(viewsets.ReadOnlyModelViewSet):
     serializer_class = PharmaciesOpenStateSerializer
     # queryset = Pharmacy.objects.all()
     # only take those that are not pending review
-    queryset = Pharmacy.objects.filter(pending_review=False)
+    queryset = Pharmacy.objects.filter(pending_review=False, active=True)
     current_date = datetime.datetime.now()
 
     def list(self, request, *args, **kwargs):
 
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
+        # queryset = self.get_queryset()
+        serializer = self.get_serializer(self.queryset, many=True)
 
         active_pharmacies_count = Pharmacy.objects.filter(active=True).count()
         inactive_pharmacies_count = Pharmacy.objects.filter(

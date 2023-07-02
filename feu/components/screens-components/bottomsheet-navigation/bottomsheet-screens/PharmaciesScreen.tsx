@@ -1,6 +1,6 @@
 import { BottomSheetView } from "@gorhom/bottom-sheet";
 import _ from "lodash";
-import React, { useContext } from "react";
+import React, { useCallback, useContext } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { MapContext } from "../../../../contexts/MapContext";
@@ -23,7 +23,7 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
         }
     });
     const lastSortMode = React.useRef(sortMode);
-    const { mapRef, setSelectedMarker, mapSetting, isFetching } = useContext(MapContext);
+    const { mapRef, setSelectedMarker, isFetching, mapDelta } = useContext(MapContext);
 
     let pharmaciesToDisplay = pharmacies;
     if (displayMode === "OpenOnly") {
@@ -42,13 +42,28 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
         lastSortMode.current = sortMode;
     }
 
+    const animateToPressedPharmacy = useCallback((latitude: number, longitude: number) => {
+
+        if (mapRef && mapRef.current) {
+            mapRef.current.animateToRegion({
+                latitude: latitude,
+                longitude: longitude,
+                ...mapDelta
+            });
+        }
+
+    }, [mapRef, mapDelta])
+
     const renderPharmaciesItems =
         ({ item }: { item: PharmacyFullState }) => {
             // console.log(item.phid);
             return (
                 <PharmaItemExtended
                     key={item.id}
-                    pharmacyData={item}
+                    // pharmacyData={item}
+                    isOpen={item.open}
+                    distanceToUser={item.distanceToUserReadable}
+                    name={item.name}
                     onPress={() => {
                         setSelectedMarker && setSelectedMarker(item.id);
 
@@ -61,12 +76,13 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                         // navigation.navigate("Information", {
                         //     pharmacy: item,
                         // });
-                        mapRef?.current?.animateToRegion({
-                            latitude: latitude,
-                            longitude: longitude,
-                            latitudeDelta: mapSetting.latDelta,
-                            longitudeDelta: mapSetting.lngDelta,
-                        });
+                        animateToPressedPharmacy(latitude, longitude)
+                        // mapRef?.current?.animateToRegion({
+                        //     latitude: latitude,
+                        //     longitude: longitude,
+                        //     latitudeDelta: mapSetting.latDelta,
+                        //     longitudeDelta: mapSetting.lngDelta,
+                        // });
 
                     }}
                 />

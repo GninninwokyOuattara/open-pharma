@@ -1,9 +1,9 @@
 import { Box, Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea } from "@chakra-ui/react";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { palette } from "../colorPalette";
+import EditModalContext, { EditModalContextInterface } from "../contexts/EditModalContext";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
 import { ToastContext, ToastContextInterface } from "../contexts/toast";
-import { PharmacyFullStateEdit } from "../types";
 import { isValidCoordinateValue } from "../utils/dry";
 
 // import Lorem component
@@ -30,9 +30,19 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
 
     const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
 
-    const backendUrl = process.env.REACT_APP_DJANGO_API_URL;
+    const backendUrl = import.meta.env.VITE_APP_DJANGO_API_URL;
 
-    const [pharmacyForm, setPharmacyForm] = useState<PharmacyFullStateEdit>(pharmacyInEditMode as PharmacyFullStateEdit)
+    // const [pharmacyForm, setPharmacyForm] = useState<PharmacyFullStateEdit>(pharmacyInEditMode as PharmacyFullStateEdit)
+
+
+    const newLocal = useContext(PharmaciesContext) as PharmaciesContextInterface;
+    // use edit modal context
+
+    const { pharmacyInEditMode: pharmacyForm, setPharmacyInEditMode: setPharmacyForm, isOpen: open, closeEditPharmacyModal } = useContext(EditModalContext) as EditModalContextInterface
+
+
+    console.log("Modal state", open)
+    console.log("Pharmacy to be used", pharmacyForm)
 
 
 
@@ -44,17 +54,29 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
     }, [pharmacyInEditMode])
 
     const handleFormChange = (change: { [key: string]: string }) => {
+        if (!pharmacyForm) {
+            return
+        }
 
         // get key and value from change
 
         const key: "latitude" | "longitude" | string = Object.keys(change)[0]
         let value: string = Object.values(change)[0]
         setPharmacyForm((prevFormState) => {
-            return { ...prevFormState, [key]: value }
+
+            if (prevFormState) {
+                return { ...prevFormState, [key]: value }
+            }
+            return pharmacyForm
+
+            // return { ...prevFormState, [key]: value }
         })
     }
 
     const isValidEdit = () => {
+        if (!pharmacyForm) {
+            return false
+        }
         const { latitude, longitude } = pharmacyForm
         const { name } = pharmacyForm
         if (name === "") {
@@ -85,11 +107,17 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
         }
 
         try {
+
+            if (!pharmacyForm) {
+                return
+            }
+
             const response = await fetch(`${backendUrl}/admin-api/pharmacies/${pharmacyForm.id}/`, options)
             const data = await response.json()
             updatePharmacyInPharmacies(data)
             successToast("Sucess", "Pharmacy updated successfully")
-            closeEditingPharmacyModal()
+            // closeEditingPharmacyModal()
+            closeEditPharmacyModal()
         }
         catch (error) {
 
@@ -106,7 +134,12 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
 
 
     return (
-        <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={() => closeEditingPharmacyModal()}>
+        <Modal blockScrollOnMount={false} isOpen={open}
+            isCentered
+            onClose={() => closeEditPharmacyModal()}
+
+
+        >
             <ModalOverlay />
             <ModalContent
                 backgroundColor={palette.custom.veryLightOrange}

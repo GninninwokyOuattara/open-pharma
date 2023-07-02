@@ -74,7 +74,7 @@ class PharmaciesPendingReviewAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pharmacy
         fields = ["id", "name", "director", "addresses", "phones", "email", "website", "description", "images",
-                  "google_maps_link", "coordinates", "date_created", "date_updated", "active", "pending_review"]
+                  "google_maps_link", "latitude", "longitude",  "coordinates", "date_created", "date_updated", "active", "pending_review"]
 
 
 # OPEN PHARMACY SERIALIZER

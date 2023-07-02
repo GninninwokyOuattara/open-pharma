@@ -1,5 +1,6 @@
 import { Box, Table, TableContainer, Tbody } from "@chakra-ui/react"
 import { memo, useContext } from "react"
+import EditPendingModalContext, { EditPendingModalContextInterface } from "../contexts/EditPendingModalContext"
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
 import { PendingReviewPharmacy } from "../types"
 import { PendingPharmaciesTableRowMemo } from "./pendingPharmaciesTableRow"
@@ -62,6 +63,8 @@ const PendingReviewPageTableBody: React.FC<PendingReviewPageTableBodyProps> = me
 
     // const { pendingReviewPharmacies, isLoading, acceptPharmacy, rejectPharmacy, checkOnePharmacy, uncheckOnePharmacy, toggleCheckPendingReviewPharmacy, setPharmaciesPendingReview } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
 
+    const { openPendingEditPharmacyModal } = useContext(EditPendingModalContext) as EditPendingModalContextInterface
+
 
 
     if (isLoading) {
@@ -84,6 +87,7 @@ const PendingReviewPageTableBody: React.FC<PendingReviewPageTableBodyProps> = me
                             isChecked={pharmacyPendingReview.is_checked}
                             isLoadingFromBatch={pharmacyPendingReview.is_loading}
                             setPharmaciesPendingReview={setPharmaciesPendingReview}
+                            openPendingEditPharmacyModal={openPendingEditPharmacyModal}
                         // acceptPharmacy={acceptPharmacy}
                         // rejectPharmacy={rejectPharmacy}
                         // checkOnePharmacy={checkOnePharmacy}

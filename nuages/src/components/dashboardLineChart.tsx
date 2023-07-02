@@ -10,10 +10,10 @@ const DashboardLineChart = () => {
     return (
         <VStack
             height={"100%"}
-            shadow={"md"}
+            shadow={"base"}
             borderRadius={"md"}
             padding={1}
-            backgroundColor={"white"}
+        // backgroundColor={"white"}
         >
 
             <DashboardItemHeader title={"Pharmacies Growth Overtime"} />

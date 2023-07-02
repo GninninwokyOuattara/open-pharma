@@ -93,6 +93,8 @@ const MainScreen = () => {
 
     }, [isLococationPermissionGranted, dispatchUpdatePharmaciesDistancestoUser])
 
+    console.log("RERENDER PARENT")
+
 
 
 
