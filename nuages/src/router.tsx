@@ -1,5 +1,5 @@
 import {
-    createBrowserRouter
+    createBrowserRouter, redirect
 } from "react-router-dom";
 import Layout from "./components/layout";
 
@@ -12,6 +12,7 @@ import { DashboardContextProvider } from "./contexts/dashboardContext";
 import { PharmaciesContextProvider } from './contexts/pharmaciesContext';
 import { PharmaciesReviewContextProvider } from "./contexts/pharmaciesReviewContext";
 import Dashboard from "./pages/dashboard";
+import LoginPage from "./pages/loginPage";
 import PharmaciesPage from "./pages/pharmaciesPage";
 
 
@@ -25,11 +26,19 @@ const appRouting = createBrowserRouter([
     {
         path: "/",
         element: <Layout />,
+        loader: () => {
+            if (1) {
+                console.log("Redirecting to login page")
+                return redirect("/login");
+            }
+        },
+
 
         children: [
 
             {
                 path: "/dashboard",
+
                 element: <DashboardContextProvider>
                     <Dashboard />
                 </DashboardContextProvider>
@@ -53,9 +62,14 @@ const appRouting = createBrowserRouter([
                             <PendingReviewsPage />
                         </EditPendingModalContextProvider>
                     </PharmaciesReviewContextProvider>,
-            },
+            }
+
         ]
     },
+    {
+        path: "/login",
+        element: <LoginPage />
+    }
 
 
 
