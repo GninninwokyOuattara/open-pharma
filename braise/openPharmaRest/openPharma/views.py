@@ -6,6 +6,7 @@ from django.http import Http404
 from django.shortcuts import render
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from openPharma.models import Activity, OpenPharmacy, Pharmacy
@@ -26,6 +27,9 @@ class PharmaciesViewset(viewsets.ReadOnlyModelViewSet):
 
 
 class PharmaciesAdminViewset(viewsets.ModelViewSet):
+
+    permission_classes = (IsAuthenticated,)
+
     queryset = Pharmacy.objects.all()
     serializer_class = PharmaciesAdminSerializer
 
