@@ -5,12 +5,14 @@ import { Box, Flex } from '@chakra-ui/react';
 import NavigationBar from './navigationBar';
 
 // import outlet from router
-import { Outlet } from 'react-router-dom';
 import { palette } from '../colorPalette';
 
 
+interface LayoutProps {
+    children: React.ReactNode
+}
 
-const Layout = () => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
     return (
         // The box should have padding left and right of 10
         <Box paddingX={0} paddingY={0}
@@ -37,7 +39,8 @@ const Layout = () => {
                     borderRadius={5}
                     backgroundColor={palette.custom.veryLightOrange}
                 >
-                    <Outlet />
+                    {/* <Outlet /> */}
+                    {children}
                 </Box>
 
 
