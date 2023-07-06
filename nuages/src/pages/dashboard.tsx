@@ -5,11 +5,10 @@ import { DashboardActivity } from "../components/dashboardActivity";
 import DashboardLineChart from "../components/dashboardLineChart";
 import DashboardPieChart from "../components/dashboardPieChart";
 import { DashboardUpdateRecap } from "../components/dashboardUpdateRecap";
-import Layout from "../components/layout";
 
 const Dashboard = () => {
     return (
-        <Layout>
+        <>
 
             <Box
                 height={"100%"}
@@ -90,7 +89,7 @@ const Dashboard = () => {
 
 
             </Box>
-        </Layout>
+        </>
 
     );
 };
