@@ -10,7 +10,6 @@ import React, { memo, useCallback, useContext, useEffect, useState } from "react
 import { MdOutlineEdit } from "react-icons/md";
 import { palette } from "../colorPalette";
 import EditPharmacyModal from "../components/editPharmacyModal";
-import Layout from "../components/layout";
 import LeafletMap from "../components/leafletMap";
 import PharmaciesTableRenderer from "../components/pharmaciesTableRenderer";
 import RefreshButton from "../components/refreshButton";
@@ -77,7 +76,7 @@ const Page: React.FC<{
 }> = React.memo(({ pharmacies, isLoading, refreshDatas, setSearch, isOpen, onClose }) => {
 
     return (
-        <Layout>
+        <>
 
             <MainContent
                 pharmacies={pharmacies}
@@ -87,7 +86,7 @@ const Page: React.FC<{
             />
             <EditPharmacyModal isOpen={isOpen} onClose={onClose} />
 
-        </Layout>
+        </>
     )
 })
 

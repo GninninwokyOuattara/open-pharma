@@ -15,7 +15,6 @@ import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../co
 
 
 import EditPendingPharmacyModal from "../components/editPendingPharmacyModal";
-import Layout from "../components/layout";
 import { PendingReviewPageTable } from "../components/pendingReviewTable";
 import EditPendingModalContext, { EditPendingModalContextInterface } from "../contexts/EditPendingModalContext";
 
@@ -35,7 +34,7 @@ const PendingReviewsPage = () => {
 
 
     return (
-        <Layout>
+        <>
 
             <VStack
                 height={"full"}
@@ -46,7 +45,7 @@ const PendingReviewsPage = () => {
                 <PendingReviewPageTable />
 
             </VStack>
-        </Layout>
+        </>
     )
 }
 
