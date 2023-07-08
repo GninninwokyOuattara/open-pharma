@@ -28,6 +28,10 @@ const backendUrl = import.meta.env.VITE_APP_DJANGO_API_URL
 export const UserAuthContext = createContext<UserAuthContextInterface | null>(null);
 
 
+export const useUserAuthContext = () => {
+    return useContext(UserAuthContext) as UserAuthContextInterface
+}
+
 export const UserAuthContextProvider = ({ children }: any) => {
 
     // toast context

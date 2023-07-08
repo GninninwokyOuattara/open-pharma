@@ -1,12 +1,14 @@
 import { Box, Button, FormControl, FormLabel, HStack, Input, Text, VStack } from '@chakra-ui/react'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { palette } from '../colorPalette'
 import OpenPharmaIcon from '../components/openPharmaIcon'
-import { UserAuthContext, UserAuthContextInterface } from '../contexts/userAuthContext'
+import { useUserAuthContext } from '../contexts/userAuthContext'
 
 const LoginPage = () => {
 
-    const { authenticate, isAuthenticating } = useContext(UserAuthContext) as UserAuthContextInterface
+    // const { authenticate, isAuthenticating } = useContext(UserAuthContext) as UserAuthContextInterface
+
+    const { authenticate, isAuthenticating } = useUserAuthContext();
 
 
     const [loginForm, setLoginForm] = useState({
@@ -46,7 +48,7 @@ const LoginPage = () => {
                 <Box
                     w={"40%"}
                     height={"100%"}
-                    padding={5}
+                    padding={2}
                     backgroundColor={palette.custom.veryLightOrange}
                 >
                     <Box
