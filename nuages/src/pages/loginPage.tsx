@@ -1,6 +1,7 @@
 import { Box, Button, FormControl, FormLabel, HStack, Input, Text, VStack } from '@chakra-ui/react'
 import { useContext, useState } from 'react'
 import { palette } from '../colorPalette'
+import OpenPharmaIcon from '../components/openPharmaIcon'
 import { UserAuthContext, UserAuthContextInterface } from '../contexts/userAuthContext'
 
 const LoginPage = () => {
@@ -45,9 +46,21 @@ const LoginPage = () => {
                 <Box
                     w={"40%"}
                     height={"100%"}
+                    padding={5}
                     backgroundColor={palette.custom.veryLightOrange}
                 >
+                    <Box
+                        display={"flex"}
+                        flexDirection={"row"}
+                    >
 
+                        <OpenPharmaIcon boxSize={12} color={palette.custom.niceOrange} />
+                        <Text
+                            fontWeight={"bold"}
+                            fontSize={"28px"}
+                        >
+                            OpenPharma</Text>
+                    </Box>
                 </Box>
                 <Box
                     w={"60%"}
