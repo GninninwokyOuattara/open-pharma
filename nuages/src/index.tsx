@@ -9,6 +9,7 @@ import { ToastProvider } from './contexts/toast';
 
 import { RouterProvider } from 'react-router-dom';
 
+import { UserAuthContextProvider } from './contexts/userAuthContext';
 import appRouting from './router';
 
 const root = ReactDOM.createRoot(
@@ -21,10 +22,10 @@ root.render(
   <React.StrictMode>
     <ChakraProvider>
       <ToastProvider>
+        <UserAuthContextProvider>
+          <RouterProvider router={appRouting} />
 
-
-        <RouterProvider router={appRouting} />
-
+        </UserAuthContextProvider>
       </ToastProvider>
     </ChakraProvider>
   </React.StrictMode>
