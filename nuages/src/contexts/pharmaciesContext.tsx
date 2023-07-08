@@ -3,6 +3,7 @@ import { useDisclosure, useToast } from '@chakra-ui/react';
 import React, { createContext, useCallback, useMemo, useState } from 'react';
 import { PharmaciesDataSummary, PharmacyFullState } from '../types';
 import { getTags } from '../utils/dry';
+import { useUserAuthContext } from './userAuthContext';
 
 
 const backendUrl = import.meta.env.VITE_APP_DJANGO_API_URL;
@@ -48,6 +49,10 @@ export const PharmaciesContext = createContext<PharmaciesContextInterface | null
 
 
 export const PharmaciesContextProvider = ({ children }: any) => {
+
+    // Context
+
+    const { logout, authData } = useUserAuthContext()
 
     // STATES
 
@@ -103,16 +108,36 @@ export const PharmaciesContextProvider = ({ children }: any) => {
 
 
     const getDatas = async () => {
-        try {
-            const response = await fetch(`${backendUrl}/admin-api/pharmacies/`)
-            const data: PharmacyFullState[] = await response.json()
+        if (authData != null && "access" in authData) {
 
-            setPharmacies(data)
-        } catch (error: any) {
-            // cleanDatas()
-            // setError(error.message)
-            // throw error
-            handleError(error)
+            try {
+
+                const response = await fetch(`${backendUrl}/admin-api/pharmacies/`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${authData.access}`
+                    }
+                })
+
+                if (response.status === 200) {
+                    const data: PharmacyFullState[] = await response.json()
+
+                    setPharmacies(data)
+
+                } else if (response.status === 401) {
+                    setPharmacies([])
+                    logout()
+                }
+
+                // setPharmacies([])
+            } catch (error: any) {
+                // cleanDatas()
+                // setError(error.message)
+                // throw error
+                handleError(error)
+            }
+        } else {
+            logout()
         }
     }
 
