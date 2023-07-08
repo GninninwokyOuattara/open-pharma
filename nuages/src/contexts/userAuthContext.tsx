@@ -10,7 +10,21 @@ interface AuthenticationSuccess {
 interface AuthenticationFailure {
     detail: string
 }
+
+interface RefreshTokenSuccess {
+    access: string
+}
+
+interface RefreshTokenFailure {
+    detail: string,
+    code: string
+}
+
+
+
+
 type AuthenticationResponse = AuthenticationSuccess | AuthenticationFailure
+type RefreshTokenResponse = RefreshTokenSuccess | RefreshTokenFailure
 
 export interface UserAuthContextInterface {
     isAuthenticated: boolean;
