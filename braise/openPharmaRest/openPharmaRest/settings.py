@@ -15,7 +15,7 @@ from os import environ
 from pathlib import Path
 
 from dotenv import load_dotenv
-
+from datetime import timedelta
 # import DIR_PATH
 from global_constants import DIR_PATH
 
@@ -53,7 +53,13 @@ INSTALLED_APPS = [
     'openTracker',
     'rest_framework_swagger',
     "corsheaders",
+    "rest_framework_simplejwt",
 ]
+
+SIMPLE_JWT = {
+        "ACCESS_TOKEN_LIFETIME" : timedelta(minutes = 10),
+        "REFRESH_TOKEN_LIFETIME" : timedelta(days = 1)
+        }
 
 REST_FRAMEWORK = {
     "DATE_FORMAT": '%d/%m/%Y',
