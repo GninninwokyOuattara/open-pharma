@@ -26,9 +26,13 @@ class PharmaciesViewset(viewsets.ReadOnlyModelViewSet):
     serializer_class = PharmaciesSerializer
 
 
-class PharmaciesAdminViewset(viewsets.ModelViewSet):
-
+class AdminAuthorizationMixin:
+    # Will force authorization on any view extending this mixin
     permission_classes = (IsAuthenticated,)
+
+class PharmaciesAdminViewset(AdminAuthorizationMixin, viewsets.ModelViewSet):
+
+    #permission_classes = (IsAuthenticated,)
 
     queryset = Pharmacy.objects.all()
     serializer_class = PharmaciesAdminSerializer
@@ -80,7 +84,6 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
         failed = 0
         try:
             data = request.data
-            print("DATA", data)
             review = data["review"]
             if review != "activate" and review != "deactivate":
                 return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "Invalid review value"})
@@ -150,7 +153,7 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
     def activate(self, request, *args, **kwargs):
 
         data = request.data
-        print("Data", data)
+        
 
         try:
             instance = self.get_object()
@@ -350,7 +353,7 @@ class PharmaciesStatisticsViewset(viewsets.ReadOnlyModelViewSet):
 
     # @action(detail=False, methods=['get'], url_path="pharmacies-states")
     def get_pharmacies_states(self, request, *args, **kwargs):
-        print("Hello")
+        
         current_date = datetime.datetime.now()
         active_pharmacies_count = Pharmacy.objects.filter(active=True).count()
         inactive_Pharmacies_count = Pharmacy.objects.filter(
