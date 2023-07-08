@@ -118,7 +118,7 @@ export const UserAuthContextProvider = ({ children }: any) => {
                 if (currentAuthData) {
                     return {
                         ...currentAuthData,
-                        access: accessToken
+                        access: accessToken.access
                     }
                 }
                 return null
