@@ -74,7 +74,7 @@ export const UserAuthContextProvider = ({ children }: any) => {
 
         if (response.status === 200) {
             successToast("", "Authentication succesful")
-            const data = await response.json()
+            const data: AuthenticationResponse = await response.json()
             setIsAuthenticated(true)
             setAuthData(data)
             console.log(data)
@@ -94,6 +94,39 @@ export const UserAuthContextProvider = ({ children }: any) => {
         setIsAuthenticated(false)
         setAuthData(null)
         clearAuthDataFromLocalStorage()
+    }
+
+
+    const refreshUserToken = async (refreshToken: string) => {
+        const response = await fetch(backendUrl + "/admin-api/refresh/", {
+
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            }
+            ,
+            body: JSON.stringify({
+                refreshToken
+            })
+        })
+
+        if (response.status == 200) {
+            const accessToken = await response.json()
+            setAuthData((currentAuthData) => {
+                if (currentAuthData) {
+                    return {
+                        ...currentAuthData,
+                        access: accessToken
+                    }
+                }
+                return null
+            })
+        } else if (response.status == 401) {
+            // Toast to disconnect ?
+            setIsAuthenticated(false)
+            setAuthData(null)
+            clearAuthDataFromLocalStorage()
+        }
     }
 
     // local storage manipulation
