@@ -33,6 +33,7 @@ export interface UserAuthContextInterface {
     authenticate: (email: string, password: string) => Promise<boolean>;
     isAuthenticating: boolean;
     logout: () => void;
+    authData: AuthenticationResponse | null;
 
 
 }
@@ -176,7 +177,8 @@ export const UserAuthContextProvider = ({ children }: any) => {
             // setIsAuthenticated,
             authenticate,
             isAuthenticating,
-            logout
+            logout,
+            authData
         }}
         >
             {children}
