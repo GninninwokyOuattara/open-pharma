@@ -40,7 +40,7 @@ export const DashboardActivity = () => {
                     activities.map((activity, index) => {
 
                         // const time_elapsed = getTimeElapsed(activity.date_created)
-                        const time_elapsed = moment(activity.date_created, "YYYYMMDD").fromNow();
+                        const time_elapsed = moment(activity.date_created, "YYYY-MM-DDTHH:mm:ss.SSSSZ").fromNow();
 
                         let icon: any
                         let color: string
