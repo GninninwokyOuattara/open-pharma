@@ -24,6 +24,7 @@ interface RefreshTokenFailure {
 
 
 type AuthenticationResponse = AuthenticationSuccess | AuthenticationFailure
+type AuthSuccess<T, K> = K extends keyof T ? T[K] : never
 type RefreshTokenResponse = RefreshTokenSuccess | RefreshTokenFailure
 
 export interface UserAuthContextInterface {
@@ -106,7 +107,7 @@ export const UserAuthContextProvider = ({ children }: any) => {
             }
             ,
             body: JSON.stringify({
-                refreshToken
+                refresh: refreshToken
             })
         })
 
@@ -153,6 +154,22 @@ export const UserAuthContextProvider = ({ children }: any) => {
         loadAuthDataFromLocalStorage()
     }, [])
 
+    useEffect(() => {
+        let timeoutId: any
+        if (isAuthenticated && authData && "refresh" in authData) {
+            console.log("refreshing token in 1 minutes");
+            timeoutId = setTimeout(() => {
+
+                refreshUserToken(authData.refresh)
+            }, 240000)
+        }
+
+        return () => {
+            console.log("Clear timeout")
+            clearTimeout(timeoutId)
+        }
+    }, [authData])
+
     return (
         <UserAuthContext.Provider value={{
             isAuthenticated,
@@ -166,3 +183,6 @@ export const UserAuthContextProvider = ({ children }: any) => {
         </UserAuthContext.Provider>
     )
 }
+
+
+
