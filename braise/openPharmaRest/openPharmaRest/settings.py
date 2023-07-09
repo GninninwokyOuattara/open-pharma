@@ -11,11 +11,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 
+from datetime import timedelta
 from os import environ
 from pathlib import Path
 
 from dotenv import load_dotenv
-from datetime import timedelta
 # import DIR_PATH
 from global_constants import DIR_PATH
 
@@ -182,4 +182,5 @@ CRONJOBS = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React
+    "http://localhost:4173"
 ]
