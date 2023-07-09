@@ -56,14 +56,16 @@ export const EditPendingModalContextProvider = ({ children }: any) => {
         closePendingEditPharmacyModal,
         pharmacyInEditMode,
         setPharmacyInEditMode,
-        pharmacyInEditModeSave
+        pharmacyInEditModeSave,
+        setPharmacyInEditModeSave
     }), [isOpen,
         onOpen,
         onClose,
         openPendingEditPharmacyModal,
         closePendingEditPharmacyModal, pharmacyInEditMode,
         pharmacyInEditModeSave,
-        setPharmacyInEditMode])
+        setPharmacyInEditMode,
+        setPharmacyInEditModeSave])
 
 
     return (

@@ -35,7 +35,7 @@ export interface PharmaciesReviewContextInterface {
     onOpen: () => void;
     onClose: () => void;
     updatePendingReviewPharmacyInPharmacies: (pharmacy: PendingReviewPharmacy) => void;
-    review: (pharmacyToReview: PendingReviewPharmacy, review: 'activate' | 'deactivate') => Promise<boolean>
+    review: (pharmacyToReview: PendingReviewPharmacy, review: 'activate' | 'deactivate') => Promise<boolean | undefined>
 
 }
 
