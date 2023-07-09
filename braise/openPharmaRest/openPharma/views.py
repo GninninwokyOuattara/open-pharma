@@ -32,8 +32,6 @@ class AdminAuthorizationMixin:
 
 class PharmaciesAdminViewset(AdminAuthorizationMixin, viewsets.ModelViewSet):
 
-    #permission_classes = (IsAuthenticated,)
-
     queryset = Pharmacy.objects.all()
     serializer_class = PharmaciesAdminSerializer
 
@@ -69,7 +67,7 @@ class PharmaciesAdminViewset(AdminAuthorizationMixin, viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
+class PharmaciesPendingReviewAdminViewset(AdminAuthorizationMixin, viewsets.ModelViewSet):
     queryset = Pharmacy.objects.filter(pending_review=True)
     serializer_class = PharmaciesPendingReviewAdminSerializer
     http_method_names = ['get', 'post']
@@ -203,7 +201,7 @@ class OpenPharmaciesViewset(viewsets.ReadOnlyModelViewSet):
         return OpenPharmacy.objects.filter(open_from__lte=self.current_date, open_until__gte=self.current_date)
 
 
-class OpenPharmaciesAdminViewset(viewsets.ModelViewSet):
+class OpenPharmaciesAdminViewset(AdminAuthorizationMixin, viewsets.ModelViewSet):
     current_date = datetime.datetime.now()
     # queryset  = OpenPharmacy.objects.all()
     serializer_class = OpenPharmaciesAdminSerializer
@@ -246,7 +244,7 @@ class OpenPharmaPharmaciesStatesAdminViewSet(viewsets.ReadOnlyModelViewSet):
 # DATAS COUNTERS VIEWS
 
 
-class PharmaciesAllStateCountView(viewsets.ReadOnlyModelViewSet):
+class PharmaciesAllStateCountView(AdminAuthorizationMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = PharmaciesOpenStateSerializer
 
     def list(self, request, *args, **kwargs):
@@ -265,7 +263,7 @@ class PharmaciesAllStateCountView(viewsets.ReadOnlyModelViewSet):
         return Response(count_summary)
 
 
-class ActivePharmaciesCountViewset(viewsets.ReadOnlyModelViewSet):
+class ActivePharmaciesCountViewset(AdminAuthorizationMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Pharmacy.objects.filter(active=True)
     serializer_class = PharmaciesSerializer
 
@@ -274,7 +272,7 @@ class ActivePharmaciesCountViewset(viewsets.ReadOnlyModelViewSet):
         return Response({'count': queryset.count()})
 
 
-class InactivePharmaciesCountViewset(viewsets.ReadOnlyModelViewSet):
+class InactivePharmaciesCountViewset(AdminAuthorizationMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Pharmacy.objects.filter(active=False)
     serializer_class = PharmaciesSerializer
 
@@ -283,7 +281,7 @@ class InactivePharmaciesCountViewset(viewsets.ReadOnlyModelViewSet):
         return Response({'count': queryset.count()})
 
 
-class OpenPharmacyCountViewset(viewsets.ReadOnlyModelViewSet):
+class OpenPharmacyCountViewset(AdminAuthorizationMixin, viewsets.ReadOnlyModelViewSet):
     current_date = datetime.datetime.now()
     queryset = OpenPharmacy.objects.filter(
         open_from__lte=current_date, open_until__gte=current_date)
@@ -296,7 +294,7 @@ class OpenPharmacyCountViewset(viewsets.ReadOnlyModelViewSet):
 
 #
 
-class PharmaciesStateAndCountViewset(viewsets.ReadOnlyModelViewSet):
+class PharmaciesStateAndCountViewset(AdminAuthorizationMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = PharmaciesOpenStateSerializer
     # queryset = Pharmacy.objects.all()
     # only take those that are not pending review
@@ -328,7 +326,7 @@ class PharmaciesStateAndCountViewset(viewsets.ReadOnlyModelViewSet):
 # VIEW FOR STATISTICS
 ########################################################
 
-class PharmaciesStatisticsViewset(viewsets.ReadOnlyModelViewSet):
+class PharmaciesStatisticsViewset(AdminAuthorizationMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = PharmaciesSerializer
     queryset = Pharmacy.objects.all()
     http_method_names = ['get']
@@ -407,7 +405,7 @@ class PharmaciesStatisticsViewset(viewsets.ReadOnlyModelViewSet):
         return Response(data)
 
 
-class OpenPharmaActivityViewset(viewsets.ReadOnlyModelViewSet):
+class OpenPharmaActivityViewset(AdminAuthorizationMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = ActivityListSerializer
     queryset = Activity.objects.all()[:20]
     http_method_names = ['get']
