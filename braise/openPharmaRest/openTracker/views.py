@@ -12,6 +12,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from openPharma.models import Activity, OpenPharmacy, Pharmacy
+from openPharma.views import AdminAuthorizationMixin 
 from openTracker.models import TrackerHistory
 from openTracker.serializers import TrackerHistoryListSerializer
 from openTracker.utils import (extract_pharmacy_data_from_row,
@@ -33,7 +34,7 @@ class CurrentlyOpenPharmaciesView(APIView):
             return Response({"error": str(error)}, status=500)
 
 
-class OpenPharmaActualizerView(APIView):
+class OpenPharmaActualizerView(AdminAuthorizationMixin, APIView):
 
     http_method_names = ['get']
 
