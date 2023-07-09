@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { ToastContext, ToastContextInterface } from "./toast";
+import { useUserAuthContext } from "./userAuthContext";
 
 
 
@@ -62,6 +63,7 @@ export const DashboardContextProvider = ({ children }: any) => {
     const { successToast, errorToast
     } = useContext(ToastContext) as ToastContextInterface
 
+    const { authData, logout } = useUserAuthContext()
     // STATES
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -86,53 +88,92 @@ export const DashboardContextProvider = ({ children }: any) => {
 
     const getStatistics = useCallback(async () => {
         setIsLoading(true)
-        try {
+        if (authData && "access" in authData) {
+
+            try {
 
 
-            const [lineChartResponse, reviewChartResponse, stateChartResponse, ActivitiesResponse, updateSummary] = await Promise.all([
-                fetch(`${backendUrl}/admin-api/dashboard/get-pharmacies-over-weeks/`),
-                fetch(`${backendUrl}/admin-api/dashboard/get-pharmacies-reviews-states/`),
-                fetch(`${backendUrl}/admin-api/dashboard/get-pharmacies-states/`),
-                fetch(`${backendUrl}/admin-api/dashboard/get-recent-activity/`),
-                fetch(`${backendUrl}/admin-api/dashboard/get-latest-tracker-results/`),
+                const [lineChartResponse, reviewChartResponse, stateChartResponse, ActivitiesResponse, updateSummary] = await Promise.all([
+                    fetch(`${backendUrl}/admin-api/dashboard/get-pharmacies-over-weeks/`, {
+                        method: "GET",
+                        headers: {
+                            "Authorization": `Bearer ${authData.access}`
+                        }
+                    }),
+                    fetch(`${backendUrl}/admin-api/dashboard/get-pharmacies-reviews-states/`, {
+                        method: "GET",
+                        headers: {
+                            "Authorization": `Bearer ${authData.access}`
+                        }
+                    }),
+                    fetch(`${backendUrl}/admin-api/dashboard/get-pharmacies-states/`, {
+                        method: "GET",
+                        headers: {
+                            "Authorization": `Bearer ${authData.access}`
+                        }
+                    }),
+                    fetch(`${backendUrl}/admin-api/dashboard/get-recent-activity/`, {
+                        method: "GET",
+                        headers: {
+                            "Authorization": `Bearer ${authData.access}`
+                        }
+                    }),
+                    fetch(`${backendUrl}/admin-api/dashboard/get-latest-tracker-results/`, {
+                        method: "GET",
+                        headers: {
+                            "Authorization": `Bearer ${authData.access}`
+                        }
+                    }),
 
-            ])
+                ])
 
-            const lineChartDatas = await lineChartResponse.json()
-            const reviewChartDatas = await reviewChartResponse.json()
-            const stateChartDatas = await stateChartResponse.json()
-            const ActivitiesDatas = await ActivitiesResponse.json()
-            const updateSummaryDatas = await updateSummary.json()
+                if (lineChartResponse.status === 200) {
+                    const lineChartDatas = await lineChartResponse.json()
+                    const reviewChartDatas = await reviewChartResponse.json()
+                    const stateChartDatas = await stateChartResponse.json()
+                    const ActivitiesDatas = await ActivitiesResponse.json()
+                    const updateSummaryDatas = await updateSummary.json()
 
 
-            setLineChartDatas(lineChartDatas)
-            setReviewChartDatas(reviewChartDatas)
-            setStateChartDatas(stateChartDatas)
-            setActivities(ActivitiesDatas)
-            console.log("", updateSummary)
+                    setLineChartDatas(lineChartDatas)
+                    setReviewChartDatas(reviewChartDatas)
+                    setStateChartDatas(stateChartDatas)
+                    setActivities(ActivitiesDatas)
+                    console.log("", updateSummary)
 
-            setUpdateSummary(updateSummaryDatas[0] || {
-                id: "",
-                start_time: "",
-                end_time: "",
-                duration: "",
-                date_created: new Date(),
-                date_updated: new Date(),
-                inserted_pharmacies: 0,
-                updated_pharmacies: 0,
-                skipped_pharmacies: 0,
-                already_open_pharmacies: 0,
-                mode: "manual",
-            })
+                    setUpdateSummary(updateSummaryDatas[0] || {
+                        id: "",
+                        start_time: "",
+                        end_time: "",
+                        duration: "",
+                        date_created: new Date(),
+                        date_updated: new Date(),
+                        inserted_pharmacies: 0,
+                        updated_pharmacies: 0,
+                        skipped_pharmacies: 0,
+                        already_open_pharmacies: 0,
+                        mode: "manual",
+                    })
 
-            console.log("lineChartDatas", lineChartDatas)
-            console.log("reviewChartDatas", reviewChartDatas)
-            console.log("stateChartDatas", stateChartDatas)
-            console.log("ActivitiesDatas", ActivitiesDatas)
-            console.log("updateSummary", updateSummaryDatas[0])
+                    console.log("lineChartDatas", lineChartDatas)
+                    console.log("reviewChartDatas", reviewChartDatas)
+                    console.log("stateChartDatas", stateChartDatas)
+                    console.log("ActivitiesDatas", ActivitiesDatas)
+                    console.log("updateSummary", updateSummaryDatas[0])
 
-        } catch (error) {
-            console.log(error)
+                } else if (lineChartResponse.status === 401) {
+                    logout()
+                } else {
+                    errorToast("Error", "Something went wrong")
+                }
+
+
+
+
+
+            } catch (error) {
+                console.log(error)
+            }
         }
 
         setIsLoading(false)
@@ -142,31 +183,43 @@ export const DashboardContextProvider = ({ children }: any) => {
         setReviewChartDatas,
         setStateChartDatas,
         setActivities,
-        setUpdateSummary
+        setUpdateSummary,
+        authData,
+        logout
 
     ])
 
     const triggerActualization = useCallback(async () => {
 
-        try {
-            const response = await fetch(`${backendUrl}/admin-api/trigger-actualizer/`)
+        if (authData && "access" in authData) {
+
+            try {
+                const response = await fetch(`${backendUrl}/admin-api/trigger-actualizer/`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${authData.access}`
+                    }
+                })
 
 
 
-            const data = await response.json()
+                const data = await response.json()
 
-            const message = data.message
-            successToast("Success", message)
-            await getStatistics()
-            console.log(data)
+                const message = data.message
+                successToast("Success", message)
+                await getStatistics()
+                console.log(data)
 
 
-        } catch (error) {
-            errorToast("Error", "Something went wrong")
-            console.log(error)
+            } catch (error) {
+                errorToast("Error", "Something went wrong")
+                console.log(error)
+            }
+        } else {
+            logout()
         }
 
-    }, [])
+    }, [authData])
 
 
 

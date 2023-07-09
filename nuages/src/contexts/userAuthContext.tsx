@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { ToastContext, ToastContextInterface } from "./toast";
 
 
@@ -99,7 +99,7 @@ export const UserAuthContextProvider = ({ children }: any) => {
     }
 
 
-    const refreshUserToken = async (refreshToken: string) => {
+    const refreshUserToken = useCallback(async (refreshToken: string) => {
         const response = await fetch(backendUrl + "/admin-api/refresh/", {
 
             method: "POST",
@@ -114,22 +114,28 @@ export const UserAuthContextProvider = ({ children }: any) => {
 
         if (response.status == 200) {
             const accessToken = await response.json()
-            setAuthData((currentAuthData) => {
-                if (currentAuthData) {
-                    return {
-                        ...currentAuthData,
-                        access: accessToken.access
-                    }
+            console.log("New Access token", accessToken)
+
+            if (authData && "refresh" in authData) {
+                console.log("Auth Data exists")
+                const newAuthData = {
+                    access: accessToken.access,
+                    refresh: authData.refresh
                 }
-                return null
-            })
+
+                setAuthData(newAuthData)
+
+                console.log("Auth Data", authData)
+            }
+
+
         } else if (response.status == 401) {
             // Toast to disconnect ?
             setIsAuthenticated(false)
             setAuthData(null)
             clearAuthDataFromLocalStorage()
         }
-    }
+    }, [authData])
 
     // local storage manipulation
 
@@ -162,14 +168,14 @@ export const UserAuthContextProvider = ({ children }: any) => {
             timeoutId = setTimeout(() => {
 
                 refreshUserToken(authData.refresh)
-            }, 240000)
+            }, 30000)
         }
 
         return () => {
             console.log("Clear timeout")
             clearTimeout(timeoutId)
         }
-    }, [authData])
+    }, [authData, refreshUserToken])
 
     return (
         <UserAuthContext.Provider value={{

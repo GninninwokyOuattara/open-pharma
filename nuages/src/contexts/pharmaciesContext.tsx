@@ -107,7 +107,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
     }, [search])
 
 
-    const getDatas = async () => {
+    const getDatas = useCallback(async () => {
         if (authData != null && "access" in authData) {
 
             try {
@@ -139,7 +139,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
         } else {
             logout()
         }
-    }
+    }, [authData, logout])
 
     const handleError = (error: any) => {
 

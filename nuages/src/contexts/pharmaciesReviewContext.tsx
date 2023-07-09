@@ -3,6 +3,7 @@ import { createContext, useCallback, useContext, useMemo, useRef, useState } fro
 import { PendingReviewPharmacy, Pharmacy } from "../types";
 import { getTimeElapsed } from "../utils/dry";
 import { ToastContext, ToastContextInterface } from "./toast";
+import { useUserAuthContext } from "./userAuthContext";
 
 const backendUrl = import.meta.env.VITE_APP_DJANGO_API_URL;
 
@@ -45,7 +46,7 @@ export const PharmaciesReviewContext = createContext<PharmaciesReviewContextInte
 export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
     // Context 
-
+    const { logout, authData } = useUserAuthContext()
     const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
 
 
@@ -79,30 +80,40 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
 
 
     // METHODS
-    const getPendingReviewPharmacies = async () => {
+    const getPendingReviewPharmacies = useCallback(async () => {
 
-        try {
+        if (authData && "access" in authData) {
 
-            const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/`);
-            const datas = await response.json();
-            // sort datas by date
-            datas.sort((a: PendingReviewPharmacy, b: PendingReviewPharmacy) => {
-                const dateA = new Date(a.date_created);
-                const dateB = new Date(b.date_updated);
-                return dateB.getTime() - dateA.getTime()
-            })
+            try {
 
-            datas.map((pharmacy: PendingReviewPharmacy) => {
-                pharmacy["time_elapsed"] = getTimeElapsed(pharmacy.date_created)
-            })
-            setPharmaciesPendingReview(datas)
-            cachedPharmacies.current = datas // cache datas
+                const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${authData.access}`
+                    }
+                });
+                const datas = await response.json();
+                // sort datas by date
+                datas.sort((a: PendingReviewPharmacy, b: PendingReviewPharmacy) => {
+                    const dateA = new Date(a.date_created);
+                    const dateB = new Date(b.date_updated);
+                    return dateB.getTime() - dateA.getTime()
+                })
 
-        } catch (error: any) {
-            handleError(error)
+                datas.map((pharmacy: PendingReviewPharmacy) => {
+                    pharmacy["time_elapsed"] = getTimeElapsed(pharmacy.date_created)
+                })
+                setPharmaciesPendingReview(datas)
+                cachedPharmacies.current = datas // cache datas
+
+            } catch (error: any) {
+                handleError(error)
+            }
+        } else {
+            logout()
         }
 
-    }
+    }, [authData, logout])
 
     const handleError = (error: any) => {
         if (error.message === "Failed to fetch") {
