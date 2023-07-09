@@ -100,42 +100,42 @@ export const UserAuthContextProvider = ({ children }: any) => {
 
 
     const refreshUserToken = useCallback(async (refreshToken: string) => {
-        const response = await fetch(backendUrl + "/admin-api/refresh/", {
-
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            }
-            ,
-            body: JSON.stringify({
-                refresh: refreshToken
-            })
-        })
-
-        if (response.status == 200) {
-            const accessToken = await response.json()
-            console.log("New Access token", accessToken)
-
+        try {
             if (authData && "refresh" in authData) {
-                console.log("Auth Data exists")
-                const newAuthData = {
-                    access: accessToken.access,
+                const access = await getNewAccessToken(authData.refresh);
+                setAuthData({
+                    access,
                     refresh: authData.refresh
-                }
-
-                setAuthData(newAuthData)
-
-                console.log("Auth Data", authData)
+                })
             }
-
-
-        } else if (response.status == 401) {
-            // Toast to disconnect ?
+        } catch (error) {
+            console.log("Error", error)
             setIsAuthenticated(false)
             setAuthData(null)
             clearAuthDataFromLocalStorage()
         }
     }, [authData])
+
+
+    const getNewAccessToken = async (refreshToken: string) => {
+        const response = await fetch(backendUrl + "/admin-api/refresh/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                refresh: refreshToken
+            })
+        })
+
+        if (response.status === 200) {
+            const accessToken = await response.json()
+            console.log("New Access token", accessToken.access)
+            return accessToken.access
+        } else {
+            throw response
+        }
+    }
 
     // local storage manipulation
 
@@ -143,15 +143,22 @@ export const UserAuthContextProvider = ({ children }: any) => {
         localStorage.setItem("open-pharma-auth-data", JSON.stringify(data))
     }
 
-    const loadAuthDataFromLocalStorage = () => {
+    const loadAuthDataFromLocalStorage = useCallback(() => {
         const data = localStorage.getItem("open-pharma-auth-data")
         if (data) {
-            setAuthData(JSON.parse(data))
-            setIsAuthenticated(true)
-            return
+            const authData = JSON.parse(data) as AuthenticationSuccess
+            getNewAccessToken(authData.refresh).then((access) => {
+                setAuthData({
+                    access: access,
+                    refresh: authData.refresh
+                })
+                setIsAuthenticated(true)
+            }).catch(() => {
+                console.log("Error getting new access token")
+                setIsAuthenticated(false)
+            })
         }
-        setIsAuthenticated(false)
-    }
+    }, [])
 
     const clearAuthDataFromLocalStorage = () => {
         localStorage.removeItem("open-pharma-auth-data")
@@ -159,6 +166,7 @@ export const UserAuthContextProvider = ({ children }: any) => {
 
     useEffect(() => {
         loadAuthDataFromLocalStorage()
+        console.log("Setting things up")
     }, [])
 
     useEffect(() => {
