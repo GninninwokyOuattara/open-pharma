@@ -11,10 +11,12 @@ const DashboardPieChart = () => {
         <Box
             width={"100%"}
             height={"100%"}
-            shadow={"md"}
+            shadow={"base"}
             borderRadius={"md"}
             padding={2}
-            backgroundColor={"white"}
+        // borderWidth={1}
+        // borderColor={"gray.300"}
+        // backgroundColor={"white"}
         >
             <DashboardItemHeader title={"Charts"} />
 

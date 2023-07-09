@@ -11,6 +11,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 import { BsFillPinMapFill } from "react-icons/bs"
 import { GrEdit } from "react-icons/gr"
 import { TbMoodEmpty } from "react-icons/tb"
+import EditModalContext, { EditModalContextInterface } from "../contexts/EditModalContext"
 import { LeafletMapContext, LeafletMapContextInterface } from "../contexts/leafletContext"
 import { ToastContext, ToastContextInterface } from "../contexts/toast"
 
@@ -66,6 +67,8 @@ export default PharmaciesTableBody
 
 const PharmaciesTableRowsContainer: React.FC<{ pharmacies: PharmacyFullState[] }> = React.memo(({ pharmacies }) => {
     console.log("Rerendered container")
+
+    const { openEditPharmacyModal } = useContext(EditModalContext) as EditModalContextInterface
     return (
         <>
             {
@@ -73,6 +76,7 @@ const PharmaciesTableRowsContainer: React.FC<{ pharmacies: PharmacyFullState[] }
                     return <PharmaciesTableRowMemoized
                         key={pharmacy.id}
                         pharmacy={pharmacy}
+                        openEditPharmacyModal={openEditPharmacyModal}
                     />
                 })
             }
@@ -82,8 +86,8 @@ const PharmaciesTableRowsContainer: React.FC<{ pharmacies: PharmacyFullState[] }
 })
 
 
-const PharmaciesTableRow: React.FC<{ pharmacy: PharmacyFullState }> = (
-    { pharmacy }
+const PharmaciesTableRow: React.FC<{ pharmacy: PharmacyFullState, openEditPharmacyModal: (pharmacy: PharmacyFullState) => void }> = (
+    { pharmacy, openEditPharmacyModal }
 ) => {
 
     // console.log("Rerendered row for ", pharmacy.name)
@@ -121,7 +125,7 @@ const PharmaciesTableRow: React.FC<{ pharmacy: PharmacyFullState }> = (
             <TableData paddingX={1} >
 
 
-                <EditButton pharmacy={pharmacy} />
+                <EditButton pharmacy={pharmacy} openEditPharmacyModal={openEditPharmacyModal} />
 
             </TableData>
             <TableData
@@ -197,12 +201,15 @@ const StateTag = ({ state, }: { state?: string }) => {
 }
 
 
-const EditButton: React.FC<{ pharmacy: PharmacyFullState }> = ({ pharmacy }) => {
+const EditButton: React.FC<{ pharmacy: PharmacyFullState, openEditPharmacyModal: (pharmacy: PharmacyFullState) => void }> = ({ pharmacy, openEditPharmacyModal }) => {
     // An icon button with the edit icon
 
     // from pharmacyContext import openEditingPharmacyModal
+    // console.log("RERENDERED EDIT BUTTON")
+
 
     const { openEditingPharmacyModal } = useContext(PharmaciesContext) as PharmaciesContextInterface
+
 
 
     return <IconButton
@@ -212,7 +219,7 @@ const EditButton: React.FC<{ pharmacy: PharmacyFullState }> = ({ pharmacy }) => 
         size="sm"
         variant="ghost"
 
-        onClick={() => openEditingPharmacyModal(pharmacy)}
+        onClick={() => openEditPharmacyModal(pharmacy)}
     />
 
 }

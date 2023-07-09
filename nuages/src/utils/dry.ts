@@ -100,3 +100,18 @@ export const isValidFloatNumber = (value: string | number) => {
 export const isValidCoordinateValue = (value: string | number) => {
   return -90 <= value && value <= 90;
 };
+
+export const getSemicolonSeparatedStringFromArray = (array: string[]) => {
+  return array.join(";");
+};
+
+export const getArrayFromSemicolonSeparatedString = (string: string) => {
+  if (!string) {
+    return [];
+  }
+  return string.split(";");
+};
+
+export const getArrayFromObject = (object: any) => {
+  return Object.keys(object).map((key) => object[key]);
+};

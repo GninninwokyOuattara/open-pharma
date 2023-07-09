@@ -1,11 +1,13 @@
 
 import { useDisclosure, useToast } from '@chakra-ui/react';
 import React, { createContext, useCallback, useMemo, useState } from 'react';
-import { PharmaciesDataSummary, PharmaciesStateAndSummary, PharmacyFullState } from '../types';
+import { PharmaciesDataSummary, PharmacyFullState } from '../types';
 import { getTags } from '../utils/dry';
+import { useUserAuthContext } from './userAuthContext';
 
 
-const backendUrl = process.env.REACT_APP_DJANGO_API_URL
+const backendUrl = import.meta.env.VITE_APP_DJANGO_API_URL;
+console.log("backendUrl", backendUrl);
 
 
 export interface PharmaciesContextInterface {
@@ -47,6 +49,10 @@ export const PharmaciesContext = createContext<PharmaciesContextInterface | null
 
 
 export const PharmaciesContextProvider = ({ children }: any) => {
+
+    // Context
+
+    const { logout, authData } = useUserAuthContext()
 
     // STATES
 
@@ -101,20 +107,39 @@ export const PharmaciesContextProvider = ({ children }: any) => {
     }, [search])
 
 
-    const getDatas = async () => {
-        try {
-            const response = await fetch(`${backendUrl}/admin-api/get-pharmacies-state-and-count/`)
-            const data: PharmaciesStateAndSummary = await response.json()
-            setSummary(data.summary)
-            setPharmacies(data.pharmacies)
-            // return data
-        } catch (error: any) {
-            // cleanDatas()
-            // setError(error.message)
-            // throw error
-            handleError(error)
+    const getDatas = useCallback(async () => {
+        if (authData != null && "access" in authData) {
+
+            try {
+
+                const response = await fetch(`${backendUrl}/admin-api/pharmacies/`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${authData.access}`
+                    }
+                })
+
+                if (response.status === 200) {
+                    const data: PharmacyFullState[] = await response.json()
+
+                    setPharmacies(data)
+
+                } else if (response.status === 401) {
+                    setPharmacies([])
+                    logout()
+                }
+
+                // setPharmacies([])
+            } catch (error: any) {
+                // cleanDatas()
+                // setError(error.message)
+                // throw error
+                handleError(error)
+            }
+        } else {
+            logout()
         }
-    }
+    }, [authData, logout])
 
     const handleError = (error: any) => {
 

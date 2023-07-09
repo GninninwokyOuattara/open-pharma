@@ -17,10 +17,13 @@ export const DashboardUpdateRecap = () => {
         <VStack
             height={"100%"}
             width={"100%"}
-            backgroundColor={"white"}
-            shadow={"md"}
-            borderRadius={"md"}
+            // backgroundColor={"white"}
+            // shadow={"md"}
+            // borderRadius={"md"}
+            // shadow={"md"}
             padding={1}
+        // borderWidth={1}
+        // borderColor={"gray.300"}
         >
 
             <DashboardItemHeader title={"Latest Update Summary"} />
@@ -81,11 +84,17 @@ const UpdateRecapItem = ({ color, title, value, icon }: UpdateRecapItemProps) =>
         <HStack
             width={"100%"}
             height={"70px"}
-            border={"1px solid"}
-            borderColor={"gray.200"}
+            // border={"1px solid"}
+            // borderColor={"gray.200"}
             borderRadius={"md"}
-            // shadow={"md"}
+            shadow={"base"}
             padding={1}
+            // on hover change shadow to lg
+
+            _hover={{
+                shadow: "md"
+            }}
+
         >
             <Box
                 width={"70px"}

@@ -6,6 +6,7 @@ from django.http import Http404
 from django.shortcuts import render
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from openPharma.models import Activity, OpenPharmacy, Pharmacy
@@ -25,7 +26,12 @@ class PharmaciesViewset(viewsets.ReadOnlyModelViewSet):
     serializer_class = PharmaciesSerializer
 
 
-class PharmaciesAdminViewset(viewsets.ModelViewSet):
+class AdminAuthorizationMixin:
+    # Will force authorization on any view extending this mixin
+    permission_classes = (IsAuthenticated,)
+
+class PharmaciesAdminViewset(AdminAuthorizationMixin, viewsets.ModelViewSet):
+
     queryset = Pharmacy.objects.all()
     serializer_class = PharmaciesAdminSerializer
 
@@ -61,7 +67,7 @@ class PharmaciesAdminViewset(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
+class PharmaciesPendingReviewAdminViewset(AdminAuthorizationMixin, viewsets.ModelViewSet):
     queryset = Pharmacy.objects.filter(pending_review=True)
     serializer_class = PharmaciesPendingReviewAdminSerializer
     http_method_names = ['get', 'post']
@@ -76,7 +82,6 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
         failed = 0
         try:
             data = request.data
-            print("DATA", data)
             review = data["review"]
             if review != "activate" and review != "deactivate":
                 return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "Invalid review value"})
@@ -108,8 +113,23 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def deactivate(self, request, *args, **kwargs):
+
+        # get the data posted
+        data = request.data
+
         try:
             instance = self.get_object()
+            if data != {}:
+                instance.description = data["description"]
+                instance.addresses = data["addresses"]
+                instance.phones = data["phones"]
+                instance.email = data["email"]
+                instance.website = data["website"]
+                instance.google_maps_link = data["google_maps_link"]
+                instance.latitude = data["latitude"]
+                instance.longitude = data["longitude"]
+                instance.name = data["name"]
+                instance.director = data["director"]
             instance.active = False
             instance.pending_review = False
             instance.save()
@@ -130,10 +150,26 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def activate(self, request, *args, **kwargs):
 
+        data = request.data
+        
+
         try:
             instance = self.get_object()
+            if data != {}:
+                instance.description = data["description"]
+                instance.addresses = data["addresses"]
+                instance.phones = data["phones"]
+                instance.email = data["email"]
+                instance.website = data["website"]
+                instance.google_maps_link = data["google_maps_link"]
+                instance.latitude = data["latitude"]
+                instance.longitude = data["longitude"]
+                instance.name = data["name"]
+                instance.director = data["director"]
+
             instance.active = True
             instance.pending_review = False
+
             instance.save()
             serializer = self.get_serializer(instance)
 
@@ -150,6 +186,7 @@ class PharmaciesPendingReviewAdminViewset(viewsets.ModelViewSet):
         except Http404 as error:
             return Response(status=status.HTTP_404_NOT_FOUND, data={"message": f"pharmacy not found"})
         except Exception as error:
+            print("Error", error)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"message": f"An unknow error occured. Please try again later"})
 
 
@@ -164,7 +201,7 @@ class OpenPharmaciesViewset(viewsets.ReadOnlyModelViewSet):
         return OpenPharmacy.objects.filter(open_from__lte=self.current_date, open_until__gte=self.current_date)
 
 
-class OpenPharmaciesAdminViewset(viewsets.ModelViewSet):
+class OpenPharmaciesAdminViewset(AdminAuthorizationMixin, viewsets.ModelViewSet):
     current_date = datetime.datetime.now()
     # queryset  = OpenPharmacy.objects.all()
     serializer_class = OpenPharmaciesAdminSerializer
@@ -199,10 +236,15 @@ class PharmaciesCurrentStateViewset(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.data)
 
 
+class OpenPharmaPharmaciesStatesAdminViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = PharmaciesOpenStateSerializer
+    queryset = Pharmacy.objects.filter(pending_review=False)
+
+
 # DATAS COUNTERS VIEWS
 
 
-class PharmaciesAllStateCountView(viewsets.ReadOnlyModelViewSet):
+class PharmaciesAllStateCountView(AdminAuthorizationMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = PharmaciesOpenStateSerializer
 
     def list(self, request, *args, **kwargs):
@@ -221,7 +263,7 @@ class PharmaciesAllStateCountView(viewsets.ReadOnlyModelViewSet):
         return Response(count_summary)
 
 
-class ActivePharmaciesCountViewset(viewsets.ReadOnlyModelViewSet):
+class ActivePharmaciesCountViewset(AdminAuthorizationMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Pharmacy.objects.filter(active=True)
     serializer_class = PharmaciesSerializer
 
@@ -230,7 +272,7 @@ class ActivePharmaciesCountViewset(viewsets.ReadOnlyModelViewSet):
         return Response({'count': queryset.count()})
 
 
-class InactivePharmaciesCountViewset(viewsets.ReadOnlyModelViewSet):
+class InactivePharmaciesCountViewset(AdminAuthorizationMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Pharmacy.objects.filter(active=False)
     serializer_class = PharmaciesSerializer
 
@@ -239,7 +281,7 @@ class InactivePharmaciesCountViewset(viewsets.ReadOnlyModelViewSet):
         return Response({'count': queryset.count()})
 
 
-class OpenPharmacyCountViewset(viewsets.ReadOnlyModelViewSet):
+class OpenPharmacyCountViewset(AdminAuthorizationMixin, viewsets.ReadOnlyModelViewSet):
     current_date = datetime.datetime.now()
     queryset = OpenPharmacy.objects.filter(
         open_from__lte=current_date, open_until__gte=current_date)
@@ -252,17 +294,17 @@ class OpenPharmacyCountViewset(viewsets.ReadOnlyModelViewSet):
 
 #
 
-class PharmaciesStateAndCountViewset(viewsets.ReadOnlyModelViewSet):
+class PharmaciesStateAndCountViewset(AdminAuthorizationMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = PharmaciesOpenStateSerializer
     # queryset = Pharmacy.objects.all()
     # only take those that are not pending review
-    queryset = Pharmacy.objects.filter(pending_review=False)
+    queryset = Pharmacy.objects.filter(pending_review=False, active=True)
     current_date = datetime.datetime.now()
 
     def list(self, request, *args, **kwargs):
 
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
+        # queryset = self.get_queryset()
+        serializer = self.get_serializer(self.queryset, many=True)
 
         active_pharmacies_count = Pharmacy.objects.filter(active=True).count()
         inactive_pharmacies_count = Pharmacy.objects.filter(
@@ -284,7 +326,7 @@ class PharmaciesStateAndCountViewset(viewsets.ReadOnlyModelViewSet):
 # VIEW FOR STATISTICS
 ########################################################
 
-class PharmaciesStatisticsViewset(viewsets.ReadOnlyModelViewSet):
+class PharmaciesStatisticsViewset(AdminAuthorizationMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = PharmaciesSerializer
     queryset = Pharmacy.objects.all()
     http_method_names = ['get']
@@ -309,7 +351,7 @@ class PharmaciesStatisticsViewset(viewsets.ReadOnlyModelViewSet):
 
     # @action(detail=False, methods=['get'], url_path="pharmacies-states")
     def get_pharmacies_states(self, request, *args, **kwargs):
-        print("Hello")
+        
         current_date = datetime.datetime.now()
         active_pharmacies_count = Pharmacy.objects.filter(active=True).count()
         inactive_Pharmacies_count = Pharmacy.objects.filter(
@@ -363,7 +405,7 @@ class PharmaciesStatisticsViewset(viewsets.ReadOnlyModelViewSet):
         return Response(data)
 
 
-class OpenPharmaActivityViewset(viewsets.ReadOnlyModelViewSet):
+class OpenPharmaActivityViewset(AdminAuthorizationMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = ActivityListSerializer
     queryset = Activity.objects.all()[:20]
     http_method_names = ['get']

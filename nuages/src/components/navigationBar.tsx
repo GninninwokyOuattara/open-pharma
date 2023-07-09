@@ -13,12 +13,17 @@ import { palette } from "../colorPalette";
 import styles from "../styles/navigation.module.css";
 
 // import HiOutlineExternalLink
+import { useContext } from "react";
 import { HiOutlineExternalLink } from "react-icons/hi";
+import { UserAuthContext, UserAuthContextInterface } from "../contexts/userAuthContext";
 import NavigationTabItem from "./navigationTabItem";
 import OpenPharmaIcon from "./openPharmaIcon";
 
 
 const NavigationBar = () => {
+
+    const { logout } = useContext(UserAuthContext) as UserAuthContextInterface
+
     return (
 
         <Box
@@ -154,6 +159,16 @@ const NavigationBar = () => {
                         App
                     </Button>
                 </a>
+
+                <Button
+                    w={"full"}
+                    h={16}
+                    marginTop={3}
+                    backgroundColor={palette.custom.niceOrange}
+                    onClick={logout}
+                >
+                    Logout
+                </Button>
 
             </Box>
 

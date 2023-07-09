@@ -3,6 +3,7 @@ import { useCallback, useContext, useMemo, useState } from "react"
 import { palette } from "../colorPalette"
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext"
 import { ToastContext, ToastContextInterface } from "../contexts/toast"
+import { useUserAuthContext } from "../contexts/userAuthContext"
 
 
 
@@ -110,53 +111,64 @@ const CheckModeHeader: React.FC<{ numberOfPharmaciesSelected: number }> = ({ num
 
     const { acceptSelectedPharmacies, rejectSelectedPharmacies, pendingReviewPharmacies, setPharmaciesPendingReview } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
     const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
+    const { logout, authData } = useUserAuthContext()
+
 
 
     const batchReview = useCallback(async (review: string) => {
-        const selectedPharmacies = pendingReviewPharmacies.filter(pharmacy => pharmacy.is_checked)
-        const selectedPharmaciesIds = selectedPharmacies.map(pharmacy => pharmacy.id)
 
-        setPharmaciesPendingReview(currentState => currentState.map(pharmacy => {
-            if (selectedPharmaciesIds.includes(pharmacy.id)) {
-                return { ...pharmacy, is_loading: true }
-            }
-            return pharmacy
-        }));
+        if (authData && "access" in authData) {
+            const selectedPharmacies = pendingReviewPharmacies.filter(pharmacy => pharmacy.is_checked)
+            const selectedPharmaciesIds = selectedPharmacies.map(pharmacy => pharmacy.id)
 
-        const obj = {
-            review,
-            pharmacies: selectedPharmacies
-        }
 
-        try {
-            const response = await fetch(`${process.env.REACT_APP_DJANGO_API_URL}/admin-api/pharmacies-pending-review/batch-review/`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-
-                },
-                body: JSON.stringify(obj),
-            });
-            const data = await response.json();
-            if (response.status !== 200) {
-                throw data
-            }
-
-            setPharmaciesPendingReview(currentState => currentState.filter(pharmacy => !selectedPharmaciesIds.includes(pharmacy.id)))
-            successToast("", `${data.message}`)
-
-        } catch (error: any) {
-            console.log(error)
             setPharmaciesPendingReview(currentState => currentState.map(pharmacy => {
                 if (selectedPharmaciesIds.includes(pharmacy.id)) {
-                    return { ...pharmacy, is_loading: false }
+                    return { ...pharmacy, is_loading: true }
                 }
                 return pharmacy
             }));
-            errorToast("", `${error.message}`)
 
+            const obj = {
+                review,
+                pharmacies: selectedPharmacies
+            }
+
+            try {
+                const response = await fetch(`${import.meta.env.VITE_APP_DJANGO_API_URL}/admin-api/pharmacies-pending-review/batch-review/`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${authData.access}`
+
+
+                    },
+                    body: JSON.stringify(obj),
+                });
+                const data = await response.json();
+                if (response.status !== 200) {
+                    throw data
+                }
+
+                setPharmaciesPendingReview(currentState => currentState.filter(pharmacy => !selectedPharmaciesIds.includes(pharmacy.id)))
+                successToast("", `${data.message}`)
+
+            } catch (error: any) {
+                console.log(error)
+                setPharmaciesPendingReview(currentState => currentState.map(pharmacy => {
+                    if (selectedPharmaciesIds.includes(pharmacy.id)) {
+                        return { ...pharmacy, is_loading: false }
+                    }
+                    return pharmacy
+                }));
+                errorToast("", `${error.detail}`)
+
+            }
+        } else {
+            logout()
         }
-    }, [setPharmaciesPendingReview, pendingReviewPharmacies, successToast, errorToast])
+
+    }, [setPharmaciesPendingReview, pendingReviewPharmacies, successToast, errorToast, authData])
 
 
     return (

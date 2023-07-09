@@ -1,17 +1,20 @@
 import React, { memo } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 
-import { PharmacyFullState } from '../../../types/dataTypes'
 import Pulse from '../../utility-components/Pulse'
 
 
 
 interface Props {
-    pharmacyData: PharmacyFullState,
+    // pharmacyData: PharmacyFullState,
+    isOpen: boolean,
+    distanceToUser?: string,
+    name: string,
     onPress?: () => void
 }
 
-const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
+
+const PharmaItemExtended: React.FC<Props> = memo(({ name, distanceToUser, isOpen, onPress }) => {
     return (
 
 
@@ -25,19 +28,21 @@ const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
                         showsHorizontalScrollIndicator={false}
                     >
 
-                        <Text style={styles.pharmacyHeader}>{pharmacyData.name}</Text>
+                        <Text style={styles.pharmacyHeader}>{name}</Text>
 
                     </ScrollView>
 
 
                     <View style={styles.pharmacyMetaContainer}>
                         <View>
+                            {
+                                distanceToUser && <Text style={styles.pharmacyDistance}>{distanceToUser}</Text>
+                            }
 
-                            <Text style={styles.pharmacyDistance}>{pharmacyData.distanceToUserReadable}</Text>
                         </View>
 
                         {
-                            pharmacyData.open &&
+                            isOpen &&
                             <Pulse color='#28a745' />
 
 
@@ -54,7 +59,7 @@ const PharmaItemExtended: React.FC<Props> = ({ pharmacyData, onPress }) => {
         </TouchableWithoutFeedback>
 
     )
-}
+})
 
 
 const styles = StyleSheet.create({
@@ -152,3 +157,6 @@ const PharmacyStateContainer = () => {
 
 
 export default memo(PharmaItemExtended)
+
+
+

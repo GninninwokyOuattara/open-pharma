@@ -14,7 +14,9 @@ import SearchBar from "../components/searchBar";
 import { PharmaciesReviewContext, PharmaciesReviewContextInterface } from "../contexts/pharmaciesReviewContext";
 
 
+import EditPendingPharmacyModal from "../components/editPendingPharmacyModal";
 import { PendingReviewPageTable } from "../components/pendingReviewTable";
+import EditPendingModalContext, { EditPendingModalContextInterface } from "../contexts/EditPendingModalContext";
 
 
 
@@ -32,15 +34,18 @@ const PendingReviewsPage = () => {
 
 
     return (
-        <VStack
-            height={"full"}
-            width={"full"}
-        >
+        <>
 
-            <PendingReviewPageHeader />
-            <PendingReviewPageTable />
+            <VStack
+                height={"full"}
+                width={"full"}
+            >
 
-        </VStack>
+                <PendingReviewPageHeader />
+                <PendingReviewPageTable />
+
+            </VStack>
+        </>
     )
 }
 
@@ -50,6 +55,8 @@ const PendingReviewsPage = () => {
 const PendingReviewPageHeader = () => {
 
     const { refreshDatas, setSearch, handleSearch } = useContext(PharmaciesReviewContext) as PharmaciesReviewContextInterface
+
+    const { isOpen, onOpen, onClose } = useContext(EditPendingModalContext) as EditPendingModalContextInterface
 
     return (
         <Box
@@ -69,6 +76,9 @@ const PendingReviewPageHeader = () => {
                 <RefreshButton isLoading={false} onClick={() => refreshDatas()} />
             </HStack>
             <SearchBar onChange={handleSearch} />
+            <EditPendingPharmacyModal isOpen={false} onClose={function (): void {
+                throw new Error("Function not implemented.");
+            }} />
 
         </Box>
     )

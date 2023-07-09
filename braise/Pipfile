@@ -13,6 +13,7 @@ django-crontab = "0.7.1"
 python-dotenv = "*"
 django-rest-swagger = "*"
 django-cors-headers = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 autopep8 = "*"

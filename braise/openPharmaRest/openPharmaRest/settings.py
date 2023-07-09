@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 
+from datetime import timedelta
 from os import environ
 from pathlib import Path
 
@@ -33,7 +34,7 @@ SECRET_KEY = 'django-insecure-_$gcagc*ak9h)$##7(gg+z#8q$fy8y)g1*lh=j@6o$o^d)#=%2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["192.168.1.13", "localhost"]
 
 
 # Application definition
@@ -52,12 +53,22 @@ INSTALLED_APPS = [
     'openTracker',
     'rest_framework_swagger',
     "corsheaders",
+    "rest_framework_simplejwt",
 ]
+
+SIMPLE_JWT = {
+        "ACCESS_TOKEN_LIFETIME" : timedelta(minutes = 10),
+        "REFRESH_TOKEN_LIFETIME" : timedelta(days = 1)
+        }
 
 REST_FRAMEWORK = {
     "DATE_FORMAT": '%d/%m/%Y',
     "DATE_INPUT_FORMATS": ["%d/%m/%Y", ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
 
 }
 
@@ -171,4 +182,5 @@ CRONJOBS = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React
+    "http://localhost:4173"
 ]

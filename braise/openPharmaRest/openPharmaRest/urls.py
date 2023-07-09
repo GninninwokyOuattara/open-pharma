@@ -16,13 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
+from rest_framework_simplejwt import views as jwt_views
 from rest_framework_swagger.views import get_swagger_view
 
 # import SearchApiView
 from googleMapsScrapper.views import SearchApiView
 from openPharma.views import (OpenPharmaActivityViewset,
                               OpenPharmaciesAdminViewset,
-                              OpenPharmaciesViewset, PharmaciesAdminViewset,
+                              OpenPharmaciesViewset,
+                              OpenPharmaPharmaciesStatesAdminViewSet,
+                              PharmaciesAdminViewset,
                               PharmaciesAllStateCountView,
                               PharmaciesCurrentStateViewset,
                               PharmaciesPendingReviewAdminViewset,
@@ -34,6 +37,9 @@ from openTracker.views import (CurrentlyOpenPharmaciesView,
                                OpenPharmaActualizerView,
                                OpenPharmaTrackerHistoryViewset)
 
+# import jwt_views
+
+
 user_router = routers.SimpleRouter()
 user_router.register(r'pharmacies', PharmaciesViewset, basename='pharmacies')
 user_router.register(r'open-pharmacies',
@@ -44,7 +50,9 @@ user_router.register(r"pharmacies-current-state",
 
 admin_router = routers.SimpleRouter()
 admin_router.register(
-    r"pharmacies", PharmaciesAdminViewset, basename="admin-pharmacies")
+    r"pharmacies", PharmaciesAdminViewset, basename="pharmacies")
+admin_router.register("active-pharmacies-states",
+                      OpenPharmaPharmaciesStatesAdminViewSet, basename="active-pharmacies-states")
 admin_router.register(r'pharmacies-pending-review',
                       PharmaciesPendingReviewAdminViewset, basename='admin-pharmacies-pending-review')
 
@@ -100,5 +108,9 @@ urlpatterns = [
          SearchApiView.as_view(), name="search"),
 
     path("docs/", schema_view),
+    path('admin-api/auth/', jwt_views.TokenObtainPairView.as_view(),
+         name='token_obtain_pair'),
+    path('admin-api/refresh/', jwt_views.TokenRefreshView.as_view(),
+         name='token_refresh'),
 
 ]
