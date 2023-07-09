@@ -168,7 +168,7 @@ export const UserAuthContextProvider = ({ children }: any) => {
             timeoutId = setTimeout(() => {
 
                 refreshUserToken(authData.refresh)
-            }, 30000)
+            }, 240000)
         }
 
         return () => {
