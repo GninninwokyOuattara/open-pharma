@@ -63,30 +63,36 @@ export const UserAuthContextProvider = ({ children }: any) => {
 
     const authenticate = async (email: string, password: string): Promise<boolean> => {
         setIsAuthenticating(true)
-        const response = await fetch(backendUrl + "/admin-api/auth/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username: email,
-                password: password,
-            }),
-        })
+        try {
+            const response = await fetch(backendUrl + "/admin-api/auth/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: email,
+                    password: password,
+                }),
+            })
 
-        if (response.status === 200) {
-            successToast("", "Authentication succesful")
-            const data: AuthenticationResponse = await response.json()
-            setIsAuthenticated(true)
-            setAuthData(data)
-            console.log(data)
-            saveAuthDataToLocalStorage(data)
-        } else if (response.status == 401) {
-            let failureMessage = await response.json();
-            errorToast("", failureMessage.detail);
-        } else {
+            if (response.status === 200) {
+                successToast("", "Authentication succesful")
+                const data: AuthenticationResponse = await response.json()
+                setIsAuthenticated(true)
+                setAuthData(data)
+                console.log(data)
+                saveAuthDataToLocalStorage(data)
+            } else if (response.status == 401) {
+                let failureMessage = await response.json();
+                errorToast("", failureMessage.detail);
+            } else {
+                errorToast("", "Something went wrong, please try again later.");
+            }
+        } catch (error) {
+            console.log(error)
             errorToast("", "Something went wrong, please try again later.");
         }
+
         setIsAuthenticating(false)
         return isAuthenticated
 
