@@ -1,6 +1,7 @@
 import { Checkbox, HStack, TableCellProps, Td, Text, Tr } from "@chakra-ui/react"
 import React, { useCallback, useContext, useState } from "react"
 import { ToastContext, ToastContextInterface } from "../contexts/toast"
+import { useUserAuthContext } from "../contexts/userAuthContext"
 import { PendingReviewPharmacy } from "../types"
 import { ReviewButton } from "./actionButtons"
 import { SingleRowSkeletonLoader } from "./rowsLoader"
@@ -22,6 +23,7 @@ export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps
     const [isLoading, setIsLoading] = useState(false)
 
     const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
+    const {authData, logout} = useUserAuthContext()
 
 
     const toggleCheckbox = useCallback(() => {
@@ -38,21 +40,32 @@ export const PendingPharmaciesTableRow: React.FC<PendingPharmaciesTableDataProps
 
     const reviewPharmacy = useCallback(async (action: "activate" | "deactivate") => {
         setIsLoading(true)
-        try {
-            const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacyPendingReview.id}/${action}/`, {
-                method: "POST",
-            });
 
-            const data = await response.json();
-            if (response.status !== 200) {
-                throw data
+        if (authData && "access" in authData) {
+            
+            try {
+                const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacyPendingReview.id}/${action}/`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${authData.access}`
+                    },
+                });
+    
+                const data = await response.json();
+                if (response.status !== 200) {
+                    throw data
+                }
+                setPharmaciesPendingReview(currentState => currentState.filter(pharmacy => pharmacy.id !== pharmacyPendingReview.id))
+                successToast("", `${data.message}`)
+            } catch (error: any) {
+                errorToast("", `${error.message}`)
+    
             }
-            setPharmaciesPendingReview(currentState => currentState.filter(pharmacy => pharmacy.id !== pharmacyPendingReview.id))
-            successToast("", `${data.message}`)
-        } catch (error: any) {
-            errorToast("", `${error.message}`)
-
+        } else {
+            logout()
         }
+
         setIsLoading(false)
 
     }, [pharmacyPendingReview, setPharmaciesPendingReview])

@@ -181,37 +181,45 @@ export const PharmaciesReviewContextProvider = ({ children }: any) => {
     // Reviews action
 
     const review = useCallback(async (pharmacyToReview: PendingReviewPharmacy, review: 'activate' | 'deactivate') => {
-        try {
-            const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacyToReview.id}/${review}/`, {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json",
-                },
-                body: JSON.stringify({
-                    ...pharmacyToReview
-                })
-            });
-            const data = await response.json();
 
-            if (response.status == 200) {
-                successToast("", `${data.message}`)
-                setPharmaciesPendingReview((prev) => {
-                    const newPharmacies = prev.filter((pharmacy) => {
-                        return pharmacy.id !== pharmacyToReview.id
+        if (authData && "access" in authData) {
+            try {
+                const response = await fetch(`${backendUrl}/admin-api/pharmacies-pending-review/${pharmacyToReview.id}/${review}/`, {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+                        "Authorization": `Bearer ${authData.access}`
+                    },
+                    body: JSON.stringify({
+                        ...pharmacyToReview
                     })
-                    return newPharmacies
-                })
-                return true
-            } else {
-                errorToast("", `${data.message}`)
+                });
+                const data = await response.json();
+
+                if (response.status == 200) {
+                    successToast("", `${data.message}`)
+                    setPharmaciesPendingReview((prev) => {
+                        const newPharmacies = prev.filter((pharmacy) => {
+                            return pharmacy.id !== pharmacyToReview.id
+                        })
+                        return newPharmacies
+                    })
+                    return true
+                } else {
+                    errorToast("", `${data.message}`)
+                    return false
+                }
+
+
+            } catch (error: any) {
+                errorToast("", `An error occurred while validating ${pharmacyToReview.name}`)
                 return false
             }
-
-
-        } catch (error: any) {
-            errorToast("", `An error occurred while validating ${pharmacyToReview.name}`)
-            return false
+        } else {
+            logout()
         }
+
+
     }, [])
 
     const acceptPharmacy = useCallback(async (pharmacy: PendingReviewPharmacy) => {
