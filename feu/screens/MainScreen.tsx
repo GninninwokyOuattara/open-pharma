@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 
@@ -8,7 +8,6 @@ import BottomBar from "../components/screens-components/BottomBar";
 import { UserLocationContext } from "../contexts/UserLocationContext";
 import { RootReducerType } from "../types/dataTypes";
 
-import Map from "../components/screens-components/Map";
 
 import MainBottomSheet from "../components/screens-components/BottomSheet";
 import ToolBar from "../components/ToolBar";
@@ -76,22 +75,22 @@ const MainScreen = () => {
 
     }, [])
 
-    useEffect(() => {
-        if (isLococationPermissionGranted) {
-            updatePharmaciesDistancesIntervalId.current = setInterval(() => {
+    // useEffect(() => {
+    //     if (isLococationPermissionGranted) {
+    //         updatePharmaciesDistancesIntervalId.current = setInterval(() => {
 
-                dispatchUpdatePharmaciesDistancestoUser()
+    //             dispatchUpdatePharmaciesDistancestoUser()
 
-            }, 10000)
-        }
+    //         }, 10000)
+    //     }
 
-        return () => {
-            if (updatePharmaciesDistancesIntervalId.current) {
-                clearInterval(updatePharmaciesDistancesIntervalId.current)
-            }
-        }
+    //     return () => {
+    //         if (updatePharmaciesDistancesIntervalId.current) {
+    //             clearInterval(updatePharmaciesDistancesIntervalId.current)
+    //         }
+    //     }
 
-    }, [isLococationPermissionGranted, dispatchUpdatePharmaciesDistancestoUser])
+    // }, [isLococationPermissionGranted, dispatchUpdatePharmaciesDistancestoUser])
 
     console.log("RERENDER PARENT")
 
@@ -106,7 +105,7 @@ const MainScreen = () => {
             }}
         >
 
-            <Map setIsMapLoaded={setIsMapLoaded} />
+            {/* <Map setIsMapLoaded={setIsMapLoaded} /> */}
 
             <MainBottomSheet />
             <BottomBar />
