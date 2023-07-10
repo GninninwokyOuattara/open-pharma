@@ -102,65 +102,7 @@ const PharmaciesScreen: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     // );
 
 
-    // if (isLoading) {
-    //     return <SkeletonContentLoader />
-    // }
 
-    // if (!isLoading && isSearchingPharmacy && !pharmaciesToDisplay.length) {
-    //     return (
-    //         <View style={{
-    //             flex: 1,
-    //             // justifyContent: "center",
-    //             alignItems: "center",
-    //             paddingTop: 20,
-
-    //         }}>
-    //             <Text
-    //                 style={{
-    //                     color: "grey",
-    //                     fontWeight: "bold",
-    //                     fontSize: 20,
-    //                 }}
-    //             >Aucune pharmacie trouvé.</Text>
-    //             <Text
-    //                 style={{
-    //                     color: "grey",
-    //                     fontWeight: "bold",
-    //                     fontSize: 20,
-    //                     textAlign: "center",
-    //                 }}
-    //             >Essayer de modifier votre recherche.</Text>
-    //         </View>
-    //     )
-    // }
-
-    // if (!isLoading && !pharmaciesToDisplay.length) {
-    //     return (
-    //         <View style={{
-    //             flex: 1,
-    //             // justifyContent: "center",
-    //             alignItems: "center",
-    //             paddingTop: 20,
-
-    //         }}>
-    //             <Text
-    //                 style={{
-    //                     color: "grey",
-    //                     fontWeight: "bold",
-    //                     fontSize: 20,
-    //                 }}
-    //             >Aucune pharmacie trouvé.</Text>
-    //             <Text
-    //                 style={{
-    //                     color: "grey",
-    //                     fontWeight: "bold",
-    //                     fontSize: 20,
-    //                     textAlign: "center",
-    //                 }}
-    //             >Veuillez Patienter un moment avant de refraichir.</Text>
-    //         </View>
-    //     )
-    // }
 
     return (
         <>
