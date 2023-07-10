@@ -1,18 +1,15 @@
-import { BottomSheetView } from "@gorhom/bottom-sheet";
-import _ from "lodash";
-import React, { useCallback, useContext } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 import { MapContext } from "../../../../contexts/MapContext";
-import { PharmacyFullState, RootReducerType } from "../../../../types/dataTypes";
+import { RootReducerType } from "../../../../types/dataTypes";
 import { PharmaciesScreenType } from "../../../../types/screenTypes";
-import SkeletonContentLoader from "../../../utility-components/SkeletonContentLoader";
-import PharmaItemExtended from "../../bottomsheet-components/PharmaItemExtended";
+import PharmaciesListContainer from "../../bottomsheet-components/PharmaciesListContainer";
 
 
 
 
-const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
+const PharmaciesScreen: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     const { pharmacies, isLoading, displayMode, sortMode, isSearchingPharmacy } = useSelector((state: RootReducerType) => {
         return {
             pharmacies: state.pharmacies.toDisplayInBottomSheet,
@@ -25,136 +22,149 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
     const lastSortMode = React.useRef(sortMode);
     const { mapRef, setSelectedMarker, isFetching, mapDelta } = useContext(MapContext);
 
-    let pharmaciesToDisplay = pharmacies;
-    if (displayMode === "OpenOnly") {
-        // Filter to display only open pharmacies
-        pharmaciesToDisplay = pharmacies.filter(pharmacy => pharmacy.open)
+    // let pharmaciesToDisplay = pharmacies;
+    // if (displayMode === "OpenOnly") {
+    //     // Filter to display only open pharmacies
+    //     pharmaciesToDisplay = pharmacies.filter(pharmacy => pharmacy.open)
 
-    }
+    // }
 
-    if (lastSortMode.current !== sortMode) {
-        if (sortMode == "Alphabetical") {
-            pharmaciesToDisplay = _.sortBy(pharmaciesToDisplay, ["name"]);
-        }
-        else if (sortMode == "Proximity") {
-            pharmaciesToDisplay = _.sortBy(pharmaciesToDisplay, ["distanceToUser"]);
-        }
-        lastSortMode.current = sortMode;
-    }
+    // if (lastSortMode.current !== sortMode) {
+    //     if (sortMode == "Alphabetical") {
+    //         pharmaciesToDisplay = _.sortBy(pharmaciesToDisplay, ["name"]);
+    //     }
+    //     else if (sortMode == "Proximity") {
+    //         pharmaciesToDisplay = _.sortBy(pharmaciesToDisplay, ["distanceToUser"]);
+    //     }
+    //     lastSortMode.current = sortMode;
+    // }
 
-    const animateToPressedPharmacy = useCallback((latitude: number, longitude: number) => {
+    // const pharmaciesToDisplay = useMemo(() => {
+    //     console.log("Running memo")
+    //     const pharmaciesFilteredByDisplayMode = pharmacies.filter(pharmacy => pharmacy.open);
 
-        if (mapRef && mapRef.current) {
-            mapRef.current.animateToRegion({
-                latitude: latitude,
-                longitude: longitude,
-                ...mapDelta
-            });
-        }
+    //     const sortField = sortMode === "Alphabetical" ? "name" : "distanceToUser";
+    //     const pharmaciesSortedByMode = _.sortBy(pharmaciesFilteredByDisplayMode, [sortField]);
 
-    }, [mapRef, mapDelta])
+    //     return pharmaciesSortedByMode;
 
-    const renderPharmaciesItems =
-        ({ item }: { item: PharmacyFullState }) => {
-            // console.log(item.phid);
-            return (
-                <PharmaItemExtended
-                    key={item.id}
-                    // pharmacyData={item}
-                    isOpen={item.open}
-                    distanceToUser={item.distanceToUserReadable}
-                    name={item.name}
-                    onPress={() => {
-                        setSelectedMarker && setSelectedMarker(item.id);
 
-                        const { latitude, longitude } = item;
-                        // const [latitude, longitude] = item.Position.split(
-                        //     ","
-                        // ).map((coord) => +coord);
-                        // const { lat, lng } = item.coordinates;
-                        // Navigate to second screen
-                        // navigation.navigate("Information", {
-                        //     pharmacy: item,
-                        // });
-                        animateToPressedPharmacy(latitude, longitude)
-                        // mapRef?.current?.animateToRegion({
-                        //     latitude: latitude,
-                        //     longitude: longitude,
-                        //     latitudeDelta: mapSetting.latDelta,
-                        //     longitudeDelta: mapSetting.lngDelta,
-                        // });
+    // }, [pharmacies, displayMode, sortMode])
 
-                    }}
-                />
-            );
-        }
+    // const animateToPressedPharmacy = useCallback((latitude: number, longitude: number) => {
+
+    //     if (mapRef && mapRef.current) {
+    //         mapRef.current.animateToRegion({
+    //             latitude: latitude,
+    //             longitude: longitude,
+    //             ...mapDelta
+    //         });
+    //     }
+
+    // }, [mapRef, mapDelta])
+
+    // const renderPharmaciesItems =
+    //     ({ item }: { item: PharmacyFullState }) => {
+    //         // console.log(item.phid);
+    //         return (
+    //             <PharmaItemExtended
+    //                 key={item.id}
+    //                 // pharmacyData={item}
+    //                 isOpen={item.open}
+    //                 distanceToUser={item.distanceToUserReadable}
+    //                 name={item.name}
+    //                 onPress={() => {
+    //                     setSelectedMarker && setSelectedMarker(item.id);
+
+    //                     const { latitude, longitude } = item;
+    //                     // const [latitude, longitude] = item.Position.split(
+    //                     //     ","
+    //                     // ).map((coord) => +coord);
+    //                     // const { lat, lng } = item.coordinates;
+    //                     // Navigate to second screen
+    //                     // navigation.navigate("Information", {
+    //                     //     pharmacy: item,
+    //                     // });
+    //                     animateToPressedPharmacy(latitude, longitude)
+    //                     // mapRef?.current?.animateToRegion({
+    //                     //     latitude: latitude,
+    //                     //     longitude: longitude,
+    //                     //     latitudeDelta: mapSetting.latDelta,
+    //                     //     longitudeDelta: mapSetting.lngDelta,
+    //                     // });
+
+    //                 }}
+    //             />
+    //         );
+    //     }
+
     //     [pharmacies]
     // );
 
 
-    if (isLoading) {
-        return <SkeletonContentLoader />
-    }
+    // if (isLoading) {
+    //     return <SkeletonContentLoader />
+    // }
 
-    if (!isLoading && isSearchingPharmacy && !pharmaciesToDisplay.length) {
-        return (
-            <View style={{
-                flex: 1,
-                // justifyContent: "center",
-                alignItems: "center",
-                paddingTop: 20,
+    // if (!isLoading && isSearchingPharmacy && !pharmaciesToDisplay.length) {
+    //     return (
+    //         <View style={{
+    //             flex: 1,
+    //             // justifyContent: "center",
+    //             alignItems: "center",
+    //             paddingTop: 20,
 
-            }}>
-                <Text
-                    style={{
-                        color: "grey",
-                        fontWeight: "bold",
-                        fontSize: 20,
-                    }}
-                >Aucune pharmacie trouvé.</Text>
-                <Text
-                    style={{
-                        color: "grey",
-                        fontWeight: "bold",
-                        fontSize: 20,
-                        textAlign: "center",
-                    }}
-                >Essayer de modifier votre recherche.</Text>
-            </View>
-        )
-    }
+    //         }}>
+    //             <Text
+    //                 style={{
+    //                     color: "grey",
+    //                     fontWeight: "bold",
+    //                     fontSize: 20,
+    //                 }}
+    //             >Aucune pharmacie trouvé.</Text>
+    //             <Text
+    //                 style={{
+    //                     color: "grey",
+    //                     fontWeight: "bold",
+    //                     fontSize: 20,
+    //                     textAlign: "center",
+    //                 }}
+    //             >Essayer de modifier votre recherche.</Text>
+    //         </View>
+    //     )
+    // }
 
-    if (!isLoading && !pharmaciesToDisplay.length) {
-        return (
-            <View style={{
-                flex: 1,
-                // justifyContent: "center",
-                alignItems: "center",
-                paddingTop: 20,
+    // if (!isLoading && !pharmaciesToDisplay.length) {
+    //     return (
+    //         <View style={{
+    //             flex: 1,
+    //             // justifyContent: "center",
+    //             alignItems: "center",
+    //             paddingTop: 20,
 
-            }}>
-                <Text
-                    style={{
-                        color: "grey",
-                        fontWeight: "bold",
-                        fontSize: 20,
-                    }}
-                >Aucune pharmacie trouvé.</Text>
-                <Text
-                    style={{
-                        color: "grey",
-                        fontWeight: "bold",
-                        fontSize: 20,
-                        textAlign: "center",
-                    }}
-                >Veuillez Patienter un moment avant de refraichir.</Text>
-            </View>
-        )
-    }
+    //         }}>
+    //             <Text
+    //                 style={{
+    //                     color: "grey",
+    //                     fontWeight: "bold",
+    //                     fontSize: 20,
+    //                 }}
+    //             >Aucune pharmacie trouvé.</Text>
+    //             <Text
+    //                 style={{
+    //                     color: "grey",
+    //                     fontWeight: "bold",
+    //                     fontSize: 20,
+    //                     textAlign: "center",
+    //                 }}
+    //             >Veuillez Patienter un moment avant de refraichir.</Text>
+    //         </View>
+    //     )
+    // }
 
     return (
         <>
-
+            {/* 
             <FlatList
                 // ListHeaderComponent={<CustomSearchBar />}
                 data={pharmaciesToDisplay}
@@ -168,22 +178,30 @@ const BottomSheetContent: React.FC<PharmaciesScreenType> = ({ navigation }) => {
                 // contentOffset={{ y: 70, x: 0 }}
                 ListFooterComponent={<BottomSheetView style={{ height: 200, flex: 1 }} children={undefined} />}
 
-            ></FlatList>
+            ></FlatList> */}
+            <View style={styles.contentContainer}>
+
+
+                <PharmaciesListContainer />
+                {/* <Text>Hello</Text> */}
+
+            </View>
         </>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
+
         flex: 1,
         // padding: 24,
         // backgroundColor: "grey",
     },
     contentContainer: {
-        paddingHorizontal: 10,
-        paddingBottom: 200,
-        // flex: 1,
+        // paddingHorizontal: 10,
+        // paddingBottom: 200,
+        flex: 1,
         // borderWidth: 1,
     },
 });
-export default BottomSheetContent;
+export default PharmaciesScreen;
