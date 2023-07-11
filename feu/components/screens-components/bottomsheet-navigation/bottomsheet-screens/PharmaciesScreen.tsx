@@ -1,8 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
-import { useSelector } from "react-redux";
-import { MapContext } from "../../../../contexts/MapContext";
-import { RootReducerType } from "../../../../types/dataTypes";
 import { PharmaciesScreenType } from "../../../../types/screenTypes";
 import PharmaciesListContainer from "../../bottomsheet-components/PharmaciesListContainer";
 
@@ -10,17 +7,17 @@ import PharmaciesListContainer from "../../bottomsheet-components/PharmaciesList
 
 
 const PharmaciesScreen: React.FC<PharmaciesScreenType> = ({ navigation }) => {
-    const { pharmacies, isLoading, displayMode, sortMode, isSearchingPharmacy } = useSelector((state: RootReducerType) => {
-        return {
-            pharmacies: state.pharmacies.toDisplayInBottomSheet,
-            isLoading: state.pharmacies.isLoading,
-            displayMode: state.pharmacies.displayMode,
-            sortMode: state.pharmacies.sortMode,
-            isSearchingPharmacy: state.pharmacies.isSearchingPharmacy,
-        }
-    });
-    const lastSortMode = React.useRef(sortMode);
-    const { mapRef, setSelectedMarker, isFetching, mapDelta } = useContext(MapContext);
+    // const { pharmacies, isLoading, displayMode, sortMode, isSearchingPharmacy } = useSelector((state: RootReducerType) => {
+    //     return {
+    //         pharmacies: state.pharmacies.toDisplayInBottomSheet,
+    //         isLoading: state.pharmacies.isLoading,
+    //         displayMode: state.pharmacies.displayMode,
+    //         sortMode: state.pharmacies.sortMode,
+    //         isSearchingPharmacy: state.pharmacies.isSearchingPharmacy,
+    //     }
+    // });
+    // const lastSortMode = React.useRef(sortMode);
+    // const { mapRef, setSelectedMarker, isFetching, mapDelta } = useContext(MapContext);
 
     // let pharmaciesToDisplay = pharmacies;
     // if (displayMode === "OpenOnly") {
