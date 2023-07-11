@@ -4,6 +4,7 @@ import MapView, { PROVIDER_DEFAULT } from 'react-native-maps';
 import Animated from 'react-native-reanimated';
 import { useAppMapAnimationContext } from '../../contexts/AppMapAnimationContext';
 import { useAppMapRefContextRef } from '../../contexts/AppMapRefContext';
+import MapMarkersContainer from './MapMarkersContainer';
 
 
 const AnimatedMapView = Animated.createAnimatedComponent(MapView);
@@ -101,6 +102,7 @@ const AppMap = () => {
                     );
                 })} */}
 
+            <MapMarkersContainer />
 
         </AnimatedMapView>
     )
