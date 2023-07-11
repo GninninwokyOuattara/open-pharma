@@ -140,6 +140,7 @@ const styles = StyleSheet.create({
         // paddingHorizontal: 10,
         // paddingBottom: 200,
         flex: 1,
+        marginTop: 10,
         // borderWidth: 1,
     },
 });
