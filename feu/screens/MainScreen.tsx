@@ -13,6 +13,7 @@ import MainBottomSheet from "../components/screens-components/BottomSheet";
 import { getOpenPharmaPharmaciesDatas } from "../stores/pharmaciesActions";
 
 import * as Location from "expo-location";
+import AppMap from "../components/screens-components/AppMap";
 
 
 
@@ -103,6 +104,7 @@ const MainScreen = () => {
 
             {/* <Map setIsMapLoaded={setIsMapLoaded} /> */}
 
+            <AppMap />
             <MainBottomSheet />
             <BottomBar />
 
