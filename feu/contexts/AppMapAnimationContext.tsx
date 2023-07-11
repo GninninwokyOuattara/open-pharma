@@ -61,6 +61,8 @@ export const AppMapAnimationContextProvider: React.FC<{ children: JSX.Element | 
                         longitude: -122.4324,
                     },
                     //    zoom: 14,
+                }, {
+                    duration: 1000
                 })
             }
         }, 50)
