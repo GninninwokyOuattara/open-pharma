@@ -17,7 +17,7 @@ interface props {
     setIsMapLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Map: React.FC<props> = ({ setIsMapLoaded }) => {
+const ApplicationMap: React.FC<props> = ({ setIsMapLoaded }) => {
 
 
 
@@ -146,78 +146,6 @@ const Map: React.FC<props> = ({ setIsMapLoaded }) => {
 
 
     return (
-        // <AnimatedMapView
-        //     ref={mapRef}
-        //     onMapLoaded={() => setIsMapLoaded(true)}
-        //     style={styles.map}
-
-        //     initialRegion={(() => {
-
-        //         if (location) {
-        //             // updateMapCurrentRegion(location.coords.latitude, location.coords.longitude)
-
-        //             return {
-        //                 latitude: location.coords.latitude,
-        //                 longitude: location.coords.longitude,
-        //                 // latitudeDelta: mapSetting.latDelta,
-        //                 // longitudeDelta: mapSetting.lngDelta,
-        //                 ...mapDelta,
-
-
-        //             }
-        //         } else {
-        //             if (pharmaciesToDisplay.length) {
-
-        //                 const pharmacy = pharmacies[0]
-        //                 return {
-        //                     latitude: +pharmacy.latitude,
-        //                     longitude: +pharmacy.coordinates.longitude,
-        //                     // latitudeDelta: mapSetting.latDelta,
-        //                     // longitudeDelta: mapSetting.lngDelta,
-        //                     ...mapDelta,
-
-        //                 }
-        //             }
-        //         }
-        //     })()}
-        //     provider={PROVIDER_DEFAULT}
-        //     showsUserLocation={true}
-        //     // mapPadding={{ ...mapPadding }}
-        //     // mapType={"mutedStandard"}
-        //     // showsMyLocationButton={true}
-        //     showsCompass={true}
-        //     loadingEnabled={true}
-        //     animatedProps={animatedProps}
-
-        //     onRegionChangeComplete={(region) => {
-        //         console.log("REGION CHANGED", region)
-        //         updateMapDelta(region.latitudeDelta, region.longitudeDelta)
-        //         updateMapCurrentRegion(region.latitude, region.longitude)
-        //     }}
-        // // mapPadding={{ top: 0, right: 0, bottom: 50, left: 0 }}
-        // >
-
-        //     {(!isFetching && pharmaciesToDisplay) &&
-        //         pharmaciesToDisplay.map((pharmacyData, index) => {
-        //             const { latitude, longitude } = pharmacyData;
-        //             return (
-
-        //                 <CustomMarker
-        //                     key={pharmacyData.id}
-        //                     title={pharmacyData.name}
-        //                     id={pharmacyData.id}
-        //                     coordinate={{
-        //                         latitude: latitude,
-        //                         longitude: longitude,
-        //                     }}
-        //                     open={pharmacyData.open}
-        //                     selected={selectedMarker === pharmacyData.id}
-        //                 />
-        //             );
-        //         })}
-
-
-        // </AnimatedMapView>
         <CustomMapView
             setIsMapLoaded={setIsMapLoaded}
             mapRef={mapRef}
@@ -365,7 +293,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Map;
+export default ApplicationMap;
 
 
 
