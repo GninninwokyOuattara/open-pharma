@@ -1,53 +1,24 @@
 import BottomSheet from "@gorhom/bottom-sheet";
-import React, { useCallback, useContext, useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { COLOR_SCHEME } from "../../constants/colorSchemes";
+import { useAppMapAnimationContext } from "../../contexts/AppMapAnimationContext";
 import { BottomSheetRefContext } from "../../contexts/BottomSheetRefContext";
-import { MapContext, MapContextType } from "../../contexts/MapContext";
 import BottomsheetStackNavigator from "./bottomsheet-navigation/BottomsheetStackNavigator";
 
 const MainBottomSheet = () => {
+
     // ref
-    // const bottomSheetRef = useRef<BottomSheet>(null);
     const { bottomSheetRef } = useContext(BottomSheetRefContext)
-    const { mapRef, animateMapPaddingChange, setPaddingHeight, updateHeight } = useContext(MapContext) as MapContextType;
+
+    const { setbottomOffset } = useAppMapAnimationContext()
 
     // variables
     const insets = useSafeAreaInsets();
     const snapPoints = useMemo(() => [24, "50%", "100%"], []);
 
-    // MapPadding Manager
 
-
-    // callbacks
-    const handleSheetChanges = useCallback((index: number) => {
-        // if () {
-
-        //     console.log("index", index)
-
-        //     // if (!index) {
-        //     //     setMapPadding({ top: 0, left: 0, right: 0, bottom: 0 })
-        //     // } else {
-        //     //     console.log("Incresing mapPadding")
-        //     //     // mapRef?.current?.animate([{"latitude": 5.376891458495003,
-        //     //     // "latitudeDelta": 0.09220246288836087,
-        //     //     // "longitude": -4.006000533699989,
-        //     //     // "longitudeDelta": 0.04276916384697005, }], { edgePadding: { top: 0, left: 0, right: 0, bottom: 0 }, animated: true })
-        //     //     mapRef?.current?.animateToRegion({
-        //     //         "latitude": 5.376891458495003,
-        //     //         "latitudeDelta": 0.09220246288836087,
-        //     //         "longitude": -4.006000533699989,
-        //     //         "longitudeDelta": 0.04276916384697005
-        //     //     }, 1000)
-        //     // }
-        // }
-
-        console.log("index", index)
-        let height = index == 1 ? 300 : 0
-        animateMapPaddingChange(height)
-
-    }, [animateMapPaddingChange]);
 
     // renders
 
@@ -59,9 +30,9 @@ const MainBottomSheet = () => {
             onChange={(index) => {
                 console.log("index", index);
                 if (index == 1) {
-                    animateMapPaddingChange(300);
+                    setbottomOffset(300);
                 } else {
-                    animateMapPaddingChange(0);
+                    setbottomOffset(0);
                 }
             }}
             topInset={insets.top + 110}
