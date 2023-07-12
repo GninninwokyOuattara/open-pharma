@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { StyleSheet } from 'react-native';
 import MapView, { PROVIDER_DEFAULT } from 'react-native-maps';
 import Animated from 'react-native-reanimated';
-import { useAppMapAnimationContext } from '../../contexts/AppMapAnimationContext';
 import { useAppMapRefContextRef } from '../../contexts/AppMapRefContext';
+import { useUserLocation } from '../../contexts/UserLocationContext';
 import MapMarkersContainer from './MapMarkersContainer';
 
 
@@ -13,67 +13,50 @@ const AppMap = () => {
 
     console.log("Map rerender")
     const { mapRef } = useAppMapRefContextRef();
-    const { mapDynamicBottomOffsetValue } = useAppMapAnimationContext()
-    // const { location } = useContext(UserLocationContext);
 
+    const { location } = useUserLocation()
 
-    // const bottomPadding = useSharedValue(0)
+    const getInitialRegion = useCallback(() => {
+        if (location != null) {
+            return {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421
+            }
+        } else {
+            return {
+                latitude: 0,
+                longitude: 0,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421
+            }
+        }
+    }, [location])
 
+    const handleMapReady = useCallback(() => {
+        if (mapRef && mapRef.current && location) {
+            mapRef.current.animateToRegion(getInitialRegion())
+        }
+    }, [mapRef, getInitialRegion, location])
 
-
-    // let animatedProps = useAnimatedProps(() => ({
-    //     mapPadding: {
-    //         top: 0,
-    //         bottom: animatedMapBottomPadding!.value,
-    //         left: 0,
-    //         right: 0
-    //     }
-
-    // }))
-
-    // console.log("MapDynamicBottomOffsetValue", mapDynamicBottomOffsetValue)
-
+    console.log("User location", location)
     return (
         <AnimatedMapView
             ref={mapRef}
             style={styles.map}
-
-            // initialRegion={(() => {
-
-            //     if (location) {
-            //         // updateMapCurrentRegion(location.coords.latitude, location.coords.longitude)
-
-            //         return {
-            //             latitude: location.coords.latitude,
-            //             longitude: location.coords.longitude,
-            //             // latitudeDelta: mapSetting.latDelta,
-            //             // longitudeDelta: mapSetting.lngDelta,
-            //             ...mapDelta,
+            onMapReady={() => {
+                handleMapReady()
+            }}
 
 
-            //         }
-            //     }
-            //     // else {
-            //     //     if (pharmaciesToDisplay.length) {
-
-            //     //         const pharmacy = pharmaciesToDisplay[0]
-            //     //         return {
-            //     //             latitude: +pharmacy.latitude,
-            //     //             longitude: +pharmacy.coordinates.longitude,
-            //     //             // latitudeDelta: mapSetting.latDelta,
-            //     //             // longitudeDelta: mapSetting.lngDelta,
-            //     //             ...mapDelta,
-
-            //     //         }
-            //     //     }
-            //     // }
-            // })()}
             provider={PROVIDER_DEFAULT}
             showsUserLocation={true}
 
             showsCompass={true}
             loadingEnabled={true}
-            animatedProps={mapDynamicBottomOffsetValue}
+            mapPadding={{ top: 0, bottom: 300, left: 0, right: 0 }}
+
 
 
         >
