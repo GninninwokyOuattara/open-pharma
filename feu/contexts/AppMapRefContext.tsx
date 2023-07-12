@@ -3,14 +3,17 @@ import React, {
     ReactNode, RefObject,
     useCallback,
     useContext,
+    useEffect,
     useRef
 } from "react";
 import MapView from "react-native-maps";
+import { PharmacyFullState } from "../types/dataTypes";
 
 export interface AppMapRefContextRefProps {
     mapRef: RefObject<MapView> | null;
-    selectedMarker: string,
-    setSelectedMarker: React.Dispatch<React.SetStateAction<string>> | null,
+    selectedMarker: PharmacyFullState | null,
+    setSelectedMarker: React.Dispatch<React.SetStateAction<PharmacyFullState | null>> | null,
+    setActiveMarker: (marker: PharmacyFullState) => void
 }
 
 interface AppMapRefContextRefProviderProps {
@@ -19,8 +22,9 @@ interface AppMapRefContextRefProviderProps {
 
 export const AppMapRefContextRef = createContext<AppMapRefContextRefProps>({
     mapRef: null,
-    selectedMarker: "",
+    selectedMarker: null,
     setSelectedMarker: null,
+    setActiveMarker: () => { }
 
 
 });
@@ -33,7 +37,7 @@ export const AppMapRefContextRefProvider: React.FC<AppMapRefContextRefProviderPr
 }) => {
     const mapRef = useRef<MapView>(null);
 
-    const [selectedMarker, setSelectedMarker] = React.useState<string>("");
+    const [selectedMarker, setSelectedMarker] = React.useState<PharmacyFullState | null>(null);
     const [deltaCoords, setDeltaCoords] = React.useState<DeltaCoords>({ latitudeDelta: 0.0922, longitudeDelta: 0.0421 })
 
 
@@ -47,6 +51,24 @@ export const AppMapRefContextRefProvider: React.FC<AppMapRefContextRefProviderPr
             })
     }, [setDeltaCoords]);
 
+    const setActiveMarker = useCallback((marker: PharmacyFullState) => {
+        setSelectedMarker(marker)
+    }, [setSelectedMarker]);
+
+    useEffect(() => {
+        // Navigate to marker on map when marker is selected
+        if (selectedMarker && mapRef && mapRef.current) {
+            console.log("Triggered animation to selected marker")
+
+            mapRef.current.animateToRegion({
+                latitude: selectedMarker.latitude,
+                longitude: selectedMarker.longitude,
+                latitudeDelta: deltaCoords.latitudeDelta,
+                longitudeDelta: deltaCoords.longitudeDelta,
+            });
+        }
+    }, [mapRef, selectedMarker])
+
 
     return (
         <AppMapRefContextRef.Provider
@@ -54,6 +76,7 @@ export const AppMapRefContextRefProvider: React.FC<AppMapRefContextRefProviderPr
                 mapRef,
                 selectedMarker,
                 setSelectedMarker,
+                setActiveMarker
             }}
         >
             {children}
