@@ -40,7 +40,6 @@ const AppMap = () => {
         }
     }, [mapRef, getInitialRegion, location])
 
-    console.log("User location", location)
     return (
         <AnimatedMapView
             ref={mapRef}
