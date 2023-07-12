@@ -3,7 +3,6 @@ import React, { useContext, useMemo } from "react";
 import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { COLOR_SCHEME } from "../../constants/colorSchemes";
-import { useAppMapAnimationContext } from "../../contexts/AppMapAnimationContext";
 import { BottomSheetRefContext } from "../../contexts/BottomSheetRefContext";
 import BottomsheetStackNavigator from "./bottomsheet-navigation/BottomsheetStackNavigator";
 
@@ -12,7 +11,6 @@ const MainBottomSheet = () => {
     // ref
     const { bottomSheetRef } = useContext(BottomSheetRefContext)
 
-    const { setbottomOffset } = useAppMapAnimationContext()
 
     // variables
     const insets = useSafeAreaInsets();
@@ -27,14 +25,7 @@ const MainBottomSheet = () => {
             ref={bottomSheetRef}
             index={1}
             snapPoints={snapPoints}
-            onChange={(index) => {
-                console.log("index", index);
-                if (index == 1) {
-                    setbottomOffset(300);
-                } else {
-                    setbottomOffset(0);
-                }
-            }}
+            // onChange={}
             topInset={insets.top + 110}
             bottomInset={insets.bottom}
             backgroundStyle={{ backgroundColor: "#F0ECD6", opacity: 0.9 }}

@@ -11,8 +11,7 @@ const AnimatedMapView = Animated.createAnimatedComponent(MapView);
 
 const AppMap = () => {
 
-    console.log("MAp rerender")
-    // const { mapRef, animatedMapBottomPadding } = useContext(MapContext);
+    console.log("Map rerender")
     const { mapRef } = useAppMapRefContextRef();
     const { mapDynamicBottomOffsetValue } = useAppMapAnimationContext()
     // const { location } = useContext(UserLocationContext);
@@ -76,31 +75,10 @@ const AppMap = () => {
             loadingEnabled={true}
             animatedProps={mapDynamicBottomOffsetValue}
 
-        // onRegionChangeComplete={(region) => {
-        //     console.log("REGION CHANGED", region)
-        //     updateMapDelta(region.latitudeDelta, region.longitudeDelta)
-        //     updateMapCurrentRegion(region.latitude, region.longitude)
-        // }}
+
         >
 
-            {/* {(!isFetching && pharmaciesToDisplay) &&
-                pharmaciesToDisplay.map((pharmacyData, index) => {
-                    const { latitude, longitude } = pharmacyData;
-                    return (
 
-                        <CustomMarker
-                            key={pharmacyData.id}
-                            title={pharmacyData.name}
-                            id={pharmacyData.id}
-                            coordinate={{
-                                latitude: latitude,
-                                longitude: longitude,
-                            }}
-                            open={pharmacyData.open}
-                            selected={selectedMarker === pharmacyData.id}
-                        />
-                    );
-                })} */}
 
             <MapMarkersContainer />
 
