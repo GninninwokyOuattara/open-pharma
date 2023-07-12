@@ -3,6 +3,7 @@ import _ from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { FlatList, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useAppMapRefContextRef } from '../../../contexts/AppMapRefContext';
 import { PharmacyFullState, RootReducerType } from '../../../types/dataTypes';
 import SkeletonContentLoader from '../../utility-components/SkeletonContentLoader';
 import PharmaItemExtended from './PharmaItemExtended';
@@ -11,6 +12,8 @@ import PharmaItemExtended from './PharmaItemExtended';
 
 
 const PharmaciesListContainer = () => {
+
+    const { mapRef, selectedMarker, setSelectedMarker } = useAppMapRefContextRef();
 
     const { pharmacies, isLoading, displayMode, sortMode, isSearchingPharmacy } = useSelector((state: RootReducerType) => {
         return {
@@ -34,6 +37,23 @@ const PharmaciesListContainer = () => {
     }, [pharmacies, displayMode, sortMode])
 
 
+
+    const animateToPressedPharmacy = useCallback((latitude: number, longitude: number) => {
+        if (mapRef && mapRef.current) {
+            mapRef.current.animateToRegion({
+                latitude: latitude,
+                longitude: longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            });
+        }
+    }, [mapRef])
+
+    const handlePress = useCallback((pharmacy: PharmacyFullState) => {
+        animateToPressedPharmacy(pharmacy.latitude, pharmacy.longitude)
+    }, [])
+
+
     const renderPharmaciesItems =
         useCallback(({ item }: { item: PharmacyFullState }) => {
             return (
@@ -43,6 +63,8 @@ const PharmaciesListContainer = () => {
                     isOpen={item.open}
                     distanceToUser={item.distanceToUserReadable}
                     name={item.name}
+                    onPress={handlePress.bind(null, item)}
+
                 // onPress={() => {
                 //     setSelectedMarker && setSelectedMarker(item.id);
 
