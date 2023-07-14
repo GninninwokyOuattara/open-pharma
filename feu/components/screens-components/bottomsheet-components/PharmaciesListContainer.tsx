@@ -13,7 +13,7 @@ import PharmaItemExtended from './PharmaItemExtended';
 
 const PharmaciesListContainer = () => {
 
-    const { mapRef, selectedMarker, setSelectedMarker } = useAppMapRefContextRef();
+    const { mapRef, setActiveMarker } = useAppMapRefContextRef();
 
     const { pharmacies, isLoading, displayMode, sortMode, isSearchingPharmacy } = useSelector((state: RootReducerType) => {
         return {
@@ -38,20 +38,11 @@ const PharmaciesListContainer = () => {
 
 
 
-    const animateToPressedPharmacy = useCallback((latitude: number, longitude: number) => {
-        if (mapRef && mapRef.current) {
-            mapRef.current.animateToRegion({
-                latitude: latitude,
-                longitude: longitude,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-            });
-        }
-    }, [mapRef])
+
 
     const handlePress = useCallback((pharmacy: PharmacyFullState) => {
-        animateToPressedPharmacy(pharmacy.latitude, pharmacy.longitude)
-    }, [])
+        setActiveMarker(pharmacy)
+    }, [setActiveMarker])
 
 
     const renderPharmaciesItems =
@@ -63,7 +54,7 @@ const PharmaciesListContainer = () => {
                     isOpen={item.open}
                     distanceToUser={item.distanceToUserReadable}
                     name={item.name}
-                    onPress={handlePress.bind(null, item)}
+                    onPress={() => handlePress(item)}
 
                 // onPress={() => {
                 //     setSelectedMarker && setSelectedMarker(item.id);

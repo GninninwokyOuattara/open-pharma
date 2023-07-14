@@ -3,7 +3,6 @@ import React, {
     ReactNode, RefObject,
     useCallback,
     useContext,
-    useEffect,
     useRef
 } from "react";
 import MapView from "react-native-maps";
@@ -51,23 +50,29 @@ export const AppMapRefContextRefProvider: React.FC<AppMapRefContextRefProviderPr
             })
     }, [setDeltaCoords]);
 
-    const setActiveMarker = useCallback((marker: PharmacyFullState) => {
-        setSelectedMarker(marker)
-    }, [setSelectedMarker]);
-
-    useEffect(() => {
-        // Navigate to marker on map when marker is selected
-        if (selectedMarker && mapRef && mapRef.current) {
-            console.log("Triggered animation to selected marker")
-
+    const animateToPharmacyOnMap = useCallback((pharmacy: PharmacyFullState) => {
+        if (mapRef && mapRef.current) {
             mapRef.current.animateToRegion({
-                latitude: selectedMarker.latitude,
-                longitude: selectedMarker.longitude,
+                latitude: pharmacy.latitude,
+                longitude: pharmacy.longitude,
                 latitudeDelta: deltaCoords.latitudeDelta,
                 longitudeDelta: deltaCoords.longitudeDelta,
             });
         }
-    }, [mapRef, selectedMarker])
+    }, [mapRef, deltaCoords])
+
+    const setActiveMarker = useCallback((pharmacy: PharmacyFullState) => {
+        animateToPharmacyOnMap(pharmacy)
+        setSelectedMarker((currentlySelected) => {
+            if (currentlySelected?.id === pharmacy.id) return null
+            return pharmacy
+        })
+
+    }, [setSelectedMarker, animateToPharmacyOnMap]);
+
+
+
+
 
 
     return (
