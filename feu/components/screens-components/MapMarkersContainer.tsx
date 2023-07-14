@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { useSelector } from 'react-redux'
+import { useAppMapRefContextRef } from '../../contexts/AppMapRefContext'
 import { RootReducerType } from '../../types/dataTypes'
 import CustomMarker from '../CustomMarker'
 
@@ -10,6 +11,8 @@ const MapMarkersContainer = () => {
             pharmacies: state.pharmacies.toDisplayInBottomSheet,
         }
     });
+
+    const { selectedMarker } = useAppMapRefContextRef();
 
     const pharmaciesMarkersData = useMemo(() => {
         return pharmacies.map((pharmacy) => {
@@ -22,9 +25,10 @@ const MapMarkersContainer = () => {
                     longitude: pharmacy.longitude,
                 },
                 open: pharmacy.open,
+                selected: selectedMarker?.id === pharmacy.id
             }
         })
-    }, [pharmacies])
+    }, [pharmacies, selectedMarker])
 
 
     if (pharmaciesMarkersData.length) {
