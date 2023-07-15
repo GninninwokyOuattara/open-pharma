@@ -11,6 +11,7 @@ import MainBottomSheet from "../components/screens-components/BottomSheet";
 import { getOpenPharmaPharmaciesDatas } from "../stores/pharmaciesActions";
 
 import * as Location from "expo-location";
+import ToolBar from "../components/ToolBar";
 import AppMap from "../components/screens-components/AppMap";
 
 
@@ -58,8 +59,7 @@ const MainScreen = () => {
             <AppMap />
             <MainBottomSheet />
             <BottomBar />
-
-            {/* <ToolBar {...{ setIsProximityMode }} /> */}
+            <ToolBar />
 
 
         </View>
