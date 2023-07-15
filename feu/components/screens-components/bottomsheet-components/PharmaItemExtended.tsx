@@ -1,7 +1,6 @@
 import React from 'react'
 import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 
-import Pulse from '../../utility-components/Pulse'
 
 
 
@@ -41,12 +40,12 @@ const PharmaItemExtended: React.FC<Props> = React.memo(({ name, distanceToUser, 
 
                         </View>
 
-                        {
+                        {/* {
                             isOpen &&
                             <Pulse color='#28a745' />
 
 
-                        }
+                        } */}
                     </View>
 
 
