@@ -25,7 +25,6 @@ export const AppMapRefContextRef = createContext<AppMapRefContextRefProps>({
     setSelectedMarker: null,
     setActiveMarker: () => { }
 
-
 });
 
 
@@ -39,27 +38,16 @@ export const AppMapRefContextRefProvider: React.FC<AppMapRefContextRefProviderPr
     const [selectedMarker, setSelectedMarker] = React.useState<PharmacyFullState | null>(null);
     const [deltaCoords, setDeltaCoords] = React.useState<DeltaCoords>({ latitudeDelta: 0.0922, longitudeDelta: 0.0421 })
 
-
-
-
-    const setMapDelta = useCallback((latDelta: number, lngDelta: number) => {
-        setDeltaCoords(
-            {
-                latitudeDelta: latDelta,
-                longitudeDelta: lngDelta
-            })
-    }, [setDeltaCoords]);
-
     const animateToPharmacyOnMap = useCallback((pharmacy: PharmacyFullState) => {
         if (mapRef && mapRef.current) {
-            mapRef.current.animateToRegion({
-                latitude: pharmacy.latitude,
-                longitude: pharmacy.longitude,
-                latitudeDelta: deltaCoords.latitudeDelta,
-                longitudeDelta: deltaCoords.longitudeDelta,
+            mapRef.current.animateCamera({
+                center: {
+                    latitude: pharmacy.latitude,
+                    longitude: pharmacy.longitude,
+                },
             });
         }
-    }, [mapRef, deltaCoords])
+    }, [mapRef])
 
     const setActiveMarker = useCallback((pharmacy: PharmacyFullState) => {
         animateToPharmacyOnMap(pharmacy)
