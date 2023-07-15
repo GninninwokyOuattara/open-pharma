@@ -21,15 +21,15 @@ const AppMap = () => {
             return {
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421
+                latitudeDelta: 0.02568403283423315,
+                longitudeDelta: 0.018894821405410767
             }
         } else {
             return {
-                latitude: 0,
-                longitude: 0,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421
+                latitude: 5.3484446,
+                longitude: -4.0620656,
+                latitudeDelta: 0.02568403283423315,
+                longitudeDelta: 0.018894821405410767
             }
         }
     }, [location])
@@ -48,14 +48,12 @@ const AppMap = () => {
                 handleMapReady()
             }}
 
-
             provider={PROVIDER_DEFAULT}
             showsUserLocation={true}
 
             showsCompass={true}
             loadingEnabled={true}
             mapPadding={{ top: 0, bottom: 300, left: 0, right: 0 }}
-
 
 
         >
