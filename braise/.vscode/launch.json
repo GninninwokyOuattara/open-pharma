@@ -18,7 +18,7 @@
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/openPharmaRest/manage.py",
-      "args": ["runserver"],
+      "args": ["runserver", "0.0.0.0:8080"],
       "django": true,
       "justMyCode": true
     },
