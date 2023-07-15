@@ -2,7 +2,6 @@ import React from 'react'
 import { Image } from 'react-native'
 import { Marker } from 'react-native-maps'
 import Pulse from './utility-components/Pulse'
-import SpinningDashedCircle from './utility-components/SpinningDashedCircle'
 
 interface Props {
     id: any,
@@ -32,7 +31,9 @@ let CustomMarker: React.FC<Props> = React.memo(({ id, coordinate, open, title, s
             >
 
                 {/* <Pulse color='blue' dotSize={15} /> */}
-                <SpinningDashedCircle color={color} />
+                {/* <SpinningDashedCircle color={color} /> */}
+                <Pulse color='green' dotSize={10} />
+
 
 
             </Marker>
@@ -54,7 +55,9 @@ let CustomMarker: React.FC<Props> = React.memo(({ id, coordinate, open, title, s
             >
 
                 {/* <Image source={require("../assets/markerGreen.png")} style={{ height: 45, width: 20 }} /> */}
-                <Pulse color='green' dotSize={15} />
+                {/* <Pulse color='green' dotSize={15} /> */}
+                <Image source={require("../assets/pharmacyOpenAllNight.png")} />
+
 
             </Marker>
         )
@@ -73,7 +76,7 @@ let CustomMarker: React.FC<Props> = React.memo(({ id, coordinate, open, title, s
 
         >
 
-            <Image source={require("../assets/currentlyOpen.png")} />
+            <Image source={require("../assets/pharmacyOpen.png")} />
 
         </Marker>
 
