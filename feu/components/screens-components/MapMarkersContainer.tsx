@@ -6,11 +6,21 @@ import { RootReducerType } from '../../types/dataTypes'
 import CustomMarker from '../CustomMarker'
 
 const MapMarkersContainer = () => {
-    const { pharmacies } = useSelector((state: RootReducerType) => {
+    const { pharmacies: pharmaciesData, displayMode } = useSelector((state: RootReducerType) => {
         return {
             pharmacies: state.pharmacies.toDisplayInBottomSheet,
+            displayMode: state.pharmacies.displayMode,
         }
     });
+
+    const pharmacies = useMemo(() => {
+        if (displayMode == "All") {
+            return pharmaciesData;
+        }
+        const pharmaciesFilteredByDisplayMode = pharmaciesData.filter(pharmacy => pharmacy.open);
+
+        return pharmaciesFilteredByDisplayMode;
+    }, [pharmaciesData, displayMode]);
 
     const { selectedMarker } = useAppMapRefContextRef();
 
