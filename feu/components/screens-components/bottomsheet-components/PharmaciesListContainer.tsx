@@ -26,14 +26,16 @@ const PharmaciesListContainer = () => {
     });
 
     const pharmaciesList = useMemo(() => {
-        const pharmaciesFilteredByDisplayMode = pharmacies.filter(pharmacy => pharmacy.open);
-
+        let ouputPharmacies: PharmacyFullState[] = pharmacies;
+        if (displayMode == "OpenOnly") {
+            ouputPharmacies = pharmacies.filter(pharmacy => pharmacy.open);
+        }
 
         const sortField = sortMode === "Alphabetical" ? "name" : "distanceToUser";
-        const pharmaciesSortedByMode = _.sortBy(pharmaciesFilteredByDisplayMode, [sortField]);
+        ouputPharmacies = _.sortBy(ouputPharmacies, [sortField]);
 
 
-        return pharmaciesSortedByMode;
+        return ouputPharmacies;
     }, [pharmacies, displayMode, sortMode])
 
 
@@ -55,28 +57,6 @@ const PharmaciesListContainer = () => {
                     distanceToUser={item.distanceToUserReadable}
                     name={item.name}
                     onPress={() => handlePress(item)}
-
-                // onPress={() => {
-                //     setSelectedMarker && setSelectedMarker(item.id);
-
-                //     const { latitude, longitude } = item;
-                //     // const [latitude, longitude] = item.Position.split(
-                //     //     ","
-                //     // ).map((coord) => +coord);
-                //     // const { lat, lng } = item.coordinates;
-                //     // Navigate to second screen
-                //     // navigation.navigate("Information", {
-                //     //     pharmacy: item,
-                //     // });
-                //     animateToPressedPharmacy(latitude, longitude)
-                //     // mapRef?.current?.animateToRegion({
-                //     //     latitude: latitude,
-                //     //     longitude: longitude,
-                //     //     latitudeDelta: mapSetting.latDelta,
-                //     //     longitudeDelta: mapSetting.lngDelta,
-                //     // });
-
-                // }}
                 />
             );
         }, [pharmaciesList])
