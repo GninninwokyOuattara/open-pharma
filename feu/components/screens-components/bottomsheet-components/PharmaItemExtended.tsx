@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 
 import Pulse from '../../utility-components/Pulse'
@@ -14,7 +14,7 @@ interface Props {
 }
 
 
-const PharmaItemExtended: React.FC<Props> = memo(({ name, distanceToUser, isOpen, onPress }) => {
+const PharmaItemExtended: React.FC<Props> = React.memo(({ name, distanceToUser, isOpen, onPress }) => {
     return (
 
 
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingHorizontal: 10,
         marginBottom: 10,
+        marginHorizontal: 10,
         height: 50,
         // borderWidth: 1,
         // borderColor: "red",
@@ -148,15 +149,9 @@ const styles = StyleSheet.create({
 })
 
 
-const PharmacyStateContainer = () => {
-
-    return (
-        <View></View>
-    )
-}
 
 
-export default memo(PharmaItemExtended)
+export default PharmaItemExtended
 
 
 

@@ -1,12 +1,10 @@
-import React, {
-    useState,
-    useEffect,
-    createContext,
-    useRef,
-    RefObject,
-} from "react";
-import MapView from "react-native-maps";
 import * as Location from "expo-location";
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useState
+} from "react";
 
 export interface UserContextType {
     location: Location.LocationObject | null;
@@ -37,7 +35,7 @@ export const UserLocationProvider: React.FC<{
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location);
         })();
-        return () => {};
+        return () => { };
     }, []);
 
     return (
@@ -46,3 +44,7 @@ export const UserLocationProvider: React.FC<{
         </UserLocationContext.Provider>
     );
 };
+
+export const useUserLocation = () => {
+    return useContext(UserLocationContext);
+}

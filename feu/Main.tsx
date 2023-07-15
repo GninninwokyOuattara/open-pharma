@@ -10,6 +10,8 @@ import AppLoading from 'expo-app-loading';
 import { MapContextProvider } from "./contexts/MapContext";
 import { UserLocationProvider } from "./contexts/UserLocationContext";
 
+import { AppMapAnimationContextProvider } from "./contexts/AppMapAnimationContext";
+import { AppMapRefContextRefProvider } from "./contexts/AppMapRefContext";
 import { BottomSheetRefContextProvider } from "./contexts/BottomSheetRefContext";
 import { SET_IS_LOCATION_PERMISSION_GRANTED } from "./stores/actions";
 
@@ -89,10 +91,17 @@ const Main = () => {
         <SafeAreaProvider>
             <UserLocationProvider>
                 <MapContextProvider>
-                    <BottomSheetRefContextProvider>
+                    <AppMapRefContextRefProvider>
+                        <AppMapAnimationContextProvider>
+                            <BottomSheetRefContextProvider>
 
-                        <MainScreen />
-                    </BottomSheetRefContextProvider>
+                                <MainScreen />
+                            </BottomSheetRefContextProvider>
+                        </AppMapAnimationContextProvider>
+
+
+
+                    </AppMapRefContextRefProvider>
 
                 </MapContextProvider>
 

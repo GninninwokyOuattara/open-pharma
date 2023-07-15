@@ -15,7 +15,7 @@ interface Props {
     selected?: boolean
 }
 
-let CustomMarker: React.FC<Props> = ({ id, coordinate, open, title, selected }) => {
+let CustomMarker: React.FC<Props> = React.memo(({ id, coordinate, open, title, selected }) => {
 
     if (selected) {
         let color: "green" | "orange" = open ? "green" : "orange"
@@ -73,12 +73,12 @@ let CustomMarker: React.FC<Props> = ({ id, coordinate, open, title, selected }) 
 
         >
 
-            <Image source={require("../assets/markerOrange.png")} />
+            <Image source={require("../assets/currentlyOpen.png")} />
 
         </Marker>
 
     )
-}
+})
 
 // export default CustomMarker = React.memo(CustomMarker)
 

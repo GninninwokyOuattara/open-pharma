@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 
@@ -8,16 +8,12 @@ import BottomBar from "../components/screens-components/BottomBar";
 import { UserLocationContext } from "../contexts/UserLocationContext";
 import { RootReducerType } from "../types/dataTypes";
 
-import Map from "../components/screens-components/Map";
 
 import MainBottomSheet from "../components/screens-components/BottomSheet";
-import ToolBar from "../components/ToolBar";
-import { MapContext } from "../contexts/MapContext";
-import useInitializer from "../hooks/useInitializer";
 import { getOpenPharmaPharmaciesDatas } from "../stores/pharmaciesActions";
 
 import * as Location from "expo-location";
-import { UPDATE_RELATIVE_DISTANCES } from "../stores/actions";
+import AppMap from "../components/screens-components/AppMap";
 
 
 
@@ -31,33 +27,33 @@ const MainScreen = () => {
 
 
     const dispatch = useDispatch();
-    const pharmacies = useSelector((state: RootReducerType) => {
-        return state.pharmacies.toDisplayInBottomSheet;
-    });
+    // const pharmacies = useSelector((state: RootReducerType) => {
+    //     return state.pharmacies.toDisplayInBottomSheet;
+    // });
     const isLococationPermissionGranted = useSelector((state: RootReducerType) => {
         return state.pharmacies.isLocationPermissionGranted;
     });
 
     const { location } = useContext(UserLocationContext)
-    const { setIsFetching } = useContext(MapContext)
+    // const { setIsFetching } = useContext(MapContext)
 
-    const { init } = useInitializer()
-
-
+    // const { init } = useInitializer()
 
 
-    const dispatchUpdatePharmaciesDistancestoUser = useCallback(() => {
-        if (!isLococationPermissionGranted) {
-            return
-        }
 
-        Location.getCurrentPositionAsync({}).then((location) => {
-            dispatch({
-                type: UPDATE_RELATIVE_DISTANCES,
-                data: location
-            })
-        })
-    }, [isLococationPermissionGranted, dispatch])
+
+    // const dispatchUpdatePharmaciesDistancestoUser = useCallback(() => {
+    //     if (!isLococationPermissionGranted) {
+    //         return
+    //     }
+
+    //     Location.getCurrentPositionAsync({}).then((location) => {
+    //         dispatch({
+    //             type: UPDATE_RELATIVE_DISTANCES,
+    //             data: location
+    //         })
+    //     })
+    // }, [isLococationPermissionGranted, dispatch])
 
 
     React.useEffect(() => {
@@ -76,24 +72,24 @@ const MainScreen = () => {
 
     }, [])
 
-    useEffect(() => {
-        if (isLococationPermissionGranted) {
-            updatePharmaciesDistancesIntervalId.current = setInterval(() => {
+    // useEffect(() => {
+    //     if (isLococationPermissionGranted) {
+    //         updatePharmaciesDistancesIntervalId.current = setInterval(() => {
 
-                dispatchUpdatePharmaciesDistancestoUser()
+    //             dispatchUpdatePharmaciesDistancestoUser()
 
-            }, 10000)
-        }
+    //         }, 10000)
+    //     }
 
-        return () => {
-            if (updatePharmaciesDistancesIntervalId.current) {
-                clearInterval(updatePharmaciesDistancesIntervalId.current)
-            }
-        }
+    //     return () => {
+    //         if (updatePharmaciesDistancesIntervalId.current) {
+    //             clearInterval(updatePharmaciesDistancesIntervalId.current)
+    //         }
+    //     }
 
-    }, [isLococationPermissionGranted, dispatchUpdatePharmaciesDistancestoUser])
+    // }, [isLococationPermissionGranted, dispatchUpdatePharmaciesDistancestoUser])
 
-    console.log("RERENDER PARENT")
+    // console.log("RERENDER PARENT")
 
 
 
@@ -106,12 +102,13 @@ const MainScreen = () => {
             }}
         >
 
-            <Map setIsMapLoaded={setIsMapLoaded} />
+            {/* <Map setIsMapLoaded={setIsMapLoaded} /> */}
 
+            <AppMap />
             <MainBottomSheet />
             <BottomBar />
 
-            <ToolBar {...{ setIsProximityMode }} />
+            {/* <ToolBar {...{ setIsProximityMode }} /> */}
 
 
         </View>
