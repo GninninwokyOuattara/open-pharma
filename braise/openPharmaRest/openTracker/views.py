@@ -7,12 +7,8 @@ import requests
 from bs4 import BeautifulSoup
 from django.shortcuts import render
 from django.utils import timezone
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.viewsets import ReadOnlyModelViewSet
-
 from openPharma.models import Activity, OpenPharmacy, Pharmacy
-from openPharma.views import AdminAuthorizationMixin 
+from openPharma.views import AdminAuthorizationMixin
 from openTracker.models import TrackerHistory
 from openTracker.serializers import TrackerHistoryListSerializer
 from openTracker.utils import (extract_pharmacy_data_from_row,
@@ -20,6 +16,9 @@ from openTracker.utils import (extract_pharmacy_data_from_row,
                                perform_get_currently_open_pharmacies_datas,
                                perform_pharmacy_insertion,
                                perform_pharmacy_opening)
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 SOURCE_URL = "https://pharma-consults.net/pharmacies-gardes"
 
@@ -67,7 +66,7 @@ class OpenPharmaActualizerView(AdminAuthorizationMixin, APIView):
                         longitude=pharmacy_datas["longitude"],
                         pending_review=True,
                         active=False)
-                    n_insertions +=1
+                    n_insertions += 1
                     continue
 
                 pharmacy = pharmacy[0]
