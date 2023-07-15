@@ -73,7 +73,7 @@ let CustomMarker: React.FC<Props> = React.memo(({ id, coordinate, open, title, s
 
         >
 
-            <Image source={require("../assets/markerOrange.png")} />
+            <Image source={require("../assets/currentlyOpen.png")} />
 
         </Marker>
 
