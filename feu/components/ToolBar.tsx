@@ -8,14 +8,10 @@ import CustomSearchBar from './screens-components/bottomsheet-components/CustomS
 import CustomReInitializationButton from './utility-components/CustomReInitializationButton';
 import CustomShowsMyLocationButton from './utility-components/CustomShowsMyLocationButton';
 
-interface Props {
-    setIsProximityMode: React.Dispatch<React.SetStateAction<boolean>>
-}
 
 const ToolBar = () => {
 
     const insets = useSafeAreaInsets();
-    // const { location, errorMsg } = useContext(UserLocationContext);
 
 
     return (
