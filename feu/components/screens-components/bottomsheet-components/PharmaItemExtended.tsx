@@ -1,5 +1,5 @@
-import React from 'react'
-import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
+import React from 'react';
+import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 
 
 
@@ -14,11 +14,22 @@ interface Props {
 
 
 const PharmaItemExtended: React.FC<Props> = React.memo(({ name, distanceToUser, isOpen, onPress }) => {
+
+    let containerStyle;
+    if (isOpen) {
+        containerStyle = [styles.container, {
+            borderWidth: 1,
+            borderColor: "green"
+        }]
+    } else {
+        containerStyle = styles.container
+    }
+
     return (
 
 
         <TouchableWithoutFeedback onPress={() => onPress && onPress()}>
-            <View style={styles.container}>
+            <View style={containerStyle}>
 
                 <View style={styles.primaryContainer}>
                     <ScrollView
