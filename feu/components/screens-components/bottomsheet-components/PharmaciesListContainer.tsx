@@ -37,8 +37,6 @@ const PharmaciesListContainer = () => {
 
         const sortField = sortMode === "Alphabetical" ? "name" : "distanceToUser";
         ouputPharmacies = _.sortBy(ouputPharmacies, [sortField]);
-
-
         return ouputPharmacies;
     }, [pharmacies, displayMode, sortMode])
 
