@@ -1,9 +1,11 @@
 import { BottomSheetView } from '@gorhom/bottom-sheet';
+import * as Location from "expo-location";
 import _ from 'lodash';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { FlatList, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useAppMapRefContextRef } from '../../../contexts/AppMapRefContext';
+import { calculateDistanceToUser, updateProximity } from '../../../stores/pharmaciesActions';
 import { PharmacyFullState, RootReducerType } from '../../../types/dataTypes';
 import SkeletonContentLoader from '../../utility-components/SkeletonContentLoader';
 import PharmaItemExtended from './PharmaItemExtended';
@@ -14,14 +16,16 @@ import PharmaItemExtended from './PharmaItemExtended';
 const PharmaciesListContainer = () => {
 
     const { mapRef, setActiveMarker } = useAppMapRefContextRef();
+    const dispatch = useDispatch();
 
-    const { pharmacies, isLoading, displayMode, sortMode, isSearchingPharmacy } = useSelector((state: RootReducerType) => {
+    const { pharmacies, isLoading, displayMode, sortMode, isSearchingPharmacy, isLocationPermissionGranted } = useSelector((state: RootReducerType) => {
         return {
             pharmacies: state.pharmacies.toDisplayInBottomSheet,
             isLoading: state.pharmacies.isLoading,
             displayMode: state.pharmacies.displayMode,
             sortMode: state.pharmacies.sortMode,
             isSearchingPharmacy: state.pharmacies.isSearchingPharmacy,
+            isLocationPermissionGranted: state.pharmacies.isLocationPermissionGranted,
         }
     });
 
@@ -37,6 +41,36 @@ const PharmaciesListContainer = () => {
 
         return ouputPharmacies;
     }, [pharmacies, displayMode, sortMode])
+
+
+
+
+    useEffect(() => {
+        let intervalId: number;
+        if (sortMode === "Proximity") {
+            intervalId = setInterval(() => {
+                // console.log("Hello World")
+                if (isLocationPermissionGranted) {
+
+                    Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High }).then((location) => {
+
+                        const pharmaciesWithDistances = calculateDistanceToUser(pharmaciesList, location)
+                        dispatch(updateProximity(pharmaciesWithDistances))
+                    })
+
+                }
+            }, 10000)
+
+        }
+
+
+        return () => {
+            if (intervalId) {
+
+                clearInterval(intervalId)
+            }
+        }
+    }, [sortMode, pharmaciesList, isLocationPermissionGranted])
 
 
 

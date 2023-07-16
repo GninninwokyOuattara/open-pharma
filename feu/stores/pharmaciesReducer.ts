@@ -11,6 +11,7 @@ import {
   SET_IS_LOCATION_PERMISSION_GRANTED,
   SET_LOADING_STATE,
   SET_SORT_MODE,
+  UPDATE_PHARMACIES_DISTANCES,
   UPDATE_RELATIVE_DISTANCES,
 } from "./actions";
 import { calculateDistanceToUser } from "./pharmaciesActions";
@@ -102,23 +103,14 @@ export default (state = pharmaciesState, action: any) => {
         isSearchingPharmacy: search_query.length > 0,
         isLoading: false,
       };
-    // case APPLY_FILTER:
-    //   const filter: string = action.data.toLowerCase();
-    //   if (!filter) {
-    //     return {
-    //       ...state,
-    //       toDisplay: state.all,
-    //       toDisplayInBottomSheet: state.all,
-    //     };
-    //   }
-    //   const filtered = state.all.filter((pharmacy) => {
-    //     return pharmacy.flat_name.toLowerCase().includes(filter);
-    //   });
-    //   return {
-    //     ...state,
-    //     toDisplay: filtered,
-    //     toDisplayInBottomSheet: filtered,
-    //   };
+
+    case UPDATE_PHARMACIES_DISTANCES:
+      // Update the distances of the pharmacies
+      const pharmacies = action.data.pharmacies;
+      return {
+        ...state,
+        toDisplayInBottomSheet: pharmacies,
+      };
 
     case SET_SORT_MODE:
       const order = action.data;
