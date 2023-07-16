@@ -8,7 +8,7 @@ import CustomMarker from '../CustomMarker'
 const MapMarkersContainer = () => {
     const { pharmacies: pharmaciesData, displayMode } = useSelector((state: RootReducerType) => {
         return {
-            pharmacies: state.pharmacies.toDisplayInBottomSheet,
+            pharmacies: state.pharmacies.pharmacies,
             displayMode: state.pharmacies.displayMode,
         }
     });
