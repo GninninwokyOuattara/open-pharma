@@ -52,6 +52,7 @@ export interface RootReducerType {
     isLocationPermissionGranted: boolean;
     isLoading: boolean;
     isSearchingPharmacy: boolean;
+    search: string;
     sortMode: "Proximity" | "Alphabetical";
     displayMode: "All" | "OpenOnly";
     all: Pharmacy[];

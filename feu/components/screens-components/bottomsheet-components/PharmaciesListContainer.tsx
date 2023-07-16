@@ -18,27 +18,32 @@ const PharmaciesListContainer = () => {
     const { mapRef, setActiveMarker } = useAppMapRefContextRef();
     const dispatch = useDispatch();
 
-    const { pharmacies, isLoading, displayMode, sortMode, isSearchingPharmacy, isLocationPermissionGranted } = useSelector((state: RootReducerType) => {
+    const { pharmacies, isLoading, displayMode, sortMode, search, isLocationPermissionGranted } = useSelector((state: RootReducerType) => {
         return {
-            pharmacies: state.pharmacies.toDisplayInBottomSheet,
+            pharmacies: state.pharmacies.pharmacies,
             isLoading: state.pharmacies.isLoading,
             displayMode: state.pharmacies.displayMode,
             sortMode: state.pharmacies.sortMode,
             isSearchingPharmacy: state.pharmacies.isSearchingPharmacy,
             isLocationPermissionGranted: state.pharmacies.isLocationPermissionGranted,
+            search: state.pharmacies.search,
         }
     });
 
     const pharmaciesList = useMemo(() => {
-        let ouputPharmacies: PharmacyFullState[] = pharmacies;
+        let outputPharmacies: PharmacyFullState[] = pharmacies;
         if (displayMode == "OpenOnly") {
-            ouputPharmacies = pharmacies.filter(pharmacy => pharmacy.open);
+            outputPharmacies = pharmacies.filter(pharmacy => pharmacy.open);
         }
 
         const sortField = sortMode === "Alphabetical" ? "name" : "distanceToUser";
-        ouputPharmacies = _.sortBy(ouputPharmacies, [sortField]);
-        return ouputPharmacies;
-    }, [pharmacies, displayMode, sortMode])
+
+        if (search) {
+            outputPharmacies = outputPharmacies.filter(pharmacy => pharmacy.name.toLowerCase().includes(search.toLowerCase()))
+        }
+        outputPharmacies = _.sortBy(outputPharmacies, [sortField]);
+        return outputPharmacies;
+    }, [pharmacies, displayMode, sortMode, search])
 
 
 

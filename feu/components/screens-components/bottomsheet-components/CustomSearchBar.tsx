@@ -3,7 +3,7 @@ import { SearchBar } from "react-native-elements";
 import { SearchBarBaseProps } from "react-native-elements/dist/searchbar/SearchBar";
 import { useDispatch } from "react-redux";
 import { BottomSheetRefContext } from "../../../contexts/BottomSheetRefContext";
-import { SET_LOADING_STATE } from "../../../stores/actions";
+import { SEARCH, SET_LOADING_STATE } from "../../../stores/actions";
 import ShadowAround from "../../utility-components/ShadowAround";
 
 const SafeSearchBar = SearchBar as unknown as React.FC<
@@ -32,7 +32,7 @@ const CustomSearchBar = () => {
             })
 
             dispatch({
-                type: "SEARCH_PHARMACIES",
+                type: SEARCH,
                 data: searchString
             })
         }, 500)

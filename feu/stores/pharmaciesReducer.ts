@@ -6,6 +6,7 @@ import {
 } from "../types/dataTypes";
 import {
   GET_OPH_CURRENT_STATE,
+  SEARCH,
   SEARCH_PHARMACIES,
   SET_DISPLAY_MODE,
   SET_IS_LOCATION_PERMISSION_GRANTED,
@@ -28,6 +29,7 @@ interface PharmaciesState {
 const pharmaciesState: RootReducerType["pharmacies"] = {
   isLocationPermissionGranted: false,
   isSearchingPharmacy: false,
+  search: "",
   isLoading: false,
   displayMode: "OpenOnly",
   sortMode: "Proximity",
@@ -101,6 +103,15 @@ export default (state = pharmaciesState, action: any) => {
         ...state,
         toDisplayInBottomSheet: pharmaciesThatMatch,
         isSearchingPharmacy: search_query.length > 0,
+        isLoading: false,
+      };
+
+    case SEARCH:
+      // Search pharmacies corresponding to the query
+      console.log("SEARCHING", action.data);
+      return {
+        ...state,
+        search: action.data,
         isLoading: false,
       };
 
