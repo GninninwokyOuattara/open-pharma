@@ -121,6 +121,7 @@ export default (state = pharmaciesState, action: any) => {
       return {
         ...state,
         toDisplayInBottomSheet: pharmacies,
+        pharmacies: pharmacies,
       };
 
     case SET_SORT_MODE:

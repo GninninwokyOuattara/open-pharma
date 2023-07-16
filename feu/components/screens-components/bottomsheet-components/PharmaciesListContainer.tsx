@@ -57,7 +57,8 @@ const PharmaciesListContainer = () => {
 
                     Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High }).then((location) => {
 
-                        const pharmaciesWithDistances = calculateDistanceToUser(pharmaciesList, location)
+                        const pharmaciesWithDistances = calculateDistanceToUser(pharmacies, location)
+
                         dispatch(updateProximity(pharmaciesWithDistances))
                     })
 
