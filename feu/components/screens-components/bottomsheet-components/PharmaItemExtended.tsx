@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     pharmacyDistance: {
         fontSize: 13,
         fontWeight: "bold",
-        color: "gray",
+        color: "#d69352",
         textAlign: "center",
     },
     pharmacyStateContainer: {
