@@ -1,8 +1,7 @@
 
 from django.utils import timezone
-from rest_framework import serializers
-
 from openPharma.models import Activity, OpenPharmacy, Pharmacy
+from rest_framework import serializers
 
 
 class PharmaciesSerializer(serializers.ModelSerializer):
@@ -146,8 +145,8 @@ class PharmaciesOpenStateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pharmacy
-        fields = ["id", "name", "active", "pending_review", "open", "director", "addresses", "phones", "email", "website", "description", "images",
-                  "google_maps_link", "latitude", "longitude", "coordinates", "date_created", "date_updated", "open_date_range"]
+        fields = ["id", "name",  "open", "latitude",
+                  "longitude", "coordinates", "open_date_range"]
 
     def get_open_date_range(self, obj):
 
