@@ -7,11 +7,15 @@
 import json
 from datetime import datetime
 
+from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand, CommandError
 # from timezone import timezone
 from django.utils import timezone
+from openPharma.classes.pages import PharmaConsultPage
+from openPharma.classes.processors import (PharmaConsultDataUpdateDBManager,
+                                           PharmaConsultPageProcessor)
 # import pharmact
-from openPharma.models import OpenPharmacy, Pharmacy, Activity
+from openPharma.models import Activity, OpenPharmacy, Pharmacy
 from openTracker.models import TrackerHistory
 from openTracker.utils import get_currently_open_pharmacies_datas
 
@@ -111,82 +115,92 @@ class Command(BaseCommand):
             pass
 
     def handle(self, *args, **options):
-        try:
-            self.pharmacies_datas = self.perform_get_currently_open_pharmacies_datas()
-            for pharmacy_datas in self.pharmacies_datas:
-                # Look for the pharmacy in the db
-                pharmacy = Pharmacy.objects.filter(
-                    name=pharmacy_datas["name"], latitude=pharmacy_datas["latitude"], longitude=pharmacy_datas["longitude"])
-                if not pharmacy.exists():
-                    # Doesn't exist, insert new ones as pending_review by admin
-                    self.perform_pharmacy_insertion(pharmacy_datas)
-                    continue
 
-                pharmacy = pharmacy[0]
+        # try:
+        #     self.pharmacies_datas = self.perform_get_currently_open_pharmacies_datas()
+        #     for pharmacy_datas in self.pharmacies_datas:
+        #         # Look for the pharmacy in the db
+        #         pharmacy = Pharmacy.objects.filter(
+        #             name=pharmacy_datas["name"], latitude=pharmacy_datas["latitude"], longitude=pharmacy_datas["longitude"])
+        #         if not pharmacy.exists():
+        #             # Doesn't exist, insert new ones as pending_review by admin
+        #             self.perform_pharmacy_insertion(pharmacy_datas)
+        #             continue
 
-                if not pharmacy.active:
-                    # Pharmacy is not active, skip
-                    self.stdout.write(self.style.WARNING(
-                        f'[{self.timestamp}] {pharmacy_datas["name"]} is not active.'))
-                    self.n_skipped_inactive += 1
-                    continue
+        #         pharmacy = pharmacy[0]
 
-                pharmacy_datas["open_from"] = datetime.strptime(
-                    pharmacy_datas["open_from"], '%d/%m/%Y')
-                pharmacy_datas["open_until"] = datetime.strptime(
-                    pharmacy_datas["open_until"], '%d/%m/%Y')
+        #         if not pharmacy.active:
+        #             # Pharmacy is not active, skip
+        #             self.stdout.write(self.style.WARNING(
+        #                 f'[{self.timestamp}] {pharmacy_datas["name"]} is not active.'))
+        #             self.n_skipped_inactive += 1
+        #             continue
 
-                open_pharmacy = OpenPharmacy.objects.filter(
-                    pharmacy=pharmacy, open_from__lte=pharmacy_datas["open_from"],
-                    open_until__gte=pharmacy_datas["open_until"])
+        #         pharmacy_datas["open_from"] = datetime.strptime(
+        #             pharmacy_datas["open_from"], '%d/%m/%Y')
+        #         pharmacy_datas["open_until"] = datetime.strptime(
+        #             pharmacy_datas["open_until"], '%d/%m/%Y')
 
-                if open_pharmacy.exists():
-                    self.stdout.write(self.style.ERROR(
-                        f'[{self.timestamp}] {pharmacy_datas["name"]} is already open between {pharmacy_datas["open_from"]} and {pharmacy_datas["open_until"]}. Skipped.'))
-                    self.n_skipped_already_open += 1
-                    continue
+        #         open_pharmacy = OpenPharmacy.objects.filter(
+        #             pharmacy=pharmacy, open_from__lte=pharmacy_datas["open_from"],
+        #             open_until__gte=pharmacy_datas["open_until"])
 
-                # try to open pharmacy at provided date range
-                self.perform_pharmacy_opening(pharmacy, pharmacy_datas)
-                continue
-        except Exception as error:
-            # raise CommandError(str(error))
-            raise error
-        finally:
-            # Summary of the task
-            print(f"[{self.timestamp}] ======= SUMMARY =======")
-            self.stdout.write(self.style.SUCCESS(
-                f'[{self.timestamp}] {self.n_insertions} new pharmacies inserted'))
-            self.stdout.write(self.style.SUCCESS(
-                f'[{self.timestamp}] {self.n_updates} pharmacies updated'))
-            self.stdout.write(self.style.WARNING(
-                f'[{self.timestamp}] {self.n_skipped_already_open} pharmacies already open at provided date range'))
-            self.stdout.write(self.style.WARNING(
-                f'[{self.timestamp}] {self.n_skipped_inactive} pharmacies skipped due to inactivity'))
+        #         if open_pharmacy.exists():
+        #             self.stdout.write(self.style.ERROR(
+        #                 f'[{self.timestamp}] {pharmacy_datas["name"]} is already open between {pharmacy_datas["open_from"]} and {pharmacy_datas["open_until"]}. Skipped.'))
+        #             self.n_skipped_already_open += 1
+        #             continue
 
-            self.end_time = timezone.now()
-            self.duration = (self.end_time - self.start_time)
-            # print total duration
-            print(
-                f"[{self.timestamp}] Job execution duration: {self.duration}")
-            # convert self.pharmacies_datas to json
+        #         # try to open pharmacy at provided date range
+        #         self.perform_pharmacy_opening(pharmacy, pharmacy_datas)
+        #         continue
+        # except Exception as error:
+        #     # raise CommandError(str(error))
+        #     raise error
+        # finally:
+        #     # Summary of the task
+        #     print(f"[{self.timestamp}] ======= SUMMARY =======")
+        #     self.stdout.write(self.style.SUCCESS(
+        #         f'[{self.timestamp}] {self.n_insertions} new pharmacies inserted'))
+        #     self.stdout.write(self.style.SUCCESS(
+        #         f'[{self.timestamp}] {self.n_updates} pharmacies updated'))
+        #     self.stdout.write(self.style.WARNING(
+        #         f'[{self.timestamp}] {self.n_skipped_already_open} pharmacies already open at provided date range'))
+        #     self.stdout.write(self.style.WARNING(
+        #         f'[{self.timestamp}] {self.n_skipped_inactive} pharmacies skipped due to inactivity'))
 
-            # insert in TrackerHistory
-            #TrackerHistory.objects.create(
-            #    start_time=self.start_time, end_time=self.end_time, duration=self.duration, mode="scheduled", collected_data=json.dumps(self.pharmacies_datas, default=str))
+        #     self.end_time = timezone.now()
+        #     self.duration = (self.end_time - self.start_time)
+        #     # print total duration
+        #     print(
+        #         f"[{self.timestamp}] Job execution duration: {self.duration}")
+        #     # convert self.pharmacies_datas to json
 
-            TrackerHistory.objects.create(
-                    start_time=self.start_time,
-                    end_time=self.end_time,
-                    duration=self.duration,
-                    mode="automatic",
-                    inserted_pharmacies=self.n_insertions,
-                    updated_pharmacies=self.n_updates,
-                    skipped_pharmacies=self.n_skipped_inactive,
-                    already_open_pharmacies=self.n_skipped_already_open
-                )
-            Activity.objects.create(
-                    type="actualization",
-                    action="automatic",
-                    description=f"Scheduled Actualization",
-                )
+        #     # insert in TrackerHistory
+        #     #TrackerHistory.objects.create(
+        #     #    start_time=self.start_time, end_time=self.end_time, duration=self.duration, mode="scheduled", collected_data=json.dumps(self.pharmacies_datas, default=str))
+
+        #     TrackerHistory.objects.create(
+        #             start_time=self.start_time,
+        #             end_time=self.end_time,
+        #             duration=self.duration,
+        #             mode="automatic",
+        #             inserted_pharmacies=self.n_insertions,
+        #             updated_pharmacies=self.n_updates,
+        #             skipped_pharmacies=self.n_skipped_inactive,
+        #             already_open_pharmacies=self.n_skipped_already_open
+        #         )
+        #     Activity.objects.create(
+        #             type="actualization",
+        #             action="automatic",
+        #             description=f"Scheduled Actualization",
+        #         )
+        pharmaConsultPage = PharmaConsultPage(
+            "https://pharma-consults.net/pharmacies-gardes")
+        pageSoup = BeautifulSoup(pharmaConsultPage.get_page(), "html.parser")
+        pharmaConsultPP = PharmaConsultPageProcessor(page=pageSoup)
+        pharmacies = pharmaConsultPP.get_datas()
+
+        pharmacyDBManager = PharmaConsultDataUpdateDBManager(pharmacies)
+        processing_result = pharmacyDBManager.process_pharmacies()
+        print("Processing result", processing_result)
