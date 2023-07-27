@@ -13,9 +13,8 @@ class PharmaConsultDataGetter:
     DATE_INPUT_FORMAT = "%d/%m/%Y"
     DATE_OUTPUT_FORMAT = "%Y-%m-%d"
 
-    def __init__(self, row: Tag, header: str):
+    def __init__(self, row: Tag):
         self.row = row
-        self.header = header
 
     def _get_coordinates(self, row_data: ResultSet[Tag]) -> Tuple[float, float] | None:
         try:
@@ -28,7 +27,7 @@ class PharmaConsultDataGetter:
                     latitude, longitude = link.split("=")[
                         1].split("&")[0].split(",")
                     return (float(latitude), float(longitude))
-                elif "www.google.com/maps" in link:
+                elif "/maps/" in link:
                     latitude, longitude = link.split(
                         "@")[1].split(",")[:2]
                     return (float(latitude), float(longitude))
@@ -74,7 +73,7 @@ class PharmaConsultDataGetter:
     def get_pharmacy_data_from_row(self) -> Pharmacy:
         data = {}
         row_datas = self.row.select("td")
-        data["zone"] = self.header.lower()
+        # data["zone"] = self.header.lower()
         data["name"] = row_datas[0].get_text(strip=True).lower()
         data["director"] = self._get_director(row_datas)
         data["open_from"], data["open_until"] = self._get_openings_dates(
@@ -95,10 +94,9 @@ class PharmaConsultPageProcessor(PageProcessor):
         self.page = page
 
     def _get_rows(self, table: Tag) -> List[Tag]:
-        return self.page.select("table > tbody > tr")
+        return table.select("tbody > tr")
 
     def _get_headers_element(self) -> List[Tag]:
-        # select a div with class alert alert-light alert-elevate
         return self.page.select("div.alert.alert-light.alert-elevate")
 
     def _get_header_from_header_element(self, header_element: Tag) -> str:
@@ -115,24 +113,26 @@ class PharmaConsultPageProcessor(PageProcessor):
 
     def get_datas(self):
         headers_elements = self._get_headers_element()
-        print("There is ", len(headers_elements), " headers")
         all_pharmacies = []
 
         for header_element in headers_elements:
             header = self._get_header_from_header_element(header_element)
             table = self._get_table_associated_to_header(header_element)
             table_rows = self._get_rows(table)
-            print("Header is ", header, " and there is ",
-                  len(table), " table associated")
-            pharmacies = list(map(
-                lambda row: PharmaConsultDataGetter(row, header=header).get_pharmacy_data_from_row(), table_rows))
+
+            pharmacies = [PharmaConsultDataGetter(
+                row).get_pharmacy_data_from_row() for row in table_rows]
+
+            # Add header to all those pharmacies
+            for pharmacy in pharmacies:
+                pharmacy.zone = header
+
             all_pharmacies.extend(pharmacies)
 
-        print("There is ", len(all_pharmacies), " pharmacies")
         return all_pharmacies
 
 
-class PharmacyDBManager:
+class PharmaConsultDataUpdateDBManager:
     """Manage the insertion, opening of pharmacies inside the database
     """
     inserted_pharmacies = 0
@@ -160,56 +160,58 @@ class PharmacyDBManager:
 
     def insert_pharmacy(self, pharmacy: Pharmacy):
         try:
-            # return PharmacyModel.objects.create(
-            #     name=pharmacy.name,
-            #     zone=pharmacy.zone,
-            #     director=pharmacy.director,
-            #     addresses=pharmacy.addresses,
-            #     phones=pharmacy.phones,
-            #     google_maps_link=pharmacy.google_maps_link,
-            #     latitude=pharmacy.latitude,
-            #     longitude=pharmacy.longitude,
+            return PharmacyModel.objects.create(
+                name=pharmacy.name,
+                zone=pharmacy.zone,
+                director=pharmacy.director,
+                addresses=pharmacy.addresses,
+                phones=pharmacy.phones,
+                google_maps_link=pharmacy.google_maps_link,
+                latitude=pharmacy.latitude,
+                longitude=pharmacy.longitude,
 
-            #     pending_review=True,
-            #     active=False)
-            print("BIM inserted", pharmacy.name)
+                pending_review=True,
+                active=False)
         except Exception as e:
             raise e
 
     def open_pharmacy(self, pharmacy, open_from: str, open_until: str):
         try:
-            # OpenPharmacyModel.objects.create(
-            #     pharmacy=pharmacy, open_from=pharmacy.open_from, open_until=pharmacy.open_until)
-            print("BIM opened", pharmacy.name)
+            OpenPharmacyModel.objects.create(
+                pharmacy=pharmacy, open_from=open_from, open_until=open_until)
+            # print("BIM opened", pharmacy.name)
         except Exception as e:
             raise e
         pass
 
+    def process_single_pharmacy(self, pharmacy):
+        existing_pharmacy = self.find_pharmacy_by_name_and_zone(pharmacy)
+        if not existing_pharmacy:
+            existing_pharmacy = self.insert_pharmacy(pharmacy)
+
+            self.inserted_pharmacies += 1
+
+        if not pharmacy.open_from or not pharmacy.open_until:
+            # No information on opening dates, skip
+            return
+
+        if self.is_pharmacy_opened_on_date_range(
+                existing_pharmacy,
+                pharmacy.open_from,
+                pharmacy.open_until):
+            self.already_opened_pharmacies += 1
+
+        else:
+            self.open_pharmacy(
+                existing_pharmacy,
+                pharmacy.open_from,
+                pharmacy.open_until)
+            self.opened_pharmacies += 1
+
     def process_pharmacies(self):
-        print("Processing pharmacies...", len(self.pharmacies))
+        print(f"Processing {len(self.pharmacies)} pharmacies...")
         for pharmacy in self.pharmacies:
-            existing_pharmacy = self.find_pharmacy_by_name_and_zone(pharmacy)
-            if not existing_pharmacy:
-                existing_pharmacy = self.insert_pharmacy(pharmacy)
-
-                self.inserted_pharmacies += 1
-
-            if not pharmacy.open_from or not pharmacy.open_until:
-                # No information on opening dates, skip
-                continue
-
-            if self.is_pharmacy_opened_on_date_range(
-                    existing_pharmacy,
-                    pharmacy.open_from,
-                    pharmacy.open_until):
-                self.already_opened_pharmacies += 1
-                continue
-            else:
-                self.open_pharmacy(
-                    existing_pharmacy,
-                    pharmacy.open_from,
-                    pharmacy.open_until)
-                self.opened_pharmacies += 1
+            self.process_single_pharmacy(pharmacy)
 
         process_result = {
             "inserted_pharmacies": self.inserted_pharmacies,
