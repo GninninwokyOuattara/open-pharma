@@ -1,4 +1,4 @@
-from interfaces.page import Page
+from openPharma.interfaces.page import Page
 from requests import get
 
 

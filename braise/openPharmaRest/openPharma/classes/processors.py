@@ -1,13 +1,18 @@
+from datetime import datetime
 from typing import List, Tuple
 
 from bs4 import ResultSet, Tag
-from classes.datas import PharmaConsultPharmacy, Pharmacy
-from interfaces.processors import PageProcessor
-from models import OpenPharmacy as OpenPharmacyModel
-from models import Pharmacy as PharmacyModel
+from openPharma.classes.datas import PharmaConsultPharmacy, Pharmacy
+from openPharma.interfaces.processors import PageProcessor
+from openPharma.models import OpenPharmacy as OpenPharmacyModel
+from openPharma.models import Pharmacy as PharmacyModel
 
 
 class PharmaConsultDataGetter:
+
+    DATE_INPUT_FORMAT = "%d/%m/%Y"
+    DATE_OUTPUT_FORMAT = "%Y-%m-%d"
+
     def __init__(self, row: Tag, header: str):
         self.row = row
         self.header = header
@@ -52,8 +57,11 @@ class PharmaConsultDataGetter:
         return phones
 
     def _get_openings_dates(self, row_data: ResultSet[Tag]):
-        open_from = row_data[4].get_text(strip=True)
-        open_until = row_data[5].get_text(strip=True)
+        open_from = datetime.strptime(row_data[4].get_text(strip=True),
+                                      self.DATE_INPUT_FORMAT).strftime(self.DATE_OUTPUT_FORMAT)
+        open_until = datetime.strptime(row_data[5].get_text(strip=True),
+                                       self.DATE_INPUT_FORMAT).strftime(self.DATE_OUTPUT_FORMAT)
+
         # convert them into date object of year month day
         return (open_from, open_until)
 
@@ -99,7 +107,7 @@ class PharmaConsultPageProcessor(PageProcessor):
             return header.get_text(strip=True)
         raise Exception("No header found")
 
-    def _get_table_allocated_to_header(self, header_element: Tag) -> Tag:
+    def _get_table_associated_to_header(self, header_element: Tag) -> Tag:
         table = header_element.find_next_sibling("table")
         if isinstance(table, Tag):
             return table
@@ -107,42 +115,108 @@ class PharmaConsultPageProcessor(PageProcessor):
 
     def get_datas(self):
         headers_elements = self._get_headers_element()
+        print("There is ", len(headers_elements), " headers")
         all_pharmacies = []
 
         for header_element in headers_elements:
             header = self._get_header_from_header_element(header_element)
-            table = self._get_table_allocated_to_header(header_element)
+            table = self._get_table_associated_to_header(header_element)
             table_rows = self._get_rows(table)
+            print("Header is ", header, " and there is ",
+                  len(table), " table associated")
             pharmacies = list(map(
                 lambda row: PharmaConsultDataGetter(row, header=header).get_pharmacy_data_from_row(), table_rows))
             all_pharmacies.extend(pharmacies)
 
+        print("There is ", len(all_pharmacies), " pharmacies")
         return all_pharmacies
 
 
 class PharmacyDBManager:
     """Manage the insertion, opening of pharmacies inside the database
     """
+    inserted_pharmacies = 0
+    opened_pharmacies = 0
+    skipped_pharmacies = 0
+    already_opened_pharmacies = 0
 
-    def __init__(self, pharmacies: List[Pharmacy]):
-        self.pharmacy = pharmacies
-        self.pharmacy_model = PharmacyModel
-        self.open_pharmacy_model = OpenPharmacyModel
+    def __init__(self, pharmacies: List[PharmaConsultPharmacy]):
+        self.pharmacies = pharmacies
 
-    def find_pharmacy(self, pharmacy: Pharmacy):
-        # self.pharmacy_model.objects.filter(
-        # name=pharmacy.name, latitude=pharmacy.latitude, longitude=pharmacy.longitude)
-        pass
+    def find_pharmacy_by_name_and_zone(self, pharmacy: Pharmacy):
+
+        pharmacy_found = PharmacyModel.objects.filter(
+            name=pharmacy.name, zone=pharmacy.zone)
+        if pharmacy_found:
+            return pharmacy_found[0]
+        return None
+
+    def is_pharmacy_opened_on_date_range(self, pharmacy, open_from: str, open_until: str):
+        open_pharmacies = OpenPharmacyModel.objects.filter(
+            pharmacy=pharmacy, open_from__lte=open_from, open_until__gte=open_until)
+        if open_pharmacies:
+            return True
+        return False
 
     def insert_pharmacy(self, pharmacy: Pharmacy):
-        pass
+        try:
+            # return PharmacyModel.objects.create(
+            #     name=pharmacy.name,
+            #     zone=pharmacy.zone,
+            #     director=pharmacy.director,
+            #     addresses=pharmacy.addresses,
+            #     phones=pharmacy.phones,
+            #     google_maps_link=pharmacy.google_maps_link,
+            #     latitude=pharmacy.latitude,
+            #     longitude=pharmacy.longitude,
 
-    def open_pharmacy(self, pharmacy: Pharmacy):
+            #     pending_review=True,
+            #     active=False)
+            print("BIM inserted", pharmacy.name)
+        except Exception as e:
+            raise e
+
+    def open_pharmacy(self, pharmacy, open_from: str, open_until: str):
+        try:
+            # OpenPharmacyModel.objects.create(
+            #     pharmacy=pharmacy, open_from=pharmacy.open_from, open_until=pharmacy.open_until)
+            print("BIM opened", pharmacy.name)
+        except Exception as e:
+            raise e
         pass
 
     def process_pharmacies(self):
-        print("Processing pharmacies...")
-        pass
+        print("Processing pharmacies...", len(self.pharmacies))
+        for pharmacy in self.pharmacies:
+            existing_pharmacy = self.find_pharmacy_by_name_and_zone(pharmacy)
+            if not existing_pharmacy:
+                existing_pharmacy = self.insert_pharmacy(pharmacy)
+
+                self.inserted_pharmacies += 1
+
+            if not pharmacy.open_from or not pharmacy.open_until:
+                # No information on opening dates, skip
+                continue
+
+            if self.is_pharmacy_opened_on_date_range(
+                    existing_pharmacy,
+                    pharmacy.open_from,
+                    pharmacy.open_until):
+                self.already_opened_pharmacies += 1
+                continue
+            else:
+                self.open_pharmacy(
+                    existing_pharmacy,
+                    pharmacy.open_from,
+                    pharmacy.open_until)
+                self.opened_pharmacies += 1
+
+        process_result = {
+            "inserted_pharmacies": self.inserted_pharmacies,
+            "opened_pharmacies": self.opened_pharmacies,
+            "already_opened_pharmacies": self.already_opened_pharmacies
+        }
+        return process_result
 
 # class ProcessingLogger():
 #     def __init__(self, stdout : , style):
