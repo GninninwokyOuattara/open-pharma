@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand, CommandError
 # from timezone import timezone
 from django.utils import timezone
+from openPharma.classes.logger import ConsoleLogger
 from openPharma.classes.pages import PharmaConsultPage
 from openPharma.classes.processors import (PharmaConsultDataUpdateDBManager,
                                            PharmaConsultPageProcessor)
@@ -201,6 +202,9 @@ class Command(BaseCommand):
         pharmaConsultPP = PharmaConsultPageProcessor(page=pageSoup)
         pharmacies = pharmaConsultPP.get_datas()
 
-        pharmacyDBManager = PharmaConsultDataUpdateDBManager(pharmacies)
+        logger = ConsoleLogger()
+
+        pharmacyDBManager = PharmaConsultDataUpdateDBManager(
+            pharmacies, logger)
         processing_result = pharmacyDBManager.process_pharmacies()
         print("Processing result", processing_result)
