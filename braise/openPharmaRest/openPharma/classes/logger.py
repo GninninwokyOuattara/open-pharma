@@ -2,24 +2,25 @@ from abc import ABC, abstractmethod
 from typing import Dict
 
 
-class ProcessingLogger:
+class ProcessingLogger(ABC):
     """
     Class for logging
     """
     COLORS: Dict
 
     @abstractmethod
-    @classmethod
+    def info(cls, message: str):
+        pass
+
+    @abstractmethod
     def success(cls, message: str):
         pass
 
     @abstractmethod
-    @classmethod
     def error(cls, message: str):
         pass
 
     @abstractmethod
-    @classmethod
     def warning(cls, message: str):
         pass
 
@@ -30,16 +31,17 @@ class ConsoleLogger(ProcessingLogger):
         'error': '\033[91m',
         'warning': '\033[93m',
         'reset': '\033[0m',
+        'info': '\033[94m',
     }
 
-    @classmethod
-    def success(cls, message: str):
-        print(cls.COLORS['success'] + message + cls.COLORS['reset'])
+    def info(self, message: str):
+        print(self.COLORS['info'] + message + self.COLORS['reset'])
 
-    @classmethod
-    def error(cls, message: str):
-        print(cls.COLORS['error'] + message + cls.COLORS['reset'])
+    def success(self, message: str):
+        print(self.COLORS['success'] + message + self.COLORS['reset'])
 
-    @classmethod
-    def warning(cls, message: str):
-        print(cls.COLORS['warning'] + message + cls.COLORS['reset'])
+    def error(self, message: str):
+        print(self.COLORS['error'] + message + self.COLORS['reset'])
+
+    def warning(self, message: str):
+        print(self.COLORS['warning'] + message + self.COLORS['reset'])
