@@ -1,53 +1,25 @@
-# import requests
-import requests
-# import BeautifulSoup
-from bs4 import BeautifulSoup
-from django.shortcuts import render
+
 from openPharma.classes.maps_scrapper import GoogleMapsCoordinatesScrapper
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-# Create your views here.
-
-maps_url = "https://google.com/maps/search/"
-country = "Côte d'Ivoire "
-
 
 class SearchApiView(APIView):
+
+    http_method_names = ['get']
+
     def get(self, request, *args, **kwargs):
-        # # get pharmacy_name parameter
-        pharmacy_name = request.query_params.get("napharmacy_nameme")
+
+        name = request.query_params.get("name")
         zone = request.query_params.get("zone")
 
-        print(pharmacy_name, zone)
-        # # if no pharmacy_name parameter is provided, return error
-        # if pharmacy_name is None:
-        #     return Response({"error": "pharmacy_name parameter is required."}, status=400)
+        if not name or not zone:
+            return Response({"error": "name and zone parameter are required."}, status=400)
 
-        # # query google maps search api with the provided pharmacy_name
-        # page = requests.get(maps_url + country + pharmacy_name)
+        maps_scrapper = GoogleMapsCoordinatesScrapper()
+        latitude, longitude = maps_scrapper.get_pharmacy_coordinates(
+            name=name, zone=zone)
 
-        # soup = BeautifulSoup(page.text, "html.parser")
-        # static_map_meta_tag = soup.find("meta", attrs={"content": lambda x: x and x.startswith(
-        #     "https://maps.google.com/maps/api/staticmap")})
-        # coordinates = static_map_meta_tag["content"].split("center=")[
-        #     1].split("&")[0]
-
-        # latitude, longitude = coordinates.split("%2C")
-
-        #
-        # maps_scrapper = GoogleMapsCoordinatesScrapper()
-        # latitude, longitude = maps_scrapper.get_pharmacy_coordinates(
-        #     name=country, zone="Côte d'Ivoire")
-
-        # verification_link = f"https://www.google.com/maps/search/?api=1&query={latitude},{longitude}"
-
-        # return Response({
-        #     "coordinates": {
-        #         "latitude": latitude,
-        #         "longitude": longitude
-        #     },
-        #     "verification_link": verification_link
-        # }, status=200)
-
-        return Response(status=200)
+        return Response(
+            {"coordinates": {"latitude": latitude, "longitude": longitude}},
+            status=200)
