@@ -3,6 +3,7 @@ from typing import List, Tuple
 
 from bs4 import ResultSet, Tag
 from openPharma.classes.datas import PharmaConsultPharmacy, Pharmacy
+from openPharma.classes.logger import ProcessingLogger
 from openPharma.interfaces.processors import PageProcessor
 from openPharma.models import OpenPharmacy as OpenPharmacyModel
 from openPharma.models import Pharmacy as PharmacyModel
@@ -140,8 +141,9 @@ class PharmaConsultDataUpdateDBManager:
     skipped_pharmacies = 0
     already_opened_pharmacies = 0
 
-    def __init__(self, pharmacies: List[PharmaConsultPharmacy]):
+    def __init__(self, pharmacies: List[PharmaConsultPharmacy], logger: ProcessingLogger):
         self.pharmacies = pharmacies
+        self.logger = logger
 
     def find_pharmacy_by_name_and_zone(self, pharmacy: Pharmacy):
 
@@ -185,11 +187,21 @@ class PharmaConsultDataUpdateDBManager:
         pass
 
     def process_single_pharmacy(self, pharmacy):
+        """
+        Process a single pharmacy.
+
+        Parameters:
+        - pharmacy: The pharmacy object to be processed.
+
+        Returns:
+        None
+        """
         existing_pharmacy = self.find_pharmacy_by_name_and_zone(pharmacy)
         if not existing_pharmacy:
             existing_pharmacy = self.insert_pharmacy(pharmacy)
 
             self.inserted_pharmacies += 1
+            self.logger.info(f"{pharmacy.name} has been inserted")
 
         if not pharmacy.open_from or not pharmacy.open_until:
             # No information on opening dates, skip
@@ -200,6 +212,7 @@ class PharmaConsultDataUpdateDBManager:
                 pharmacy.open_from,
                 pharmacy.open_until):
             self.already_opened_pharmacies += 1
+            self.logger.warning(f"{pharmacy.name} already opened")
 
         else:
             self.open_pharmacy(
@@ -207,6 +220,8 @@ class PharmaConsultDataUpdateDBManager:
                 pharmacy.open_from,
                 pharmacy.open_until)
             self.opened_pharmacies += 1
+            self.logger.success(
+                f"{pharmacy.name} opened from {pharmacy.open_from} to {pharmacy.open_until}")
 
     def process_pharmacies(self):
         print(f"Processing {len(self.pharmacies)} pharmacies...")
