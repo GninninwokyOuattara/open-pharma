@@ -43,7 +43,7 @@ class GoogleMapsCoordinatesScrapper:
                 break
         raise ValueError("Unable to find coordinates")
 
-    def get_coordinates_from_name(self, name: str, zone: str):
+    def get_pharmacy_coordinates(self, name: str, zone: str):
         """
         Retrieves the coordinates for a given name and zone.
 
