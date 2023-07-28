@@ -100,8 +100,8 @@ urlpatterns = [
     path("admin-api/trigger-actualizer/",
          OpenPharmaActualizerView.as_view(), name="trigger-actualizer"),
 
-    path("search/",
-         SearchApiView.as_view(), name="search"),
+    path("search_coordinates/",
+         SearchApiView.as_view(), name="search_coordinates"),
 
     path("docs/", schema_view),
     path('admin-api/auth/', jwt_views.TokenObtainPairView.as_view(),
