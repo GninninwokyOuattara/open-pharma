@@ -27,14 +27,8 @@ class RouterGenerator(ABC):
 class UserRouter(RouterGenerator):
 
     router = routers.SimpleRouter()
-    router.register("pharmacies-states", UsersPharmaciesViewset,
+    router.register(r"pharmacies", UsersPharmaciesViewset,
                     basename="pharmacies-states")
-    router.register(
-        r"pharmacies", PharmaciesViewset, basename="pharmacies")
-    router.register(r'open-pharmacies',
-                    OpenPharmaciesViewset, basename='open-pharmacies')
-    router.register(r"pharmacies-current-state",
-                    PharmaciesCurrentStateViewset, basename="pharmacies-current-state")
 
     def get_router(self):
         return self.router
