@@ -34,38 +34,18 @@ from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
 from rest_framework_swagger.views import get_swagger_view
 
-from openPharmaRest.views import TestView
+from openPharmaRest.defined_routers import AdminRouter, UserRouter
 
-user_router = routers.SimpleRouter()
-user_router.register(r'pharmacies', PharmaciesViewset, basename='pharmacies')
-user_router.register(r'open-pharmacies',
-                     OpenPharmaciesViewset, basename='open-pharmacies')
-user_router.register(r"pharmacies-current-state",
-                     PharmaciesCurrentStateViewset, basename="pharmacies-current-state")
+user_router = UserRouter().get_router()
+admin_router = AdminRouter().get_router()
 
+# user_router = routers.SimpleRouter()
+# user_router.register(r'pharmacies', PharmaciesViewset, basename='pharmacies')
+# user_router.register(r'open-pharmacies',
+#                      OpenPharmaciesViewset, basename='open-pharmacies')
+# user_router.register(r"pharmacies-current-state",
+#                      PharmaciesCurrentStateViewset, basename="pharmacies-current-state")
 
-admin_router = routers.SimpleRouter()
-admin_router.register(
-    r"pharmacies", PharmaciesAdminViewset, basename="pharmacies")
-admin_router.register("active-pharmacies-states",
-                      OpenPharmaPharmaciesStatesAdminViewSet, basename="active-pharmacies-states")
-admin_router.register(r'pharmacies-pending-review',
-                      PharmaciesPendingReviewAdminViewset, basename='admin-pharmacies-pending-review')
-
-admin_router.register(r"open-pharmacies",
-                      OpenPharmaciesAdminViewset, basename="admin-open-pharmacies")
-admin_router.register(r"get-pharmacies-states-count",
-                      PharmaciesAllStateCountView, basename="get-pharmacies-states-count")
-admin_router.register(r"get-pharmacies-state-and-count",
-                      PharmaciesStateAndCountViewset, basename="get-pharmacies-state-and-count")
-
-admin_router.register(
-    r"dashboard/get-recent-activity", OpenPharmaActivityViewset, basename="dashboard/get-recent-activity"
-)
-
-admin_router.register(
-    r"dashboard/get-latest-tracker-results", OpenPharmaTrackerHistoryViewset, basename="dashboard/get-latest-tracker-results"
-)
 
 # admin_router.register(
 #     r"trigger-actualizer", OpenPharmaActualizerView, basename="run-actualizer"
@@ -104,9 +84,9 @@ urlpatterns = [
          SearchApiView.as_view(), name="search_coordinates"),
 
     path("docs/", schema_view),
-    path('admin-api/auth/', jwt_views.TokenObtainPairView.as_view(),
-         name='token_obtain_pair'),
-    path('admin-api/refresh/', jwt_views.TokenRefreshView.as_view(),
-         name='token_refresh'),
+    # path('admin-api/auth/', jwt_views.TokenObtainPairView.as_view(),
+    #      name='token_obtain_pair'),
+    # path('admin-api/refresh/', jwt_views.TokenRefreshView.as_view(),
+    #      name='token_refresh'),
 
 ]
