@@ -31,7 +31,7 @@ class BaseAdminSerializer(ModelSerializer):
 class PharmaciesSerializer(BaseAdminSerializer):
     class Meta:
         model = Pharmacy
-        fields = ("id", "name", "zone", "coordinates", "active")
+        fields = ("id", "name", "zone", "coordinates", "active", "open")
 
     def validate(self, data):
         request_type = self.context["request"].method
