@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+from openPharma.admin_views import PharmaciesAsAdminViewset
 from openPharma.user_views import UsersPharmaciesViewset
 from openPharma.views import (OpenPharmaActivityViewset,
                               OpenPharmaciesAdminViewset,
@@ -38,7 +39,7 @@ class AdminRouter(RouterGenerator):
 
     router = routers.SimpleRouter()
     router.register(
-        r"pharmacies", PharmaciesAdminViewset, basename="pharmacies")
+        r"pharmacies", PharmaciesAsAdminViewset, basename="pharmacies")
     router.register("active-pharmacies-states",
                     OpenPharmaPharmaciesStatesAdminViewSet, basename="active-pharmacies-states")
     router.register(r'pharmacies-pending-review',
