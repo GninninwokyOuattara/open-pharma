@@ -39,26 +39,6 @@ from openPharmaRest.defined_routers import AdminRouter, UserRouter
 user_router = UserRouter().get_router()
 admin_router = AdminRouter().get_router()
 
-# user_router = routers.SimpleRouter()
-# user_router.register(r'pharmacies', PharmaciesViewset, basename='pharmacies')
-# user_router.register(r'open-pharmacies',
-#                      OpenPharmaciesViewset, basename='open-pharmacies')
-# user_router.register(r"pharmacies-current-state",
-#                      PharmaciesCurrentStateViewset, basename="pharmacies-current-state")
-
-
-# admin_router.register(
-#     r"trigger-actualizer", OpenPharmaActualizerView, basename="run-actualizer"
-# )
-
-# admin_router.register(
-#     r"dashboard/get-pharmacies-over-weeks", PharmaciesStatisticsViewset.as_view({
-#         "get": "get_pharmacies_over_weeks"
-#     }),
-
-#     basename="dashboard"
-# )
-
 schema_view = get_swagger_view(title='OpenPharma API')
 
 urlpatterns = [
