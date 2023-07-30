@@ -1,10 +1,11 @@
 from datetime import datetime
-from typing import List, Tuple
+from typing import List, Literal, Tuple
 
 from bs4 import ResultSet, Tag
 from openPharma.classes.datas import PharmaConsultPharmacy, Pharmacy
 from openPharma.classes.logger import ProcessingLogger
 from openPharma.interfaces.processors import PageProcessor
+from openPharma.models import Activity
 from openPharma.models import OpenPharmacy as OpenPharmacyModel
 from openPharma.models import Pharmacy as PharmacyModel
 
@@ -240,7 +241,55 @@ class PharmaConsultDataUpdateDBManager:
         }
         return process_result
 
-# class ProcessingLogger():
-#     def __init__(self, stdout : , style):
-#         self.stdout = stdout
-#         self.style = style
+
+class ActivityManager:
+
+    @classmethod
+    def accepted_after_review(cls, pharmacy: Pharmacy):
+        Activity.objects.create(
+            type="review",
+            action="accepted",
+            description=f"{pharmacy.name} has been reviewed positively."
+
+        )
+
+    @classmethod
+    def rejected_after_review(cls, pharmacy: Pharmacy):
+
+        Activity.objects.create(
+            type="state",
+            action="deactivation",
+            description=f"{pharmacy.name} has been deactivated."
+        )
+
+    @classmethod
+    def pharmacy_deactivated(cls, pharmacy: Pharmacy):
+        Activity.objects.create(
+            type="state",
+            action="deactivation",
+            description=f"{pharmacy.name} has been deactivated."
+        )
+
+    @classmethod
+    def pharmacy_activated(cls, pharmacy: Pharmacy):
+        Activity.objects.create(
+            type="state",
+            action="activation",
+            description=f"{pharmacy.name} has been activated."
+        )
+
+    @classmethod
+    def manual_actualization(cls):
+        Activity.objects.create(
+            type="actualization",
+            action="manual",
+            description="Manual actualization."
+        )
+
+    @classmethod
+    def automatic_actualization(cls):
+        Activity.objects.create(
+            type="actualization",
+            action="automatic",
+            description="Scheduled actualization."
+        )
