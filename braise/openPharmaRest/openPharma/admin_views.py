@@ -1,9 +1,14 @@
 
+from bs4 import BeautifulSoup
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from openPharma.admin_serializers import (PharmacieDetailsSerializer,
                                           PharmaciesPendingReviewSerializer,
                                           PharmaciesSerializer)
+from openPharma.classes.logger import ConsoleLogger
+from openPharma.classes.pages import PharmaConsultPage
+from openPharma.classes.processors import (PharmaConsultDataUpdateDBManager,
+                                           PharmaConsultPageProcessor)
 from openPharma.models import Pharmacy
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -130,5 +135,18 @@ class PharmaciesActualizerViewset(ModelViewSetWithAuthorization):
     http_method_names = ["get"]
 
     def list(self, request, *args, **kwargs):
-        print("Hello world")
-        return Response({"message": "Hello World"}, status=200)
+        try:
+            pharmaConsultPage = PharmaConsultPage(
+                "https://pharma-consults.net/pharmacies-gardes")
+            pageSoup = BeautifulSoup(pharmaConsultPage.get_page(), "html.parser")
+            pharmaConsultPP = PharmaConsultPageProcessor(page=pageSoup)
+            pharmacies = pharmaConsultPP.get_datas()
+
+            logger = ConsoleLogger()
+
+            pharmacyDBManager = PharmaConsultDataUpdateDBManager(
+                pharmacies, logger)
+            processing_result = pharmacyDBManager.process_pharmacies()
+            return Response(processing_result, status=200)
+        except Exception as error:
+            return Response({"message": "An unexpected error occured"}, status=500)
