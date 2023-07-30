@@ -15,8 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from openTracker.serializers import TrackerHistoryListSerializer
-from openTracker.views import OpenPharmaActualizerView
 from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
 from rest_framework_swagger.views import get_swagger_view
