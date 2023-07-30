@@ -12,7 +12,7 @@ class Pharmacy(models.Model):
 
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=100)
-    zone = models.CharField(max_length=100, blank=True, null=True)
+    zone = models.CharField(max_length=100, blank=True, null=True, default="")
     director = models.CharField(max_length=100, blank=True, null=True)
     addresses = ArrayField(models.CharField(
         max_length=255), size=10, default=list, blank=True, null=True)
