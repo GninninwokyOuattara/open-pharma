@@ -16,20 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from googleMapsScrapper.views import SearchApiView
-from openPharma.views import (OpenPharmaActivityViewset,
-                              OpenPharmaciesAdminViewset,
-                              OpenPharmaciesViewset,
-                              OpenPharmaPharmaciesStatesAdminViewSet,
-                              PharmaciesAdminViewset,
-                              PharmaciesAllStateCountView,
-                              PharmaciesCurrentStateViewset,
-                              PharmaciesPendingReviewAdminViewset,
-                              PharmaciesStateAndCountViewset,
-                              PharmaciesStatisticsViewset, PharmaciesViewset)
 from openTracker.serializers import TrackerHistoryListSerializer
-from openTracker.views import (CurrentlyOpenPharmaciesView,
-                               OpenPharmaActualizerView,
-                               OpenPharmaTrackerHistoryViewset)
+from openTracker.views import OpenPharmaActualizerView
 from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
 from rest_framework_swagger.views import get_swagger_view
@@ -45,17 +33,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include(user_router.urls)),
     path("admin-api/", include(admin_router.urls)),
-    path("admin-api/get-currently-open-pharmacies/",
-         CurrentlyOpenPharmaciesView.as_view(), name="tracker"),
-    path("admin-api/dashboard/get-pharmacies-over-weeks/", PharmaciesStatisticsViewset.as_view({
-        "get": "get_pharmacies_over_weeks"
-    })),
-    path("admin-api/dashboard/get-pharmacies-states/", PharmaciesStatisticsViewset.as_view({
-        "get": "get_pharmacies_states"
-    })),
-    path("admin-api/dashboard/get-pharmacies-reviews-states/", PharmaciesStatisticsViewset.as_view({
-        "get": "get_reviews_states"
-    })),
+
+
 
     path("admin-api/trigger-actualizer/",
          OpenPharmaActualizerView.as_view(), name="trigger-actualizer"),
