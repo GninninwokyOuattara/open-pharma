@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 
-from openPharma.admin_dashboard_views import PharmaciesOverWeeksViewset
+from openPharma.admin_dashboard_views import (PharmaciesOverWeeksCountViews,
+                                              PharmaciesReviewsStatesCountView,
+                                              PharmaciesStatesCountView)
 from openPharma.admin_views import (PharmaciesActualizerViewset,
                                     PharmaciesAsAdminViewset,
                                     PharmaciesPendingReviewAsAdminViewset)
@@ -48,13 +50,6 @@ class AdminRouter(RouterGenerator):
     router.register(r'pharmacies-pending-review',
                     PharmaciesPendingReviewAsAdminViewset, basename='admin-pharmacies-pending-review')
 
-    # router.register(r"open-pharmacies",
-    #                 OpenPharmaciesAdminViewset, basename="admin-open-pharmacies")
-    # router.register(r"get-pharmacies-states-count",
-    #                 PharmaciesAllStateCountView, basename="get-pharmacies-states-count")
-    # router.register(r"get-pharmacies-state-and-count",
-    #                 PharmaciesStateAndCountViewset, basename="get-pharmacies-state-and-count")
-
     router.register(r"actualizer", PharmaciesActualizerViewset,
                     basename="actualizer")
 
@@ -63,7 +58,13 @@ class AdminRouter(RouterGenerator):
     )
 
     router.register(r"dashboard/pharmacies-count-over-weeks",
-                    PharmaciesOverWeeksViewset, basename="pharmacies-count-over-weeks")
+                    PharmaciesOverWeeksCountViews, basename="pharmacies-count-over-weeks")
+
+    router.register(r"dashboard/pharmacies-states-count",
+                    PharmaciesStatesCountView, basename="pharmacies-states-count")
+
+    router.register(r"dashboard/pharmacies-reviews-states-count",
+                    PharmaciesReviewsStatesCountView, basename="pharmacies-reviews-states-count")
 
     router.register(
         r"dashboard/get-latest-tracker-results", OpenPharmaTrackerHistoryViewset, basename="dashboard/get-latest-tracker-results"
