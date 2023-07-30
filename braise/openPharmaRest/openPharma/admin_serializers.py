@@ -55,3 +55,13 @@ class PharmacieDetailsSerializer(BaseAdminSerializer):
         model = Pharmacy
         fields = ("id", "name", "zone", "director", "addresses", "phones",
                   "description", "latitude", "longitude", "coordinates", "open", "date_created")
+
+
+class PharmaciesPendingReviewSerializer(ModelSerializer):
+    class Meta:
+        model = Pharmacy
+        fields = ("id", "name", "zone", "date_created")
+
+
+# class PharmacyPendingReviewDetailSerializer(PharmacieDetailsSerializer):
+#     pass
