@@ -140,6 +140,7 @@ class PharmaConsultDataUpdateDBManager:
     opened_pharmacies = 0
     skipped_pharmacies = 0
     already_opened_pharmacies = 0
+    open_but_pending_review_pharmacies = 0
 
     def __init__(self, pharmacies: List[PharmaConsultPharmacy], logger: ProcessingLogger):
         self.pharmacies = pharmacies
@@ -211,7 +212,10 @@ class PharmaConsultDataUpdateDBManager:
                 existing_pharmacy,
                 pharmacy.open_from,
                 pharmacy.open_until):
-            self.already_opened_pharmacies += 1
+            if existing_pharmacy.pending_review:
+                self.open_but_pending_review_pharmacies += 1
+            else:
+                self.already_opened_pharmacies += 1
             self.logger.warning(f"{pharmacy.name} already opened")
 
         else:
@@ -231,7 +235,8 @@ class PharmaConsultDataUpdateDBManager:
         process_result = {
             "inserted_pharmacies": self.inserted_pharmacies,
             "opened_pharmacies": self.opened_pharmacies,
-            "already_opened_pharmacies": self.already_opened_pharmacies
+            "already_opened_pharmacies": self.already_opened_pharmacies,
+            "open_but_pending_review_pharmacies": self.open_but_pending_review_pharmacies
         }
         return process_result
 
