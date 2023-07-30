@@ -3,7 +3,8 @@
 from django.db.models import Count
 from django.db.models.functions import TruncWeek
 from django.utils.timezone import now
-from openPharma.models import OpenPharmacy, Pharmacy
+from openPharma.admin_serializers import ActivityListSerializer
+from openPharma.models import Activity, OpenPharmacy, Pharmacy
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
@@ -95,3 +96,9 @@ class PharmaciesReviewsStatesCountView(IsAuthenticated, ReadOnlyModelViewSet):
         ]
 
         return Response(data)
+
+
+class OpenPharmaActivityViewset(IsAuthenticated, ReadOnlyModelViewSet):
+    serializer_class = ActivityListSerializer
+    queryset = Activity.objects.all()[:20]
+    http_method_names = ['get']

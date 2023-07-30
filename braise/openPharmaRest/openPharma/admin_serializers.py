@@ -1,5 +1,5 @@
 from django.utils import timezone
-from openPharma.models import OpenPharmacy, Pharmacy
+from openPharma.models import Activity, OpenPharmacy, Pharmacy
 from rest_framework.serializers import (ModelSerializer, SerializerMethodField,
                                         ValidationError)
 
@@ -63,5 +63,9 @@ class PharmaciesPendingReviewSerializer(ModelSerializer):
         fields = ("id", "name", "zone", "date_created")
 
 
-# class PharmacyPendingReviewDetailSerializer(PharmacieDetailsSerializer):
-#     pass
+class ActivityListSerializer(ModelSerializer):
+
+    class Meta:
+        model = Activity
+        fields = "__all__"
+        # order by date created

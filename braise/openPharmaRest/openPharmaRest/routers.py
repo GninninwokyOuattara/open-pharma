@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
-from openPharma.admin_dashboard_views import (PharmaciesOverWeeksCountViews,
+from openPharma.admin_dashboard_views import (OpenPharmaActivityViewset,
+                                              PharmaciesOverWeeksCountViews,
                                               PharmaciesReviewsStatesCountView,
                                               PharmaciesStatesCountView)
 from openPharma.admin_views import (PharmaciesActualizerView,
@@ -8,8 +9,6 @@ from openPharma.admin_views import (PharmaciesActualizerView,
                                     PharmaciesPendingReviewAsAdminViewset,
                                     SearchApiView)
 from openPharma.user_views import UsersPharmaciesViewset
-from openPharma.views import (OpenPharmaActivityViewset,
-                              OpenPharmaPharmaciesStatesAdminViewSet)
 # from openTracker.views import OpenPharmaTrackerHistoryViewset
 from rest_framework import routers
 from rest_framework.routers import SimpleRouter
@@ -37,8 +36,6 @@ class AdminRouter(RouterGenerator):
     router = routers.SimpleRouter()
     router.register(
         r"pharmacies", PharmaciesAsAdminViewset, basename="pharmacies")
-    router.register("active-pharmacies-states",
-                    OpenPharmaPharmaciesStatesAdminViewSet, basename="active-pharmacies-states")
     router.register(r'pharmacies-pending-review',
                     PharmaciesPendingReviewAsAdminViewset, basename='admin-pharmacies-pending-review')
 
