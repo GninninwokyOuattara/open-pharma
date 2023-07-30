@@ -81,5 +81,5 @@ class PharmaciesSerializer(BaseAdminSerializer):
 class PharmacieDetailsSerializer(BaseAdminSerializer):
     class Meta:
         model = Pharmacy
-        fields = ("id", "name", "zone", "director", "addresses", "phones", "email", "website",
-                  "description", "coordinates", "date_created", "date_updated", "active", "pending_review")
+        fields = ("id", "name", "zone", "director", "addresses", "phones",
+                  "description", "coordinates", "date_created")
