@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+from openPharma.admin_dashboard_views import PharmaciesOverWeeksViewset
 from openPharma.admin_views import (PharmaciesActualizerViewset,
                                     PharmaciesAsAdminViewset,
                                     PharmaciesPendingReviewAsAdminViewset)
@@ -60,6 +61,9 @@ class AdminRouter(RouterGenerator):
     router.register(
         r"dashboard/get-recent-activity", OpenPharmaActivityViewset, basename="dashboard/get-recent-activity"
     )
+
+    router.register(r"dashboard/pharmacies-count-over-weeks",
+                    PharmaciesOverWeeksViewset, basename="pharmacies-count-over-weeks")
 
     router.register(
         r"dashboard/get-latest-tracker-results", OpenPharmaTrackerHistoryViewset, basename="dashboard/get-latest-tracker-results"
