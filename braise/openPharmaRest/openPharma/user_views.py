@@ -12,13 +12,16 @@ from .models import Pharmacy
 
 class UsersPharmaciesViewset(ReadOnlyModelViewSet):
     serializer_class = UserPharmaciesSerializer
-    queryset = Pharmacy.objects.filter(active=True, pending_review=False)
+    queryset = Pharmacy.objects.filter(
+        active=True,
+        pending_review=False
+    )
 
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return UsersPharmacieDetailsSerializer
         return UserPharmaciesSerializer
 
-    @method_decorator(cache_page(60*2))
+    @method_decorator(cache_page(60*30))
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
