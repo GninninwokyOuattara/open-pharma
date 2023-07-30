@@ -6,14 +6,17 @@ from openPharma.admin_serializers import (PharmacieDetailsSerializer,
                                           PharmaciesPendingReviewSerializer,
                                           PharmaciesSerializer)
 from openPharma.classes.logger import ConsoleLogger
+from openPharma.classes.maps_scrapper import GoogleMapsCoordinatesScrapper
 from openPharma.classes.pages import PharmaConsultPage
 from openPharma.classes.processors import (PharmaConsultDataUpdateDBManager,
                                            PharmaConsultPageProcessor)
 from openPharma.models import Pharmacy
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from openPharmaRest.authorization import ModelViewSetWithAuthorization
+from openPharmaRest.authorization import (IsAuthenticated,
+                                          ModelViewSetWithAuthorization)
 from openPharmaRest.panigation import ResultsSetPagination
 
 
@@ -151,3 +154,24 @@ class PharmaciesActualizerView(ModelViewSetWithAuthorization):
             return Response(processing_result, status=200)
         except Exception as error:
             return Response({"message": "An unexpected error occured"}, status=500)
+
+
+class SearchApiView(IsAuthenticated, ReadOnlyModelViewSet):
+
+    http_method_names = ['get']
+
+    def list(self, request, *args, **kwargs):
+
+        name = request.query_params.get("name")
+        zone = request.query_params.get("zone")
+
+        if not name or not zone:
+            return Response({"error": "name and zone parameter are required."}, status=400)
+
+        maps_scrapper = GoogleMapsCoordinatesScrapper()
+        latitude, longitude = maps_scrapper.get_pharmacy_coordinates(
+            name=name, zone=zone)
+
+        return Response(
+            {"coordinates": {"latitude": latitude, "longitude": longitude}},
+            status=200)
