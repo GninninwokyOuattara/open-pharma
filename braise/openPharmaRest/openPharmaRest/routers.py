@@ -9,19 +9,10 @@ from openPharma.admin_views import (PharmaciesActualizerView,
                                     SearchApiView)
 from openPharma.user_views import UsersPharmaciesViewset
 from openPharma.views import (OpenPharmaActivityViewset,
-                              OpenPharmaciesAdminViewset,
-                              OpenPharmaciesViewset,
-                              OpenPharmaPharmaciesStatesAdminViewSet,
-                              PharmaciesAdminViewset,
-                              PharmaciesAllStateCountView,
-                              PharmaciesCurrentStateViewset,
-                              PharmaciesPendingReviewAdminViewset,
-                              PharmaciesStateAndCountViewset,
-                              PharmaciesStatisticsViewset, PharmaciesViewset)
+                              OpenPharmaPharmaciesStatesAdminViewSet)
 # from openTracker.views import OpenPharmaTrackerHistoryViewset
 from rest_framework import routers
 from rest_framework.routers import SimpleRouter
-from rest_framework_simplejwt import views as jwt_views
 
 
 class RouterGenerator(ABC):
