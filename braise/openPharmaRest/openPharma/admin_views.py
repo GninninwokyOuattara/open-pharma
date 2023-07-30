@@ -77,6 +77,7 @@ class PharmaciesPendingReviewAsAdminViewset(ModelViewSetWithAuthorization, Resul
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return PharmacieDetailsSerializer
+
         return PharmaciesPendingReviewSerializer
 
     def list(self, request, *args, **kwargs):
@@ -93,3 +94,32 @@ class PharmaciesPendingReviewAsAdminViewset(ModelViewSetWithAuthorization, Resul
         serializer = PharmaciesPendingReviewSerializer(page, many=True)
 
         return self.get_paginated_response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def accept(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            instance.pending_review = False
+            instance.active = True
+            instance.save()
+            serializer = self.get_serializer(instance)
+
+            message = f"{instance.name} has been reviewed and is now active."
+            data = serializer.data
+            return Response({"message": message, "data": data}, status=200)
+        except Exception as error:
+            return Response({"message": "An unexpected error occured"}, status=500)
+
+    @action(detail=True, methods=['post'])
+    def reject(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            instance.pending_review = False
+            instance.active = False
+            instance.delete()
+            serializer = self.get_serializer(instance)
+            message = f"{instance.name} has been rejected."
+            data = serializer.data
+            return Response({"message": message, "data": data}, status=200)
+        except Exception as error:
+            return Response({"message": "An unexpected error occured"}, status=500)
