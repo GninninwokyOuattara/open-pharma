@@ -4,21 +4,14 @@
 #   - If pharmacies are active
 
 
-import json
-from datetime import datetime
-
 from bs4 import BeautifulSoup
-from django.core.management.base import BaseCommand, CommandError
-# from timezone import timezone
-from django.utils import timezone
+from django.core.management.base import BaseCommand
 from openPharma.classes.logger import ConsoleLogger
 from openPharma.classes.pages import PharmaConsultPage
 from openPharma.classes.processors import (PharmaConsultDataUpdateDBManager,
                                            PharmaConsultPageProcessor)
-# import pharmact
-from openPharma.models import Activity, OpenPharmacy, Pharmacy
-from openTracker.models import TrackerHistory
-from openTracker.utils import get_currently_open_pharmacies_datas
+
+from openPharmaRest.openPharma.classes.processors import ActivityManager
 
 
 class Command(BaseCommand):
@@ -36,4 +29,5 @@ class Command(BaseCommand):
         pharmacyDBManager = PharmaConsultDataUpdateDBManager(
             pharmacies, logger)
         processing_result = pharmacyDBManager.process_pharmacies()
+        ActivityManager.automatic_actualization()
         print("Processing result", processing_result)
