@@ -49,6 +49,13 @@ class PharmaciesSerializer(BaseAdminSerializer):
     def create(self, validated_data):
         return Pharmacy.objects.create(**validated_data)
 
+
+class PharmacieDetailsSerializer(BaseAdminSerializer):
+    class Meta:
+        model = Pharmacy
+        fields = ("id", "name", "zone", "director", "addresses", "phones",
+                  "description", "coordinates", "open", "date_created")
+
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
         instance.zone = validated_data.get('zone', instance.zone)
@@ -73,13 +80,3 @@ class PharmaciesSerializer(BaseAdminSerializer):
         instance.save()
 
         return instance
-
-    def delete(self, instance):
-        instance.delete()
-
-
-class PharmacieDetailsSerializer(BaseAdminSerializer):
-    class Meta:
-        model = Pharmacy
-        fields = ("id", "name", "zone", "director", "addresses", "phones",
-                  "description", "coordinates", "open", "date_created")
