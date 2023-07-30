@@ -130,7 +130,7 @@ class PharmaciesPendingReviewAsAdminViewset(ModelViewSetWithAuthorization, Resul
             return Response({"message": "An unexpected error occured"}, status=500)
 
 
-class PharmaciesActualizerViewset(ModelViewSetWithAuthorization):
+class PharmaciesActualizerView(ModelViewSetWithAuthorization):
 
     http_method_names = ["get"]
 
@@ -138,7 +138,8 @@ class PharmaciesActualizerViewset(ModelViewSetWithAuthorization):
         try:
             pharmaConsultPage = PharmaConsultPage(
                 "https://pharma-consults.net/pharmacies-gardes")
-            pageSoup = BeautifulSoup(pharmaConsultPage.get_page(), "html.parser")
+            pageSoup = BeautifulSoup(
+                pharmaConsultPage.get_page(), "html.parser")
             pharmaConsultPP = PharmaConsultPageProcessor(page=pageSoup)
             pharmacies = pharmaConsultPP.get_datas()
 

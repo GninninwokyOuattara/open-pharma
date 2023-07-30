@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from openPharma.admin_dashboard_views import (PharmaciesOverWeeksCountViews,
                                               PharmaciesReviewsStatesCountView,
                                               PharmaciesStatesCountView)
-from openPharma.admin_views import (PharmaciesActualizerViewset,
+from openPharma.admin_views import (PharmaciesActualizerView,
                                     PharmaciesAsAdminViewset,
                                     PharmaciesPendingReviewAsAdminViewset)
 from openPharma.user_views import UsersPharmaciesViewset
@@ -50,7 +50,7 @@ class AdminRouter(RouterGenerator):
     router.register(r'pharmacies-pending-review',
                     PharmaciesPendingReviewAsAdminViewset, basename='admin-pharmacies-pending-review')
 
-    router.register(r"actualizer", PharmaciesActualizerViewset,
+    router.register(r"actualizer", PharmaciesActualizerView,
                     basename="actualizer")
 
     router.register(
