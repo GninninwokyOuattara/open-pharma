@@ -15,14 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from googleMapsScrapper.views import SearchApiView
 from openTracker.serializers import TrackerHistoryListSerializer
 from openTracker.views import OpenPharmaActualizerView
 from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
 from rest_framework_swagger.views import get_swagger_view
 
-from openPharmaRest.defined_routers import AdminRouter, UserRouter
+from openPharmaRest.routers import AdminRouter, UserRouter
 
 user_router = UserRouter().get_router()
 admin_router = AdminRouter().get_router()
@@ -33,14 +32,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include(user_router.urls)),
     path("admin-api/", include(admin_router.urls)),
-
-
-
-    path("admin-api/trigger-actualizer/",
-         OpenPharmaActualizerView.as_view(), name="trigger-actualizer"),
-
-    path("search_coordinates/",
-         SearchApiView.as_view(), name="search_coordinates"),
 
     path("docs/", schema_view),
     path('admin-api/auth/', jwt_views.TokenObtainPairView.as_view(),
