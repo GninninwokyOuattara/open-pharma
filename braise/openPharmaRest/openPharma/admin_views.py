@@ -123,3 +123,12 @@ class PharmaciesPendingReviewAsAdminViewset(ModelViewSetWithAuthorization, Resul
             return Response({"message": message, "data": data}, status=200)
         except Exception as error:
             return Response({"message": "An unexpected error occured"}, status=500)
+
+
+class PharmaciesActualizerViewset(ModelViewSetWithAuthorization):
+
+    http_method_names = ["get"]
+
+    def list(self, request, *args, **kwargs):
+        print("Hello world")
+        return Response({"message": "Hello World"}, status=200)
