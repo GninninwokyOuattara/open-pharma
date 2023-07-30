@@ -8,10 +8,9 @@ from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand
 from openPharma.classes.logger import ConsoleLogger
 from openPharma.classes.pages import PharmaConsultPage
-from openPharma.classes.processors import (PharmaConsultDataUpdateDBManager,
+from openPharma.classes.processors import (ActivityManager,
+                                           PharmaConsultDataUpdateDBManager,
                                            PharmaConsultPageProcessor)
-
-from openPharmaRest.openPharma.classes.processors import ActivityManager
 
 
 class Command(BaseCommand):
