@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
-from openPharma.admin_views import (PharmaciesAsAdminViewset,
+from openPharma.admin_views import (PharmaciesActualizerViewset,
+                                    PharmaciesAsAdminViewset,
                                     PharmaciesPendingReviewAsAdminViewset)
 from openPharma.user_views import UsersPharmaciesViewset
 from openPharma.views import (OpenPharmaActivityViewset,
@@ -12,7 +13,7 @@ from openPharma.views import (OpenPharmaActivityViewset,
                               PharmaciesCurrentStateViewset,
                               PharmaciesPendingReviewAdminViewset,
                               PharmaciesStateAndCountViewset,
-                              PharmaciesViewset)
+                              PharmaciesStatisticsViewset, PharmaciesViewset)
 from openTracker.views import OpenPharmaTrackerHistoryViewset
 from rest_framework import routers
 from rest_framework.routers import SimpleRouter
@@ -46,12 +47,15 @@ class AdminRouter(RouterGenerator):
     router.register(r'pharmacies-pending-review',
                     PharmaciesPendingReviewAsAdminViewset, basename='admin-pharmacies-pending-review')
 
-    router.register(r"open-pharmacies",
-                    OpenPharmaciesAdminViewset, basename="admin-open-pharmacies")
-    router.register(r"get-pharmacies-states-count",
-                    PharmaciesAllStateCountView, basename="get-pharmacies-states-count")
-    router.register(r"get-pharmacies-state-and-count",
-                    PharmaciesStateAndCountViewset, basename="get-pharmacies-state-and-count")
+    # router.register(r"open-pharmacies",
+    #                 OpenPharmaciesAdminViewset, basename="admin-open-pharmacies")
+    # router.register(r"get-pharmacies-states-count",
+    #                 PharmaciesAllStateCountView, basename="get-pharmacies-states-count")
+    # router.register(r"get-pharmacies-state-and-count",
+    #                 PharmaciesStateAndCountViewset, basename="get-pharmacies-state-and-count")
+
+    router.register(r"actualizer", PharmaciesActualizerViewset,
+                    basename="actualizer")
 
     router.register(
         r"dashboard/get-recent-activity", OpenPharmaActivityViewset, basename="dashboard/get-recent-activity"
