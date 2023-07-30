@@ -18,7 +18,7 @@ class PharmaciesAsAdminViewset(ModelViewSetWithAuthorization, ResultsSetPaginati
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return PharmacieDetailsSerializer
-        elif self.request.method == "PUT":
+        elif self.request.method == "PATCH":
             return PharmacieDetailsSerializer
         return PharmaciesSerializer
 
