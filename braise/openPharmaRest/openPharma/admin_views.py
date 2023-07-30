@@ -1,6 +1,8 @@
 
 from openPharma.admin_serializers import PharmaciesSerializer
 from openPharma.models import Pharmacy
+# import GenericAPIView
+from rest_framework.generics import GenericAPIView
 # import PageNumberPagination
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
@@ -17,9 +19,9 @@ class ModelViewSetWithAuthorization(AdminAuthorizationMixin, ModelViewSet):
     pass
 
 
-class ResultsSetPagination(PageNumberPagination):
-    page_size = 50
-    page_size_query_param = 'page_size'
+class ResultsSetPagination(PageNumberPagination, GenericAPIView):
+    page_size = 25
+    page_size_query_param = 'size'
     max_page_size = 100
 
 
@@ -34,11 +36,11 @@ class PharmaciesAsAdminViewset(ModelViewSetWithAuthorization, ResultsSetPaginati
 
         queryset = Pharmacy.objects.filter(
             name__icontains=name,
-            zone__icontains=zone,
+            # zone__icontains=zone,
             active=True,
             pending_review=False
         )
-        page = self.paginate_queryset(queryset)
+        page = self.paginate_queryset(queryset, request)
         serializer = PharmaciesSerializer(page, many=True)
 
         return self.get_paginated_response(serializer.data)
