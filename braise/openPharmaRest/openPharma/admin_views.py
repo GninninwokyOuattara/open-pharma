@@ -1,14 +1,13 @@
 
 from bs4 import BeautifulSoup
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from openPharma.admin_serializers import (PharmacieDetailsSerializer,
                                           PharmaciesPendingReviewSerializer,
                                           PharmaciesSerializer)
 from openPharma.classes.logger import ConsoleLogger
 from openPharma.classes.maps_scrapper import GoogleMapsCoordinatesScrapper
 from openPharma.classes.pages import PharmaConsultPage
-from openPharma.classes.processors import (PharmaConsultDataUpdateDBManager,
+from openPharma.classes.processors import (ActivityManager,
+                                           PharmaConsultDataUpdateDBManager,
                                            PharmaConsultPageProcessor)
 from openPharma.models import Pharmacy
 from rest_framework.decorators import action
@@ -58,6 +57,7 @@ class PharmaciesAsAdminViewset(ModelViewSetWithAuthorization, ResultsSetPaginati
 
             message = f"{instance.name} has been activated succesfully"
             data = serializer.data
+            ActivityManager.pharmacy_activated(instance)
             return Response({"message": message, "data": data}, status=200)
         except Exception as error:
             return Response({"message": "An unexpected error occured"}, status=500)
@@ -72,6 +72,8 @@ class PharmaciesAsAdminViewset(ModelViewSetWithAuthorization, ResultsSetPaginati
 
             message = f"{instance.name} has been deactivated."
             data = serializer.data
+            ActivityManager.pharmacy_deactivated(instance)
+
             return Response({"message": message, "data": data}, status=200)
         except Exception as error:
             return Response({"message": "An unexpected error occured"}, status=500)
@@ -114,7 +116,9 @@ class PharmaciesPendingReviewAsAdminViewset(ModelViewSetWithAuthorization, Resul
 
             message = f"{instance.name} has been reviewed and is now active."
             data = serializer.data
+            ActivityManager.accepted_after_review(instance)
             return Response({"message": message, "data": data}, status=200)
+
         except Exception as error:
             return Response({"message": "An unexpected error occured"}, status=500)
 
@@ -128,7 +132,9 @@ class PharmaciesPendingReviewAsAdminViewset(ModelViewSetWithAuthorization, Resul
             serializer = self.get_serializer(instance)
             message = f"{instance.name} has been rejected."
             data = serializer.data
+            ActivityManager.rejected_after_review(instance)
             return Response({"message": message, "data": data}, status=200)
+
         except Exception as error:
             return Response({"message": "An unexpected error occured"}, status=500)
 
@@ -151,6 +157,7 @@ class PharmaciesActualizerView(ModelViewSetWithAuthorization):
             pharmacyDBManager = PharmaConsultDataUpdateDBManager(
                 pharmacies, logger)
             processing_result = pharmacyDBManager.process_pharmacies()
+            ActivityManager.manual_actualization()
             return Response(processing_result, status=200)
         except Exception as error:
             return Response({"message": "An unexpected error occured"}, status=500)
