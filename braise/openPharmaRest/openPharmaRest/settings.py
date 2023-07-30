@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'django_crontab',
     'openPharma',
     'rest_framework',
-    'googleMapsScrapper',
     'openTracker',
     'rest_framework_swagger',
     "corsheaders",
