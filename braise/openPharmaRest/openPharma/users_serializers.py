@@ -28,7 +28,7 @@ class UserPharmaciesSerializer(PharmacyOpenState):
 
     class Meta:
         model = Pharmacy
-        fields = ["id", "name", "coordinates"]
+        fields = ["id", "name", "coordinates", "open"]
 
 
 class UsersPharmacieDetailsSerializer(PharmacyOpenState):
