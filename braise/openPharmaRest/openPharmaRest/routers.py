@@ -18,7 +18,7 @@ from openPharma.views import (OpenPharmaActivityViewset,
                               PharmaciesPendingReviewAdminViewset,
                               PharmaciesStateAndCountViewset,
                               PharmaciesStatisticsViewset, PharmaciesViewset)
-from openTracker.views import OpenPharmaTrackerHistoryViewset
+# from openTracker.views import OpenPharmaTrackerHistoryViewset
 from rest_framework import routers
 from rest_framework.routers import SimpleRouter
 from rest_framework_simplejwt import views as jwt_views
@@ -64,9 +64,9 @@ class AdminRouter(RouterGenerator):
     router.register(r"dashboard/pharmacies-reviews-states-count",
                     PharmaciesReviewsStatesCountView, basename="pharmacies-reviews-states-count")
 
-    router.register(
-        r"dashboard/get-latest-tracker-results", OpenPharmaTrackerHistoryViewset, basename="dashboard/get-latest-tracker-results"
-    )
+    # router.register(
+    #     r"dashboard/get-latest-tracker-results", OpenPharmaTrackerHistoryViewset, basename="dashboard/get-latest-tracker-results"
+    # )
 
     # Utils
 
