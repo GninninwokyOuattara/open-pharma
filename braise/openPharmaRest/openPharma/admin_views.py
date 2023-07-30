@@ -1,5 +1,8 @@
 
-from openPharma.admin_serializers import PharmaciesSerializer
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from openPharma.admin_serializers import (PharmacieDetailsSerializer,
+                                          PharmaciesSerializer)
 from openPharma.models import Pharmacy
 
 from openPharmaRest.authorization import ModelViewSetWithAuthorization
@@ -8,7 +11,12 @@ from openPharmaRest.panigation import ResultsSetPagination
 
 class PharmaciesAsAdminViewset(ModelViewSetWithAuthorization, ResultsSetPagination):
     queryset = Pharmacy.objects.all()
-    serializer_class = PharmaciesSerializer
+    # serializer_class = PharmaciesSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return PharmacieDetailsSerializer
+        return PharmaciesSerializer
 
     def list(self, request, *args, **kwargs):
 
