@@ -5,7 +5,8 @@ from openPharma.admin_dashboard_views import (PharmaciesOverWeeksCountViews,
                                               PharmaciesStatesCountView)
 from openPharma.admin_views import (PharmaciesActualizerView,
                                     PharmaciesAsAdminViewset,
-                                    PharmaciesPendingReviewAsAdminViewset)
+                                    PharmaciesPendingReviewAsAdminViewset,
+                                    SearchApiView)
 from openPharma.user_views import UsersPharmaciesViewset
 from openPharma.views import (OpenPharmaActivityViewset,
                               OpenPharmaciesAdminViewset,
@@ -50,9 +51,6 @@ class AdminRouter(RouterGenerator):
     router.register(r'pharmacies-pending-review',
                     PharmaciesPendingReviewAsAdminViewset, basename='admin-pharmacies-pending-review')
 
-    router.register(r"actualizer", PharmaciesActualizerView,
-                    basename="actualizer")
-
     router.register(
         r"dashboard/get-recent-activity", OpenPharmaActivityViewset, basename="dashboard/get-recent-activity"
     )
@@ -69,6 +67,13 @@ class AdminRouter(RouterGenerator):
     router.register(
         r"dashboard/get-latest-tracker-results", OpenPharmaTrackerHistoryViewset, basename="dashboard/get-latest-tracker-results"
     )
+
+    # Utils
+
+    router.register(r"actualizer", PharmaciesActualizerView,
+                    basename="actualizer")
+    router.register(r"search-coordinates", SearchApiView,
+                    basename="search-coordinates")
 
     def get_router(self):
         return self.router
