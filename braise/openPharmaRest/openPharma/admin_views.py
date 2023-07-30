@@ -1,28 +1,9 @@
 
 from openPharma.admin_serializers import PharmaciesSerializer
 from openPharma.models import Pharmacy
-# import GenericAPIView
-from rest_framework.generics import GenericAPIView
-# import PageNumberPagination
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
 
-
-class AdminAuthorizationMixin:
-    # Will force authorization on any view extending this mixin
-    permission_classes = (IsAuthenticated,)
-
-
-class ModelViewSetWithAuthorization(AdminAuthorizationMixin, ModelViewSet):
-    pass
-
-
-class ResultsSetPagination(PageNumberPagination, GenericAPIView):
-    page_size = 25
-    page_size_query_param = 'size'
-    max_page_size = 100
+from openPharmaRest.authorization import ModelViewSetWithAuthorization
+from openPharmaRest.panigation import ResultsSetPagination
 
 
 class PharmaciesAsAdminViewset(ModelViewSetWithAuthorization, ResultsSetPagination):
