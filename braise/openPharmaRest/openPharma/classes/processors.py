@@ -199,16 +199,19 @@ class PharmaConsultDataUpdateDBManager:
         None
         """
         existing_pharmacy = self.find_pharmacy_by_name_and_zone(pharmacy)
+        # If we do not already have a pharmacy with this name at this zone. we directly insert it.
         if not existing_pharmacy:
             existing_pharmacy = self.insert_pharmacy(pharmacy)
 
             self.inserted_pharmacies += 1
             self.logger.info(f"{pharmacy.name} has been inserted")
 
+        # If no data related to the date of opening is available we end the processing here.
         if not pharmacy.open_from or not pharmacy.open_until:
             # No information on opening dates, skip
             return
 
+        # Check if this existing pharmacy is already opened at this date range
         if self.is_pharmacy_opened_on_date_range(
                 existing_pharmacy,
                 pharmacy.open_from,
