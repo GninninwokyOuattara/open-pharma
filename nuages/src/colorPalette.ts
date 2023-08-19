@@ -27,4 +27,11 @@ export const palette = {
     accent: "#F1A661",
     important: "#E38B29",
   },
+  app: {
+    background: "#f3f0ea",
+    black: "#1c1c1c",
+    white: "#fcfcfa",
+    orange: "#f4b690",
+    gray: "#aaa5ab",
+  },
 };
