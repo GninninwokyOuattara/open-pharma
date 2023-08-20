@@ -1,5 +1,9 @@
-import { AiFillPieChart } from 'react-icons/ai'
-import NavigationBarItem from './NavigationBarItem'
+import { AiFillPieChart } from 'react-icons/ai';
+import { GiChoice } from "react-icons/gi";
+import { RiFileList3Fill } from "react-icons/ri";
+
+
+import NavigationBarItem from './NavigationBarItem';
 
 const NavigationBar = () => {
     return (
@@ -10,13 +14,13 @@ const NavigationBar = () => {
 
             <div className="w-full h-full flex items-center justify-center">
 
-                <div className="border-2 rounded-md px-2 h-full flex flex-row gap-x-4 items-center bg-appPrimary">
+                <div className="border-2 rounded-md px-5 h-full flex flex-row gap-x-4 items-center bg-appPrimary">
                     <NavigationBarItem to={"/dashboard"} icon={<AiFillPieChart size={20} />} />
                     <div className="w-0.5 h-4/5 bg-gray-300" />
-                    <NavigationBarItem to={"/pharmacies"} icon={<AiFillPieChart size={20} />} />
+                    <NavigationBarItem to={"/pharmacies"} icon={<RiFileList3Fill size={20} />} />
                     <div className="w-0.5 h-4/5 bg-gray-300" />
 
-                    <NavigationBarItem to="/reviews" icon={<AiFillPieChart size={20} />} />
+                    <NavigationBarItem to="/reviews" icon={<GiChoice size={20} />} />
                 </div>
 
             </div>
