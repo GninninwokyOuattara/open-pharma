@@ -1,12 +1,20 @@
-import './App.css'
+
+import { RouterProvider } from 'react-router-dom';
+import './App.css';
+import appRouter from './router/appRouter';
+// import appRoutes from './router/appRoutes';
 
 
 
 function App() {
 
+
+
   return (
     <>
-      <p className=''>Hello World</p>
+      {/* <RouterProvider router={appRoutes} /> */}
+      {/* <Home /> */}
+      <RouterProvider router={appRouter} />
     </>
   )
 }
