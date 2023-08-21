@@ -30,31 +30,35 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         {
             queryKey: ["refesh-access-toeken"],
             queryFn: refreshAccessToken,
-            staleTime: 1000 * 60,
+            // staleTime: 1000 * 60,
             refetchInterval: 1000 * 60
 
         })
 
 
     useEffect(() => {
-        if (isSuccess) {
+        if (isSuccess && data) {
+
             setAuthenticationData({
-                access: data.access,
+                access: data.data.access,
                 isAuthenticated: true,
             })
             setIsProcessing(false)
         }
-    }, [isSuccess])
+    }, [isSuccess, data])
 
 
 
 
+    // if (error) {
+    //     return <div>{error.message}</div>
+    // }
 
 
 
-    if (isProcessing) {
-        return <div>Loading...</div>
-    }
+    // if (isProcessing) {
+    //     return <div>Loading...</div>
+    // }
 
     return (
         <AuthContext.Provider value={authenticationData}>
