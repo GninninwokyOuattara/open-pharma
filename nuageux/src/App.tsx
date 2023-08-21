@@ -18,11 +18,9 @@ function App() {
 
   return (
     <>
-      {/* <RouterProvider router={appRoutes} /> */}
-      {/* <Home /> */}
+
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-
           <RouterProvider router={appRouter} />
         </AuthProvider>
       </QueryClientProvider>
