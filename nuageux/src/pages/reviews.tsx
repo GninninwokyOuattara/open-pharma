@@ -22,11 +22,15 @@ const Reviews = () => {
     }), [access])
 
 
-    const { isLoading, isError, data } = useQuery<AxiosResponse<IPanigation<PharmacyBaseData>, any>>({
+    const { isLoading, isError, data, isSuccess } = useQuery<AxiosResponse<IPanigation<PharmacyBaseData>, any>>({
         queryKey: ['pending-reviews-pharmacies', page],
         queryFn: () => getPendingReviewsPharmacies(page),
         keepPreviousData: true
     })
+
+    let pharmaciesPendingReview: PharmacyBaseData[] = []
+
+    if (isSuccess) pharmaciesPendingReview = data?.data.results
 
 
     console.log(data)
@@ -37,7 +41,10 @@ const Reviews = () => {
             <Input placeholder="Search pharmacies" />
             <div className="mt-4">
 
-                {data && <DataTable columns={columns} data={data!.data.results} />}
+
+                <DataTable columns={columns} data={pharmaciesPendingReview} />
+
+
 
                 <div className="flex items-center justify-end space-x-2 py-4">
                     <Button
