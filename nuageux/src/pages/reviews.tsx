@@ -1,33 +1,24 @@
 
-import { refreshToken } from "@/api/auth";
+import { getPendingReviewsPharmacies } from "@/api/reviewsApis";
 import DataTable from "@/components/datatable";
 import { columns } from "@/components/datatables/reviewDatatableColumns";
 import withNavigationBarLayout from "@/components/layout/withNavigationBarLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/auth";
-import { IPanigation, PharmacyBaseData } from "@/types/datatypes";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
-import { useCallback, useState } from "react";
+import { PharmacyBaseData } from "@/types/datatypes";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 
 const Reviews = () => {
     const { access } = useAuth()
     const queryClient = useQueryClient();
     const [nameFilter, setNameFilter] = useState("")
-
-
-
     const [page, setPage] = useState(1)
-    const getPendingReviewsPharmacies = useCallback((nameFilter = "", page = 1) => axios.get(`http://localhost:8080/admin-api/pharmacies-pending-review?name=${nameFilter}&page=${page}`, {
-        headers: {
-            Authorization: `Bearer ${access}`
-        }
-    }), [access])
 
 
-    const { isLoading, isError, data, isSuccess } = useQuery<AxiosResponse<IPanigation<PharmacyBaseData>, any>>({
+    const { isLoading, isError, data, isSuccess } = useQuery({
         queryKey: ['pending-reviews-pharmacies', nameFilter, page],
         queryFn: () => getPendingReviewsPharmacies(nameFilter, page),
         keepPreviousData: true
@@ -37,13 +28,7 @@ const Reviews = () => {
 
     if (isSuccess) pharmaciesPendingReview = data?.data.results
 
-    const mutation = useMutation({
-        mutationFn: refreshToken,
-        onSuccess: () => {
-            // Invalidate and refetch
-            queryClient.invalidateQueries({ queryKey: ["pending-reviews-pharmacies"] })
-        },
-    })
+
 
     let timeoutID: any
     const setFilterWithDelay = (e: React.ChangeEvent<HTMLInputElement>) => {
