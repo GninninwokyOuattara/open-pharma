@@ -8,12 +8,7 @@ interface IIconButtonProps {
 }
 
 
-const colorMap = {
-    "red": "text-red-500",
-    "green": "text-green-500",
-    "blue": "text-blue-500",
-    "appOrange": "text-appOrange"
-}
+
 
 const IconButton: React.FC<IIconButtonProps> = ({
     icon: IconComponent,
@@ -22,14 +17,17 @@ const IconButton: React.FC<IIconButtonProps> = ({
     size
 }) => {
 
-
-    const colorOnHover = colorMap[hoverColor] || "text-blue-500"
-
+    const colorMap = {
+        "red": "hover:text-red-500",
+        "green": "hover:text-green-500",
+        "blue": "text-blue-500",
+        "appOrange": "text-appOrange"
+    }
 
 
 
     return (<IconComponent
-        className={`text-appBlack-500 cursor-pointer hover:${colorOnHover}`}
+        className={`cursor-pointer ${colorMap[hoverColor]}`}
         size={size || 15}
 
     />)
