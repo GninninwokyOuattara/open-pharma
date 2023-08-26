@@ -27,7 +27,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         console.log("refresh holla")
         const refreshToken = localStorage.getItem("oph-refresh-token")
         console.log("refresh Token", refreshToken)
-        return axios.post("http://localhost:8080/admin-api/refresh/", {
+        return axios.post<ResponseRefreshTokenDataSuccess>("http://localhost:8080/admin-api/refresh/", {
             refresh: refreshToken
         })
     }
@@ -36,7 +36,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         queryKey: ["refresh-token"],
         queryFn: refreshAccessToken,
         refetchInterval: 1000 * 60 * 2,
-        enabled: enabledRefreshToken
+        enabled: enabledRefreshToken,
+        onSuccess: (data) => {
+            console.log(data)
+            setAuthenticationData({
+                access: data.data.access,
+                isAuthenticated: true
+            })
+
+        }
 
     })
 

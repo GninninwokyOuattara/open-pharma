@@ -1,17 +1,20 @@
 
+import { refreshToken } from "@/api/auth";
 import DataTable, { columns } from "@/components/datatable";
 import withNavigationBarLayout from "@/components/layout/withNavigationBarLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/auth";
 import { IPanigation, PharmacyBaseData } from "@/types/datatypes";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 import { useCallback, useState } from "react";
 
 
 const Reviews = () => {
     const { access } = useAuth()
+    const queryClient = useQueryClient();
+
 
 
     const [page, setPage] = useState(1)
@@ -32,8 +35,14 @@ const Reviews = () => {
 
     if (isSuccess) pharmaciesPendingReview = data?.data.results
 
+    const mutation = useMutation({
+        mutationFn: refreshToken,
+        onSuccess: () => {
+            // Invalidate and refetch
+            queryClient.invalidateQueries({ queryKey: ["pending-reviews-pharmacies"] })
+        },
+    })
 
-    console.log(data)
 
     return (
         <div className="px-4 pt-4">
