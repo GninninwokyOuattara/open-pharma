@@ -23,7 +23,7 @@ const ReviewTableRow: React.FC<{ data: PharmacyBaseData }> = ({ data }) => (
         </div>
         <div className="flex flex-col justify-center gap-4">
             <IconButton icon={AiOutlineCheck}
-                hoverColor="red" />
+                hoverColor="green" />
             <IconButton icon={RxCross1}
                 hoverColor="red" />
         </div>
