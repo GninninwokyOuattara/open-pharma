@@ -25,13 +25,16 @@ const ReviewActionButton: React.FC<IReviewActionButtonProps> = ({ icon: Icon, ph
         <Dialog>
             <DialogTrigger asChild>
                 <div>
+                    <button className=" bg-white rounded-lg  p-1.5 ">
 
-                    <Icon
-                        className={`cursor-pointer hover:text-appOrange`}
-                        size={15}
-                    // onClick={onClick}
+                        <Icon
+                            className={`cursor-pointer hover:text-appOrange `}
+                            size={25}
+                        // onClick={onClick}
 
-                    />
+                        />
+                    </button>
+
                 </div>
             </DialogTrigger>
             <DialogContent className="">
