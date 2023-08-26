@@ -15,11 +15,12 @@ import { useCallback, useState } from "react";
 const Reviews = () => {
     const { access } = useAuth()
     const queryClient = useQueryClient();
+    const [nameFilter, setNameFilter] = useState("")
 
 
 
     const [page, setPage] = useState(1)
-    const getPendingReviewsPharmacies = useCallback((page = 1) => axios.get(`http://localhost:8080/admin-api/pharmacies-pending-review?page=${page}`, {
+    const getPendingReviewsPharmacies = useCallback((nameFilter = "", page = 1) => axios.get(`http://localhost:8080/admin-api/pharmacies-pending-review?name=${nameFilter}&page=${page}`, {
         headers: {
             Authorization: `Bearer ${access}`
         }
@@ -27,8 +28,8 @@ const Reviews = () => {
 
 
     const { isLoading, isError, data, isSuccess } = useQuery<AxiosResponse<IPanigation<PharmacyBaseData>, any>>({
-        queryKey: ['pending-reviews-pharmacies', page],
-        queryFn: () => getPendingReviewsPharmacies(page),
+        queryKey: ['pending-reviews-pharmacies', nameFilter, page],
+        queryFn: () => getPendingReviewsPharmacies(nameFilter, page),
         keepPreviousData: true
     })
 
@@ -44,11 +45,28 @@ const Reviews = () => {
         },
     })
 
+    let timeoutID: any
+    const setFilterWithDelay = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        if (timeoutID != null) clearTimeout(timeoutID)
+        timeoutID = setTimeout(() => {
+
+            if (e.target.value === "") setNameFilter("")
+            else {
+                console.log("SET")
+                setNameFilter(e.target.value)
+            }
+        }, 1000)
+    }
+
 
     return (
         <div className="px-4 pt-4">
 
-            <Input placeholder="Search pharmacies" />
+            <Input placeholder="Search pharmacies"
+                // value={nameFilter}
+                onChange={setFilterWithDelay}
+            />
             <div className="mt-4">
 
 
