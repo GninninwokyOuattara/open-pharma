@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+import { PharmacyBaseData } from "./datatypes";
 
 export interface ResponseRefreshTokenDataSuccess {
   access: string;
@@ -22,3 +23,9 @@ export interface RefreshTokenResponse
     ResponseRefreshTokenDataSuccess,
     ResponseRefreshTokenDataError
   > {}
+
+// REVIEWS RESPONSE TYPES
+export interface ReviewAcceptedResponse {
+  message: string;
+  data: PharmacyBaseData;
+}
