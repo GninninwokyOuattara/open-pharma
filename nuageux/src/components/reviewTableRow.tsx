@@ -41,20 +41,35 @@ const ReviewTableRow: React.FC<{ data: PharmacyBaseData }> = ({ data }) => {
 
 
     return (
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between ">
 
-            <div className="flex flex-col" >
-                <p>{data.name}</p>
+            <div className="flex flex-row w-full ">
+                <div className="flex flex-col lg:w-2/4" >
+                    <p>{data.name}</p>
 
-                {data.zone &&
-                    <Badge variant={"secondary"} className="text-appOrange w-fit">{data.zone}</Badge>
+                    {data.zone &&
+                        <Badge variant={"secondary"} className="lg:hidden text-appOrange w-fit">{data.zone}</Badge>
 
-                }
+                    }
 
-                <p className="text-appGray font-light">--{moment(data.date_created).startOf("day").fromNow()}</p>
+                    <p className="text-appGray font-light lg:hidden">--{moment(data.date_created).startOf("day").fromNow()}</p>
+
+                </div>
+                <div className="sm:hidden lg:flex lg:w-2/4 items-center">
+                    {data.zone &&
+                        <p className="text-appOrange w-fit">{data.zone}</p>
+
+                    }
+                </div>
+                <div className="sm:hidden lg:flex lg:w-1/4 items-center">
+
+                    <p className="text-appGray font-light">Added {moment(data.date_created).startOf("day").fromNow()}</p>
+
+
+                </div>
 
             </div>
-            <div className="flex flex-col justify-center gap-4">
+            <div className="flex flex-col justify-center">
                 <ReviewActionButton
                     icon={MdOutlinePendingActions}
                     pharmacyName={data.name}
