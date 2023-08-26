@@ -25,7 +25,7 @@ export interface RefreshTokenResponse
   > {}
 
 // REVIEWS RESPONSE TYPES
-export interface ReviewAcceptedResponse {
+export interface ReviewSuccessResponse {
   message: string;
   data: PharmacyBaseData;
 }
