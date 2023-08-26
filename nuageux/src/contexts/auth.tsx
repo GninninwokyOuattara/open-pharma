@@ -39,6 +39,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         enabled: enabledRefreshToken,
         onSuccess: (data) => {
             console.log(data)
+            axios.interceptors.request.use((config) => {
+                config.headers["Authorization"] = `Bearer ${data.data.access}`
+                return config
+            })
             setAuthenticationData({
                 access: data.data.access,
                 isAuthenticated: true
