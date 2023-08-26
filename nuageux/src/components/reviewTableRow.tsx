@@ -2,9 +2,8 @@ import { acceptPharmacyPendingReview, rejectPharmacyPendingReview } from "@/api/
 import { PharmacyBaseData } from "@/types/datatypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
-import { AiOutlineCheck } from "react-icons/ai";
-import { RxCross1 } from "react-icons/rx";
-import IconButton from "./buttons/iconButton";
+import { MdOutlinePendingActions } from "react-icons/md";
+import ReviewActionButton from "./buttons/reviewActionButton";
 import { Badge } from "./ui/badge";
 
 
@@ -56,15 +55,11 @@ const ReviewTableRow: React.FC<{ data: PharmacyBaseData }> = ({ data }) => {
 
             </div>
             <div className="flex flex-col justify-center gap-4">
-                <IconButton
-                    icon={AiOutlineCheck}
-                    hoverColor="green"
-                    onClick={() => acceptMutation.mutate()}
-                />
-                <IconButton
-                    icon={RxCross1}
-                    hoverColor="red"
-                    onClick={() => rejectMutation.mutate()}
+                <ReviewActionButton
+                    icon={MdOutlinePendingActions}
+                    pharmacyName={data.name}
+                    acceptFunction={() => acceptMutation.mutate()}
+                    rejectFunction={() => rejectMutation.mutate()}
                 />
             </div>
         </div>)
