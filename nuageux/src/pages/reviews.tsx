@@ -1,6 +1,7 @@
 
 import { refreshToken } from "@/api/auth";
-import DataTable, { columns } from "@/components/datatable";
+import DataTable from "@/components/datatable";
+import { columns } from "@/components/datatables/reviewDatatableColumns";
 import withNavigationBarLayout from "@/components/layout/withNavigationBarLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
