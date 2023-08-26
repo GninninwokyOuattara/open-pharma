@@ -29,6 +29,7 @@ const IconButton: React.FC<IIconButtonProps> = ({
     return (<IconComponent
         className={`cursor-pointer ${colorMap[hoverColor]}`}
         size={size || 15}
+        onClick={onClick}
 
     />)
 }
