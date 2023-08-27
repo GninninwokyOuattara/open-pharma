@@ -1,8 +1,11 @@
+import { ResponseRefreshTokenDataSuccess } from "@/types/apiTypes";
 import axios from "axios";
+
+const url = import.meta.env.VITE_BACKEND_ADDRESS;
 
 export const login = (username: string, password: string) => {
   return axios.post<any, { token: string; refreshToken: string }, any>(
-    "localhost:8080/admin-api/auth/",
+    `${url}/auth/`,
     {
       username,
       password,
@@ -10,9 +13,9 @@ export const login = (username: string, password: string) => {
   );
 };
 
-export const refreshToken = () => {
+export const refreshAccessToken = () => {
   const refreshToken = localStorage.getItem("oph-refresh-token");
-  return axios.post("localhost:8080/admin-api/refresh/", {
-    refreshToken,
+  return axios.post<ResponseRefreshTokenDataSuccess>(`http://${url}/refresh/`, {
+    refresh: refreshToken,
   });
 };

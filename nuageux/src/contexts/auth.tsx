@@ -1,3 +1,4 @@
+import { refreshAccessToken } from "@/api/authApis";
 import { ResponseLoginDataSuccess, ResponseRefreshTokenDataSuccess } from "@/types/apiTypes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -24,13 +25,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const interceptorId = useRef<number | null>(null)
 
 
-    const refreshAccessToken = () => {
-        console.log("retrying")
-        const refreshToken = localStorage.getItem("oph-refresh-token")
-        return axios.post<ResponseRefreshTokenDataSuccess>("http://localhost:8080/admin-api/refresh/", {
-            refresh: refreshToken
-        })
-    }
+
 
     useQuery({
         queryKey: ["refresh-token"],
