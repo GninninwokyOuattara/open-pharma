@@ -2,8 +2,8 @@
 import { getPendingReviewsPharmacies } from "@/api/reviewsApis";
 import DataTable from "@/components/datatable";
 import { columns } from "@/components/datatables/reviewDatatableColumns";
+import TablePagination from "@/components/datatables/tablePagination";
 import withNavigationBarLayout from "@/components/layout/withNavigationBarLayout";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PharmacyBaseData } from "@/types/datatypes";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -21,6 +21,8 @@ const Reviews = () => {
         queryFn: () => getPendingReviewsPharmacies(nameFilter, page),
         keepPreviousData: true
     })
+
+    console.log("islodin", isLoading)
 
     let pharmaciesPendingReview: PharmacyBaseData[] = []
 
@@ -56,28 +58,16 @@ const Reviews = () => {
                 <DataTable columns={columns} data={pharmaciesPendingReview} />
 
 
+                <div className="my-4 flex justify-center align-center ">
 
-                <div className="flex items-center justify-end space-x-2 py-4">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setPage(page - 1)}
-                        // disabled={!table.getCanPreviousPage()}
-                        disabled={data?.data.previous === null}
-                    >
-                        Previous
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setPage(page + 1)}
-
-                        // disabled={!table.getCanNextPage()}
-                        disabled={data?.data.next === null}
-
-                    >
-                        Next
-                    </Button>
+                    <TablePagination
+                        count={data?.data.count || 0}
+                        page={page}
+                        pageLength={25}
+                        setPageFn={setPage}
+                        next={data?.data.next || null}
+                        previous={data?.data.previous || null}
+                    />
                 </div>
             </div>
         </div>
