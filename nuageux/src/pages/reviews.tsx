@@ -1,6 +1,6 @@
 
 import { getPendingReviewsPharmacies } from "@/api/reviewsApis";
-import DataTable from "@/components/datatable";
+import DataTable from "@/components/datatables/datatable";
 import { columns } from "@/components/datatables/reviewDatatableColumns";
 import TablePagination from "@/components/datatables/tablePagination";
 import withNavigationBarLayout from "@/components/layout/withNavigationBarLayout";
