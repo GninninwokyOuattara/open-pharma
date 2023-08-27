@@ -22,8 +22,6 @@ const Reviews = () => {
         keepPreviousData: true
     })
 
-    console.log("islodin", isLoading)
-
     let pharmaciesPendingReview: PharmacyBaseData[] = []
 
     if (isSuccess) pharmaciesPendingReview = data?.data.results
