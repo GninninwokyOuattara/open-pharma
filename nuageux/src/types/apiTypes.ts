@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { PharmacyBaseData } from "./datatypes";
+import { PharmacyBaseData } from "./dataTypes";
 
 export interface ResponseRefreshTokenDataSuccess {
   access: string;
