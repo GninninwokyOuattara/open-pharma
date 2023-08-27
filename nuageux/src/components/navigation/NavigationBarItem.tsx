@@ -17,7 +17,9 @@ const NavigationBarItem: React.FC<INavigationBarItemProps> = ({
             {
                 ({ isActive }) => {
                     return <div className=
-                        {`${isActive ? "text-appOrange" : "text-appGray hover:text-appBlack"} ${hoverClass}`}>
+                        {`${isActive
+                            ? "text-appOrange"
+                            : `text-appGray hover:text-appBlack ${hoverClass}`} `}>
                         {<IconComponent size={25} />}
                     </div>
                 }
