@@ -5,14 +5,12 @@ import { columns } from "@/components/datatables/reviewDatatableColumns";
 import withNavigationBarLayout from "@/components/layout/withNavigationBarLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useAuth } from "@/contexts/auth";
 import { PharmacyBaseData } from "@/types/datatypes";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 
 const Reviews = () => {
-    const { access } = useAuth()
     const queryClient = useQueryClient();
     const [nameFilter, setNameFilter] = useState("")
     const [page, setPage] = useState(1)
@@ -38,10 +36,10 @@ const Reviews = () => {
 
             if (e.target.value === "") setNameFilter("")
             else {
-                console.log("SET")
                 setNameFilter(e.target.value)
+                setPage(1)
             }
-        }, 1000)
+        }, 500)
     }
 
 
