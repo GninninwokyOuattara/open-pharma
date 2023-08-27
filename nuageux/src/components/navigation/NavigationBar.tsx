@@ -10,19 +10,19 @@ import NavigationBarItem from './NavigationBarItem';
 const NavigationBar = () => {
     return (
         <div
-            className="h-14 w-full flex flex-row border-b-2  items-center p-1 border-2 justify-between"
+            className="h-14 w-full flex flex-row border-b-2  items-center p-1 border-appPrimary justify-between sticky top-0 left-0 bg-white z-50"
         >
-            <div className="w-32 font-bold text-center">OpenPharma</div>
+            <div className="w-32 font-bold text-center text-xl ">Open<span className="text-green-500">Pharma</span></div>
 
             <div className="h-full flex items-center justify-center">
 
                 <div className="px-5 h-full flex flex-row gap-x-4 items-center ">
                     <NavigationBarItem to={"/dashboard"} icon={AiFillPieChart} />
-                    <Separator orientation='vertical' />
+                    <Separator orientation='vertical' className="bg-appPrimary" />
                     <NavigationBarItem to={"/pharmacies"} icon={RiFileList3Fill} />
-                    <Separator orientation='vertical' />
+                    <Separator orientation='vertical' className="bg-appPrimary" />
                     <NavigationBarItem to="/reviews" icon={GiChoice} />
-                    <Separator orientation='vertical' />
+                    <Separator orientation='vertical' className="bg-appPrimary" />
                     <NavigationBarItem
                         to="/"
                         icon={IoLogOutOutline}
@@ -33,9 +33,6 @@ const NavigationBar = () => {
                 </div>
 
             </div>
-            {/* <div className="w-32 text-center font-bold">logout</div> */}
-
-            {/* <div className="w-30">Logout</div> */}
 
 
         </div>
