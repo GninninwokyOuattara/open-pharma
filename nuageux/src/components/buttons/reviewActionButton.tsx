@@ -25,7 +25,7 @@ const ReviewActionButton: React.FC<IReviewActionButtonProps> = ({ icon: Icon, ph
         <Dialog>
             <DialogTrigger asChild>
                 <div>
-                    <button className=" bg-white rounded-lg  p-1.5 ">
+                    <button className="bg-white rounded-lg  p-1.5 ">
 
                         <Icon
                             className={`cursor-pointer hover:text-appOrange `}
