@@ -11,3 +11,9 @@ export interface IPanigation<T> {
   previous: string | null;
   results: T[];
 }
+
+export type ITablePagination = Omit<IPanigation<any>, "results"> & {
+  page: number;
+  pageLength: number;
+  setPageFn: React.Dispatch<React.SetStateAction<number>>;
+};
