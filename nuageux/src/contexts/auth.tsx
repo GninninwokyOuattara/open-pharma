@@ -1,7 +1,7 @@
 import { ResponseLoginDataSuccess, ResponseRefreshTokenDataSuccess } from "@/types/apiTypes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { ReactNode, createContext, useCallback, useContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 
 interface AuthenticationData {
     access: string,
@@ -19,14 +19,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isAuthenticated: false,
     })
     const [isProcessing, setIsProcessing] = useState<boolean>(true)
-    const [hasInitialRefreshTokenFailed, setHasInitialRefreshTokenFailed] = useState<boolean>(false)
     const [enabledRefreshToken, setEnabledRefreshToken] = useState<boolean>(false)
+    const [initialAccessToken, setInitialAccessToken] = useState("")
+    const interceptorId = useRef<number | null>(null)
 
 
     const refreshAccessToken = () => {
-        console.log("refresh holla")
+        console.log("retrying")
         const refreshToken = localStorage.getItem("oph-refresh-token")
-        console.log("refresh Token", refreshToken)
         return axios.post<ResponseRefreshTokenDataSuccess>("http://localhost:8080/admin-api/refresh/", {
             refresh: refreshToken
         })
@@ -38,11 +38,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         refetchInterval: 1000 * 60 * 2,
         enabled: enabledRefreshToken,
         onSuccess: (data) => {
-            console.log(data)
-            axios.interceptors.request.use((config) => {
-                config.headers["Authorization"] = `Bearer ${data.data.access}`
+            localStorage.setItem("oph-access-token", data.data.access)
+
+            interceptorId.current = axios.interceptors.request.use((config) => {
+                config.headers["Authorization"] = `Bearer ${localStorage.getItem("oph-access-token")}`
                 return config
-            })
+            }, error => {
+                return Promise.reject(error)
+            }
+            )
+
+
+
             setAuthenticationData({
                 access: data.data.access,
                 isAuthenticated: true
@@ -51,6 +58,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
 
     })
+
+
 
 
     const authenticationRoutine = useCallback(async () => {
@@ -65,6 +74,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             })
             setIsProcessing(false)
             setEnabledRefreshToken(true)
+            setInitialAccessToken(data.access)
+
 
 
 
@@ -84,6 +95,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                     isAuthenticated: true
                 })
 
+                setInitialAccessToken(loginResponse.data.access)
                 setEnabledRefreshToken(true)
 
             } catch (error) {
