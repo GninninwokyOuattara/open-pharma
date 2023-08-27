@@ -15,7 +15,7 @@ export const login = (username: string, password: string) => {
 
 export const refreshAccessToken = () => {
   const refreshToken = localStorage.getItem("oph-refresh-token");
-  return axios.post<ResponseRefreshTokenDataSuccess>(`http://${url}/refresh/`, {
+  return axios.post<ResponseRefreshTokenDataSuccess>(`${url}/refresh/`, {
     refresh: refreshToken,
   });
 };
