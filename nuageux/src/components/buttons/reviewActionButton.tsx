@@ -10,17 +10,21 @@ import {
 import { Button } from "../ui/button";
 
 import { IconType } from "react-icons";
+import { MdOutlinePendingActions } from "react-icons/md";
 
 
 interface IReviewActionButtonProps {
-    icon: IconType,
+    icon?: IconType,
     pharmacyName: string,
     acceptFunction: () => void
     rejectFunction: () => void
 }
 
 
-const ReviewActionButton: React.FC<IReviewActionButtonProps> = ({ icon: Icon, pharmacyName, acceptFunction, rejectFunction }) => {
+const ReviewActionButton: React.FC<IReviewActionButtonProps> = ({
+    icon: Icon = MdOutlinePendingActions,
+    pharmacyName,
+    acceptFunction, rejectFunction }) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
