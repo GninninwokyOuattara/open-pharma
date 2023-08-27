@@ -24,12 +24,13 @@ const TablePagination: React.FC<ITablePagination> = ({
                 id="firstPage"
                 className={className}
                 disabled={previous === null}
+                onClick={() => setPageFn(1)}
             >
 
                 <BiFirstPage
                     className="cursor-pointer"
                     size={25}
-                    onClick={() => setPageFn(1)}
+
 
 
                 />
@@ -38,12 +39,13 @@ const TablePagination: React.FC<ITablePagination> = ({
                 id="previousPage"
                 className={className}
                 disabled={previous === null}
+                onClick={() => setPageFn(page - 1)}
+
             >
 
                 <GrFormPrevious
                     className="cursor-pointer"
                     size={25}
-                    onClick={() => setPageFn(page - 1)}
 
                 />
             </Button>
@@ -51,12 +53,13 @@ const TablePagination: React.FC<ITablePagination> = ({
                 id="nextPage"
                 className={className}
                 disabled={next === null}
+                onClick={() => setPageFn(page + 1)}
+
             >
 
                 <GrFormNext
                     className="cursor-pointer"
                     size={25}
-                    onClick={() => setPageFn(page + 1)}
 
                 />
             </Button>
@@ -64,12 +67,13 @@ const TablePagination: React.FC<ITablePagination> = ({
                 id="lastPage"
                 className={className}
                 disabled={next === null}
+                onClick={() => setPageFn(Math.ceil(count / pageLength))}
+
             >
 
                 <BiLastPage
                     className="cursor-pointer"
                     size={25}
-                    onClick={() => setPageFn(Math.ceil(count / pageLength))}
 
                 />
             </Button>
