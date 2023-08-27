@@ -17,13 +17,17 @@ const NavigationBar = () => {
             <div className="h-full flex items-center justify-center">
 
                 <div className="px-5 h-full flex flex-row gap-x-4 items-center ">
-                    <NavigationBarItem to={"/dashboard"} icon={<AiFillPieChart size={25} />} />
+                    <NavigationBarItem to={"/dashboard"} icon={AiFillPieChart} />
                     <Separator orientation='vertical' />
-                    <NavigationBarItem to={"/pharmacies"} icon={<RiFileList3Fill size={25} />} />
+                    <NavigationBarItem to={"/pharmacies"} icon={RiFileList3Fill} />
                     <Separator orientation='vertical' />
-                    <NavigationBarItem to="/reviews" icon={<GiChoice size={25} />} />
+                    <NavigationBarItem to="/reviews" icon={GiChoice} />
                     <Separator orientation='vertical' />
-                    <NavigationBarItem to="/" icon={<IoLogOutOutline size={25} />} />
+                    <NavigationBarItem
+                        to="/"
+                        icon={IoLogOutOutline}
+                        hoverClass={"hover:text-red-500"}
+                    />
 
 
                 </div>
