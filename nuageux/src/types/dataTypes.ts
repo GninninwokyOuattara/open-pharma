@@ -5,6 +5,15 @@ export type PharmacyBaseData = {
   date_created: string;
 };
 
+export interface PharmacyData extends Omit<PharmacyBaseData, "date_created"> {
+  coordinates: {
+    latitude: number;
+    longitude: number;
+  };
+  active: boolean;
+  open: boolean;
+}
+
 export interface IPanigation<T> {
   count: number;
   next: string | null;
