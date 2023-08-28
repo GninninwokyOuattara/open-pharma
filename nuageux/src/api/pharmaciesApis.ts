@@ -12,3 +12,11 @@ export const getPharmacies = ({
     `${url}/pharmacies/?page=${page}&name=${nameFilter}`
   );
 };
+
+export const activatePharmacy = (id: string) => {
+  return axios.post<PharmacyData>(`${url}/pharmacies/${id}/activate/`);
+};
+
+export const deactivatePharmacy = (id: string) => {
+  return axios.post<PharmacyData>(`${url}/pharmacies/${id}/deactivate/`);
+};
