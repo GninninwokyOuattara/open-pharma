@@ -41,27 +41,31 @@ const ReviewTableRow: React.FC<{ data: PharmacyBaseData }> = ({ data }) => {
 
 
     return (
-        <div className="flex flex-row justify-between ">
+        <div className="flex flex-row justify-between h-16 md:h-auto">
 
             <div className="flex flex-row w-full ">
-                <div className="flex flex-col lg:w-2/4" >
+                <div className="flex flex-col lg:w-2/4 w-full md:w-2/3" >
                     <p>{data.name}</p>
 
                     {data.zone &&
-                        <Badge variant={"secondary"} className="lg:hidden text-appOrange w-fit">{data.zone}</Badge>
+                        <>
+                            <Badge id="badgeSm" variant={"secondary"} className="md:hidden text-appOrange bg-orange-50 w-fit">{data.zone.length > 19 ? data.zone.substring(0, 19) + "..." : data.zone}</Badge>
+
+                            <Badge id="badgeMd" variant={"secondary"} className="hidden md:flex lg:hidden text-appOrange bg-orange-50 w-fit">{data.zone}</Badge>
+                        </>
 
                     }
 
-                    <p className="text-appGray font-light lg:hidden">--{moment(data.date_created).startOf("day").fromNow()}</p>
+                    <p className="text-appGray font-light md:hidden">Added {moment(data.date_created).startOf("day").fromNow()}</p>
 
                 </div>
-                <div className="sm:hidden lg:flex lg:w-2/4 items-center">
+                <div className="hidden lg:flex lg:w-2/4 items-center">
                     {data.zone &&
-                        <p className="text-appOrange w-fit">{data.zone}</p>
+                        <p className="text-appOrange w-fit ">{data.zone}</p>
 
                     }
                 </div>
-                <div className="sm:hidden lg:flex lg:w-1/4 items-center">
+                <div className="w-1/3  items-center justify-center hidden md:flex lg:flex lg:w-1/4 items-center">
 
                     <p className="text-appGray font-light">Added {moment(data.date_created).startOf("day").fromNow()}</p>
 
