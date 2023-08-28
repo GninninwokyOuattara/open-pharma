@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-function pharmacies() {
+function Pharmacies() {
     const [nameFilter, setNameFilter] = useState("")
     const [page, setPage] = useState(1)
     const [zoneFilter, setZoneFilter] = useState("")
@@ -68,4 +68,4 @@ function pharmacies() {
     )
 }
 
-export default withNavigationBarLayout(pharmacies)
+export default withNavigationBarLayout(Pharmacies)
