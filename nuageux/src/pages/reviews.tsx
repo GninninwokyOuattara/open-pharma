@@ -5,13 +5,12 @@ import { columns } from "@/components/datatables/reviewDatatableColumns";
 import TablePagination from "@/components/datatables/tablePagination";
 import withNavigationBarLayout from "@/components/layout/withNavigationBarLayout";
 import { Input } from "@/components/ui/input";
-import { PharmacyBaseData } from "@/types/datatypes";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { PharmacyBaseData } from "@/types/dataTypes";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 
 const Reviews = () => {
-    const queryClient = useQueryClient();
     const [nameFilter, setNameFilter] = useState("")
     const [page, setPage] = useState(1)
 
@@ -25,6 +24,8 @@ const Reviews = () => {
     let pharmaciesPendingReview: PharmacyBaseData[] = []
 
     if (isSuccess) pharmaciesPendingReview = data?.data.results
+
+    // TODO : Handle loading state
 
 
 
