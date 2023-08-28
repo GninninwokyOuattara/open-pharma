@@ -14,7 +14,7 @@ function pharmacies() {
     const [zoneFilter, setZoneFilter] = useState("")
 
     const { isLoading, isError, data, isSuccess } = useQuery({
-        queryKey: ['pending-reviews-pharmacies', nameFilter, page],
+        queryKey: ['pharmacies', nameFilter, page],
         queryFn: () => getPharmacies({
             page: page,
             nameFilter: nameFilter,
@@ -23,13 +23,28 @@ function pharmacies() {
         keepPreviousData: true
     })
 
+    let timeoutID: any
+
+    const setFilterWithDelay = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        if (timeoutID != null) clearTimeout(timeoutID)
+        timeoutID = setTimeout(() => {
+
+            if (e.target.value === "") setNameFilter("")
+            else {
+                setNameFilter(e.target.value)
+                setPage(1)
+            }
+        }, 500)
+    }
+
 
     return (
         <div className="px-4 pt-4">
 
             <Input placeholder="Search pharmacies"
-            // value={nameFilter}
-            // onChange={setFilterWithDelay}
+                // value={nameFilter}
+                onChange={setFilterWithDelay}
             />
             <div className="mt-4">
 
