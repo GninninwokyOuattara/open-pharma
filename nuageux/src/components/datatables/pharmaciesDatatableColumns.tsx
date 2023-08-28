@@ -72,15 +72,14 @@ export const columns: ColumnDef<PharmacyData>[] = [
             }
 
             return (
-                <>
-                    <Switch
-                        className="bg-red-500 text-red-500"
-                        checked={row.original.active}
-                        onCheckedChange={switcher}
-                        aria-readonly
-                    />
+                <Switch
+                    className="bg-red-500 text-red-500"
+                    checked={row.original.active}
+                    onCheckedChange={switcher}
+                    aria-readonly
+                />
 
-                </>)
+            )
         }
     }
 ]
