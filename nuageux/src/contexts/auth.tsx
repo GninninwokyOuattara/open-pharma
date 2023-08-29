@@ -45,6 +45,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
 
 
+
             setAuthenticationData({
                 access: data.data.access,
                 isAuthenticated: true
@@ -114,7 +115,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         })()
 
 
-    }, [authenticationRoutine])
+    }, [])
 
 
     // if (error) {
