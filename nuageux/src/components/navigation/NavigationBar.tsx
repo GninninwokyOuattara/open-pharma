@@ -9,7 +9,7 @@ import NavigationBarItem from './NavigationBarItem';
 const NavigationBar = () => {
     return (
         <div
-            className="h-14 w-full flex flex-row border-b-2  items-center p-1 border-appPrimary justify-between sticky top-0 left-0 bg-appPrimary z-50"
+            className="h-14 w-full flex flex-row border-b-2  items-center p-1 border-appPrimary lg:rounded-md justify-between sticky top-0 left-0 bg-appPrimary z-50"
         >
             <div className="w-32 font-bold text-center text-xl ">Open<span className="text-green-500">Pharma</span></div>
 
