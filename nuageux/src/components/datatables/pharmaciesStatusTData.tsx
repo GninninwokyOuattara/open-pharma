@@ -27,7 +27,7 @@ const PharmaciesStatusTData: React.FC<PharmaciesStatusTDataProps> = ({ row }) =>
             setToggleForm("deactivation")
             queryClient.invalidateQueries({ queryKey: ["pharmacies"] })
             toast({
-                title: "Pharmacy activated",
+                title: `${row.original.name} has been activated`,
             })
         },
         onError: () => {
@@ -41,6 +41,9 @@ const PharmaciesStatusTData: React.FC<PharmaciesStatusTDataProps> = ({ row }) =>
             // Invalidate and refetch
             setToggleForm("activation")
             queryClient.invalidateQueries({ queryKey: ["pharmacies"] })
+            toast({
+                title: `${row.original.name} has been deactivated`,
+            })
         },
         onError: () => {
             console.log("Well Well Well it seems like something went wrong")
