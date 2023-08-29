@@ -1,5 +1,6 @@
 
 from bs4 import BeautifulSoup
+from django.db.models import Q
 from openPharma.admin_serializers import (PharmacieDetailsSerializer,
                                           PharmaciesPendingReviewSerializer,
                                           PharmaciesSerializer)
@@ -36,12 +37,25 @@ class PharmaciesAsAdminViewset(ModelViewSetWithAuthorization, ResultsSetPaginati
         name = request.query_params.get("name") or ""
         zone = request.query_params.get("zone") or ""
 
-        queryset = Pharmacy.objects.filter(
-            name__icontains=name,
-            # zone__icontains=zone,
-            active=True,
-            pending_review=False
-        )
+        if zone:
+            queryset = Pharmacy.objects.filter(
+
+                name__icontains=name,
+                zone__icontains=zone,
+                pending_review=False)
+
+        else:
+
+            queryset = Pharmacy.objects.filter(
+                Q(name__icontains=name) &
+                (Q(zone__icontains=zone) |
+                    Q(zone__isnull=True)),
+
+                # name__icontains=name,
+                # zone__icontains=zone,
+                # active=True,
+                pending_review=False
+            )
         page = self.paginate_queryset(queryset, request)
         serializer = PharmaciesSerializer(page, many=True)
 
