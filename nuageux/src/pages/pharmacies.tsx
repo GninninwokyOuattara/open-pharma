@@ -5,8 +5,6 @@ import TablePagination from "@/components/datatables/tablePagination";
 
 import withNavigationBarLayout from "@/components/layout/withNavigationBarLayout";
 import { Input } from "@/components/ui/input";
-import { Toaster } from "@/components/ui/toaster";
-import { ToastProvider } from "@radix-ui/react-toast";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -43,37 +41,35 @@ function Pharmacies() {
 
     return (
 
-        <ToastProvider>
-            <div className="px-4 pt-4">
+        // <ToastProvider>
+        <div className="px-4 pt-4">
 
-                <Input placeholder="Search pharmacies"
-                    className="md:max-w-[25rem]"
-                    // value={nameFilter}
-                    onChange={setFilterWithDelay}
-                />
-                <div className="mt-4">
-
-
-                    <DataTable columns={columns} data={data?.data.results || []} />
+            <Input placeholder="Search pharmacies"
+                className="md:max-w-[25rem]"
+                // value={nameFilter}
+                onChange={setFilterWithDelay}
+            />
+            <div className="mt-4">
 
 
-                    <div className="my-4 flex justify-center align-center ">
+                <DataTable columns={columns} data={data?.data.results || []} />
 
-                        <TablePagination
-                            count={data?.data.count || 0}
-                            page={page}
-                            pageLength={25}
-                            setPageFn={setPage}
-                            next={data?.data.next || null}
-                            previous={data?.data.previous || null}
-                        />
-                    </div>
+
+                <div className="my-4 flex justify-center align-center ">
+
+                    <TablePagination
+                        count={data?.data.count || 0}
+                        page={page}
+                        pageLength={25}
+                        setPageFn={setPage}
+                        next={data?.data.next || null}
+                        previous={data?.data.previous || null}
+                    />
                 </div>
-                <Toaster />
-
             </div>
 
-        </ToastProvider>
+        </div>
+
 
     )
 }
