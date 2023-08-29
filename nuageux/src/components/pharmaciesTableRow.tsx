@@ -38,11 +38,20 @@ const PharmaciesTableRow: React.FC<{ data: PharmacyData }> = ({ data }) => {
         <div className="flex flex-row hover:bg-appPrimary">
 
             <div className="flex flex-row w-full lg:w-1/2 align-center">
-                <div className="flex flex-col w-full" >
+                <div className="flex flex-col w-[80%]" >
                     <p>{data.name}</p>
 
-                    {data.zone &&
+                    {/* {data.zone &&
                         <Badge variant={"secondary"} className="lg:hidden text-appOrange bg-orange-50  w-fit">{data.zone}</Badge>
+
+                    } */}
+
+                    {data.zone &&
+                        <>
+                            <Badge id="badgeSm" variant={"secondary"} className="md:hidden text-appOrange bg-orange-50 w-fit">{data.zone.length > 19 ? data.zone.substring(0, 19) + "..." : data.zone}</Badge>
+
+                            <Badge id="badgeMd" variant={"secondary"} className="hidden md:flex lg:hidden text-appOrange bg-orange-50 w-fit">{data.zone}</Badge>
+                        </>
 
                     }
 
@@ -59,7 +68,7 @@ const PharmaciesTableRow: React.FC<{ data: PharmacyData }> = ({ data }) => {
                 </div>
 
 
-                <div className='w-32 lg:hidden self-center'>
+                <div className=' lg:hidden place-self-center '>
                     {
                         data.open && <Badge className='text-green-500 h-fit self-center bg-green-100'>Open</Badge>
                     }
