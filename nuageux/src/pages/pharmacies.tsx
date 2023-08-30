@@ -5,6 +5,7 @@ import TablePagination from "@/components/datatables/tablePagination";
 
 import withNavigationBarLayout from "@/components/layout/withNavigationBarLayout";
 import { Input } from "@/components/ui/input";
+import ZoneSelectInput from "@/components/zoneSelectInput";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -14,7 +15,7 @@ function Pharmacies() {
     const [zoneFilter, setZoneFilter] = useState("")
 
     const { isLoading, isError, data, isSuccess } = useQuery({
-        queryKey: ['pharmacies', nameFilter, page],
+        queryKey: ['pharmacies', nameFilter, zoneFilter, page],
         queryFn: () => getPharmacies({
             page: page,
             nameFilter: nameFilter,
@@ -43,13 +44,18 @@ function Pharmacies() {
 
         // <ToastProvider>
         <div className="px-4 pt-4">
+            <div className="flex flex-col gap-2">
+                <div className="mt-4 flex flex-col  gap-2 md:flex-row">
 
-            <Input placeholder="Search pharmacies"
-                className="md:max-w-[25rem]"
-                // value={nameFilter}
-                onChange={setFilterWithDelay}
-            />
-            <div className="mt-4">
+                    <Input placeholder="Search pharmacies"
+                        className="w-full md:max-w-[25rem]"
+                        // value={nameFilter}
+                        onChange={setFilterWithDelay}
+                    />
+                    <ZoneSelectInput selectFn={setZoneFilter} />
+                </div>
+
+
 
 
                 <DataTable columns={columns} data={data?.data.results || []} />
