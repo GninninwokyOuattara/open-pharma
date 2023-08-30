@@ -9,7 +9,7 @@ export const getPharmacies = ({
   zoneFilter = "",
 }) => {
   return axios.get<IPanigation<PharmacyData>>(
-    `${url}/pharmacies/?page=${page}&name=${nameFilter}`
+    `${url}/pharmacies/?name=${nameFilter}&zone=${zoneFilter}&page=${page}`
   );
 };
 
@@ -19,4 +19,8 @@ export const activatePharmacy = (id: string) => {
 
 export const deactivatePharmacy = (id: string) => {
   return axios.post<PharmacyData>(`${url}/pharmacies/${id}/deactivate/`);
+};
+
+export const getZones = () => {
+  return axios.get<string[]>(`${url}/get-zones/`);
 };
