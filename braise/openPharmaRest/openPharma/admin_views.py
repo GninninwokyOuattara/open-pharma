@@ -1,6 +1,7 @@
 
 from bs4 import BeautifulSoup
 from django.db.models import Q
+from django_filters.rest_framework import DjangoFilterBackend, OrderingFilter
 from openPharma.admin_serializers import (PharmacieDetailsSerializer,
                                           PharmaciesPendingReviewSerializer,
                                           PharmaciesSerializer)
@@ -93,10 +94,18 @@ class PharmaciesAsAdminViewset(ModelViewSetWithAuthorization, ResultsSetPaginati
             return Response({"message": "An unexpected error occured"}, status=500)
 
 
+class PharmaciesZoneAsAdminViewset(ReadOnlyModelViewSet):
+
+    queryset = Pharmacy.objects.filter(active=True).values_list(
+        "zone", flat=True).distinct().order_by("zone")
+
+    def list(self, request, *args, **kwargs):
+        return Response(self.queryset, status=200)
+
+
 class PharmaciesPendingReviewAsAdminViewset(ModelViewSetWithAuthorization, ResultsSetPagination):
-    queryset = Pharmacy.objects.filter(pending_review=True)
-    serializer_class = PharmaciesSerializer
     http_method_names = ["get", "post"]
+    queryset = Pharmacy.objects.filter(pending_review=True)
 
     def get_serializer_class(self):
         if self.action == 'retrieve':
@@ -113,7 +122,7 @@ class PharmaciesPendingReviewAsAdminViewset(ModelViewSetWithAuthorization, Resul
             name__icontains=name,
             # zone__icontains=zone,
             pending_review=True
-        )
+        ).order_by("-date_created", "name", "zone")
         page = self.paginate_queryset(queryset, request)
         serializer = PharmaciesPendingReviewSerializer(page, many=True)
 
