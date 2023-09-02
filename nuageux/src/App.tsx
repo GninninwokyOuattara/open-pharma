@@ -7,6 +7,7 @@ import { RouterProvider } from 'react-router-dom';
 import './App.css';
 import { Toaster } from './components/ui/toaster';
 import { AuthProvider } from './contexts/auth';
+import { WindowWidthProvider } from './contexts/windowWidthContext';
 import appRouter from './router/appRouter';
 
 
@@ -21,9 +22,13 @@ function App() {
     <>
 
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <RouterProvider router={appRouter} />
-        </AuthProvider>
+        <WindowWidthProvider>
+
+          <AuthProvider>
+            <RouterProvider router={appRouter} />
+          </AuthProvider>
+
+        </WindowWidthProvider>
       </QueryClientProvider>
       <Toaster />
 
