@@ -1,3 +1,4 @@
+import { PharmacyDialogProvider } from "@/contexts/pharmacyDialogContext"
 import Dashboard from "@/pages/dashboard"
 import Pharmacies from "@/pages/pharmacies"
 import Reviews from "@/pages/reviews"
@@ -14,7 +15,12 @@ const RouterDef = () => {
 
             <Route path="/" element={<Navigate to="/reviews" />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/pharmacies" element={<Pharmacies />} />
+            <Route path="/pharmacies" element={
+                <PharmacyDialogProvider>
+                    <Pharmacies />
+
+                </PharmacyDialogProvider>
+            } />
             <Route path="/reviews" element={<Reviews />} />
             <Route path="/*" element={<p>Page Not Found</p>} />
         </Routes>
