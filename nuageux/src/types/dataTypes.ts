@@ -14,6 +14,13 @@ export interface PharmacyData extends Omit<PharmacyBaseData, "date_created"> {
   open: boolean;
 }
 
+export interface PharmacyDataDetailed extends PharmacyData {
+  director: string;
+  addresses: string[];
+  phones: string[];
+  description: string;
+}
+
 export interface IPanigation<T> {
   count: number;
   next: string | null;
