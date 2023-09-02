@@ -1,41 +1,21 @@
+import { usePharmacyDialog } from '@/contexts/pharmacyDialogContext'
 import { PharmacyData } from '@/types/dataTypes'
 import React from 'react'
 import { CiLocationOn } from 'react-icons/ci'
 import { Badge } from './ui/badge'
 
 const PharmaciesTableRow: React.FC<{ data: PharmacyData }> = ({ data }) => {
-    // const queryClient = useQueryClient();
 
-    // const acceptMutation = useMutation({
-    //     mutationFn: () => acceptPharmacyPendingReview(data.id),
-    //     onSuccess: () => {
-    //         // Invalidate and refetch
-    //         queryClient.invalidateQueries({ queryKey: ["pending-reviews-pharmacies"] })
-    //     },
-    //     onError: () => {
-    //         console.log("Well Well Well it seems like something went wrong")
-    //     }
-    // })
-
-    // const rejectMutation = useMutation({
-    //     mutationFn: () => rejectPharmacyPendingReview(data.id),
-    //     onSuccess: () => {
-    //         // Invalidate and refetch
-    //         queryClient.invalidateQueries({ queryKey: ["pending-reviews-pharmacies"] })
-    //     },
-    // })
-
-    // if (acceptMutation.isLoading || rejectMutation.isLoading) {
-    //     return <div className="flex flex-row justify-between">
-
-    //         Loading
-    //     </div>
-    // }
+    const { setOpen, setPharmacySelectedId } = usePharmacyDialog()
 
 
 
     return (
-        <div className="flex flex-row hover:bg-appPrimary">
+
+        <div className="flex flex-row hover:bg-appPrimary cursor-pointer" onClick={() => {
+            setPharmacySelectedId(data.id)
+            setOpen(true)
+        }}>
 
             <div className="flex flex-row w-full lg:w-1/2 align-center">
                 <div className="flex flex-col w-[80%]" >
@@ -59,7 +39,7 @@ const PharmaciesTableRow: React.FC<{ data: PharmacyData }> = ({ data }) => {
 
                 </div>
 
-                <div id="rowCoordinates" className='hidden md:flex w-96 text-appGray font-medium items-center gap-2 text-xs lg:hidden'>
+                <div id="rowCoordinates" className={`hidden md:flex w-96 text-appGray font-medium items-center gap-2 text-xs lg:hidden  ${data.coordinates.latitude == 0 && data.coordinates.longitude == 0 ? "text-red-500" : ""}`}>
                     <CiLocationOn size={15} />
                     <div>
                         {data.coordinates.latitude}, {data.coordinates.longitude}
@@ -68,7 +48,7 @@ const PharmaciesTableRow: React.FC<{ data: PharmacyData }> = ({ data }) => {
                 </div>
 
 
-                <div className=' lg:hidden place-self-center '>
+                <div className=' lg:hidden place-self-center w-32 '>
                     {
                         data.open && <Badge className='text-green-500 h-fit self-center bg-green-100'>Open</Badge>
                     }
@@ -103,7 +83,8 @@ const PharmaciesTableRow: React.FC<{ data: PharmacyData }> = ({ data }) => {
                 }
             </div>
 
-        </div>)
+        </div>
+    )
 }
 
 export default PharmaciesTableRow 
