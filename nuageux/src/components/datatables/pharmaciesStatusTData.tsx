@@ -2,7 +2,7 @@ import { activatePharmacy, deactivatePharmacy } from "@/api/pharmaciesApis"
 import { PharmacyData } from "@/types/dataTypes"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Row } from "@tanstack/react-table"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Switch } from "../ui/switch"
 import { useToast } from "../ui/use-toast"
 
@@ -15,9 +15,7 @@ const PharmaciesStatusTData: React.FC<PharmaciesStatusTDataProps> = ({ row }) =>
 
     const { toast } = useToast()
 
-    const [toggleForm, setToggleForm] = useState<"activation" | "deactivation">(() => {
-        return row.original.active ? "deactivation" : "activation"
-    })
+    const [toggleForm, setToggleForm] = useState<"activation" | "deactivation">(row.original.active ? "activation" : "deactivation")
     const queryClient = useQueryClient();
 
     const activationMutation = useMutation({
@@ -57,6 +55,14 @@ const PharmaciesStatusTData: React.FC<PharmaciesStatusTDataProps> = ({ row }) =>
             deactivationMutation.mutate()
         }
     }
+
+    useEffect(() => {
+        if (row.original.active) {
+            setToggleForm("deactivation")
+        } else {
+            setToggleForm("activation")
+        }
+    }, [row])
 
     return (
         <>
