@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query"
 
 
 interface ZoneSelectInputProps {
-    selectFn: React.Dispatch<React.SetStateAction<string>>
+    selectFn: (zone: string) => void
 }
 
 

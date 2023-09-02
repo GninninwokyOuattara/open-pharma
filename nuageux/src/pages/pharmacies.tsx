@@ -9,10 +9,33 @@ import ZoneSelectInput from "@/components/zoneSelectInput";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
+
+import EditPharmacyDialog from "@/components/editPharmacyDialog";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
+import { usePharmacyDialog } from "@/contexts/pharmacyDialogContext";
+
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle
+} from "@/components/ui/sheet";
+import { useWindowWidth } from "@/contexts/windowWidthContext";
+
+
 function Pharmacies() {
     const [nameFilter, setNameFilter] = useState("")
     const [page, setPage] = useState(1)
     const [zoneFilter, setZoneFilter] = useState("")
+
+    const { open, setOpen } = usePharmacyDialog()
+    const { sm } = useWindowWidth()
 
     const { isLoading, isError, data, isSuccess } = useQuery({
         queryKey: ['pharmacies', nameFilter, zoneFilter, page],
@@ -39,42 +62,106 @@ function Pharmacies() {
         }, 500)
     }
 
+    const handleZoneFilterChange = (zone: string) => {
+        setPage(1)
+        setZoneFilter(zone)
+
+    }
+
 
     return (
 
         // <ToastProvider>
-        <div className="px-4 pt-4">
-            <div className="flex flex-col gap-2">
-                <div className="mt-4 flex flex-col  gap-2 md:flex-row">
+        <>
+            <div className="px-4 pt-4">
+                <div className="flex flex-col gap-2">
+                    <div className="mt-4 flex flex-col  gap-2 md:flex-row">
 
-                    <Input placeholder="Search pharmacies"
-                        className="w-full md:max-w-[25rem]"
-                        // value={nameFilter}
-                        onChange={setFilterWithDelay}
-                    />
-                    <ZoneSelectInput selectFn={setZoneFilter} />
+                        <Input placeholder="Search pharmacies"
+                            className="w-full md:max-w-[25rem]"
+                            // value={nameFilter}
+                            onChange={setFilterWithDelay}
+                        />
+                        <ZoneSelectInput selectFn={handleZoneFilterChange} />
+                    </div>
+
+
+
+
+                    <DataTable columns={columns} data={data?.data.results || []} />
+
+
+                    <div className="my-4 flex justify-center align-center ">
+
+                        <TablePagination
+                            count={data?.data.count || 0}
+                            page={page}
+                            pageLength={25}
+                            setPageFn={setPage}
+                            next={data?.data.next || null}
+                            previous={data?.data.previous || null}
+                        />
+                    </div>
                 </div>
 
-
-
-
-                <DataTable columns={columns} data={data?.data.results || []} />
-
-
-                <div className="my-4 flex justify-center align-center ">
-
-                    <TablePagination
-                        count={data?.data.count || 0}
-                        page={page}
-                        pageLength={25}
-                        setPageFn={setPage}
-                        next={data?.data.next || null}
-                        previous={data?.data.previous || null}
-                    />
-                </div>
             </div>
+            {
 
-        </div>
+                !sm &&
+                <>
+                    <Dialog open={open} onOpenChange={setOpen}>
+                        {/* <DialogTrigger>Open</DialogTrigger> */}
+                        <DialogContent className="">
+                            <DialogHeader>
+                                <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+                                {/* <DialogDescription>
+                            This action cannot be undone. This will permanently delete your account
+                            and remove your data from our servers.
+                        </DialogDescription> */}
+                            </DialogHeader>
+                            <EditPharmacyDialog />
+
+                        </DialogContent>
+                    </Dialog>
+                </>
+            }
+            {sm &&
+                <>
+                    <Sheet open={open} onOpenChange={setOpen}>
+                        {/* <SheetTrigger>Open</SheetTrigger> */}
+                        <SheetContent side={"bottom"} className="">
+                            <SheetHeader>
+                                <SheetTitle>Are you sure absolutely sure?</SheetTitle>
+                                <SheetDescription>
+                                    This action cannot be undone. This will permanently delete your account
+                                    and remove your data from our servers.
+                                </SheetDescription>
+                                <SheetDescription>
+                                    This action cannot be undone. This will permanently delete your account
+                                    and remove your data from our servers.
+                                </SheetDescription>
+                                <SheetDescription>
+                                    This action cannot be undone. This will permanently delete your account
+                                    and remove your data from our servers.
+                                </SheetDescription>
+                                <SheetDescription>
+                                    This action cannot be undone. This will permanently delete your account
+                                    and remove your data from our servers.
+                                </SheetDescription>
+                            </SheetHeader>
+                        </SheetContent>
+                    </Sheet>
+                </>
+            }
+
+
+
+
+
+
+
+
+        </>
 
 
     )
