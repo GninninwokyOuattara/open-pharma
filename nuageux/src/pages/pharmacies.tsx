@@ -10,22 +10,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 
-import EditPharmacyDialog from "@/components/editPharmacyDialog";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle
-} from "@/components/ui/dialog";
 import { usePharmacyDialog } from "@/contexts/pharmacyDialogContext";
 
-import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle
-} from "@/components/ui/sheet";
+import PharmacyModalRenderer from "@/components/PharmacyModalRenderer";
 import { useWindowWidth } from "@/contexts/windowWidthContext";
 
 
@@ -105,55 +92,7 @@ function Pharmacies() {
                 </div>
 
             </div>
-            {
-
-                !sm &&
-                <>
-                    <Dialog open={open} onOpenChange={setOpen}>
-                        {/* <DialogTrigger>Open</DialogTrigger> */}
-                        <DialogContent className="">
-                            <DialogHeader>
-                                <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-                                {/* <DialogDescription>
-                            This action cannot be undone. This will permanently delete your account
-                            and remove your data from our servers.
-                        </DialogDescription> */}
-                            </DialogHeader>
-                            <EditPharmacyDialog />
-
-                        </DialogContent>
-                    </Dialog>
-                </>
-            }
-            {sm &&
-                <>
-                    <Sheet open={open} onOpenChange={setOpen}>
-                        {/* <SheetTrigger>Open</SheetTrigger> */}
-                        <SheetContent side={"bottom"} className="">
-                            <SheetHeader>
-                                <SheetTitle>Are you sure absolutely sure?</SheetTitle>
-                                <SheetDescription>
-                                    This action cannot be undone. This will permanently delete your account
-                                    and remove your data from our servers.
-                                </SheetDescription>
-                                <SheetDescription>
-                                    This action cannot be undone. This will permanently delete your account
-                                    and remove your data from our servers.
-                                </SheetDescription>
-                                <SheetDescription>
-                                    This action cannot be undone. This will permanently delete your account
-                                    and remove your data from our servers.
-                                </SheetDescription>
-                                <SheetDescription>
-                                    This action cannot be undone. This will permanently delete your account
-                                    and remove your data from our servers.
-                                </SheetDescription>
-                            </SheetHeader>
-                        </SheetContent>
-                    </Sheet>
-                </>
-            }
-
+            <PharmacyModalRenderer />
 
 
 
