@@ -1,4 +1,8 @@
-import { IPanigation, PharmacyData } from "@/types/dataTypes";
+import {
+  IPanigation,
+  PharmacyData,
+  PharmacyDataDetailed,
+} from "@/types/dataTypes";
 import axios from "axios";
 
 const url = import.meta.env.VITE_BACKEND_ADDRESS;
@@ -11,6 +15,10 @@ export const getPharmacies = ({
   return axios.get<IPanigation<PharmacyData>>(
     `${url}/pharmacies/?name=${nameFilter}&zone=${zoneFilter}&page=${page}`
   );
+};
+
+export const getPharmacyDetails = (id: string) => {
+  return axios.get<PharmacyDataDetailed>(`${url}/pharmacies/${id}/`);
 };
 
 export const activatePharmacy = (id: string) => {
