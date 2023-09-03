@@ -6,16 +6,13 @@ import { Badge } from './ui/badge'
 
 const PharmaciesTableRow: React.FC<{ data: PharmacyData }> = ({ data }) => {
 
-    const { setOpen, setPharmacySelectedId } = usePharmacyDialog()
+    const { openModalForPharmacyWithId } = usePharmacyDialog()
 
 
 
     return (
 
-        <div className="flex flex-row hover:bg-appPrimary cursor-pointer" onClick={() => {
-            setPharmacySelectedId(data.id)
-            setOpen(true)
-        }}>
+        <div className="flex flex-row hover:bg-appPrimary cursor-pointer" onClick={() => openModalForPharmacyWithId(data.id)}>
 
             <div className="flex flex-row w-full lg:w-1/2 align-center">
                 <div className="flex flex-col w-[80%]" >

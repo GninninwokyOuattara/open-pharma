@@ -18,9 +18,8 @@ import PharmacyForm from "./forms/pharmacieForm";
 
 const PharmacyModalRenderer = () => {
 
-    const { open, setOpen } = usePharmacyDialog()
+    const { isLoading, open, setOpen, pharmacyDetails } = usePharmacyDialog()
     const { sm } = useWindowWidth()
-
 
     return (
         <>
@@ -39,8 +38,13 @@ const PharmacyModalRenderer = () => {
             and remove your data from our servers.
         </DialogDescription> */}
                             </DialogHeader>
+                            {
+                                isLoading && <div>Loading</div>
+                            }
 
-                            <PharmacyForm />
+                            {
+                                pharmacyDetails && <PharmacyForm pharmacy={pharmacyDetails} />
+                            }
 
                         </DialogContent>
                     </Dialog>
@@ -57,7 +61,7 @@ const PharmacyModalRenderer = () => {
                                 </SheetDescription>
 
                             </SheetHeader>
-                            <PharmacyForm />
+                            <PharmacyForm pharmacy={pharmacyDetails} />
 
                         </SheetContent>
                     </Sheet>
