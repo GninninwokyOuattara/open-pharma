@@ -53,8 +53,6 @@ export const WindowWidthProvider: React.FC<any> = ({ children }) => {
     }
 
     const resizeHandler = () => {
-
-
         if (!windowWidthRef.current[getBreakpointCategory(window.innerWidth)]) {
 
             if (window.innerWidth < SMALL_WIDTH_BREAKPOINT) {
@@ -66,7 +64,7 @@ export const WindowWidthProvider: React.FC<any> = ({ children }) => {
             } else if (window.innerWidth < XL_WIDTH_BREAKPOINT) {
                 setWindowWidth({ sm: false, md: false, lg: false, xl: true })
             } else {
-                setWindowWidth({ sm: true, md: false, lg: false, xl: false })
+                setWindowWidth({ sm: false, md: false, lg: false, xl: true })
             }
 
         } else {
@@ -79,17 +77,14 @@ export const WindowWidthProvider: React.FC<any> = ({ children }) => {
 
 
     useEffect(() => {
+        resizeHandler();
+
         window.addEventListener("resize", resizeHandler)
 
         return () => {
             window.removeEventListener("resize", resizeHandler)
         }
     }, [])
-
-    useEffect(() => {
-        resizeHandler();
-    }, [])
-
 
 
 
