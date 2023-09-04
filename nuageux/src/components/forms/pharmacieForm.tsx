@@ -27,9 +27,8 @@ const coordinateRegex = /^-?([1-8]?[0-9](\.\d+)?|90(\.0+)?)$/
 
 
 const pharmacySchema = z.object({
-    id: z.string(),
     name: z.string().min(10, { message: "Name must be at least 10 characters" }),
-    zone: z.string().min(3, { message: "Zone must be at least 3 characters" }),
+    zone: z.string().nonempty({ message: "Zone is required" }),
     latitude: z.string().min(6, { message: "Latitude is not precise enough" }).regex(coordinateRegex, 'Invalid latitude'),
     longitude: z.string().min(6, { message: "Longitude is not precise enough" }).regex(coordinateRegex, 'Invalid longitude'),
     active: z.boolean(),
@@ -52,7 +51,6 @@ const PharmacyForm: React.FC<IFormProps> = ({ pharmacy }) => {
     const form = useForm<z.infer<typeof pharmacySchema>>({
         resolver: zodResolver(pharmacySchema),
         defaultValues: {
-            id: pharmacy?.id || "",
             name: pharmacy?.name || "",
             zone: pharmacy?.zone || "",
             latitude: pharmacy?.coordinates.latitude.toString() || "0",
@@ -67,9 +65,9 @@ const PharmacyForm: React.FC<IFormProps> = ({ pharmacy }) => {
     })
 
     const submit = (data: z.infer<typeof pharmacySchema>) => {
-        const { id, name, zone, latitude, longitude, active, director, addresses, phones, description } = data
+        const { name, zone, latitude, longitude, active, director, addresses, phones, description } = data
         const modifiedPharmacy = {
-            id,
+            id: pharmacy?.id,
             name,
             zone,
             coordinates: {
