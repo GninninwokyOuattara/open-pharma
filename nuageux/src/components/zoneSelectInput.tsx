@@ -12,11 +12,12 @@ import { useQuery } from "@tanstack/react-query"
 
 interface ZoneSelectInputProps {
     selectFn: (zone: string) => void
-    initialValue?: string
+    initialValue?: string,
+    placeholder?: string
 }
 
 
-const ZoneSelectInput: React.FC<ZoneSelectInputProps> = ({ selectFn, initialValue }) => {
+const ZoneSelectInput: React.FC<ZoneSelectInputProps> = ({ selectFn, initialValue, placeholder }) => {
 
     const { isLoading, data } = useQuery({
         queryKey: ['get-zones'],
@@ -39,18 +40,18 @@ const ZoneSelectInput: React.FC<ZoneSelectInputProps> = ({ selectFn, initialValu
             <SelectTrigger
                 className="w-full md:w-64"
             >
-                <SelectValue placeholder="Pick a zone"
+                <SelectValue placeholder={`${placeholder || "Pick a zone"}`}
                 />
 
             </SelectTrigger>
             <SelectContent className="h-64" >
-                {/* <SelectItem
+                <SelectItem
                     key={"g1"}
                     value={"*"}
                     className="h-12"
                 >
                     {"Toutes les zones"}
-                </SelectItem> */}
+                </SelectItem>
                 {
                     data?.data.map((zone, idx) => (
                         <SelectItem

@@ -69,7 +69,7 @@ function Pharmacies() {
                             // value={nameFilter}
                             onChange={setFilterWithDelay}
                         />
-                        <ZoneSelectInput selectFn={handleZoneFilterChange} />
+                        <ZoneSelectInput selectFn={handleZoneFilterChange} placeholder="Toutes les zones" />
                     </div>
 
 
