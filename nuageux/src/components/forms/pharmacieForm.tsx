@@ -128,7 +128,7 @@ const PharmacyForm: React.FC<IFormProps> = ({ pharmacy }) => {
                             <FormLabel>Zone</FormLabel>
                             <FormControl >
                                 {/* <Input placeholder="Zone" {...field} /> */}
-                                <ZoneSelectInput selectFn={field.onChange} />
+                                <ZoneSelectInput selectFn={field.onChange} initialValue={field.value} />
                             </FormControl>
 
                             <FormMessage>{form.formState.errors.zone?.message}</FormMessage>
