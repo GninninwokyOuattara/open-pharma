@@ -21,6 +21,11 @@ export interface PharmacyDataDetailed extends PharmacyData {
   description: string;
 }
 
+export type PharmacyDataDetailedForMofication = Omit<
+  PharmacyDataDetailed,
+  "open"
+>;
+
 export interface IPanigation<T> {
   count: number;
   next: string | null;

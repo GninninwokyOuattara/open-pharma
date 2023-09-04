@@ -2,6 +2,7 @@ import {
   IPanigation,
   PharmacyData,
   PharmacyDataDetailed,
+  PharmacyDataDetailedForMofication,
 } from "@/types/dataTypes";
 import axios from "axios";
 
@@ -19,6 +20,15 @@ export const getPharmacies = ({
 
 export const getPharmacyDetails = (id: string) => {
   return axios.get<PharmacyDataDetailed>(`${url}/pharmacies/${id}/`);
+};
+
+export const updatePharmacyDetails = (
+  data: PharmacyDataDetailedForMofication
+) => {
+  return axios.patch<PharmacyDataDetailed>(
+    `${url}/pharmacies/${data.id}/`,
+    data
+  );
 };
 
 export const activatePharmacy = (id: string) => {
