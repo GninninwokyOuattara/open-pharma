@@ -1,5 +1,7 @@
+import { useAuth } from "@/contexts/auth"
 import { PharmacyDialogProvider } from "@/contexts/pharmacyDialogContext"
 import Dashboard from "@/pages/dashboard"
+import Login from "@/pages/login"
 import Pharmacies from "@/pages/pharmacies"
 import Reviews from "@/pages/reviews"
 import { Navigate, Route, Routes } from "react-router-dom"
@@ -7,6 +9,21 @@ import { Navigate, Route, Routes } from "react-router-dom"
 
 
 const RouterDef = () => {
+
+    const { isAuthenticated } = useAuth()
+    console.log("IsAuthenticated", isAuthenticated)
+
+    if (!isAuthenticated) {
+        // return <Navigate to="/login" />
+        return (
+            <Routes>
+                <Route path="/" element={<Navigate to="/login" />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="*" element={<Login />} />
+            </Routes>
+
+        )
+    }
 
 
     return (
@@ -22,6 +39,8 @@ const RouterDef = () => {
                 </PharmacyDialogProvider>
             } />
             <Route path="/reviews" element={<Reviews />} />
+            <Route path="/login" element={<Navigate to="/dashboard" />} />
+
             <Route path="/*" element={<p>Page Not Found</p>} />
         </Routes>
     )

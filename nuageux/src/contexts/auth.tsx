@@ -1,17 +1,33 @@
-import { refreshAccessToken } from "@/api/authApis";
-import { ResponseLoginDataSuccess, ResponseRefreshTokenDataSuccess } from "@/types/apiTypes";
-import { useQuery } from "@tanstack/react-query";
+import { authenticate, refreshAccessToken } from "@/api/authApis";
+import { toast } from "@/components/ui/use-toast";
+import LoadingState from "@/pages/loading";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { ReactNode, createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { ReactNode, createContext, useContext, useRef, useState } from "react";
 
+
+interface ICredentials {
+    login: string,
+    password: string
+}
 interface AuthenticationData {
     access: string,
     isAuthenticated: boolean,
+
 }
 
-export const AuthContext = createContext<AuthenticationData>({
+interface AuthenticationContextProps extends AuthenticationData {
+    submitAuthForm: (credentials: ICredentials) => void,
+    logout: () => void,
+    isLoginLoading: boolean
+}
+
+export const AuthContext = createContext<AuthenticationContextProps>({
     access: "",
     isAuthenticated: false,
+    submitAuthForm: () => { },
+    logout: () => { },
+    isLoginLoading: false
 })
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -19,10 +35,90 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         access: "",
         isAuthenticated: false,
     })
-    const [isProcessing, setIsProcessing] = useState<boolean>(true)
+    const [isProcessing, setIsProcessing] = useState<boolean>(false)
     const [enabledRefreshToken, setEnabledRefreshToken] = useState<boolean>(false)
     const [initialAccessToken, setInitialAccessToken] = useState("")
     const interceptorId = useRef<number | null>(null)
+
+
+
+
+    const authenticationMutation = useMutation({
+        mutationFn: (credentials: ICredentials) => authenticate(credentials.login, credentials.password),
+        onSuccess: (data) => {
+            localStorage.setItem("oph-access-token", data.data.access)
+            localStorage.setItem("oph-refresh-token", data.data.refresh)
+            setAuthenticationData({
+                access: data.data.access,
+                isAuthenticated: true
+            })
+            setIsProcessing(false)
+            setEnabledRefreshToken(true)
+        },
+
+        onError: (error) => {
+            if (error.response.status === 401) {
+                toast({
+                    title: "Invalid credentials",
+                })
+            }
+        }
+    })
+
+
+
+
+    const submitAuthForm = (credentials: ICredentials) => {
+        authenticationMutation.mutate(credentials)
+    }
+
+
+    const logout = () => {
+        console.log("Logging out")
+        localStorage.removeItem("oph-access-token")
+        localStorage.removeItem("oph-refresh-token")
+        setAuthenticationData({
+            access: "",
+            isAuthenticated: false,
+        })
+    }
+
+    const { isLoading, isFetching } = useQuery({
+        queryKey: ["initial-refresh-token"],
+        queryFn: () => {
+
+            return refreshAccessToken()
+        },
+        enabled: !!localStorage.getItem("oph-refresh-token"),
+        retry: false,
+        onSuccess: (data) => {
+            localStorage.setItem("oph-access-token", data.data.access)
+
+            interceptorId.current = axios.interceptors.request.use((config) => {
+                config.headers["Authorization"] = `Bearer ${localStorage.getItem("oph-access-token")}`
+                return config
+            }, error => {
+                return Promise.reject(error)
+            }
+            )
+            setAuthenticationData({
+                access: data.data.access,
+                isAuthenticated: true,
+
+            })
+            setEnabledRefreshToken(true)
+
+        },
+        onError: (error) => {
+            if (error.response.status === 401) {
+                toast({
+                    title: "Your session has expired",
+                })
+                logout()
+            }
+        }
+
+    })
 
 
 
@@ -44,11 +140,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             )
 
 
-
-
             setAuthenticationData({
                 access: data.data.access,
-                isAuthenticated: true
+                isAuthenticated: true,
+
             })
 
         }
@@ -58,64 +153,64 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
 
 
-    const authenticationRoutine = useCallback(async () => {
-        try {
-            const { data } = await axios.post<ResponseRefreshTokenDataSuccess>("http://localhost:8080/admin-api/refresh/", {
-                refresh: localStorage.getItem("oph-refresh-token")
-            })
-            localStorage.setItem("oph-access-token", data.access)
-            setAuthenticationData({
-                access: data.access,
-                isAuthenticated: true
-            })
-            setIsProcessing(false)
-            setEnabledRefreshToken(true)
-            setInitialAccessToken(data.access)
+    // const authenticationRoutine = useCallback(async () => {
+    //     try {
+    //         const { data } = await axios.post<ResponseRefreshTokenDataSuccess>("http://192.168.1.6:8080/admin-api/refresh/", {
+    //             refresh: localStorage.getItem("oph-refresh-token")
+    //         })
+    //         localStorage.setItem("oph-access-token", data.access)
+    //         setAuthenticationData({
+    //             access: data.access,
+    //             isAuthenticated: true
+    //         })
+    //         setIsProcessing(false)
+    //         setEnabledRefreshToken(true)
+    //         setInitialAccessToken(data.access)
 
 
 
 
-        } catch (error) {
+    //     } catch (error) {
 
-            try {
-                console.log("Refresh failed hence we try to login")
-                const loginResponse = await axios.post<ResponseLoginDataSuccess>("http://localhost:8080/admin-api/auth/", {
-                    username: "gninninwoky",
-                    password: "gninninwoky"
-                })
-                console.log(loginResponse)
+    //         try {
+    //             console.log("Refresh failed hence we try to login")
+    //             const loginResponse = await axios.post<ResponseLoginDataSuccess>("http://192.168.1.6:8080/admin-api/auth/", {
+    //                 username: "gninninwoky",
+    //                 password: "gninninwoky"
+    //             })
+    //             console.log(loginResponse)
 
-                localStorage.setItem("oph-refresh-token", loginResponse.data.refresh)
-                setAuthenticationData({
-                    access: loginResponse.data.access,
-                    isAuthenticated: true
-                })
+    //             localStorage.setItem("oph-refresh-token", loginResponse.data.refresh)
+    //             setAuthenticationData({
+    //                 access: loginResponse.data.access,
+    //                 isAuthenticated: true
+    //             })
 
-                setInitialAccessToken(loginResponse.data.access)
-                setEnabledRefreshToken(true)
+    //             setInitialAccessToken(loginResponse.data.access)
+    //             setEnabledRefreshToken(true)
 
-            } catch (error) {
-                console.log("Login failed")
-            }
+    //         } catch (error) {
+    //             console.log("Login failed")
+    //         }
 
-        } finally {
-            setIsProcessing(false)
-        }
-    }, [setAuthenticationData])
-
-
+    //     } finally {
+    //         setIsProcessing(false)
+    //     }
+    // }, [setAuthenticationData])
 
 
-    useEffect(() => {
-        console.log("Ran effect");
-
-        (async () => {
-            await authenticationRoutine()
-
-        })()
 
 
-    }, [])
+    // useEffect(() => {
+    //     console.log("Ran effect");
+
+    //     (async () => {
+    //         await authenticationRoutine()
+
+    //     })()
+
+
+    // }, [])
 
 
     // if (error) {
@@ -124,12 +219,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
 
 
-    if (isProcessing) {
-        return <div>Loading...</div>
+    if (isLoading && isFetching) {
+        return <LoadingState />
     }
 
     return (
-        <AuthContext.Provider value={authenticationData}>
+        <AuthContext.Provider value={{
+            ...authenticationData,
+            submitAuthForm,
+            logout,
+            isLoginLoading: authenticationMutation.isLoading
+        }}>
             {children}
         </AuthContext.Provider>
     )
