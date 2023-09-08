@@ -22,12 +22,7 @@ const NavigationBar = () => {
                     <NavigationBarItem to={"/dashboard"} icon={AiFillPieChart} />
                     <NavigationBarItem to={"/pharmacies"} icon={RiFileList3Fill} />
                     <NavigationBarItem to="/reviews" icon={GiChoice} />
-                    {/* <NavigationBarItem
-                        to="/"
-                        icon={IoLogOutOutline}
-                        hoverClass={"hover:text-red-500"}
-                        onClick={logout}
-                    /> */}
+
                     <IoLogOutOutline
                         size={42}
                         onClick={logout}

@@ -70,7 +70,6 @@ const LoginForm = () => {
                             className="w-full"
 
                         >
-                            {/* <FormLabel>Login</FormLabel> */}
                             <FormControl>
                                 <Input
                                     placeholder="Username"
@@ -91,7 +90,6 @@ const LoginForm = () => {
                             className="w-full"
 
                         >
-                            {/* <FormLabel>Password</FormLabel> */}
                             <FormControl>
                                 <Input type="password" placeholder="Password" {...field} className={`${inputClassName}`} />
                             </FormControl>
