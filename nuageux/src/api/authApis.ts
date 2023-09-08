@@ -1,16 +1,16 @@
-import { ResponseRefreshTokenDataSuccess } from "@/types/apiTypes";
+import {
+  ResponseLoginDataSuccess,
+  ResponseRefreshTokenDataSuccess,
+} from "@/types/apiTypes";
 import axios from "axios";
 
 const url = import.meta.env.VITE_BACKEND_ADDRESS;
 
-export const login = (username: string, password: string) => {
-  return axios.post<any, { token: string; refreshToken: string }, any>(
-    `${url}/auth/`,
-    {
-      username,
-      password,
-    }
-  );
+export const authenticate = (username: string, password: string) => {
+  return axios.post<ResponseLoginDataSuccess>(`${url}/auth/`, {
+    username,
+    password,
+  });
 };
 
 export const refreshAccessToken = () => {
