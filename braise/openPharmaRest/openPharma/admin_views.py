@@ -1,7 +1,6 @@
 
 from bs4 import BeautifulSoup
 from django.db.models import Q
-from django_filters.rest_framework import DjangoFilterBackend, OrderingFilter
 from openPharma.admin_serializers import (PharmacieDetailsSerializer,
                                           PharmaciesPendingReviewSerializer,
                                           PharmaciesSerializer)
