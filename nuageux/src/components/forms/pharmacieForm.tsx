@@ -126,7 +126,7 @@ const PharmacyForm: React.FC<IFormProps> = ({ pharmacy }) => {
                             <FormLabel>Zone</FormLabel>
                             <FormControl >
                                 {/* <Input placeholder="Zone" {...field} /> */}
-                                <ZoneSelectInput selectFn={field.onChange} initialValue={field.value} />
+                                <ZoneSelectInput selectFn={field.onChange} initialValue={field.value} className="md:w-full" />
                             </FormControl>
 
                             <FormMessage>{form.formState.errors.zone?.message}</FormMessage>
@@ -222,7 +222,7 @@ const PharmacyForm: React.FC<IFormProps> = ({ pharmacy }) => {
                     name="active"
                     render={({ field }) => {
 
-                        return <FormItem className="flex flex-row gap-2 items-center justify-between ">
+                        return <FormItem className="flex flex-row gap-2 items-center justify-between border-2 rounded-md p-3">
                             <FormLabel>Pharmacy activity state</FormLabel>
                             <FormControl >
                                 {/* <Input type="checkbox" {...field} /> */}
@@ -238,8 +238,10 @@ const PharmacyForm: React.FC<IFormProps> = ({ pharmacy }) => {
 
 
 
+                <div className="flex flex-row items-center justify-center">
 
-                <Button type="submit" className="">Submit</Button>
+                    <Button type="submit" className="bg-green-500 hover:bg-green-600 rounded-3xl w-1/3">Submit</Button>
+                </div>
             </form>
         </Form>
     )

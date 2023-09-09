@@ -32,7 +32,7 @@ const PharmacyModalRenderer = () => {
                         {/* <DialogTrigger>Open</DialogTrigger> */}
                         <DialogContent className="max-h-[90%] overflow-scroll">
                             <DialogHeader>
-                                <DialogTitle className="text-appOrange" >{pharmacyDetails?.name}</DialogTitle>
+                                <DialogTitle className="text-appOrange text-center border-b-2 pb-2 border-appOrange" >{pharmacyDetails?.name}</DialogTitle>
                                 {/* <DialogDescription>
             This action cannot be undone. This will permanently delete your account
             and remove your data from our servers.
@@ -56,7 +56,7 @@ const PharmacyModalRenderer = () => {
                         {/* <SheetTrigger>Open</SheetTrigger> */}
                         <SheetContent side={"bottom"} className="h-[90%] overflow-scroll">
                             <SheetHeader>
-                                <SheetTitle className="text-appOrange">{pharmacyDetails?.name}</SheetTitle>
+                                <SheetTitle className="text-appOrange text-center border-b-2 pb-2 border-appOrange">{pharmacyDetails?.name}</SheetTitle>
                                 <SheetDescription>
                                 </SheetDescription>
 
