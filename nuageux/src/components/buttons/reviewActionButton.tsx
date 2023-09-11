@@ -50,7 +50,7 @@ const ReviewActionButton: React.FC<IReviewActionButtonProps> = ({
 
                 </DialogHeader>
 
-                <DialogFooter>
+                <DialogFooter className="flex flex-col flex-col">
                     <Button
                         type="submit"
                         onClick={acceptFunction}
