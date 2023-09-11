@@ -29,3 +29,20 @@ export interface ReviewSuccessResponse {
   message: string;
   data: PharmacyBaseData;
 }
+
+// DASHBOARD
+
+export interface PharmaciesAllStatesResponse {
+  total: number;
+  actives: number;
+  inactives: number;
+  actives_reviewed: number;
+  inactives_reviewed: number;
+  inactives_pending_review: number;
+  actives_open: number;
+  actives_not_open: number;
+  inactives_reviewed_open: number;
+  inactives_reviewed_not_open: number;
+  inactives_pending_review_open: number;
+  inactives_pending_review_not_open: number;
+}
