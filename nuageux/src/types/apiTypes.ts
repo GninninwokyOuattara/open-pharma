@@ -46,3 +46,13 @@ export interface PharmaciesAllStatesResponse {
   inactives_pending_review_open: number;
   inactives_pending_review_not_open: number;
 }
+
+export interface RecentActivity {
+  id: string;
+  type: "review" | "state" | "actualization";
+  action: string;
+  description: string;
+  date_created: string;
+}
+
+export type RecentActivities = RecentActivity[];
