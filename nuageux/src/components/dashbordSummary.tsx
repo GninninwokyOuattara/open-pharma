@@ -91,7 +91,7 @@ const DashboardSummary: React.FC<DashboardSummaryProps> = ({ data }) => {
                 color="green"
                 value={data.actives_open}
                 to="/pharmacies"
-                filterString="open=true"
+                filterString="open=true&active=true"
             />
             <ChartInfoDetail
                 text="Open in inactives pharmacies"
