@@ -1,9 +1,9 @@
 
 from bs4 import BeautifulSoup
 from django.db.models import Q
-from openPharma.admin_serializers import (PharmacieDetailsSerializer,
-                                          PharmaciesPendingReviewSerializer,
-                                          PharmaciesSerializer)
+from openPharma.admin_serializers import (
+    PharmacieDetailsSerializer, PharmaciesPendingReviewSerializer,
+    PharmaciesPendingReviewSerializerWithOpenColumn, PharmaciesSerializer)
 from openPharma.classes.logger import ConsoleLogger
 from openPharma.classes.maps_scrapper import GoogleMapsCoordinatesScrapper
 from openPharma.classes.pages import PharmaConsultPage
@@ -127,12 +127,25 @@ class PharmaciesPendingReviewAsAdminViewset(ModelViewSetWithAuthorization, Resul
 
         name = request.query_params.get("name") or ""
         zone = request.query_params.get("zone") or ""
+        open = request.query_params.get("open")
 
         queryset = Pharmacy.objects.filter(
             name__icontains=name,
             # zone__icontains=zone,
             pending_review=True
         ).order_by("-date_created", "name", "zone")
+
+        if open in ["true", "false"]:
+            open = True if open == "true" else False
+            serializer = PharmaciesPendingReviewSerializerWithOpenColumn(
+                queryset, many=True)
+            serializer_data = serializer.data
+            filtered_data = [
+                data for data in serializer_data if data["open"] == open
+            ]
+            page = self.paginate_queryset(filtered_data, request)
+            return self.get_paginated_response(page)
+
         page = self.paginate_queryset(queryset, request)
         serializer = PharmaciesPendingReviewSerializer(page, many=True)
 
