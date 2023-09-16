@@ -15,7 +15,6 @@ const DashboardRecentActivity = () => {
         queryFn: () => getRecentActivity()
     })
 
-    console.log(query.data)
 
 
     return (

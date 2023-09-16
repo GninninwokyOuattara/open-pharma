@@ -1,5 +1,5 @@
 import { acceptPharmacyPendingReview, rejectPharmacyPendingReview } from "@/api/reviewsApis";
-import { PharmacyBaseData } from "@/types/datatypes";
+import { PharmacyBaseData } from "@/types/dataTypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import { MdOutlinePendingActions } from "react-icons/md";
@@ -19,7 +19,6 @@ const ReviewTableRow: React.FC<{ data: PharmacyBaseData }> = ({ data }) => {
             queryClient.invalidateQueries({ queryKey: ["pending-reviews-pharmacies"] })
         },
         onError: () => {
-            console.log("Well Well Well it seems like something went wrong")
         }
     })
 

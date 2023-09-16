@@ -2,7 +2,7 @@ import { authenticate, refreshAccessToken } from "@/api/authApis";
 import { toast } from "@/components/ui/use-toast";
 import LoadingState from "@/pages/loading";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ReactNode, createContext, useContext, useRef, useState } from "react";
 
 
@@ -35,9 +35,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         access: "",
         isAuthenticated: false,
     })
-    const [isProcessing, setIsProcessing] = useState<boolean>(false)
     const [enabledRefreshToken, setEnabledRefreshToken] = useState<boolean>(false)
-    const [initialAccessToken, setInitialAccessToken] = useState("")
     const interceptorId = useRef<number | null>(null)
 
 
@@ -52,16 +50,27 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 access: data.data.access,
                 isAuthenticated: true
             })
-            setIsProcessing(false)
             setEnabledRefreshToken(true)
         },
 
-        onError: (error) => {
-            if (error.response.status === 401) {
-                toast({
-                    title: "Invalid credentials",
-                })
+        onError: (error: AxiosError) => {
+            if (error.response) {
+
+                if (error.response.status === 401) {
+                    toast({
+                        title: "Invalid credentials",
+                    })
+                }
+
+                else {
+                    toast({
+                        title: "An unexpected error occured. Please try again later.",
+                    })
+                }
+
             }
+
+
         }
     })
 
@@ -74,7 +83,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
 
     const logout = () => {
-        console.log("Logging out")
         localStorage.removeItem("oph-access-token")
         localStorage.removeItem("oph-refresh-token")
         setAuthenticationData({
@@ -109,13 +117,21 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             setEnabledRefreshToken(true)
 
         },
-        onError: (error) => {
-            if (error.response.status === 401) {
+        onError: (error: AxiosError) => {
+            if (error.response) {
+                if (error.response.status === 401) {
+                    toast({
+                        title: "Your session has expired",
+                    })
+                    logout()
+                }
+            } else {
+
                 toast({
-                    title: "Your session has expired",
+                    title: "An unexpected error occured, please try again later.",
                 })
-                logout()
             }
+
         }
 
     })

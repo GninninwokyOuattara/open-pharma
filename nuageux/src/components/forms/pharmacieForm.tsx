@@ -67,7 +67,7 @@ const PharmacyForm: React.FC<IFormProps> = ({ pharmacy }) => {
     const submit = (data: z.infer<typeof pharmacySchema>) => {
         const { name, zone, latitude, longitude, active, director, addresses, phones, description } = data
         const modifiedPharmacy = {
-            id: pharmacy?.id,
+            id: pharmacy!.id,
             name,
             zone,
             coordinates: {
@@ -80,7 +80,6 @@ const PharmacyForm: React.FC<IFormProps> = ({ pharmacy }) => {
             phones: phones.split(", "),
             description
         }
-        console.log(data)
         submitModification(modifiedPharmacy)
     }
 

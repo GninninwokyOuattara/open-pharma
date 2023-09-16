@@ -165,7 +165,6 @@ const ToastUiPieChart: React.FC<ToastUiPieChartProps> = ({ chartDatas }) => {
         const el = document.getElementById("chart");
 
         if (el) {
-            console.log(el)
             chart = new NestedPieChart({ el, data, options });
 
         }

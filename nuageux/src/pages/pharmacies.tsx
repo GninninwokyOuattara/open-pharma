@@ -13,16 +13,12 @@ import { useState } from "react";
 
 import PharmacyModalRenderer from "@/components/PharmacyModalRenderer";
 import PharmaciesPageFilterStateCtrl from "@/components/pharmaciesPageFilterStateCtrl";
-import { useWindowWidth } from "@/contexts/windowWidthContext";
 import { useSearchParams } from "react-router-dom";
 
 
 function Pharmacies() {
 
-    const [searchParams, setSearchParams] = useSearchParams();
-
-
-    console.log("search params", !!searchParams.get("active"))
+    const [searchParams, _] = useSearchParams();
 
     const [nameFilter, setNameFilter] = useState("")
     const [page, setPage] = useState(1)
@@ -40,9 +36,8 @@ function Pharmacies() {
     })
 
 
-    const { sm } = useWindowWidth()
 
-    const { isLoading, isError, data, isSuccess } = useQuery({
+    const { data } = useQuery({
         queryKey: ['pharmacies', nameFilter, zoneFilter, activeFilter, openFilter, page],
         queryFn: () => getPharmacies({
             page: page,

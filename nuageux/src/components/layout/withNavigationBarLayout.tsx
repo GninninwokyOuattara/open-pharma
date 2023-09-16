@@ -3,7 +3,7 @@ import NavigationBar from '../navigation/NavigationBar';
 
 
 interface INavigationBarWrappedLayout {
-  children: ReactNode
+  children?: ReactNode
 }
 
 

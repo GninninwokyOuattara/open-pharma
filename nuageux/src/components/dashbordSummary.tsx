@@ -13,9 +13,6 @@ const ChartInfoDetail: React.FC<ChartInfoDetailProps> = ({ text, color, value, t
 
     const navigate = useNavigate()
 
-
-    const backgoroundColor = `bg-${color}`
-    const valueColor = `text-${color}`
     const textColorVariants = {
         green: "text-green-500",
         blue: "text-[#92d1f8]",

@@ -28,7 +28,6 @@ const PharmaciesPageFilterStateCtrl: React.FC<PharmaciesPageFilterStateCtrlProps
     })
 
     const changeActiveState = (value: StateOptions) => {
-        console.log(value)
         setStates({
             ...states,
             active: value,

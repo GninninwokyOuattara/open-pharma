@@ -29,7 +29,7 @@ const PharmaciesStatusTData: React.FC<PharmaciesStatusTDataProps> = ({ row }) =>
             })
         },
         onError: () => {
-            console.log("Well Well Well it seems like something went wrong")
+            //
         }
     })
 
@@ -44,7 +44,7 @@ const PharmaciesStatusTData: React.FC<PharmaciesStatusTDataProps> = ({ row }) =>
             })
         },
         onError: () => {
-            console.log("Well Well Well it seems like something went wrong")
+            // console.log("Well Well Well it seems like something went wrong")
         }
     })
 

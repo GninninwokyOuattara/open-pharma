@@ -11,7 +11,6 @@ import { Navigate, Route, Routes } from "react-router-dom"
 const RouterDef = () => {
 
     const { isAuthenticated } = useAuth()
-    console.log("IsAuthenticated", isAuthenticated)
 
     if (!isAuthenticated) {
         // return <Navigate to="/login" />
