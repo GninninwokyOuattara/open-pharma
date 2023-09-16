@@ -39,16 +39,16 @@ class PharmaciesAsAdminViewset(ModelViewSetWithAuthorization, ResultsSetPaginati
         active = request.query_params.get("active")
         open = request.query_params.get("open")
 
-        if active in ["true", "false"]:
-            active = True if active == "true" else False
-
-        if open in ["true", "false"]:
-            open = True if open == "true" else False
-
         queryset = Pharmacy.objects.filter(
             Q(name__icontains=name),
             pending_review=False
         )
+
+        if active in ["true", "false"]:
+            active = True if active == "true" else False
+            queryset = queryset.filter(
+                active=active
+            )
 
         if zone:
             queryset = queryset.filter(
@@ -62,9 +62,12 @@ class PharmaciesAsAdminViewset(ModelViewSetWithAuthorization, ResultsSetPaginati
 
         serializer = PharmaciesSerializer(queryset, many=True)
         filtered_data = serializer.data
-        if open:
+
+        if open in ["true", "false"]:
+            open = True if open == "true" else False
             filtered_data = [
                 data for data in serializer.data if data["open"] == open]
+
         page = self.paginate_queryset(filtered_data, request)
 
         return self.get_paginated_response(page)
