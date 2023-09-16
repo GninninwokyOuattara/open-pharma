@@ -12,9 +12,11 @@ export const getPharmacies = ({
   page = 1,
   nameFilter = "",
   zoneFilter = "",
+  activeFilter = "",
+  openFilter = "",
 }) => {
   return axios.get<IPanigation<PharmacyData>>(
-    `${url}/pharmacies/?name=${nameFilter}&zone=${zoneFilter}&page=${page}`
+    `${url}/pharmacies/?name=${nameFilter}&zone=${zoneFilter}&active=${activeFilter}&open=${openFilter}&page=${page}`
   );
 };
 

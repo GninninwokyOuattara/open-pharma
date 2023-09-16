@@ -6,9 +6,10 @@ interface ChartInfoDetailProps {
     text: string,
     color: "green" | "blue" | "orange" | "gray",
     value: number,
-    to?: "/pharmacies" | "/reviews"
+    to?: "/pharmacies" | "/reviews",
+    filterString?: string
 }
-const ChartInfoDetail: React.FC<ChartInfoDetailProps> = ({ text, color, value, to }) => {
+const ChartInfoDetail: React.FC<ChartInfoDetailProps> = ({ text, color, value, to, filterString }) => {
 
     const navigate = useNavigate()
 
@@ -33,7 +34,7 @@ const ChartInfoDetail: React.FC<ChartInfoDetailProps> = ({ text, color, value, t
         if (to) {
             navigate({
                 pathname: to,
-                search: "?sort=desc"
+                search: `?${filterString}`
             })
         }
     }
@@ -65,11 +66,14 @@ const DashboardSummary: React.FC<DashboardSummaryProps> = ({ data }) => {
                 color="blue"
                 value={data.actives}
                 to="/pharmacies"
+                filterString="active=true"
             />
             <ChartInfoDetail
                 text="Inactives pharmacies"
                 color="gray"
                 value={data.inactives_reviewed}
+                to="/pharmacies"
+                filterString="active=false"
             />
             <ChartInfoDetail
                 text="Pharmacies awaiting review"
@@ -82,11 +86,15 @@ const DashboardSummary: React.FC<DashboardSummaryProps> = ({ data }) => {
                 text="Open and visible to users"
                 color="green"
                 value={data.actives_open}
+                to="/pharmacies"
+                filterString="open=true"
             />
             <ChartInfoDetail
                 text="Open in inactives pharmacies"
                 color="green"
                 value={data.inactives_reviewed_open}
+                to="/pharmacies"
+                filterString="active=false&open=true"
             />
             <ChartInfoDetail
                 text="Open in pharmacies pending reviews"

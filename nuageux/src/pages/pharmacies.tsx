@@ -10,26 +10,45 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 
-import { usePharmacyDialog } from "@/contexts/pharmacyDialogContext";
 
 import PharmacyModalRenderer from "@/components/PharmacyModalRenderer";
 import { useWindowWidth } from "@/contexts/windowWidthContext";
+import { useSearchParams } from "react-router-dom";
 
 
 function Pharmacies() {
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
+
+    console.log("search params", !!searchParams.get("active"))
+
     const [nameFilter, setNameFilter] = useState("")
     const [page, setPage] = useState(1)
     const [zoneFilter, setZoneFilter] = useState("")
+    const [activeFilter, setActiveFilter] = useState(() => {
+        const active = searchParams.get("active")
+        if (active) return active
+        return undefined
+    })
 
-    const { open, setOpen } = usePharmacyDialog()
+    const [openFilter, setOpenFilter] = useState(() => {
+        const open = searchParams.get("open")
+        if (open) return open
+        return undefined
+    })
+
+
     const { sm } = useWindowWidth()
 
     const { isLoading, isError, data, isSuccess } = useQuery({
-        queryKey: ['pharmacies', nameFilter, zoneFilter, page],
+        queryKey: ['pharmacies', nameFilter, zoneFilter, activeFilter, openFilter, page],
         queryFn: () => getPharmacies({
             page: page,
             nameFilter: nameFilter,
-            zoneFilter: zoneFilter
+            zoneFilter: zoneFilter,
+            activeFilter: activeFilter,
+            openFilter: openFilter
         }),
         keepPreviousData: true
     })
