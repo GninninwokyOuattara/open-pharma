@@ -63,7 +63,7 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
     }
 
     return (
-        <div className="w-full flex flex-row items-start gap-2">
+        <div className="w-full flex flex-row items-start gap-2 hover:bg-appPrimary p-2 rounded-md">
             <div className="w-8 h-8 border-2 border-appOrange text-appOrange rounded-md overflow-hidden flex items-center justify-center">
 
                 <IconActivity />
