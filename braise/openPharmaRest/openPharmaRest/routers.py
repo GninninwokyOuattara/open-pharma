@@ -1,6 +1,11 @@
 from abc import ABC, abstractmethod
 
+# from openTracker.views import OpenPharmaTrackerHistoryViewset
+from rest_framework import routers
+from rest_framework.routers import SimpleRouter
+
 from openPharma.admin_dashboard_views import (OpenPharmaActivityViewset,
+                                              PharmaciesAllStatesCountView,
                                               PharmaciesOverWeeksCountViews,
                                               PharmaciesReviewsStatesCountView,
                                               PharmaciesStatesCountView)
@@ -10,9 +15,6 @@ from openPharma.admin_views import (PharmaciesActualizerView,
                                     PharmaciesZoneAsAdminViewset,
                                     SearchApiView)
 from openPharma.user_views import UsersPharmaciesViewset
-# from openTracker.views import OpenPharmaTrackerHistoryViewset
-from rest_framework import routers
-from rest_framework.routers import SimpleRouter
 
 
 class RouterGenerator(ABC):
@@ -26,7 +28,7 @@ class UserRouter(RouterGenerator):
 
     router = routers.SimpleRouter()
     router.register(r"pharmacies", UsersPharmaciesViewset,
-                    basename="pharmacies-states")
+                    basename="pharmacies")
 
     def get_router(self):
         return self.router
@@ -53,7 +55,8 @@ class AdminRouter(RouterGenerator):
 
     router.register(r"dashboard/pharmacies-reviews-states-count",
                     PharmaciesReviewsStatesCountView, basename="pharmacies-reviews-states-count")
-
+    router.register(r"dashboard/pharmacies-states",
+                    PharmaciesAllStatesCountView, basename="pharmacies-states")
     # router.register(
     #     r"dashboard/get-latest-tracker-results", OpenPharmaTrackerHistoryViewset, basename="dashboard/get-latest-tracker-results"
     # )
