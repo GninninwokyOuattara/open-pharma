@@ -32,9 +32,12 @@ const ChartInfoDetail: React.FC<ChartInfoDetailProps> = ({ text, color, value, t
 
     const handleClick = () => {
         if (to) {
-            navigate({
+            if (filterString) return navigate({
                 pathname: to,
                 search: `?${filterString}`
+            })
+            return navigate({
+                pathname: to
             })
         }
     }
@@ -79,6 +82,7 @@ const DashboardSummary: React.FC<DashboardSummaryProps> = ({ data }) => {
                 text="Pharmacies awaiting review"
                 color="orange"
                 value={data.inactives_pending_review}
+                to="/reviews"
             />
 
 
@@ -100,6 +104,8 @@ const DashboardSummary: React.FC<DashboardSummaryProps> = ({ data }) => {
                 text="Open in pharmacies pending reviews"
                 color="green"
                 value={data.inactives_pending_review_open}
+                to="/reviews"
+                filterString="open=true"
             />
         </div>
     )
