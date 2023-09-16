@@ -23,7 +23,7 @@ export interface PharmacyDataDetailed extends PharmacyData {
 
 export type PharmacyDataDetailedForMofication = Omit<
   PharmacyDataDetailed,
-  "open" | "id"
+  "open"
 >;
 
 export interface IPanigation<T> {
