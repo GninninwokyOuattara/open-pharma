@@ -179,7 +179,7 @@ const ToastUiPieChart: React.FC<ToastUiPieChartProps> = ({ chartDatas }) => {
 
     return (
         <div className="w-full h-fit md:h-[21rem] md:w-1/2 rounded-md shadow-md overflow-hidden">
-            <h1 className="font-bold text-2xl ml-2 mb-2">Pharmacies States</h1>
+            <h1 className="font-bold text-2xl ml-2 mb-2 text-center hidden md:block">Pharmacies States</h1>
             <div id="chart"></div>
         </div>
     )

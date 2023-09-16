@@ -26,14 +26,14 @@ function dashboard() {
 
         return (
 
-            <div className="w-full flex flex-col  h-[calc(100vh-3.5rem)] gap-2 p-2 flex-col">
+            <div className="w-full flex flex-col  md:h-[calc(100vh-3.5rem)] gap-2 p-2 flex-col">
                 <div className="w-full flex flex-col md:flex-row gap-2">
                     <ToastUiPieChart chartDatas={query.data.data} />
                     <DashboardSummary data={query.data.data} />
 
                 </div>
 
-                <div className="md:flex-grow overflow-y-scroll md:flex md:flex-row gap-2 p-1">
+                <div className="flex flex-col h-[20rem] md:h-full md:overflow-y-scroll md:flex md:flex-row md:flex-grow  gap-2 p-1">
                     <DashboardRecentActivity />
                     <LeafletMap />
                 </div>

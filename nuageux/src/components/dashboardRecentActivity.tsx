@@ -21,7 +21,7 @@ const DashboardRecentActivity = () => {
 
         <>
             <div className="hidden md:flex-grow w-96 p-2 overflow-y-scroll md:flex md:flex-col gap-2 shadow-md rounded-md bg-white">
-                <h2 className="font-bold text-2xl">Recent Activity</h2>
+                <h2 className="font-bold text-2xl text-center">Recent Activity</h2>
                 <div className="h-full overflow-y-scroll flex flex-col gap-2">
                     {
                         query.data?.data?.map((activity, index) => (
