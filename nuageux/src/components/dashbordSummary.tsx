@@ -3,7 +3,7 @@ import { PharmaciesAllStatesResponse } from "@/types/apiTypes"
 
 interface ChartInfoDetailProps {
     text: string,
-    color: string,
+    color: "green" | "blue" | "orange" | "gray",
     value: number
 }
 const ChartInfoDetail: React.FC<ChartInfoDetailProps> = ({ text, color, value }) => {
@@ -11,12 +11,24 @@ const ChartInfoDetail: React.FC<ChartInfoDetailProps> = ({ text, color, value })
 
     const backgoroundColor = `bg-${color}`
     const valueColor = `text-${color}`
+    const textColorVariants = {
+        green: "text-green-500",
+        blue: "text-[#92d1f8]",
+        orange: "text-orange-500",
+        gray: "text-gray-500",
+    }
+    const colorVariants = {
+        green: "bg-green-500",
+        blue: "bg-[#92d1f8]",
+        orange: "bg-orange-500",
+        gray: "bg-gray-500",
+    }
 
 
     return (
-        <div className="w-full h-8 rounded-md p-1 flex items-center gap-2 bg-appWhite shadow transition-shadow ease-in-out duration-500 shadow-appPrimary-500 cursor-pointer hover:bg-appPrimary">
-            <div className={`w-4 h-4 rounded-md ${backgoroundColor}`}></div>
-            <span className={`${valueColor} w-7`}>{value}</span>
+        <div className={`w-full  h-8 rounded-md p-1 flex items-center gap-2 bg-appWhite shadow transition-shadow ease-in-out duration-500 shadow-appPrimary-500 cursor-pointer hover:bg-appPrimary`}>
+            <div className={`w-4 h-4 rounded-md ${colorVariants[color]}`}></div>
+            <span className={`${textColorVariants[color]} w-7`}>{value}</span>
             <p>{text}</p>
         </div>
     )
@@ -34,34 +46,34 @@ const DashboardSummary: React.FC<DashboardSummaryProps> = ({ data }) => {
             <h1 className="font-bold text-2xl">Summary</h1>
             <ChartInfoDetail
                 text="Actives pharmacies"
-                color="blue-500"
+                color="blue"
                 value={data.actives}
             />
             <ChartInfoDetail
                 text="Inactives pharmacies"
-                color="gray-500"
+                color="gray"
                 value={data.inactives_reviewed}
             />
             <ChartInfoDetail
                 text="Pharmacies awaiting review"
-                color="orange-500"
+                color="orange"
                 value={data.inactives_pending_review}
             />
 
 
             <ChartInfoDetail
                 text="Open and visible to users"
-                color="green-500"
+                color="green"
                 value={data.actives_open}
             />
             <ChartInfoDetail
                 text="Open in inactives pharmacies"
-                color="green-500"
+                color="green"
                 value={data.inactives_reviewed_open}
             />
             <ChartInfoDetail
                 text="Open in pharmacies pending reviews"
-                color="green-500"
+                color="green"
                 value={data.inactives_pending_review_open}
             />
         </div>
