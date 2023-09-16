@@ -12,6 +12,7 @@ import { useState } from "react";
 
 
 import PharmacyModalRenderer from "@/components/PharmacyModalRenderer";
+import PharmaciesPageFilterStateCtrl from "@/components/pharmaciesPageFilterStateCtrl";
 import { useWindowWidth } from "@/contexts/windowWidthContext";
 import { useSearchParams } from "react-router-dom";
 
@@ -89,6 +90,11 @@ function Pharmacies() {
                             onChange={setFilterWithDelay}
                         />
                         <ZoneSelectInput selectFn={handleZoneFilterChange} placeholder="Toutes les zones" />
+
+                        <PharmaciesPageFilterStateCtrl
+                            setOpenFilter={setOpenFilter}
+                            setActiveFilter={setActiveFilter}
+                        />
                     </div>
 
 
