@@ -92,6 +92,8 @@ function Pharmacies() {
                         <ZoneSelectInput selectFn={handleZoneFilterChange} placeholder="Toutes les zones" />
 
                         <PharmaciesPageFilterStateCtrl
+                            activeInitialState={activeFilter}
+                            openInitialState={openFilter}
                             setOpenFilter={setOpenFilter}
                             setActiveFilter={setActiveFilter}
                         />

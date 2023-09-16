@@ -2,7 +2,15 @@ import { useEffect, useState } from "react"
 import ThreeStatesButton from "./buttons/threeStatesButton"
 
 
+const parseInitalState = (state: string | undefined) => {
+    if (state === "true") return "true"
+    else if (state === "false") return "false"
+    else return "neutral"
+}
+
 interface PharmaciesPageFilterStateCtrlProps {
+    activeInitialState: string | undefined,
+    openInitialState: string | undefined,
     setOpenFilter: React.Dispatch<React.SetStateAction<string | undefined>>,
     setActiveFilter: React.Dispatch<React.SetStateAction<string | undefined>>
 }
@@ -10,11 +18,13 @@ interface PharmaciesPageFilterStateCtrlProps {
 export type StateOptions = "neutral" | "true" | "false"
 
 type StatesType = Record<"active" | "open", StateOptions>
-const PharmaciesPageFilterStateCtrl: React.FC<PharmaciesPageFilterStateCtrlProps> = ({ setOpenFilter, setActiveFilter }) => {
+const PharmaciesPageFilterStateCtrl: React.FC<PharmaciesPageFilterStateCtrlProps> = ({ setOpenFilter, setActiveFilter, activeInitialState, openInitialState }) => {
+
+
 
     const [states, setStates] = useState<StatesType>({
-        active: "neutral",
-        open: "neutral"
+        active: parseInitalState(activeInitialState) || "neutral",
+        open: parseInitalState(openInitialState) || "neutral"
     })
 
     const changeActiveState = (value: StateOptions) => {
@@ -33,6 +43,9 @@ const PharmaciesPageFilterStateCtrl: React.FC<PharmaciesPageFilterStateCtrlProps
             open: value
         })
     }
+
+
+
 
     useEffect(() => {
         if (states.active == "neutral") {
