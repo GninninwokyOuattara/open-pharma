@@ -1,10 +1,6 @@
 
 from bs4 import BeautifulSoup
 from django.db.models import Q
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.viewsets import ReadOnlyModelViewSet
-
 from openPharma.admin_serializers import (PharmacieDetailsSerializer,
                                           PharmaciesPendingReviewSerializer,
                                           PharmaciesSerializer)
@@ -15,6 +11,10 @@ from openPharma.classes.processors import (ActivityManager,
                                            PharmaConsultDataUpdateDBManager,
                                            PharmaConsultPageProcessor)
 from openPharma.models import Pharmacy
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.viewsets import ReadOnlyModelViewSet
+
 from openPharmaRest.authorization import (IsAuthenticated,
                                           ModelViewSetWithAuthorization)
 from openPharmaRest.panigation import ResultsSetPagination
@@ -36,30 +36,38 @@ class PharmaciesAsAdminViewset(ModelViewSetWithAuthorization, ResultsSetPaginati
 
         name = request.query_params.get("name") or ""
         zone = request.query_params.get("zone") or ""
+        active = request.query_params.get("active")
+        open = request.query_params.get("open")
+
+        if active in ["true", "false"]:
+            active = True if active == "true" else False
+
+        if open in ["true", "false"]:
+            open = True if open == "true" else False
+
+        queryset = Pharmacy.objects.filter(
+            Q(name__icontains=name),
+            pending_review=False
+        )
 
         if zone:
-            queryset = Pharmacy.objects.filter(
-
-                name__icontains=name,
-                zone__icontains=zone,
-                pending_review=False)
-
-        else:
-
-            queryset = Pharmacy.objects.filter(
-                Q(name__icontains=name) &
-                (Q(zone__icontains=zone) |
-                    Q(zone__isnull=True)),
-
-                # name__icontains=name,
-                # zone__icontains=zone,
-                # active=True,
-                pending_review=False
+            queryset = queryset.filter(
+                zone__icontains=zone
             )
-        page = self.paginate_queryset(queryset, request)
-        serializer = PharmaciesSerializer(page, many=True)
 
-        return self.get_paginated_response(serializer.data)
+        if active:
+            queryset = queryset.filter(
+                active=active
+            )
+
+        serializer = PharmaciesSerializer(queryset, many=True)
+        filtered_data = serializer.data
+        if open:
+            filtered_data = [
+                data for data in serializer.data if data["open"] == open]
+        page = self.paginate_queryset(filtered_data, request)
+
+        return self.get_paginated_response(page)
 
     @action(detail=True, methods=['post'])
     def activate(self, request, *args, **kwargs):
