@@ -8,16 +8,26 @@ import { Input } from "@/components/ui/input";
 import { PharmacyBaseData } from "@/types/dataTypes";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 
 const Reviews = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const [nameFilter, setNameFilter] = useState("")
+    const [openFilter, setOpenFilter] = useState(
+        () => {
+            const open = searchParams.get("open")
+            if (open) return open
+            return undefined
+        }
+    )
     const [page, setPage] = useState(1)
 
 
     const { isLoading, isError, data, isSuccess } = useQuery({
-        queryKey: ['pending-reviews-pharmacies', nameFilter, page],
-        queryFn: () => getPendingReviewsPharmacies(nameFilter, page),
+        queryKey: ['pending-reviews-pharmacies', nameFilter, openFilter, page],
+        queryFn: () => getPendingReviewsPharmacies(nameFilter, openFilter, page),
         keepPreviousData: true
     })
 

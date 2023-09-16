@@ -1,5 +1,5 @@
 import { ReviewSuccessResponse } from "@/types/apiTypes";
-import { IPanigation, PharmacyBaseData } from "@/types/datatypes";
+import { IPanigation, PharmacyBaseData } from "@/types/dataTypes";
 import axios from "axios";
 
 const url = import.meta.env.VITE_BACKEND_ADDRESS;
@@ -16,7 +16,11 @@ export const rejectPharmacyPendingReview = (id: string) => {
   );
 };
 
-export const getPendingReviewsPharmacies = (nameFilter = "", page = 1) =>
+export const getPendingReviewsPharmacies = (
+  nameFilter = "",
+  openFilter = "",
+  page = 1
+) =>
   axios.get<IPanigation<PharmacyBaseData>>(
-    `${url}/pharmacies-pending-review?name=${nameFilter}&page=${page}`
+    `${url}/pharmacies-pending-review?name=${nameFilter}&open=${openFilter}&page=${page}`
   );
