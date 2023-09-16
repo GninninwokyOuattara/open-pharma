@@ -1,12 +1,16 @@
 import { PharmaciesAllStatesResponse } from "@/types/apiTypes"
+import { useNavigate } from "react-router-dom"
 
 
 interface ChartInfoDetailProps {
     text: string,
     color: "green" | "blue" | "orange" | "gray",
-    value: number
+    value: number,
+    to?: "/pharmacies" | "/reviews"
 }
-const ChartInfoDetail: React.FC<ChartInfoDetailProps> = ({ text, color, value }) => {
+const ChartInfoDetail: React.FC<ChartInfoDetailProps> = ({ text, color, value, to }) => {
+
+    const navigate = useNavigate()
 
 
     const backgoroundColor = `bg-${color}`
@@ -25,8 +29,20 @@ const ChartInfoDetail: React.FC<ChartInfoDetailProps> = ({ text, color, value })
     }
 
 
+    const handleClick = () => {
+        if (to) {
+            navigate({
+                pathname: to,
+                search: "?sort=desc"
+            })
+        }
+    }
+
     return (
-        <div className={`w-full  h-8 rounded-md p-1 flex items-center gap-2 bg-appWhite shadow transition-shadow ease-in-out duration-500 shadow-appPrimary-500 cursor-pointer hover:bg-appPrimary`}>
+        <div
+            className={`w-full  h-8 rounded-md p-1 flex items-center gap-2 bg-appWhite shadow transition-shadow ease-in-out duration-500 shadow-appPrimary-500 cursor-pointer hover:bg-appPrimary`}
+            onClick={() => handleClick()}
+        >
             <div className={`w-4 h-4 rounded-md ${colorVariants[color]}`}></div>
             <span className={`${textColorVariants[color]} w-7`}>{value}</span>
             <p>{text}</p>
@@ -48,6 +64,7 @@ const DashboardSummary: React.FC<DashboardSummaryProps> = ({ data }) => {
                 text="Actives pharmacies"
                 color="blue"
                 value={data.actives}
+                to="/pharmacies"
             />
             <ChartInfoDetail
                 text="Inactives pharmacies"
