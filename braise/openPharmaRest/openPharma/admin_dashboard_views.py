@@ -1,13 +1,18 @@
 
 
-from django.db.models import Count
+from django.db import models
+from django.db.models import Case, Count, F, When
 from django.db.models.functions import TruncWeek
+from django.http import JsonResponse
 from django.utils.timezone import now
-from openPharma.admin_serializers import ActivityListSerializer
-from openPharma.models import Activity, OpenPharmacy, Pharmacy
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
+from openPharma.admin_serializers import (ActivityListSerializer,
+                                          PharmacieDetailsSerializer,
+                                          PharmaciesPendingReviewSerializer,
+                                          PharmaciesSerializer)
+from openPharma.models import Activity, OpenPharmacy, Pharmacy
 from openPharmaRest.authorization import IsAuthenticated
 
 
@@ -102,3 +107,51 @@ class OpenPharmaActivityViewset(IsAuthenticated, ReadOnlyModelViewSet):
     serializer_class = ActivityListSerializer
     queryset = Activity.objects.all()[:20]
     http_method_names = ['get']
+
+
+class PharmaciesAllStatesCountView(IsAuthenticated, ReadOnlyModelViewSet):
+
+    def list(self, request, *args, **kwargs):
+
+        all_states = {
+            "total": Pharmacy.objects.count(),
+            "actives": Pharmacy.objects.filter(active=True).count(),
+            "inactives": Pharmacy.objects.filter(active=False).count(),
+            "actives_reviewed": Pharmacy.objects.filter(
+                pending_review=False,
+                active=True)
+            .count(),
+            "inactives_reviewed": Pharmacy.objects.filter(
+                pending_review=False,
+                active=False).count(),
+            "inactives_pending_review": Pharmacy.objects.filter(
+                active=False,
+                pending_review=True)
+            .count(),
+            "actives_open": OpenPharmacy.objects.filter(
+                pharmacy__active=True,
+                pharmacy__pending_review=False,
+                open_from__lte=now(), open_until__gte=now()).count(),
+
+        }
+
+        all_states["actives_not_open"] = int(all_states["actives"]) - \
+            int(all_states["actives_open"])
+
+        all_states["inactives_reviewed_open"] = OpenPharmacy.objects.filter(
+            pharmacy__active=False,
+            pharmacy__pending_review=False,
+            open_from__lte=now(), open_until__gte=now()).count()
+
+        all_states["inactives_reviewed_not_open"] = int(all_states["inactives_reviewed"]) - \
+            int(all_states["inactives_reviewed_open"])
+
+        all_states["inactives_pending_review_open"] = OpenPharmacy.objects.filter(
+            pharmacy__active=False,
+            pharmacy__pending_review=True,
+            open_from__lte=now(), open_until__gte=now()).count()
+
+        all_states["inactives_pending_review_not_open"] = int(all_states["inactives_pending_review"]) - \
+            int(all_states["inactives_pending_review_open"])
+
+        return Response(all_states, status=200)
