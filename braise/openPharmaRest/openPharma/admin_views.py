@@ -1,6 +1,10 @@
 
 from bs4 import BeautifulSoup
 from django.db.models import Q
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.viewsets import ReadOnlyModelViewSet
+
 from openPharma.admin_serializers import (PharmacieDetailsSerializer,
                                           PharmaciesPendingReviewSerializer,
                                           PharmaciesSerializer)
@@ -11,10 +15,6 @@ from openPharma.classes.processors import (ActivityManager,
                                            PharmaConsultDataUpdateDBManager,
                                            PharmaConsultPageProcessor)
 from openPharma.models import Pharmacy
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.viewsets import ReadOnlyModelViewSet
-
 from openPharmaRest.authorization import (IsAuthenticated,
                                           ModelViewSetWithAuthorization)
 from openPharmaRest.panigation import ResultsSetPagination
@@ -150,7 +150,7 @@ class PharmaciesPendingReviewAsAdminViewset(ModelViewSetWithAuthorization, Resul
             instance = self.get_object()
             instance.pending_review = False
             instance.active = False
-            instance.delete()
+            instance.save()
             serializer = self.get_serializer(instance)
             message = f"{instance.name} has been rejected."
             data = serializer.data
