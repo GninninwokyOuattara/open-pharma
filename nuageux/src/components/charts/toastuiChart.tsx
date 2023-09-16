@@ -14,7 +14,7 @@ const ToastUiPieChart: React.FC<ToastUiPieChartProps> = ({ chartDatas }) => {
         },
         theme: {
             series: {
-                colors: ['#7dd3fc', '#737373', '#ffffff00', '#e7e5e4', '#fb923c', '#34d399', '#ffffff00', '#34d399', '#ffffff00', '#34d399', '#ffffff00'],
+                colors: ['#7dd3fc', '#737373', '#ffffff00', '#e7e5e4', '#fb923c', '#34d399', '#ffffff00', '#34d399', '#ffffff00', '#ffffff00', '#34d399'],
 
             }
         },
@@ -180,7 +180,7 @@ const ToastUiPieChart: React.FC<ToastUiPieChartProps> = ({ chartDatas }) => {
 
     return (
         <div className="w-full h-fit md:h-[21rem] md:w-1/2 rounded-md shadow-md overflow-hidden">
-            <h1 className="text-2xl ml-2 mb-2">Pharmacies States</h1>
+            <h1 className="font-bold text-2xl ml-2 mb-2">Pharmacies States</h1>
             <div id="chart"></div>
         </div>
     )
