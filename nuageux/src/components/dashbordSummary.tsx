@@ -31,7 +31,7 @@ interface DashboardSummaryProps {
 const DashboardSummary: React.FC<DashboardSummaryProps> = ({ data }) => {
     return (
         <div className="w-full h-fit md:h-[21rem] md:w-1/2 p-2 flex flex-col gap-2 shadow-md rounded-md">
-            <h1 className="text-2xl">Summary</h1>
+            <h1 className="font-bold text-2xl">Summary</h1>
             <ChartInfoDetail
                 text="Actives pharmacies"
                 color="blue-500"
