@@ -63,6 +63,12 @@ class PharmaciesPendingReviewSerializer(ModelSerializer):
         fields = ("id", "name", "zone", "date_created")
 
 
+class PharmaciesPendingReviewSerializerWithOpenColumn(BaseAdminSerializer):
+    class Meta:
+        model = Pharmacy
+        fields = ("id", "name", "zone", "date_created", "open")
+
+
 class ActivityListSerializer(ModelSerializer):
 
     class Meta:
