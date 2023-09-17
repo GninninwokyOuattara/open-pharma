@@ -6,18 +6,21 @@ interface ThreeStatesButtonProps {
     state: StateOptions,
     stateCtrlFunc: (value: StateOptions) => void
     title: string,
-    color?: "blue" | "green" | "orange"
+    color?: "blue" | "green"
 }
-const ThreeStatesButton: React.FC<ThreeStatesButtonProps> = ({ state, stateCtrlFunc, title, color }) => {
+const ThreeStatesButton: React.FC<ThreeStatesButtonProps> = ({ state, stateCtrlFunc, title, color = "blue" }) => {
 
-
-
-
-    const baseColor = `${color || "blue"}`
-    const buttonVariants = {
-        neutral: `bg-white hover:bg-white text-${baseColor}-500 hover:text-${baseColor}-600 border-2 border-${baseColor}-500 hover:border-${baseColor}-600`,
-        true: `bg-${baseColor}-500 hover:bg-${baseColor}-600`,
-        false: "bg-gray-500 hover:bg-gray-600",
+    const bVariants = {
+        blue: {
+            neutral: `bg-white hover:bg-white text-blue-500 hover:text-blue-600 border-2 border-blue-500 hover:border-blue-600`,
+            true: `bg-blue-500 hover:bg-blue-600`,
+            false: "bg-gray-500 hover:bg-gray-600",
+        },
+        green: {
+            neutral: `bg-white hover:bg-white text-green-500 hover:text-green-600 border-2 border-green-500 hover:border-green-600`,
+            true: `bg-green-500 hover:bg-green-600`,
+            false: "bg-gray-500 hover:bg-gray-600",
+        }
     }
 
     const changeState = () => {
@@ -30,7 +33,7 @@ const ThreeStatesButton: React.FC<ThreeStatesButtonProps> = ({ state, stateCtrlF
     return (
 
         <Button
-            className={`h-6 w-24 ${buttonVariants[state]}`}
+            className={`h-6 w-24 ${bVariants[color][state]}`}
             onClick={changeState}
         >{title}</Button>
     )
