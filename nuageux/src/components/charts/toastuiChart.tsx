@@ -14,7 +14,24 @@ const ToastUiPieChart: React.FC<ToastUiPieChartProps> = ({ chartDatas }) => {
         },
         theme: {
             series: {
-                colors: ['#7dd3fc', '#737373', '#ffffff00', '#e7e5e4', '#fb923c', '#34d399', '#ffffff00', '#34d399', '#ffffff00', '#ffffff00', '#34d399'],
+                colors: [
+                    //Activities states
+                    '#7dd3fc', // blue 
+                    '#737373', // gray
+
+                    //Review states
+                    '#ffffff00', // white
+                    '#e7e5e4',  // light gray
+                    '#fb923c', // red
+
+                    //Open states
+                    '#34d399', // green
+                    '#ffffff00', // white
+                    '#34d399', // green
+                    '#ffffff00', // white
+                    '#34d399', // white
+                    '#34d399' // green
+                ],
 
             }
         },
@@ -122,35 +139,35 @@ const ToastUiPieChart: React.FC<ToastUiPieChartProps> = ({ chartDatas }) => {
                     name: 'openStates',
                     data: [
                         {
-                            name: `user visible (${chartDatas?.actives_open})`,
+                            name: `Actives and open (${chartDatas?.actives_open})`,
                             //parentName: 'Reviewed and actives',
-                            data: chartDatas?.actives_open,
+                            data: chartDatas?.actives_reviewed,
                         },
                         {
                             name: 'Actives but not open',
                             //parentName: 'Reviewed and actives',
-                            data: chartDatas?.actives_not_open,
+                            data: chartDatas.actives_not_open,
                         },
                         {
-                            name: `currently inactives (${chartDatas?.inactives_reviewed_open})`,
+                            name: `Inactives and open (${chartDatas?.inactives_reviewed_open})`,
                             //parentName: 'Reviewed and inactives',
                             data: chartDatas?.inactives_reviewed_open,
                         },
 
                         {
-                            name: 'Inactives and not open',
+                            name: 'Reviewed inactives and not open',
                             //parentName: 'Reviewed and inactives',
-                            data: chartDatas?.inactives_reviewed_not_open,
+                            data: chartDatas.inactives_reviewed_not_open,
                         },
                         {
-                            name: `Awaiting review (${chartDatas?.inactives_pending_review_open})`,
+                            name: `Pending review and open (${chartDatas?.inactives_pending_review_open})`,
                             //parentName: 'Not yet reviewed',
-                            data: chartDatas?.inactives_pending_review_open,
+                            data: chartDatas?.inactives_pending_review,
                         },
                         {
                             name: 'Pending review and not open',
                             //parentName: 'Not yet reviewed',
-                            data: chartDatas?.inactives_pending_review_not_open,
+                            data: chartDatas.inactives_pending_review_not_open,
                         },
 
                     ],
