@@ -12,10 +12,10 @@ import { useSearchParams } from "react-router-dom";
 
 
 const Reviews = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, _] = useSearchParams();
 
     const [nameFilter, setNameFilter] = useState("")
-    const [openFilter, setOpenFilter] = useState(
+    const [openFilter, __] = useState(
         () => {
             const open = searchParams.get("open")
             if (open) return open
@@ -25,7 +25,7 @@ const Reviews = () => {
     const [page, setPage] = useState(1)
 
 
-    const { isLoading, isError, data, isSuccess } = useQuery({
+    const { data, isSuccess } = useQuery({
         queryKey: ['pending-reviews-pharmacies', nameFilter, openFilter, page],
         queryFn: () => getPendingReviewsPharmacies(nameFilter, openFilter, page),
         keepPreviousData: true

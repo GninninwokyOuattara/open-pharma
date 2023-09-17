@@ -1,4 +1,4 @@
-import { PharmacyBaseData } from "@/types/datatypes"
+import { PharmacyBaseData } from "@/types/dataTypes"
 import { ColumnDef } from "@tanstack/react-table"
 import ReviewTableRow from "../reviewTableRow"
 
