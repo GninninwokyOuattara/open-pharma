@@ -3,10 +3,12 @@ import {
   PharmacyData,
   PharmacyDataDetailed,
   PharmacyDataDetailedForMofication,
+  UserPharmacyData,
 } from "@/types/dataTypes";
 import axios from "axios";
 
 const url = import.meta.env.VITE_BACKEND_ADDRESS;
+const user_url = import.meta.env.VITE_BACKEND_USER_ADDRESS;
 
 export const getPharmacies = ({
   page = 1,
@@ -43,4 +45,8 @@ export const deactivatePharmacy = (id: string) => {
 
 export const getZones = () => {
   return axios.get<string[]>(`${url}/get-zones/`);
+};
+
+export const getUsersPharmaciesList = () => {
+  return axios.get<UserPharmacyData[]>(`${user_url}/pharmacies/`);
 };

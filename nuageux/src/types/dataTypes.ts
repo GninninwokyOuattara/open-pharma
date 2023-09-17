@@ -14,6 +14,11 @@ export interface PharmacyData extends Omit<PharmacyBaseData, "date_created"> {
   open: boolean;
 }
 
+export type UserPharmacyData = Omit<
+  PharmacyData,
+  "active" | "date_created" | "zone"
+>;
+
 export interface PharmacyDataDetailed extends PharmacyData {
   director: string;
   addresses: string[];
