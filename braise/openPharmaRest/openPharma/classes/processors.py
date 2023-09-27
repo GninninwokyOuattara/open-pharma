@@ -248,7 +248,7 @@ class PharmaConsultDataUpdateDBManager:
 class ActivityManager:
 
     @classmethod
-    def accepted_after_review(cls, pharmacy: Pharmacy):
+    def accepted_after_review(cls, pharmacy: PharmacyModel):
         Activity.objects.create(
             type="review",
             action="accepted",
@@ -257,7 +257,7 @@ class ActivityManager:
         )
 
     @classmethod
-    def rejected_after_review(cls, pharmacy: Pharmacy):
+    def rejected_after_review(cls, pharmacy: PharmacyModel):
 
         Activity.objects.create(
             type="state",
@@ -266,7 +266,7 @@ class ActivityManager:
         )
 
     @classmethod
-    def pharmacy_deactivated(cls, pharmacy: Pharmacy):
+    def pharmacy_deactivated(cls, pharmacy: PharmacyModel):
         Activity.objects.create(
             type="state",
             action="deactivation",
@@ -274,7 +274,7 @@ class ActivityManager:
         )
 
     @classmethod
-    def pharmacy_activated(cls, pharmacy: Pharmacy):
+    def pharmacy_activated(cls, pharmacy: PharmacyModel):
         Activity.objects.create(
             type="state",
             action="activation",
