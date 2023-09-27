@@ -1,5 +1,6 @@
 import { useAuth } from "@/contexts/auth"
 import { PharmacyDialogProvider } from "@/contexts/pharmacyDialogContext"
+import { ReviewTableProvider } from "@/contexts/reviewTableContext"
 import Dashboard from "@/pages/dashboard"
 import Login from "@/pages/login"
 import Pharmacies from "@/pages/pharmacies"
@@ -37,7 +38,12 @@ const RouterDef = () => {
 
                 </PharmacyDialogProvider>
             } />
-            <Route path="/reviews" element={<Reviews />} />
+            <Route path="/reviews" element={
+                <ReviewTableProvider>
+
+                    <Reviews />
+                </ReviewTableProvider>
+            } />
             <Route path="/login" element={<Navigate to="/dashboard" />} />
 
             <Route path="/*" element={<p>Page Not Found</p>} />
