@@ -67,7 +67,7 @@ const PharmaciesStatusTData: React.FC<PharmaciesStatusTDataProps> = ({ row }) =>
     return (
         <>
             <Switch
-                className="bg-red-500 text-red-500"
+                className="bg-red-500 m-1"
                 checked={row.original.active}
                 onCheckedChange={switcher}
                 aria-readonly

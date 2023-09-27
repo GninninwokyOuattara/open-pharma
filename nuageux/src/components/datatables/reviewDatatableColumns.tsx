@@ -18,6 +18,7 @@ export const columns: ColumnDef<PharmacyBaseData>[] = [
         ),
         cell: ({ row }) => (
             <Checkbox
+                className="m-1 ml-3"
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
                 aria-label="Select row"

@@ -40,7 +40,7 @@ const ReviewTableRow: React.FC<{ data: PharmacyBaseData }> = ({ data }) => {
 
 
     return (
-        <div className="flex flex-row justify-between h-16 md:h-auto">
+        <div className="flex flex-row justify-between h-16 md:h-auto h-fit p-2">
 
             <div className="flex flex-row w-full ">
                 <div className="flex flex-col lg:w-2/4 w-full md:w-2/3" >

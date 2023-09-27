@@ -100,10 +100,10 @@ export const DataTable = <TData, TValue>({
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
-                                    className="hover:bg-appPrimary"
+                                    className="hover:bg-appPrimary w-full"
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="font-bold">
+                                        <TableCell key={cell.id} className="font-bold  p-0">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
