@@ -1,4 +1,5 @@
 import { batchReviewPharmacies } from "@/api/reviewsApis"
+import { toast } from "@/components/ui/use-toast"
 import { useReviewTable } from "@/contexts/reviewTableContext"
 import { BatchReviewQueryData } from "@/types/apiTypes"
 import { PharmacyData } from "@/types/dataTypes"
@@ -8,6 +9,7 @@ import { useState } from "react"
 import { MdOutlinePendingActions } from "react-icons/md"
 import { Button } from "../ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
+
 
 const ReviewSelectedButton = () => {
 
@@ -20,13 +22,15 @@ const ReviewSelectedButton = () => {
 
     const batchAcceptMutation = useMutation({
         mutationFn: (data: BatchReviewQueryData) => batchReviewPharmacies(data),
-        onSuccess: () => {
+        onSuccess: (response) => {
             // Invalidate and refetch
             queryClient.invalidateQueries({ queryKey: ["pending-reviews-pharmacies"] })
             tableRef?.current?.toggleAllPageRowsSelected(false)
+            toast({ title: response.data.message })
 
         },
         onError: () => {
+            toast({ title: "An unexpected error occured, please try again later." })
 
         }
     })
@@ -107,7 +111,7 @@ const ReviewSelectedButton = () => {
                         />
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="max-h-[90%]  py-5">
+                <DialogContent className="max-h-[90%]  py-5 w-[95%]">
                     <DialogHeader>
                         <div className="flex flex-row h-8  gap-5 items-center">
 
@@ -173,7 +177,7 @@ const ReviewSelectedButton = () => {
                     </div>
 
                     <p className="text-xl">Below is the list of pharmacies</p>
-                    <div className="h-96 overflow-scroll">
+                    <div className="h-72 md:h-96 overflow-scroll">
 
                         {
                             tableRef?.current?.getFilteredSelectedRowModel().rows.map((row, index) => {
