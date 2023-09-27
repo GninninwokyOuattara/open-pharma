@@ -25,6 +25,13 @@ export interface RefreshTokenResponse
   > {}
 
 // REVIEWS RESPONSE TYPES
+export interface BatchReviewQueryData {
+  review_action: "accept" | "reject";
+  pharmacies: string[];
+}
+export interface BatchReviewResponse {
+  message: string;
+}
 export interface ReviewSuccessResponse {
   message: string;
   data: PharmacyBaseData;
