@@ -1,5 +1,6 @@
 
 import { getPendingReviewsPharmacies } from "@/api/reviewsApis";
+import ReviewSelectedButton from "@/components/buttons/reviewSelectedButton";
 import DataTable from "@/components/datatables/datatable";
 import { columns } from "@/components/datatables/reviewDatatableColumns";
 import TablePagination from "@/components/datatables/tablePagination";
@@ -13,6 +14,8 @@ import { useSearchParams } from "react-router-dom";
 
 const Reviews = () => {
     const [searchParams, _] = useSearchParams();
+    const [rowSelection, setRowSelection] = useState({})
+
 
     const [nameFilter, setNameFilter] = useState("")
     const [openFilter, __] = useState(
@@ -57,10 +60,15 @@ const Reviews = () => {
     return (
         <div className="px-4 pt-4">
 
-            <Input placeholder="Search pharmacies"
-                // value={nameFilter}
-                onChange={setFilterWithDelay}
-            />
+
+            <div className="w-full  flex items-center gap-2">
+
+                <Input placeholder="Search pharmacies"
+                    // value={nameFilter}
+                    onChange={setFilterWithDelay}
+                />
+                <ReviewSelectedButton />
+            </div>
             <div className="mt-4">
 
 
