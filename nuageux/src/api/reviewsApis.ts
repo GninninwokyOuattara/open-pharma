@@ -1,4 +1,8 @@
-import { ReviewSuccessResponse } from "@/types/apiTypes";
+import {
+  BatchReviewQueryData,
+  BatchReviewResponse,
+  ReviewSuccessResponse,
+} from "@/types/apiTypes";
 import { IPanigation, PharmacyBaseData } from "@/types/dataTypes";
 import axios from "axios";
 
@@ -24,3 +28,10 @@ export const getPendingReviewsPharmacies = (
   axios.get<IPanigation<PharmacyBaseData>>(
     `${url}/pharmacies-pending-review?name=${nameFilter}&open=${openFilter}&page=${page}`
   );
+
+export const batchReviewPharmacies = (data: BatchReviewQueryData) => {
+  return axios.post<BatchReviewResponse>(
+    `${url}/pharmacies-pending-review/batch-review/`,
+    data
+  );
+};
