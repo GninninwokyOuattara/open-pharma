@@ -184,6 +184,44 @@ class PharmaciesPendingReviewAsAdminViewset(ModelViewSetWithAuthorization, Resul
         except Exception as error:
             return Response({"message": "An unexpected error occured"}, status=500)
 
+    @action(detail=False, methods=["post"], url_path="batch-review")
+    def batch_review(self, request, *args, **kwargs):
+        review_action = request.data.get("review_action")
+        pharmacies = request.data.get("pharmacies")  # A list of pharmacy ids
+        sucess, failure = 0, 0
+
+        if review_action not in ["accept", "reject"]:
+            return Response("Invalid review action", status=400)
+
+        try:
+            for pharmacy_id in pharmacies:
+                # get pharmacy with pharmacy id
+                pharmacy_to_review = Pharmacy.objects.get(
+                    id=pharmacy_id)
+                print("Batch review of ", pharmacy_to_review.name)
+                if review_action == "accept":
+                    pharmacy_to_review.active = True
+                elif review_action == "reject":
+                    pharmacy_to_review.active = False
+
+                pharmacy_to_review.pending_review = False
+                pharmacy_to_review.save()
+                sucess += 1
+
+                if review_action == "accept":
+                    ActivityManager.accepted_after_review(pharmacy_to_review)
+                elif review_action == "reject":
+                    ActivityManager.rejected_after_review(pharmacy_to_review)
+
+        except Exception as error:
+            failure += 1
+
+        response_message = f"{sucess} pharmacies {review_action}ed and {failure} failed."
+        body = request.data
+        print("request body", body)
+
+        return Response({"message": response_message}, status=200)
+
 
 class PharmaciesActualizerView(ModelViewSetWithAuthorization):
 
