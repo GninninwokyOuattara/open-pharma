@@ -12,10 +12,10 @@ const PharmaciesTableRow: React.FC<{ data: PharmacyData }> = ({ data }) => {
 
     return (
 
-        <div className="flex flex-row hover:bg-appPrimary cursor-pointer  h-20 p-2" onClick={() => openModalForPharmacyWithId(data.id)}>
+        <div className="flex flex-row hover:bg-appPrimary cursor-pointer  h-20 p-2 " onClick={() => openModalForPharmacyWithId(data.id)}>
 
-            <div className="flex flex-row w-full lg:w-1/2 align-center">
-                <div className="flex flex-col  w-full" >
+            <div className="flex flex-row w-full lg:w-1/2 align-center ">
+                <div className="flex flex-col  w-full md:w-96 justify-center" >
                     <p>{data.name}</p>
 
                     {/* {data.zone &&
@@ -36,7 +36,7 @@ const PharmaciesTableRow: React.FC<{ data: PharmacyData }> = ({ data }) => {
 
                 </div>
 
-                <div id="rowCoordinates" className={`hidden md:flex w-64 text-appGray font-medium items-center gap-2 text-xs lg:hidden bg-green-500  ${data.coordinates.latitude == 0 && data.coordinates.longitude == 0 ? "text-red-500" : ""}`}>
+                <div id="rowCoordinates" className={`hidden md:flex w-64 text-appGray font-medium items-center gap-2 text-xs lg:hidden  ${data.coordinates.latitude == 0 && data.coordinates.longitude == 0 ? "text-red-500" : ""}`}>
                     <CiLocationOn size={15} />
                     <div>
                         {data.coordinates.latitude}, {data.coordinates.longitude}
