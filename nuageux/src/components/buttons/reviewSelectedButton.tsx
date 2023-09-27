@@ -5,7 +5,6 @@ import { BatchReviewQueryData } from "@/types/apiTypes"
 import { PharmacyData } from "@/types/dataTypes"
 import { DialogClose } from "@radix-ui/react-dialog"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useState } from "react"
 import { MdOutlinePendingActions } from "react-icons/md"
 import { Button } from "../ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
@@ -14,7 +13,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 const ReviewSelectedButton = () => {
 
     const { tableRef, globalCheckButtonMode, selectedPharmaciesLength } = useReviewTable()
-    const [selectedPharmacies, setSelectedPharmacies] = useState<string[]>([])
 
     console.log("Check selected", globalCheckButtonMode)
 
@@ -34,13 +32,6 @@ const ReviewSelectedButton = () => {
 
         }
     })
-
-    // const mutation = useMutation({
-
-    // })
-
-
-
 
 
     const handle = () => {
@@ -192,30 +183,7 @@ const ReviewSelectedButton = () => {
                         }
 
                     </div>
-                    {/* <DialogDescription>Should this pharmacy be accepted or rejected ?</DialogDescription>
-                    <DialogDescription><span className="text-appOrange">Accept</span> : Make it visible to users</DialogDescription>
-                    <DialogDescription><span className="text-appOrange">Reject</span> : Users won't see this pharmacy</DialogDescription> */}
 
-                    {/* <DialogFooter className="flex flex-col flex-col">
-                        <Button
-                            type="submit"
-                            onClick={() => { }}
-                            className="hover:bg-appOrange"
-                        >
-
-                            Accept
-
-                        </Button>
-                        <div className="mt-4"></div>
-                        <Button
-                            type="submit"
-                            onClick={() => { }}
-                            className="hover:bg-appOrange"
-
-                        >
-                            Reject
-                        </Button>
-                    </DialogFooter> */}
                 </DialogContent>
             </Dialog>
 
