@@ -59,13 +59,16 @@ export const DataTable = <TData, TValue>({
 
     if (table && tableRef) tableRef.current = table
     useEffect(() => {
-        console.log("1", tableRef?.current?.getFilteredSelectedRowModel().rows.length)
-        console.log("2", tableRef?.current?.getRowModel().rows.length)
 
         const selectPharmaciesLength = tableRef?.current?.getFilteredSelectedRowModel().rows.length || 0
         setSelectedPharmaciesLength(selectPharmaciesLength)
 
-        if (tableRef?.current?.getFilteredSelectedRowModel().rows.length === tableRef?.current?.getRowModel().rows.length) {
+        if (tableRef?.current?.getRowModel().rows.length === 0) {
+            setGlobalCheckButtonMode("Check All");
+        }
+
+        else if (tableRef?.current?.getFilteredSelectedRowModel().rows.length === tableRef?.current?.getRowModel().rows.length) {
+
             setGlobalCheckButtonMode("Uncheck All")
         } else {
             setGlobalCheckButtonMode("Check All")
