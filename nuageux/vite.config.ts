@@ -6,9 +6,9 @@ import { VitePWA, VitePWAOptions } from "vite-plugin-pwa";
 const manifestForPlugIn: Partial<VitePWAOptions> = {
   registerType: "prompt",
   // includeAssets: ["favicon.ico"],
-  devOptions: {
-    enabled: true,
-  },
+  // devOptions: {
+  //   enabled: true,
+  // },
   manifest: {
     name: "Open Pharma",
     short_name: "react-vite-app",
