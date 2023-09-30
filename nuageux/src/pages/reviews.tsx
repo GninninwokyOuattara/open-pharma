@@ -14,7 +14,6 @@ import { useSearchParams } from "react-router-dom";
 
 const Reviews = () => {
     const [searchParams, _] = useSearchParams();
-    const [rowSelection, setRowSelection] = useState({})
 
 
     const [nameFilter, setNameFilter] = useState("")
