@@ -8,6 +8,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { useQuery } from "@tanstack/react-query"
+import React from "react"
 
 
 interface ZoneSelectInputProps {
@@ -28,6 +29,7 @@ const ZoneSelectInput: React.FC<ZoneSelectInputProps> = ({ selectFn, initialValu
 
     return (
         <Select
+
             disabled={isLoading}
             defaultValue={initialValue ? initialValue : undefined}
 
@@ -45,7 +47,14 @@ const ZoneSelectInput: React.FC<ZoneSelectInputProps> = ({ selectFn, initialValu
                 />
 
             </SelectTrigger>
-            <SelectContent className="h-64" >
+            <SelectContent
+                ref={(ref) => {
+                    if (!ref) return
+                    ref.ontouchstart = (e) => {
+                        e.preventDefault()
+                    }
+                }}
+                className="h-64" >
                 <SelectItem
                     key={"g1"}
                     value={"*"}
