@@ -5,6 +5,7 @@ import { BatchReviewQueryData } from "@/types/apiTypes"
 import { PharmacyData } from "@/types/dataTypes"
 import { DialogClose } from "@radix-ui/react-dialog"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import React from "react"
 import { MdOutlinePendingActions } from "react-icons/md"
 import { Button } from "../ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
@@ -14,7 +15,6 @@ const ReviewSelectedButton = () => {
 
     const { tableRef, globalCheckButtonMode, selectedPharmaciesLength } = useReviewTable()
 
-    console.log("Check selected", globalCheckButtonMode)
 
     const queryClient = useQueryClient();
 
@@ -174,10 +174,12 @@ const ReviewSelectedButton = () => {
                             tableRef?.current?.getFilteredSelectedRowModel().rows.map((row, index) => {
                                 const pharmacy = row.original as PharmacyData
                                 return (
-                                    <>
-                                        <DialogDescription>{index + 1}. {pharmacy.name}</DialogDescription>
+                                    <React.Fragment key={index}>
+                                        <DialogDescription>
+                                            {index + 1}. {pharmacy.name}
+                                        </DialogDescription>
 
-                                    </>
+                                    </React.Fragment>
                                 )
                             })
                         }
