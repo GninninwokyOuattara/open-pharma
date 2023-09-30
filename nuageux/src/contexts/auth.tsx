@@ -68,6 +68,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                     })
                 }
 
+            } else if (error.code === "ERR_NETWORK") {
+                toast({
+                    title: "A network error occured. Please try again later.",
+                })
             }
 
 
