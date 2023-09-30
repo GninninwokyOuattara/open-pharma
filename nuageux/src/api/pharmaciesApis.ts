@@ -7,8 +7,7 @@ import {
 } from "@/types/dataTypes";
 import axios from "axios";
 
-const url = import.meta.env.VITE_BACKEND_ADDRESS;
-const user_url = import.meta.env.VITE_BACKEND_USER_ADDRESS;
+import { administratorEndpoint, usersEndpoint } from "@/constants/endpoint";
 
 export const getPharmacies = ({
   page = 1,
@@ -18,35 +17,41 @@ export const getPharmacies = ({
   openFilter = "",
 }) => {
   return axios.get<IPanigation<PharmacyData>>(
-    `${url}/pharmacies/?name=${nameFilter}&zone=${zoneFilter}&active=${activeFilter}&open=${openFilter}&page=${page}`
+    `${administratorEndpoint}/pharmacies/?name=${nameFilter}&zone=${zoneFilter}&active=${activeFilter}&open=${openFilter}&page=${page}`
   );
 };
 
 export const getPharmacyDetails = (id: string) => {
-  return axios.get<PharmacyDataDetailed>(`${url}/pharmacies/${id}/`);
+  return axios.get<PharmacyDataDetailed>(
+    `${administratorEndpoint}/pharmacies/${id}/`
+  );
 };
 
 export const updatePharmacyDetails = (
   data: PharmacyDataDetailedForMofication
 ) => {
   return axios.patch<PharmacyDataDetailed>(
-    `${url}/pharmacies/${data.id}/`,
+    `${administratorEndpoint}/pharmacies/${data.id}/`,
     data
   );
 };
 
 export const activatePharmacy = (id: string) => {
-  return axios.post<PharmacyData>(`${url}/pharmacies/${id}/activate/`);
+  return axios.post<PharmacyData>(
+    `${administratorEndpoint}/pharmacies/${id}/activate/`
+  );
 };
 
 export const deactivatePharmacy = (id: string) => {
-  return axios.post<PharmacyData>(`${url}/pharmacies/${id}/deactivate/`);
+  return axios.post<PharmacyData>(
+    `${administratorEndpoint}/pharmacies/${id}/deactivate/`
+  );
 };
 
 export const getZones = () => {
-  return axios.get<string[]>(`${url}/get-zones/`);
+  return axios.get<string[]>(`${administratorEndpoint}/get-zones/`);
 };
 
 export const getUsersPharmaciesList = () => {
-  return axios.get<UserPharmacyData[]>(`${user_url}/pharmacies/`);
+  return axios.get<UserPharmacyData[]>(`${usersEndpoint}/pharmacies/`);
 };
