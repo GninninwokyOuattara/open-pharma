@@ -1,21 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { UserLocationContext } from '../contexts/UserLocationContext';
+import { useUserLocation } from '../contexts/UserLocationContext';
 import PharmacyShowMode from './PharmacyDisplayMode';
 import PharmacyListOrder from './PharmacyListOrder';
 import CustomSearchBar from './screens-components/bottomsheet-components/CustomSearchBar';
 import CustomReInitializationButton from './utility-components/CustomReInitializationButton';
 import CustomShowsMyLocationButton from './utility-components/CustomShowsMyLocationButton';
 
-interface Props {
-    setIsProximityMode: React.Dispatch<React.SetStateAction<boolean>>
-}
 
-const ToolBar: React.FC<Props> = ({ setIsProximityMode }) => {
+const ToolBar = () => {
 
     const insets = useSafeAreaInsets();
-    const { location, errorMsg } = useContext(UserLocationContext);
 
 
     return (
@@ -33,19 +29,18 @@ const ToolBar: React.FC<Props> = ({ setIsProximityMode }) => {
                         flex: 1,
                         flexDirection: "row"
                     }}>
-                    <PharmacyShowMode />
-                    <PharmacyListOrder {...{ setIsProximityMode }} />
-                    {/* <Tag title={"Pharmacie de garde"} /> */}
-                    {/* <Tag title={"Toutes les pharmacies"} /> */}
-                    {/* <Tag title={"Toutes les pharmacies"} /> */}
+
+                    <ToolBarModes />
+
                 </ScrollView>
                 <View style={{
                     // flex: 1,
                     flexDirection: "row-reverse",
                     // marginRight: 1,
                 }}>
-                    {location && <CustomShowsMyLocationButton />}
+
                     <CustomReInitializationButton />
+                    <LocationButtonContainer />
 
 
                 </View>
@@ -57,3 +52,31 @@ const ToolBar: React.FC<Props> = ({ setIsProximityMode }) => {
 }
 
 export default ToolBar
+
+
+const ToolBarModes = () => {
+
+    const [isProximityMode, setIsProximityMode] = useState(false)
+
+    return (
+        <>
+            <PharmacyShowMode />
+            <PharmacyListOrder {...{ setIsProximityMode }} />
+        </>
+    )
+
+}
+
+
+const LocationButtonContainer = () => {
+
+    const { location } = useUserLocation()
+
+    if (location) {
+        return (
+            <CustomShowsMyLocationButton />
+        )
+    } else {
+        return <View />
+    }
+}

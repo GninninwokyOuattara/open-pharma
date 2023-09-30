@@ -4,6 +4,7 @@ import { palette } from "../colorPalette";
 import EditModalContext, { EditModalContextInterface } from "../contexts/EditModalContext";
 import { PharmaciesContext, PharmaciesContextInterface } from "../contexts/pharmaciesContext";
 import { ToastContext, ToastContextInterface } from "../contexts/toast";
+import { useUserAuthContext } from "../contexts/userAuthContext";
 import { isValidCoordinateValue } from "../utils/dry";
 
 // import Lorem component
@@ -29,6 +30,7 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
     // get successToast and errorToast from context
 
     const { successToast, errorToast } = useContext(ToastContext) as ToastContextInterface
+    const { authData, logout } = useUserAuthContext()
 
     const backendUrl = import.meta.env.VITE_APP_DJANGO_API_URL;
 
@@ -41,8 +43,6 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
     const { pharmacyInEditMode: pharmacyForm, setPharmacyInEditMode: setPharmacyForm, isOpen: open, closeEditPharmacyModal } = useContext(EditModalContext) as EditModalContextInterface
 
 
-    console.log("Modal state", open)
-    console.log("Pharmacy to be used", pharmacyForm)
 
 
 
@@ -98,31 +98,47 @@ const EditPharmacyModal: React.FC<EditPharmacyModalProps> = ({ isOpen, onClose }
             return
 
         }
-        const options = {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(pharmacyForm)
-        }
 
-        try {
+        if (authData && "access" in authData) {
 
-            if (!pharmacyForm) {
-                return
+            const options = {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${authData.access}`
+                },
+                body: JSON.stringify(pharmacyForm)
             }
 
-            const response = await fetch(`${backendUrl}/admin-api/pharmacies/${pharmacyForm.id}/`, options)
-            const data = await response.json()
-            updatePharmacyInPharmacies(data)
-            successToast("Sucess", "Pharmacy updated successfully")
-            // closeEditingPharmacyModal()
-            closeEditPharmacyModal()
-        }
-        catch (error) {
+            try {
 
-            errorToast("Error", "Something went wrong")
+                if (!pharmacyForm) {
+                    return
+                }
+
+                const response = await fetch(`${backendUrl}/admin-api/pharmacies/${pharmacyForm.id}/`, options)
+                const data = await response.json()
+                updatePharmacyInPharmacies(data)
+
+                if (response.ok) {
+                    successToast("", "Pharmacy updated successfully")
+                    closeEditPharmacyModal()
+
+                } else {
+                    errorToast("", "Something went wrong")
+                }
+                // successToast("", "Pharmacy updated successfully")
+                // closeEditingPharmacyModal()
+            }
+            catch (error) {
+
+                errorToast("", "Something went wrong")
+            }
+        } else {
+            logout()
         }
+
+
 
 
 

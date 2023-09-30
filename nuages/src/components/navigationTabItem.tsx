@@ -27,7 +27,7 @@ function NavigationTabItem({ route, idx }: props) {
             marginBottom={1}
 
             _hover={{
-                backgroundColor: "whiteAlpha.600"
+                backgroundColor: palette.app.white
             }}
 
 
@@ -79,5 +79,8 @@ function NavigationTabItem({ route, idx }: props) {
         </ListItem>
     )
 }
+
+
+
 
 export default NavigationTabItem

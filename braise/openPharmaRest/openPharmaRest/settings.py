@@ -34,7 +34,7 @@ SECRET_KEY = 'django-insecure-_$gcagc*ak9h)$##7(gg+z#8q$fy8y)g1*lh=j@6o$o^d)#=%2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.1.13", "localhost"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -49,17 +49,15 @@ INSTALLED_APPS = [
     'django_crontab',
     'openPharma',
     'rest_framework',
-    'googleMapsScrapper',
-    'openTracker',
     'rest_framework_swagger',
     "corsheaders",
     "rest_framework_simplejwt",
 ]
 
 SIMPLE_JWT = {
-        "ACCESS_TOKEN_LIFETIME" : timedelta(minutes = 10),
-        "REFRESH_TOKEN_LIFETIME" : timedelta(days = 1)
-        }
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1)
+}
 
 REST_FRAMEWORK = {
     "DATE_FORMAT": '%d/%m/%Y',
@@ -69,6 +67,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': 25
 
 }
 
@@ -179,8 +180,10 @@ CRONJOBS = [
 
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React
-    "http://localhost:4173"
+    "http://localhost:3000", # React App
 ]
+
+# CORS_ALLOWED_ORIGIN_REGEXES = []

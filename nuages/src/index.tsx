@@ -4,11 +4,13 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 
+
 import { ChakraProvider } from '@chakra-ui/react';
 import { ToastProvider } from './contexts/toast';
 
 import { RouterProvider } from 'react-router-dom';
 
+import { ReactQueryClientProvider } from './contexts/reactQueryClientProvider';
 import { UserAuthContextProvider } from './contexts/userAuthContext';
 import appRouting from './router';
 
@@ -18,14 +20,20 @@ const root = ReactDOM.createRoot(
 
 
 
+
 root.render(
   <React.StrictMode>
     <ChakraProvider>
       <ToastProvider>
-        <UserAuthContextProvider>
-          <RouterProvider router={appRouting} />
+        <ReactQueryClientProvider>
 
-        </UserAuthContextProvider>
+
+          <UserAuthContextProvider>
+            <RouterProvider router={appRouting} />
+
+          </UserAuthContextProvider>
+        </ReactQueryClientProvider>
+
       </ToastProvider>
     </ChakraProvider>
   </React.StrictMode>

@@ -20,11 +20,11 @@ const Layout = () => {
             maxW={"100vw"}
             maxH={"100vh"}
             overflow={"hidden"}
-            backgroundColor={palette.custom.veryLightOrange}
+            backgroundColor={palette.app.background}
 
         >
             {/* <VStack spacing={10}> */}
-            <Flex height={"100%"} width={"100%"}>
+            <Flex height={"100%"} width={"100%"} flexDirection={["column", "column", "column", "row"]}>
                 <NavigationBar />
                 <Box
                     width={"100%"}
@@ -36,7 +36,7 @@ const Layout = () => {
                     // borderWidth={1}
                     // borderColor="orange.200"
                     borderRadius={5}
-                    backgroundColor={palette.custom.veryLightOrange}
+                // backgroundColor={palette.custom.veryLightOrange}
                 >
                     <Outlet />
                 </Box>

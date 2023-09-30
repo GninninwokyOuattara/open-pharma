@@ -1,12 +1,22 @@
 FROM python:3.10-alpine
+LABEL maintainer="Ouattara Idriss idrissgouattara@gmail.com"
+
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-RUN pip install pipenv
-WORKDIR /app
+ENV DB_ENGINE=django.db.backends.postgresql
+ENV DB_NAME=openpharma
+ENV DB_USER=postgres
+ENV DB_PASSWORD=postgres
+ENV DB_HOST=postgres
+ENV DB_PORT=5432
+
 COPY Pipfile Pipfile.lock /app/
-RUN pipenv install --system --deploy
+WORKDIR /app
+RUN pip install pipenv &&\
+    pipenv install --system --deploy
+
 COPY . .
 WORKDIR /app/openPharmaRest
-EXPOSE 8000
-CMD ["python", "manage.py", "runserver"]
+EXPOSE 8080
+CMD ["python", "manage.py", "runserver","0.0.0.0:8080"]
 

@@ -158,3 +158,5 @@ _temp/
 charbon/ignore/
 braise/openPharmaRest/openTracker/migrations/
 migrations/
+ios/
+braise/openPharmaRest/openPharma/main.py

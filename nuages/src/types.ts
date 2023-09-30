@@ -1,3 +1,10 @@
+export interface PharmacyBaseInfo {
+  id: string;
+  name: string;
+  zone: string;
+  date_created: string;
+}
+
 export interface Pharmacy {
   id: string;
   name: string;

@@ -112,7 +112,7 @@ export const PharmaciesContextProvider = ({ children }: any) => {
 
             try {
 
-                const response = await fetch(`${backendUrl}/admin-api/pharmacies/`, {
+                const response = await fetch(`${backendUrl}/admin-api/active-pharmacies-states/`, {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${authData.access}`
@@ -180,27 +180,45 @@ export const PharmaciesContextProvider = ({ children }: any) => {
     }
 
     const toggleActivity = async (pharmacy: PharmacyFullState) => {
-        try {
 
-            const response = await fetch(`${backendUrl}/admin-api/pharmacies/${pharmacy.id}/${pharmacy.active ? "deactivate" : "activate"}/`, {
-                method: "POST"
-            })
+        if (authData && "access" in authData) {
 
-            const res = await response.json()
+            try {
 
-            setPharmacies((prev) => {
-                const newPharmacies: PharmacyFullState[] = prev.map((pharmacy) => {
-                    if (pharmacy.id === res.id) {
-                        return res
+                const response = await fetch(`${backendUrl}/admin-api/pharmacies/${pharmacy.id}/${pharmacy.active ? "deactivate" : "activate"}/`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${authData.access}`
                     }
-                    return pharmacy
                 })
-                return newPharmacies
-            })
 
-            return res as PharmacyFullState
-        } catch (error: any) {
-            throw error
+
+                const res = await response.json()
+
+                if (!response.ok) {
+                    throw new Error(res.detail)
+                    // errorToast(res.detail)
+                }
+
+                setPharmacies((prev) => {
+                    const newPharmacies: PharmacyFullState[] = prev.map((pharmacy) => {
+                        if (pharmacy.id === res.id) {
+                            return res
+                        }
+                        return pharmacy
+                    })
+                    return newPharmacies
+                })
+
+                return res as PharmacyFullState
+            } catch (error: any) {
+                // throw error
+                handleError(error)
+            }
+
+        } else {
+            logout()
         }
 
 

@@ -11,6 +11,7 @@ import {
   FETCH_ALL_PHARMACIES,
   GET_OPH_CURRENT_STATE,
   SET_LOADING_STATE,
+  UPDATE_PHARMACIES_DISTANCES,
 } from "./actions";
 
 import { LocationObject } from "expo-location";
@@ -198,6 +199,16 @@ export const getOpenPharmaPharmaciesDatas = (
         data: false,
       });
     }
+  };
+};
+
+export const updateProximity = (pharmacies: PharmacyFullState[]) => {
+  return async (dispatch: any) => {
+    console.log("DISPATCHED");
+    dispatch({
+      type: UPDATE_PHARMACIES_DISTANCES,
+      data: { pharmacies: pharmacies },
+    });
   };
 };
 

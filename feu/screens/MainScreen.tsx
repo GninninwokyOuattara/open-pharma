@@ -1,99 +1,30 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 
 
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import BottomBar from "../components/screens-components/BottomBar";
-import { UserLocationContext } from "../contexts/UserLocationContext";
-import { RootReducerType } from "../types/dataTypes";
 
-import Map from "../components/screens-components/Map";
 
 import MainBottomSheet from "../components/screens-components/BottomSheet";
-import ToolBar from "../components/ToolBar";
-import { MapContext } from "../contexts/MapContext";
-import useInitializer from "../hooks/useInitializer";
 import { getOpenPharmaPharmaciesDatas } from "../stores/pharmaciesActions";
 
-import * as Location from "expo-location";
-import { UPDATE_RELATIVE_DISTANCES } from "../stores/actions";
+import ToolBar from "../components/ToolBar";
+import AppMap from "../components/screens-components/AppMap";
 
 
 
 const MainScreen = () => {
-    const insets = useSafeAreaInsets();
-
-    const [isMapLoaded, setIsMapLoaded] = useState(false);
-    const [isProximityMode, setIsProximityMode] = useState<boolean>(false);
-
-    const updatePharmaciesDistancesIntervalId = useRef<number | null>(null)
-
 
     const dispatch = useDispatch();
-    const pharmacies = useSelector((state: RootReducerType) => {
-        return state.pharmacies.toDisplayInBottomSheet;
-    });
-    const isLococationPermissionGranted = useSelector((state: RootReducerType) => {
-        return state.pharmacies.isLocationPermissionGranted;
-    });
 
-    const { location } = useContext(UserLocationContext)
-    const { setIsFetching } = useContext(MapContext)
-
-    const { init } = useInitializer()
-
-
-
-
-    const dispatchUpdatePharmaciesDistancestoUser = useCallback(() => {
-        if (!isLococationPermissionGranted) {
-            return
-        }
-
-        Location.getCurrentPositionAsync({}).then((location) => {
-            dispatch({
-                type: UPDATE_RELATIVE_DISTANCES,
-                data: location
-            })
-        })
-    }, [isLococationPermissionGranted, dispatch])
 
 
     React.useEffect(() => {
-
-        if (isLococationPermissionGranted) {
-            Location.getCurrentPositionAsync({}).then((location) => {
-                dispatch(getOpenPharmaPharmaciesDatas(location))
-
-            });
-
-        } else {
-            dispatch(getOpenPharmaPharmaciesDatas(null))
-        }
-
-
-
+        dispatch(getOpenPharmaPharmaciesDatas(null));
     }, [])
 
-    useEffect(() => {
-        if (isLococationPermissionGranted) {
-            updatePharmaciesDistancesIntervalId.current = setInterval(() => {
 
-                dispatchUpdatePharmaciesDistancestoUser()
-
-            }, 10000)
-        }
-
-        return () => {
-            if (updatePharmaciesDistancesIntervalId.current) {
-                clearInterval(updatePharmaciesDistancesIntervalId.current)
-            }
-        }
-
-    }, [isLococationPermissionGranted, dispatchUpdatePharmaciesDistancestoUser])
-
-    console.log("RERENDER PARENT")
 
 
 
@@ -105,13 +36,10 @@ const MainScreen = () => {
                 flex: 1,
             }}
         >
-
-            <Map setIsMapLoaded={setIsMapLoaded} />
-
+            <AppMap />
             <MainBottomSheet />
             <BottomBar />
-
-            <ToolBar {...{ setIsProximityMode }} />
+            <ToolBar />
 
 
         </View>
