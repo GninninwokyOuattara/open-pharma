@@ -34,22 +34,15 @@ const ReviewSelectedButton = () => {
     })
 
 
-    const handle = () => {
-        if (tableRef?.current) {
-            console.log(tableRef.current.getFilteredSelectedRowModel().rows)
-        }
-    }
 
     const checkAll = () => {
         if (tableRef?.current) {
             if (globalCheckButtonMode === "Check All") {
                 tableRef.current.toggleAllPageRowsSelected(true)
-                console.log(tableRef.current.getFilteredSelectedRowModel())
 
 
             } else {
                 tableRef.current.toggleAllPageRowsSelected(false)
-                console.log(globalCheckButtonMode, "SelectedPharmacies", tableRef.current.getFilteredSelectedRowModel())
 
             }
         }
@@ -64,7 +57,6 @@ const ReviewSelectedButton = () => {
             })
         }
 
-        console.log("Selected Pharmacies", pharmaciesIds)
 
         batchAcceptMutation.mutate(
             {
@@ -94,8 +86,7 @@ const ReviewSelectedButton = () => {
                 <DialogTrigger asChild>
                     <Button
                         id="reviewAll"
-                        className={`bg-orange-500 hover:bg-orange-600 ${selectedPharmaciesLength > 0 ? "block" : "hidden"}`}
-                        onClick={handle}
+                        className={`animate-pulse bg-orange-500 hover:bg-orange-600 ${selectedPharmaciesLength > 0 ? "block" : "hidden"}`}
                     >
                         <MdOutlinePendingActions size={26}
                             className={"text-appWhite"}
