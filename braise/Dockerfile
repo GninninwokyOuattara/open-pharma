@@ -18,5 +18,6 @@ RUN pip install pipenv &&\
 COPY . .
 WORKDIR /app/openPharmaRest
 EXPOSE 8080
-CMD ["python", "manage.py", "runserver","0.0.0.0:8080"]
+# CMD ["python", "manage.py", "runserver","0.0.0.0:8080"]
+CMD crond && python manage.py runserver 0.0.0.0:8080
 
