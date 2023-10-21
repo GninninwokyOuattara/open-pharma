@@ -170,7 +170,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CRONJOBS = [
-    ("*/1 * * * *", "django.core.management.call_command",
+    ("* * * * 5", "django.core.management.call_command",
      ["actualize"], {}, f">> {DIR_PATH}/cron_actualize.log 2>&1"),
 
     #  NB :
@@ -183,7 +183,7 @@ CRONJOBS = [
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000", # React App
+    "http://localhost:3000",  # React App
 ]
 
 # CORS_ALLOWED_ORIGIN_REGEXES = []
