@@ -8,4 +8,4 @@ if (!backendAddress || !backendPort) {
 const backendUrl = backendAddress + ":" + backendPort;
 
 export const administratorEndpoint = backendUrl + "/admin-api";
-export const usersEndpoint = backendUrl + backendPort + "/api";
+export const usersEndpoint = backendUrl + "/api";
