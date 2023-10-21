@@ -15,9 +15,13 @@ WORKDIR /app
 RUN pip install pipenv &&\
     pipenv install --system --deploy
 
+# RUN echo "* * * * 5 ./cron-actualize.sh" >> /app/crontab
+
 COPY . .
 WORKDIR /app/openPharmaRest
+
+RUN python manage.py crontab add
+
 EXPOSE 8080
-# CMD ["python", "manage.py", "runserver","0.0.0.0:8080"]
 CMD crond && python manage.py runserver 0.0.0.0:8080
 
