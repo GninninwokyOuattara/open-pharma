@@ -19,7 +19,7 @@ RUN yarn build
 # COPY --from=build /app/dist/ /app/dist/
 # RUN npm install -g serve
 FROM nginx as server
-COPY --from=build /app/dist/ /usr/share/nginx/html
+COPY --from=build /app/dist/ /app/dist
 
-EXPOSE 80
+EXPOSE 80 3000 8080
 CMD ["nginx", "-g", "daemon off;"]
