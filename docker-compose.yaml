@@ -1,53 +1,41 @@
-version: '3.1'
+version: "3.1"
 name: open-pharma-app
 services:
-  db:
-    image: postgres:14.5-alpine
-    ports:
-      - "5432:5432"
+  database:
+    image: postgres:latest
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: openpharmarest
+      POSTGRES_DB: openpharma
     volumes:
-      - postgresdb:/var/lib/postgresql/data
+      - postgresql:/var/lib/postgresql/data
+    networks:
+      - openpharma
 
-  django_app:
+  braise:
     depends_on:
-      - db
+      - database
     build: ./braise
-    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    ports:
-      - "8000:8000"
     environment:
-      DB_ENGINE: django.db.backends.postgresql
-      DB_NAME: openpharmarest
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_HOST: db
-      DB_PORT: 5432
+      DB_HOST: database
+    networks:
+      - openpharma
 
-  django_app_cron:
+  nuageux:
     depends_on:
-      - django_app
-    build: ./braise
-    command: sh -c "python manage.py crontab add && crond -f"
-    environment:
-      DB_ENGINE: django.db.backends.postgresql
-      DB_NAME: openpharmarest
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_HOST: db
-      DB_PORT: 5432
-
-  react_app:
-    depends_on:
-      - django_app_cron
+      - braise
     build:
-      context: ./nuages
+      context: ./nuageux
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - openpharma
     ports:
+      - "8080:8080"
       - "3000:3000"
-    environment:
-      - REACT_APP_DJANGO_API_URL=http://django_app:8000
+
+networks:
+  openpharma:
 volumes:
-  postgresdb:
+  postgresql:
+    external: true
