@@ -13,11 +13,13 @@ RUN yarn install
 COPY . /app/
 RUN yarn build
 
-FROM node:16.15.1-alpine as server
+# FROM node:16.15.1-alpine as server
 
-WORKDIR /app
-COPY --from=build /app/dist/ /app/dist/
-RUN npm install -g serve
+# WORKDIR /app
+# COPY --from=build /app/dist/ /app/dist/
+# RUN npm install -g serve
+FROM nginx as server
+COPY --from=build /app/dist/ /usr/share/nginx/html
 
-EXPOSE 3000
-CMD ["serve", "-s", "/app/dist/"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
