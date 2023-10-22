@@ -26,6 +26,8 @@ services:
       - braise
     build:
       context: ./nuageux
+    environment:
+      VITE_BACKEND_ADDRESS: http://192.168.1.22
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
     networks:
