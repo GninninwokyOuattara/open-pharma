@@ -1,0 +1,25 @@
+name : "Build the nuageux app"
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build_application:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v2
+      - name : "Setting up node with actions/setup-node@v3"
+        uses : actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name : "Installing yarn with npm"
+        run : |
+          npm install -g yarn
+      - name : "installing packages for the nuageux app"
+        working-directory: nuageux
+        run : |
+          yarn install
+      - name : "building the nuageux app"
+        working-directory: nuageux
+        run : |
+          yarn build
