@@ -19,4 +19,4 @@ jobs:
       - name : "building the nuageux app"
         working-directory: nuageux
         run : |
-          npm build
+          npm run build
