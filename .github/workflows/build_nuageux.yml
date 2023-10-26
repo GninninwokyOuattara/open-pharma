@@ -1,10 +1,10 @@
-name : "Build the nuageux app"
+name : "Nuageux Web Application"
 on:
   push:
     branches:
       - main
 jobs:
-  build_application:
+  build-app:
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v2
