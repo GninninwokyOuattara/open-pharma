@@ -3,12 +3,13 @@ LABEL maintainer="Ouattara Idriss idrissgouattara@gmail.com"
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV DB_ENGINE=django.db.backends.postgresql
-ENV DB_NAME=openpharma
-ENV DB_USER=postgres
-ENV DB_PASSWORD=postgres
-ENV DB_HOST=postgres
-ENV DB_PORT=5432
+ARG DB_ENGINE=django.db.backends.postgresql
+ARG DB_NAME=openpharma
+ARG DB_USER=postgres
+ARG DB_PASSWORD=postgres
+ARG DB_HOST=postgres
+ARG DB_PORT=5432
+ARG DEBUG False
 
 COPY Pipfile Pipfile.lock /app/
 WORKDIR /app
