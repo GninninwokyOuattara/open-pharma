@@ -25,7 +25,7 @@ export const getPendingReviewsPharmacies = (
   page = 1
 ) =>
   axios.get<IPanigation<PharmacyBaseData>>(
-    `${administratorEndpoint}/pharmacies-pending-review?name=${nameFilter}&open=${openFilter}&page=${page}`
+    `${administratorEndpoint}/pharmacies-pending-review/?name=${nameFilter}&open=${openFilter}&page=${page}`
   );
 
 export const batchReviewPharmacies = (data: BatchReviewQueryData) => {
