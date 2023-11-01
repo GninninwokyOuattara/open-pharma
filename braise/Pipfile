@@ -14,6 +14,7 @@ python-dotenv = "*"
 django-rest-swagger = "*"
 django-cors-headers = "*"
 djangorestframework-simplejwt = "*"
+gunicorn = "*"
 
 [dev-packages]
 autopep8 = "*"
