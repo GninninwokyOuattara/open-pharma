@@ -1,10 +1,11 @@
-name : "Nuageux Web Application"
+name : "Build Nuageux Web Application"
 on:
   push:
     branches:
       - main
+      - develop
 jobs:
-  build-app:
+  build:
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v2
@@ -17,6 +18,8 @@ jobs:
         run : |
           npm install
       - name : "building the nuageux app"
+        env:
+          VITE_BACKEND_ADDRESS: ${{ secrets.VITE_BACKEND_ADDRESS }}
         working-directory: nuageux
         run : |
-          npm run build
+          npm run build      
