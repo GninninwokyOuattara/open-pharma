@@ -1,5 +1,0 @@
-PHARMA_CONSULTS_TABLE = "table"
-PHARMA_CONSULTS_ROW = "table > tbody > tr"
-PHARMA_CONSULTS_ROW_DATAS = "td"
-
-
