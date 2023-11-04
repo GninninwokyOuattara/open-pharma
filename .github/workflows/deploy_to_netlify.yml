@@ -27,26 +27,12 @@ jobs:
         run : |
           npm run build
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v2.0 
+        uses: jsmrcaga/action-netlify-deploy@v2.0.0
         with:
-          publish-dir: 'nuageux/dist'
-          production-branch: 'main'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Automatic deployment from GitHub Actions from ref ${{ github.ref }} on commit ${{ github.sha }}"
-          enable-pull-request-comment: false
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
-      - run: |
-          echo ${{secrets.NETLIFY_AUTH_TOKEN}} | sed 's/./& /g'
-          echo ${{secrets.NETLIFY_SITE_ID}} | sed 's/./& /g'
-          echo ${{secrets.VITE_BACKEND_ADDRESS}} | sed 's/./& /g'
-          pwd
-          ls nuageux
-          echo --------------------------------------
-          ls nuageux/dist
-        env:
+          build_directory: nuageux/dist
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        timeout-minutes: 1
+          NETLIFY_DEPLOY_MESSAGE: "Automatic Deployment from ref ${{ github.ref }} on commit ${{ github.sha }}"
+          NETLIFY_DEPLOY_TO_PROD: true
      
   
