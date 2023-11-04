@@ -7,8 +7,10 @@ on:
       - main
 jobs:
   build_and_deploy:
-    if: ${{ github.event.pull_request.merged == true }}
+    # if: ${{ github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
       - name : "Setting up node with actions/setup-node@v3"
@@ -27,12 +29,17 @@ jobs:
         run : |
           npm run build
       - name: Deploy to Netlify
-        uses: jsmrcaga/action-netlify-deploy@v2.0.0
-        with:
-          build_directory: nuageux/dist
+        uses: nwtgck/actions-netlify@v2.0 
+        env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_DEPLOY_MESSAGE: "Automatic Deployment from ref ${{ github.ref }} on commit ${{ github.sha }}"
-          NETLIFY_DEPLOY_TO_PROD: true
+        with:
+          publish-dir: './nuageux/dist'
+          production-branch: main
+          deploy-message: "Automatic deployment from GitHub Actions from ref ${{ github.ref }} on commit ${{ github.sha }}"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        timeout-minutes: 1
      
   
