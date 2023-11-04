@@ -1,9 +1,5 @@
 name: Build Administration App and Deploy to Netlify
 on:
-  push:
-    branches:
-      - main
-      - develop
   pull_request:
     types:
       - closed
