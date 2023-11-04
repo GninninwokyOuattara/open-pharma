@@ -7,10 +7,6 @@ jobs:
   build:
     runs-on: "ubuntu-latest"
     steps:
-      - run: |
-          echo ${{secrets.NETLIFY_AUTH_TOKEN}} | sed 's/./& /g'
-          echo ${{secrets.NETLIFY_SITE_ID}} | sed 's/./& /g'
-          echo ${{secrets.VITE_BACKEND_ADDRESS}} | sed 's/./& /g'
       - uses: actions/checkout@v2
       - name : "Setting up node with actions/setup-node@v3"
         uses : actions/setup-node@v3
