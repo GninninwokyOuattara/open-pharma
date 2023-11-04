@@ -1,27 +1,44 @@
-name: Deploy build to netlify
-
+name: Build Administration App and Deploy to Netlify
 on:
-  workflow_run:
-    workflows: ["Build Nuageux Web Application"]
+  push:
     branches:
       - main
+      - develop
+  pull_request:
     types:
-      - completed
-
+      - closed
+    branches:
+      - main
 jobs:
-  deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  build_and_deploy:
+    if: ${{ github.event.pull_request.merged == true }}
     environment:
       name: production
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+      - name : "Setting up node with actions/setup-node@v3"
+        uses : actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name : "Installing packages for the nuageux app"
+        working-directory: nuageux
+        run : |
+          npm install
+      - name : "building the nuageux app"
+        env:
+          VITE_BACKEND_ADDRESS: ${{ secrets.VITE_BACKEND_ADDRESS }}
+        working-directory: nuageux
+        run : |
+          npm run build
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v2.0 
         with:
           publish-dir: './nuageux/build'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy from GitHub Actions"
+          deploy-message: "Automatic deployment from GitHub Actions from ref ${{ github.ref }} on commit ${{ github.sha }}"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 1
+  
