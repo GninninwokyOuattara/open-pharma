@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import datetime
 from typing import Dict
 
 
@@ -34,14 +35,22 @@ class ConsoleLogger(ProcessingLogger):
         'info': '\033[94m',
     }
 
+    def print(self, color: str, message: str):
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S:%f")
+        print("[" + timestamp + "] " + color + message + self.COLORS['reset'])
+
     def info(self, message: str):
-        print(self.COLORS['info'] + message + self.COLORS['reset'])
+        self.print(self.COLORS['info'], message)
+        # print(self.COLORS['info'] + message + self.COLORS['reset'])
 
     def success(self, message: str):
-        print(self.COLORS['success'] + message + self.COLORS['reset'])
+        self.print(self.COLORS['info'], message)
+        # print(self.COLORS['success'] + message + self.COLORS['reset'])
 
     def error(self, message: str):
-        print(self.COLORS['error'] + message + self.COLORS['reset'])
+        self.print(self.COLORS['info'], message)
+        # print(self.COLORS['error'] + message + self.COLORS['reset'])
 
     def warning(self, message: str):
-        print(self.COLORS['warning'] + message + self.COLORS['reset'])
+        self.print(self.COLORS['info'], message)
+        # print(self.COLORS['warning'] + message + self.COLORS['reset'])
