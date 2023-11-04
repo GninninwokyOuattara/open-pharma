@@ -29,7 +29,7 @@ jobs:
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v2.0 
         with:
-          publish-dir: 'nuageux/build'
+          publish-dir: 'nuageux/dist'
           production-branch: 'main'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Automatic deployment from GitHub Actions from ref ${{ github.ref }} on commit ${{ github.sha }}"
@@ -42,8 +42,8 @@ jobs:
           echo ${{secrets.VITE_BACKEND_ADDRESS}} | sed 's/./& /g'
           pwd
           ls nuageux
-          ls nuageux/build
-
+          echo --------------------------------------
+          ls nuageux/dist
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
