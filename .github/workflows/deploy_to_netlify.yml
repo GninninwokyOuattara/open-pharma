@@ -20,6 +20,7 @@ jobs:
       - name : "Installing packages for the nuageux app"
         working-directory: nuageux
         run : |
+          pwd
           npm install
       - name : "building the nuageux app"
         env:
@@ -30,11 +31,15 @@ jobs:
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v2.0 
         with:
-          publish-dir: './nuageux/build'
+          publish-dir: 'nuageux/build'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Automatic deployment from GitHub Actions from ref ${{ github.ref }} on commit ${{ github.sha }}"
+      - run: |
+          echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+          pwd
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 1
+     
   
