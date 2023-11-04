@@ -24,4 +24,25 @@ jobs:
           VITE_BACKEND_ADDRESS: ${{ secrets.VITE_BACKEND_ADDRESS }}
         working-directory: nuageux
         run : |
-          npm run build      
+          npm run build
+  create-merge-request:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create merge request
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const { data: { number } } = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Automerge',
+              head: context.ref,
+              base: 'main',
+            })
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: number,
+              labels: ['automerge']
+            })
