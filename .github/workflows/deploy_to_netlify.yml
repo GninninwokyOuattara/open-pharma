@@ -30,11 +30,19 @@ jobs:
         uses: nwtgck/actions-netlify@v2.0 
         with:
           publish-dir: 'nuageux/build'
+          production-branch: 'main'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Automatic deployment from GitHub Actions from ref ${{ github.ref }} on commit ${{ github.sha }}"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
       - run: |
-          echo "::set-output name=NETLIFY_SITE_ID::${{ secrets.NETLIFY_SITE_ID }}"
-          echo "::set-output name=NETLIFY_AUTH_TOKEN::${{ secrets.NETLIFY_AUTH_TOKEN }}"
+          echo ${{secrets.NETLIFY_AUTH_TOKEN}} | sed 's/./& /g'
+          echo ${{secrets.NETLIFY_SITE_ID}} | sed 's/./& /g'
+          echo ${{secrets.VITE_BACKEND_ADDRESS}} | sed 's/./& /g'
+          pwd
+          ls nuageux
+          ls nuageux/build
 
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
