@@ -1,12 +1,14 @@
-name: Deploy build to netlify
-
+name: Build Administration App and Deploy to Netlify
 on:
+  push:
+    branches:
+      - main
+      - develop
   pull_request:
     types:
       - closed
     branches:
       - main
-
 jobs:
   build_and_deploy:
     if: ${{ github.event.pull_request.merged == true }}
@@ -39,3 +41,4 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 1
+  
