@@ -37,7 +37,7 @@ jobs:
           publish-dir: './nuageux/dist'
           production-branch: main
           deploy-message: "Automatic deployment from GitHub Actions from ref ${{ github.ref }} on commit ${{ github.sha }}"
-          enable-pull-request-comment: false
+          enable-pull-request-comment: true
           enable-commit-comment: true
           overwrites-pull-request-comment: true
         timeout-minutes: 1
