@@ -48,13 +48,7 @@ const ZoneSelectInput: React.FC<ZoneSelectInputProps> = ({ selectFn, initialValu
 
             </SelectTrigger>
             <SelectContent
-                ref={(ref) => {
-                    if (!ref) return
-                    ref.ontouchstart = (e) => {
-                        e.preventDefault()
-                    }
-                }}
-                className="h-64" >
+                className="h-64 w-80 md:w-full" >
                 <SelectItem
                     key={"g1"}
                     value={"*"}
