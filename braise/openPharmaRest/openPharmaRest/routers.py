@@ -14,7 +14,7 @@ from openPharma.admin_views import (PharmaciesActualizerView,
                                     PharmaciesPendingReviewAsAdminViewset,
                                     PharmaciesZoneAsAdminViewset,
                                     SearchApiView)
-from openPharma.user_views import UsersPharmaciesViewset
+from openPharma.user_views import UserPharmaciesTrackingInformationsSummary, UsersPharmaciesViewset
 
 
 class RouterGenerator(ABC):
@@ -29,6 +29,8 @@ class UserRouter(RouterGenerator):
     router = routers.SimpleRouter()
     router.register(r"pharmacies", UsersPharmaciesViewset,
                     basename="pharmacies")
+    router.register(r"pharmacies-tracking-summary",
+                    UserPharmaciesTrackingInformationsSummary, basename="pharmacies-tracking-summary")
 
     def get_router(self):
         return self.router
